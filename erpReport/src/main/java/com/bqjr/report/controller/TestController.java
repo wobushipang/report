@@ -13,29 +13,26 @@ import com.bqjr.report.service.UserService;
 @Controller
 public class TestController {
 
-	 // 从 application.properties 中读取配置，如取不到默认值为HelloShanhy
+	// 从 application.properties 中读取配置，如取不到默认值为HelloShanhy
 
-	   @Value("${application.hello:Hello Angel}")
+	@Value("${application.hello:Hello Angel}")
 
-	    private String hello;
+	private String hello;
 
-	   @Autowired
-	   private UserService user;
+	@Autowired
+	private UserService user;
 
-	      
+	@RequestMapping("/helloJsp")
+	public String StringhelloJsp(Map<String, Object> map) {
 
-	       @RequestMapping("/helloJsp")
+		User u = user.getUserInfo();
 
-	       public String StringhelloJsp(Map<String,Object> map){
-	    	   
-	    	   	  User u = user.getUserInfo();
+		System.out.println("HelloController.helloJsp().hello=" + hello);
 
-	              System.out.println("HelloController.helloJsp().hello="+hello);
+		map.put("hello", hello);
+		map.put("user", u);
 
-	              map.put("hello",hello);
-	              map.put("user", u);
+		return "helloJsp";
 
-	              return"helloJsp";
-
-	       }
+	}
 }
