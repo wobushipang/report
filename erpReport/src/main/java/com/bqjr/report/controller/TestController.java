@@ -1,5 +1,6 @@
 package com.bqjr.report.controller;
 
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,24 @@ public class TestController {
 		return "helloJsp";
 
 	}
+
 	@Test
 	public  void test() {
 		Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
 		Object obj = re.importData(files);
 		System.out.println(obj);
+
+	}
+
+	@RequestMapping("/readFile")
+	public String readFile() {
+		Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+		if (files != null && files.size() > 0) {
+			System.out.println(files.size());
+		} else {
+			System.out.println("The folder is not exists or empty");
+		}
+		return "helloJsp";
+
 	}
 }

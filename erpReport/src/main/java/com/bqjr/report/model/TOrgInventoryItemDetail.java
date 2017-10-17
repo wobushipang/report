@@ -1,7 +1,5 @@
 package com.bqjr.report.model;
 
-import java.util.Date;
-
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class TOrgInventoryItemDetail {

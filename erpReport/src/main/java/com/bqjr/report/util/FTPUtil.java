@@ -77,6 +77,8 @@ public class FTPUtil {
 					for (String fileName : fileNames) {
 						fileMap.put(fileName, readFileContent("/"+folderName+"/"+fileName));
 					}
+				} else {
+					logger.info("The folder ["+folderName+"] is not exists or empty");
 				}
 			} catch (Exception e) {
 				logger.error("读取文件异常，异常信息如下"+e.getMessage());
@@ -94,8 +96,12 @@ public class FTPUtil {
 		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String folderName = "";
 		try {
+
 			folderName = sdFormat.format(new Date());
 			folderName = "2017-09-20";
+
+			folderName = sdFormat.format(new Date(new Date().getTime() - 24*60*60*1000));
+
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";
