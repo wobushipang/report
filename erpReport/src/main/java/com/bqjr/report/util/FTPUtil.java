@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @ClassName FTPUtil.java
- * @Description
+ * @Description FTP工具类
  * @author wei.huang02
  * @Date 2017年10月17日 上午10:08:44
  * @since JDK 1.8
@@ -52,7 +52,6 @@ public class FTPUtil {
 
 	/**
 	 * 读取文件
-	 * 
 	 * @author wei.huang02
 	 */
 	public static class ReadFile {
@@ -73,15 +72,19 @@ public class FTPUtil {
 				// 读取指定目录下的文件名
 				String folderName = getFolderName();
 				List<String> fileNames = getFileList("/" + folderName);
+				logger.info("开始读取【{" + folderName + "}】文件夹下的文件数据......");
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
-						fileMap.put(fileName, readFileContent("/"+folderName+"/"+fileName));
+						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));
 					}
 				} else {
-					logger.info("The folder ["+folderName+"] is not exists or empty");
+					logger.info("The folder [" + folderName + "] is not exists or empty");
 				}
+				logger.info("本次共读取了文件的个数为:" + fileNames.size());
+				closeServer();
+				logger.debug("ftp服务器连接关闭成功");
 			} catch (Exception e) {
-				logger.error("读取文件异常，异常信息如下"+e.getMessage());
+				logger.error("读取文件异常，异常信息如下" + e.getMessage());
 			}
 			return fileMap;
 		}
@@ -96,10 +99,8 @@ public class FTPUtil {
 		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String folderName = "";
 		try {
-
-			folderName = sdFormat.format(new Date());
+			folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
 			folderName = "2017-09-20";
-			folderName = sdFormat.format(new Date(new Date().getTime() - 24*60*60*1000));
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";
@@ -121,7 +122,7 @@ public class FTPUtil {
 	public static void connectServer(String username, String password, String ftpHostName, int port) {
 		ftpClient = new FTPClient();
 		try {
-			logger.debug("开始连接");
+			logger.debug("开始连接ftp服务器");
 			// 连接
 			ftpClient.connect(ftpHostName, port);
 			int reply = ftpClient.getReplyCode();
@@ -131,8 +132,8 @@ public class FTPUtil {
 			// 登录
 			logger.debug("开始登录！");
 			ftpClient.login(username, password);
-//			ftpClient.setBufferSize(256);
-//			ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+			// ftpClient.setBufferSize(256);
+			// ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 			ftpClient.setControlEncoding("utf8");
 			logger.debug("登录成功！");
 		} catch (SocketException e) {
@@ -181,9 +182,9 @@ public class FTPUtil {
 			String inLine = reader.readLine();
 			while (inLine != null) {
 				List<String> column = new ArrayList<String>();
-				column = parseCSVLine(inLine,false);
+				column = parseCSVLine(inLine, false);
 				result.add(column);
-//				result = (inLine + System.getProperty("line.separator"));
+				// result = (inLine + System.getProperty("line.separator"));
 				inLine = reader.readLine();
 			}
 		} catch (IOException e) {
@@ -204,7 +205,14 @@ public class FTPUtil {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * 解析CSV文件（行）
+	 * 
+	 * @param str
+	 * @param isHead
+	 * @return
+	 */
 	public static List<String> parseCSVLine(String str, boolean isHead) {
 		String reg = "\\G(?:^|,)(?:\"([^\"]*+(?:\"\"[^\"]*+)*+)\"|([^\",]*+))";
 		Matcher matcherMain = Pattern.compile(reg).matcher("");
@@ -225,5 +233,19 @@ public class FTPUtil {
 			list.add(field);
 		}
 		return list;
+	}
+
+	/**
+	 * function:关闭连接
+	 */
+	public static void closeServer() {
+		if (ftpClient.isConnected()) {
+			try {
+				ftpClient.logout();
+				ftpClient.disconnect();
+			} catch (IOException e) {
+				logger.error("ftp连接关闭异常", e);
+			}
+		}
 	}
 }

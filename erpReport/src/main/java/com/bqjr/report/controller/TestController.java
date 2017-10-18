@@ -1,7 +1,6 @@
 package com.bqjr.report.controller;
 
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bqjr.report.model.User;
 import com.bqjr.report.service.ReceiveCsvData;
-import com.bqjr.report.service.UserService;
 import com.bqjr.report.util.FTPUtil;
 
 @Controller
@@ -24,9 +21,6 @@ public class TestController {
 	@Value("${application.hello:Hello Angel}")
 
 	private String hello;
-
-	@Autowired
-	private UserService user;
 	
 	@Autowired
 	private  ReceiveCsvData re;

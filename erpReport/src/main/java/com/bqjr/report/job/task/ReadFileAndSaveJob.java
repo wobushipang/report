@@ -25,9 +25,10 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bqjr.report.service.ReceiveCsvData;
 import com.bqjr.report.util.FTPUtil;
+import com.bqjr.report.util.SpringBeanUtils;
 
 /**
  * @ClassName ScheduledJob <br/>
@@ -36,21 +37,19 @@ import com.bqjr.report.util.FTPUtil;
  * @version 2017年10月16日 下午3:56:19
  * @since JDK 1.8
  */
-public class ReadFileAndSaveJob implements Job,Serializable {
+public class ReadFileAndSaveJob implements Job, Serializable {
 
 	private static final long serialVersionUID = -3522993675072203332L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadFileAndSaveJob.class);
-	
-//	@Autowired
-//	private 
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		logger.info("[execute BEGIN],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
 		try {
-			//读取指定路径下所有文件，返回集合
+			// 读取指定路径下所有文件，返回集合
 			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
-			
+			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
+			receiveCsvData.importData(files);
 		} catch (Exception e) {
 			logger.error("执行定时任务，读取ftp文件并保存数据到数据库发生异常，异常信息为：" + e.getMessage());
 		} finally {
