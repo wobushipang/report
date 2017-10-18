@@ -97,6 +97,7 @@ public class FTPUtil {
 		String folderName = "";
 		try {
 			folderName = sdFormat.format(new Date(new Date().getTime() - 24*60*60*1000));
+			folderName = "2017-09-19";
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";
