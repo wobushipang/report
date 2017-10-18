@@ -16,37 +16,45 @@
 
 package com.bqjr.report.job.task;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bqjr.report.util.FTPUtil;
 
 /**
  * @ClassName ScheduledJob <br/>
- * @Description 定时任务1 <br/>
- * @author YuanWei Yi
- * @version 2017年4月26日 下午3:56:19
+ * @Description 定时任务 <br/>
+ * @author wei.huang02
+ * @version 2017年10月16日 下午3:56:19
  * @since JDK 1.8
  */
-public class ScheduledJob implements Job {
+public class ReadFileAndSaveJob implements Job,Serializable {
 
-	private static final Logger logger = LoggerFactory.getLogger(ScheduledJob.class);
-
-	public ScheduledJob() {
-	}
-
-	private SimpleDateFormat dateFormat() {
-		return new SimpleDateFormat("HH:mm:ss");
-	}
+	private static final long serialVersionUID = -3522993675072203332L;
+	private static final Logger logger = LoggerFactory.getLogger(ReadFileAndSaveJob.class);
+	
+//	@Autowired
+//	private 
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("----------->执行定时任务");
-		System.out.println("AAAA: The time is now " + dateFormat().format(new Date()));
+		logger.info("[execute BEGIN],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+		try {
+			//读取指定路径下所有文件，返回集合
+			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+			
+		} catch (Exception e) {
+			logger.error("执行定时任务，读取ftp文件并保存数据到数据库发生异常，异常信息为：" + e.getMessage());
+		} finally {
+			logger.info("[execute END],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+		}
 	}
-
 }

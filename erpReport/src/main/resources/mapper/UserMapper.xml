@@ -3,7 +3,7 @@
 <mapper namespace="com.bqjr.report.mapper.UserMapper">
  
   <select id="findUserInfo" resultType="com.bqjr.report.model.User">
-    select name, age,password from user;
+    select name, age,password from t_user;
   </select>
  
 </mapper>

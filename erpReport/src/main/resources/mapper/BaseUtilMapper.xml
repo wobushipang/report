@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bqjr.report.mapper.BaseUtilMapper">
+	
+	<insert id="batchInsertClient" parameterType="java.util.Map">
+		insert into ${tableName} 
+		<foreach collection="headlist" item="head" index="index1" open="(" close=")" separator=",">
+			${head}
+		</foreach>
+			SELECT tt.* FROM ( 
+			<foreach collection="contentall" item="contentlist" index="index2" separator="UNION ALL">
+				SELECT
+				<foreach collection="contentlist" item="content" index="index3" separator=",">
+					#{content}
+				</foreach>
+				FROM DUAL
+		</foreach>  ) tt
+	</insert>
+</mapper>

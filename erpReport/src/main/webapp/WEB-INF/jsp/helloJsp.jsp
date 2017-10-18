@@ -25,6 +25,7 @@
        ${user.name }<br/>
        ${user.age }<br/>
 	   ${user.password }<br/>
+	   ${obj }<br/>
       
 
 </body>

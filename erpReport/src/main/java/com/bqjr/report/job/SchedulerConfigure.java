@@ -16,10 +16,20 @@
 
 package com.bqjr.report.job;
 
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.TriggerBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
+
+import com.bqjr.report.job.task.ReadFileAndSaveJob;
 
 /**
  * @ClassName SchedulerConfigure <br/>
@@ -31,7 +41,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SchedulerConfigure {
 
-//	private static final Logger logger = LoggerFactory.getLogger(SchedulerConfigure.class);
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerConfigure.class);
+
+	private static final String DEFAULT_CRON = "0 0/2 * * * ?";
 
 	@Autowired
 	SchedulerFactoryBean schedulerFactoryBean;
@@ -40,6 +52,23 @@ public class SchedulerConfigure {
 	 * 配置定时任务
 	 */
 	public void scheduleJobs() throws SchedulerException {
-//		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		startReadFileAndSave(scheduler);
+	}
+
+	private void startReadFileAndSave(Scheduler scheduler) throws SchedulerException {
+		JobDetail jobDetail = JobBuilder.newJob(ReadFileAndSaveJob.class)
+				.withIdentity("readFileAndSaveJob", "myTriggerGroup").build();
+		CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(DEFAULT_CRON);
+		CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity("readFileAndSaveTrigger", "myTriggerGroup")
+				.withSchedule(scheduleBuilder).build();
+		try {
+			if (!scheduler.isStarted()) {
+				scheduler.start();
+			}
+			scheduler.scheduleJob(jobDetail, cronTrigger);
+		} catch (SchedulerException e) {
+			logger.error(e.getMessage());
+		}
 	}
 }
