@@ -98,7 +98,7 @@ public class FTPUtil {
 		try {
 
 			folderName = sdFormat.format(new Date());
-			folderName = "2017-09-20";
+			//folderName = "2017-09-20";
 
 			folderName = sdFormat.format(new Date(new Date().getTime() - 24*60*60*1000));
 
