@@ -72,7 +72,7 @@ public class FTPUtil {
 				// 读取指定目录下的文件名
 				String folderName = getFolderName();
 				List<String> fileNames = getFileList("/" + folderName);
-				logger.info("开始读取【{" + folderName + "}】文件夹下的文件数据......");
+				logger.info("开始读取【" + folderName + "】文件夹下的文件数据......");
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
 						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));
@@ -82,7 +82,7 @@ public class FTPUtil {
 				}
 				logger.info("本次共读取了文件的个数为:" + fileNames.size());
 				closeServer();
-				logger.debug("ftp服务器连接关闭成功");
+				logger.debug("与ftp服务器断开连接成功");
 			} catch (Exception e) {
 				logger.error("读取文件异常，异常信息如下" + e.getMessage());
 			}
@@ -207,7 +207,7 @@ public class FTPUtil {
 	}
 
 	/**
-	 * 解析CSV文件（行）
+	 * 解析CSV文件（按行解析）
 	 * 
 	 * @param str
 	 * @param isHead

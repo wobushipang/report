@@ -43,7 +43,7 @@ public class SchedulerConfigure {
 
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerConfigure.class);
 
-	private static final String DEFAULT_CRON = "0 0/2 * * * ?";
+	private static final String DEFAULT_CRON = "0 0 2 * * ?";
 
 	@Autowired
 	SchedulerFactoryBean schedulerFactoryBean;
