@@ -1,0 +1,1195 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>机构收支查询</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/机构收支查询/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/ie.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="files/机构收支查询/data.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- 机构收支状况查询 (动态面板) -->
+      <div id="u20889" class="ax_default" data-label="机构收支状况查询">
+        <div id="u20889_state0" class="panel_state" data-label="查询条件">
+          <div id="u20889_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20890" class="ax_default box_1">
+              <div id="u20890_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20891" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20892" class="ax_default box_1">
+              <div id="u20892_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20893" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- 查询按钮 (提交按钮) -->
+            <div id="u20894" class="ax_default html_button" data-label="查询按钮">
+              <input id="u20894_input" type="submit" value="查询"/>
+            </div>
+
+            <!-- Unnamed (提交按钮) -->
+            <div id="u20895" class="ax_default html_button">
+              <input id="u20895_input" type="submit" value="重置"/>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u20896" class="ax_default text_field">
+              <input id="u20896_input" type="text" value="日期选择框"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20897" class="ax_default label">
+              <div id="u20897_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20898" class="text" style="visibility: visible;">
+                <p><span>起始日期</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u20899" class="ax_default text_field">
+              <input id="u20899_input" type="text" value="日期选择框"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20900" class="ax_default label">
+              <div id="u20900_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20901" class="text" style="visibility: visible;">
+                <p><span>业务名称</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u20902" class="ax_default droplist">
+              <select id="u20902_input">
+                <option value="请选择">请选择</option>
+                <option value="业务类型列表">业务类型列表</option>
+                <option value="可根据所选的收支类型过滤">可根据所选的收支类型过滤</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20903" class="ax_default label">
+              <div id="u20903_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20904" class="text" style="visibility: visible;">
+                <p><span>组织机构</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u20905" class="ax_default droplist">
+              <select id="u20905_input">
+                <option value="请选择">请选择</option>
+                <option value="当前组织机构+下层机构">当前组织机构+下层机构</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20906" class="ax_default label">
+              <div id="u20906_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20907" class="text" style="visibility: visible;">
+                <p><span>终止日期</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20908" class="ax_default label">
+              <div id="u20908_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20909" class="text" style="visibility: visible;">
+                <p><span>&nbsp;</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20910" class="ax_default label">
+              <div id="u20910_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20911" class="text" style="visibility: visible;">
+                <p><span>收支类型&nbsp; </span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u20912" class="ax_default droplist">
+              <select id="u20912_input">
+                <option value="请选择">请选择</option>
+                <option value="收入">收入</option>
+                <option value="支出">支出</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20913" class="ax_default label">
+              <div id="u20913_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20914" class="text" style="visibility: visible;">
+                <p><span>汇总方式</span></p>
+              </div>
+            </div>
+
+            <!-- 汇总方式 (下拉列表框) -->
+            <div id="u20915" class="ax_default droplist" data-label="汇总方式">
+              <select id="u20915_input">
+                <option value="按业务类型汇总">按业务类型汇总</option>
+                <option value="按组织汇总">按组织汇总</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20916" class="ax_default box_1">
+              <div id="u20916_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20917" class="text" style="visibility: visible;">
+                <p><span>业务类 型</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="u20889_state1" class="panel_state" data-label="业务类型汇总" style="display: none; visibility: hidden;">
+          <div id="u20889_state1_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20918" class="ax_default box_1">
+              <div id="u20918_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20919" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20920" class="ax_default box_1">
+              <div id="u20920_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20921" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u20922" class="ax_default box_1">
+              <div id="u20922_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u20923" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (表格) -->
+            <div id="u20924" class="ax_default">
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20925" class="ax_default table_cell">
+                <img id="u20925_img" class="img " src="images/用户管理--v2_3/u619.png"/>
+                <!-- Unnamed () -->
+                <div id="u20926" class="text" style="visibility: visible;">
+                  <p><span>组织机构</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20927" class="ax_default table_cell">
+                <img id="u20927_img" class="img " src="images/用户管理--v2_3/u619.png"/>
+                <!-- Unnamed () -->
+                <div id="u20928" class="text" style="visibility: visible;">
+                  <p><span>收支类型</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20929" class="ax_default table_cell">
+                <img id="u20929_img" class="img " src="images/用户管理--v2_3/u619.png"/>
+                <!-- Unnamed () -->
+                <div id="u20930" class="text" style="visibility: visible;">
+                  <p><span>业务名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20931" class="ax_default table_cell">
+                <img id="u20931_img" class="img " src="images/商品仓库-其他组织--v2_3/u2710.png"/>
+                <!-- Unnamed () -->
+                <div id="u20932" class="text" style="visibility: visible;">
+                  <p><span>金额</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20933" class="ax_default table_cell">
+                <img id="u20933_img" class="img " src="images/用户管理--v2_3/u635.png"/>
+                <!-- Unnamed () -->
+                <div id="u20934" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20935" class="ax_default table_cell">
+                <img id="u20935_img" class="img " src="images/用户管理--v2_3/u635.png"/>
+                <!-- Unnamed () -->
+                <div id="u20936" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20937" class="ax_default table_cell">
+                <img id="u20937_img" class="img " src="images/用户管理--v2_3/u635.png"/>
+                <!-- Unnamed () -->
+                <div id="u20938" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20939" class="ax_default table_cell">
+                <img id="u20939_img" class="img " src="images/机构收支查询/u20939.png"/>
+                <!-- Unnamed () -->
+                <div id="u20940" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20941" class="ax_default table_cell">
+                <img id="u20941_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20942" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20943" class="ax_default table_cell">
+                <img id="u20943_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20944" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20945" class="ax_default table_cell">
+                <img id="u20945_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20946" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20947" class="ax_default table_cell">
+                <img id="u20947_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u20948" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20949" class="ax_default table_cell">
+                <img id="u20949_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20950" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20951" class="ax_default table_cell">
+                <img id="u20951_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20952" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20953" class="ax_default table_cell">
+                <img id="u20953_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20954" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20955" class="ax_default table_cell">
+                <img id="u20955_img" class="img " src="images/机构收支查询/u20955.png"/>
+                <!-- Unnamed () -->
+                <div id="u20956" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20957" class="ax_default table_cell">
+                <img id="u20957_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20958" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20959" class="ax_default table_cell">
+                <img id="u20959_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20960" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20961" class="ax_default table_cell">
+                <img id="u20961_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20962" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20963" class="ax_default table_cell">
+                <img id="u20963_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u20964" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20965" class="ax_default table_cell">
+                <img id="u20965_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20966" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20967" class="ax_default table_cell">
+                <img id="u20967_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20968" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20969" class="ax_default table_cell">
+                <img id="u20969_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20970" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20971" class="ax_default table_cell">
+                <img id="u20971_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u20972" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20973" class="ax_default table_cell">
+                <img id="u20973_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20974" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20975" class="ax_default table_cell">
+                <img id="u20975_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20976" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20977" class="ax_default table_cell">
+                <img id="u20977_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20978" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20979" class="ax_default table_cell">
+                <img id="u20979_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u20980" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20981" class="ax_default table_cell">
+                <img id="u20981_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20982" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20983" class="ax_default table_cell">
+                <img id="u20983_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20984" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20985" class="ax_default table_cell">
+                <img id="u20985_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u20986" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20987" class="ax_default table_cell">
+                <img id="u20987_img" class="img " src="images/机构收支查询/u20955.png"/>
+                <!-- Unnamed () -->
+                <div id="u20988" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20989" class="ax_default table_cell">
+                <img id="u20989_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20990" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20991" class="ax_default table_cell">
+                <img id="u20991_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20992" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20993" class="ax_default table_cell">
+                <img id="u20993_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20994" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20995" class="ax_default table_cell">
+                <img id="u20995_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u20996" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20997" class="ax_default table_cell">
+                <img id="u20997_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u20998" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u20999" class="ax_default table_cell">
+                <img id="u20999_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21000" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21001" class="ax_default table_cell">
+                <img id="u21001_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21002" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21003" class="ax_default table_cell">
+                <img id="u21003_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u21004" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21005" class="ax_default table_cell">
+                <img id="u21005_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21006" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21007" class="ax_default table_cell">
+                <img id="u21007_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21008" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21009" class="ax_default table_cell">
+                <img id="u21009_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21010" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21011" class="ax_default table_cell">
+                <img id="u21011_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u21012" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21013" class="ax_default table_cell">
+                <img id="u21013_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21014" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21015" class="ax_default table_cell">
+                <img id="u21015_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21016" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21017" class="ax_default table_cell">
+                <img id="u21017_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21018" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21019" class="ax_default table_cell">
+                <img id="u21019_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u21020" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21021" class="ax_default table_cell">
+                <img id="u21021_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21022" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21023" class="ax_default table_cell">
+                <img id="u21023_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21024" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21025" class="ax_default table_cell">
+                <img id="u21025_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21026" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21027" class="ax_default table_cell">
+                <img id="u21027_img" class="img " src="images/机构收支查询/u20947.png"/>
+                <!-- Unnamed () -->
+                <div id="u21028" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21029" class="ax_default table_cell">
+                <img id="u21029_img" class="img " src="images/机构收支查询/u21029.png"/>
+                <!-- Unnamed () -->
+                <div id="u21030" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21031" class="ax_default table_cell">
+                <img id="u21031_img" class="img " src="images/机构收支查询/u21029.png"/>
+                <!-- Unnamed () -->
+                <div id="u21032" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21033" class="ax_default table_cell">
+                <img id="u21033_img" class="img " src="images/机构收支查询/u21029.png"/>
+                <!-- Unnamed () -->
+                <div id="u21034" class="text" style="visibility: visible;">
+                  <p><span>总计</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21035" class="ax_default table_cell">
+                <img id="u21035_img" class="img " src="images/机构收支查询/u21035.png"/>
+                <!-- Unnamed () -->
+                <div id="u21036" class="text" style="visibility: visible;">
+                  <p><span>***</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21037" class="ax_default box_1">
+              <div id="u21037_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21038" class="text" style="visibility: visible;">
+                <p><span>业务类型汇总</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21039" class="ax_default box_1">
+              <div id="u21039_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21040" class="text" style="visibility: visible;">
+                <p><span>组织机构汇总</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="u20889_state2" class="panel_state" data-label="组织机构汇总" style="display: none; visibility: hidden;">
+          <div id="u20889_state2_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21041" class="ax_default box_1">
+              <div id="u21041_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21042" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21043" class="ax_default box_1">
+              <div id="u21043_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21044" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21045" class="ax_default box_1">
+              <div id="u21045_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21046" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (表格) -->
+            <div id="u21047" class="ax_default">
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21048" class="ax_default table_cell">
+                <img id="u21048_img" class="img " src="images/用户管理--v2_3/u619.png"/>
+                <!-- Unnamed () -->
+                <div id="u21049" class="text" style="visibility: visible;">
+                  <p><span>组织机构</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21050" class="ax_default table_cell">
+                <img id="u21050_img" class="img " src="images/用户管理--v2_3/u619.png"/>
+                <!-- Unnamed () -->
+                <div id="u21051" class="text" style="visibility: visible;">
+                  <p><span>其他收入金额</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21052" class="ax_default table_cell">
+                <img id="u21052_img" class="img " src="images/机构收支查询/u21052.png"/>
+                <!-- Unnamed () -->
+                <div id="u21053" class="text" style="visibility: visible;">
+                  <p><span>其他支出金额</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21054" class="ax_default table_cell">
+                <img id="u21054_img" class="img " src="images/用户管理--v2_3/u635.png"/>
+                <!-- Unnamed () -->
+                <div id="u21055" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21056" class="ax_default table_cell">
+                <img id="u21056_img" class="img " src="images/用户管理--v2_3/u635.png"/>
+                <!-- Unnamed () -->
+                <div id="u21057" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21058" class="ax_default table_cell">
+                <img id="u21058_img" class="img " src="images/机构收支查询/u21058.png"/>
+                <!-- Unnamed () -->
+                <div id="u21059" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21060" class="ax_default table_cell">
+                <img id="u21060_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21061" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21062" class="ax_default table_cell">
+                <img id="u21062_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21063" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21064" class="ax_default table_cell">
+                <img id="u21064_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21065" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21066" class="ax_default table_cell">
+                <img id="u21066_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u21067" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21068" class="ax_default table_cell">
+                <img id="u21068_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u21069" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21070" class="ax_default table_cell">
+                <img id="u21070_img" class="img " src="images/机构收支查询/u21070.png"/>
+                <!-- Unnamed () -->
+                <div id="u21071" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21072" class="ax_default table_cell">
+                <img id="u21072_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21073" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21074" class="ax_default table_cell">
+                <img id="u21074_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21075" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21076" class="ax_default table_cell">
+                <img id="u21076_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21077" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21078" class="ax_default table_cell">
+                <img id="u21078_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21079" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21080" class="ax_default table_cell">
+                <img id="u21080_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21081" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21082" class="ax_default table_cell">
+                <img id="u21082_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21083" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21084" class="ax_default table_cell">
+                <img id="u21084_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21085" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21086" class="ax_default table_cell">
+                <img id="u21086_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21087" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21088" class="ax_default table_cell">
+                <img id="u21088_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21089" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21090" class="ax_default table_cell">
+                <img id="u21090_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u21091" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21092" class="ax_default table_cell">
+                <img id="u21092_img" class="img " src="images/机构收支查询/u20949.png"/>
+                <!-- Unnamed () -->
+                <div id="u21093" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21094" class="ax_default table_cell">
+                <img id="u21094_img" class="img " src="images/机构收支查询/u21070.png"/>
+                <!-- Unnamed () -->
+                <div id="u21095" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21096" class="ax_default table_cell">
+                <img id="u21096_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21097" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21098" class="ax_default table_cell">
+                <img id="u21098_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21099" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21100" class="ax_default table_cell">
+                <img id="u21100_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21101" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21102" class="ax_default table_cell">
+                <img id="u21102_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21103" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21104" class="ax_default table_cell">
+                <img id="u21104_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21105" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21106" class="ax_default table_cell">
+                <img id="u21106_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21107" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21108" class="ax_default table_cell">
+                <img id="u21108_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21109" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21110" class="ax_default table_cell">
+                <img id="u21110_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21111" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21112" class="ax_default table_cell">
+                <img id="u21112_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21113" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21114" class="ax_default table_cell">
+                <img id="u21114_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21115" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21116" class="ax_default table_cell">
+                <img id="u21116_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21117" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21118" class="ax_default table_cell">
+                <img id="u21118_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21119" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21120" class="ax_default table_cell">
+                <img id="u21120_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21121" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21122" class="ax_default table_cell">
+                <img id="u21122_img" class="img " src="images/用户管理--v2_3/u603.png"/>
+                <!-- Unnamed () -->
+                <div id="u21123" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21124" class="ax_default table_cell">
+                <img id="u21124_img" class="img " src="images/机构收支查询/u21064.png"/>
+                <!-- Unnamed () -->
+                <div id="u21125" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21126" class="ax_default table_cell">
+                <img id="u21126_img" class="img " src="images/机构收支查询/u21029.png"/>
+                <!-- Unnamed () -->
+                <div id="u21127" class="text" style="visibility: visible;">
+                  <p><span>总计</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21128" class="ax_default table_cell">
+                <img id="u21128_img" class="img " src="images/机构收支查询/u21029.png"/>
+                <!-- Unnamed () -->
+                <div id="u21129" class="text" style="visibility: visible;">
+                  <p><span>***</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u21130" class="ax_default table_cell">
+                <img id="u21130_img" class="img " src="images/机构收支查询/u21130.png"/>
+                <!-- Unnamed () -->
+                <div id="u21131" class="text" style="visibility: visible;">
+                  <p><span>***</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21132" class="ax_default box_1">
+              <div id="u21132_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21133" class="text" style="visibility: visible;">
+                <p><span>业务类型汇总</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u21134" class="ax_default box_1">
+              <div id="u21134_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u21135" class="text" style="visibility: visible;">
+                <p><span>组织机构汇总</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

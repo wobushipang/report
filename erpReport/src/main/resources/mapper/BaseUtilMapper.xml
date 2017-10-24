@@ -3,6 +3,12 @@
 <mapper namespace="com.bqjr.report.mapper.BaseUtilMapper">
 	
 	<insert id="batchInsertClient" parameterType="java.util.Map">
+		BEGIN
+		delete from ${tableName} where pk_id in
+		<foreach item="pkId" collection="idList" open="(" separator="," close=")">
+            #{pkId}
+        </foreach>
+        ;
 		insert into ${tableName} 
 		<foreach collection="headlist" item="head" index="index1" open="(" close=")" separator=",">
 			${head}
@@ -15,5 +21,10 @@
 				</foreach>
 				FROM DUAL
 		</foreach>  ) tt
+		;END ;
 	</insert>
+	
+	<select id="tableExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM User_Tables WHERE table_name =#{name}
+	</select>
 </mapper>
