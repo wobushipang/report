@@ -99,6 +99,7 @@ public class FTPUtil {
 		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String folderName = "";
 		try {
+			
 			folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
 			folderName = "2017-09-20";
 		} catch (Exception e) {

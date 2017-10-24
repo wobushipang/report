@@ -1,8 +1,15 @@
 package com.bqjr.report.controller;
 
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bqjr.report.service.ReceiveCsvData;
+import com.bqjr.report.util.FTPUtil;
 
 @Controller
 public class TestController {
@@ -11,8 +18,8 @@ public class TestController {
 //	@Value("${application.hello:Hello Angel}")
 //	private String hello;
 	
-//	@Autowired
-//	private  ReceiveCsvData re;
+	@Autowired
+	private  ReceiveCsvData re;
 
 //	@RequestMapping("/helloJsp")
 //	public String StringhelloJsp(Map<String, Object> map) {
@@ -51,8 +58,11 @@ public class TestController {
 //
 //	}
 	
-	@RequestMapping("/index.dhtml")
+	@RequestMapping("/inventoryWarn")
 	public String index() {
-		return "organization_budget";
+		Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+		Object obj = re.importData(files);
+		System.out.println(obj);
+		return "inventoryWarn";
 	}
 }
