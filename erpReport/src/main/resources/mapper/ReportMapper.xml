@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bqjr.report.mapper.ReportMapper">
+ 
+  <select id="getpurchaseCollectList" resultType="com.bqjr.report.model.PurchaseCollect" parameterType="com.bqjr.report.model.SearchCondition">
+  	select tt.schema_name,
+  	<if test="type==1">
+       t1.commodity_name commodityName,
+       t1.commodity_code commodityCode,
+       tt.commodity_info_id,
+       (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
+       (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
+       (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
+       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
+     </if>
+     	(select t5.org_name from c_sys_organization t5 where tt.org_id=t5.pk_id) as orgName,
+       (select ps.supplier_name from purchase_supplier ps where ps.pk_id=tt.supplier_id) supplier,
+       tt.org_id,
+       tt.operation_type operationType,
+       
+       purchaseCount,
+       purchaseAmount,
+       wareInCount,
+       wareInAmount,
+       refundsCount,
+       refundsAmount,
+       exchangeInCount,
+       exchangeInAmount,
+       exchangeOutCount,
+       exchangeOutAmount from(
+select t11.schema_name,
+       t11.supplier_id,
+       t11.org_id,
+       t11.operation_type,
+    <if test="type==1">
+       t11.commodity_info_id,
+    </if>
+       purchaseCount,
+       purchaseAmount,
+       wareInCount,
+       wareInAmount,
+       refundsCount,
+       refundsAmount,
+       exchangeInCount,
+       exchangeInAmount,
+       exchangeOutCount,
+       exchangeOutAmount
+  from 
+ 
+                   
+                   
+          <!-- 入库数量，入库金额  -->
+ (select pwi.schema_name,
+         
+         pwi.supplier_id,
+         pwi.org_id,
+         pwi.operation_type,
+         <if test="type==1">
+         wic.commodity_info_id,
+         </if>
+         sum(wic.quantity) as wareInCount,
+         sum(wic.total_amount) as wareInAmount
+    from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
+   where pwi.delete_flag = 1
+     and pwi.warehouse_in_status = 1
+     and wic.delete_flag = 1
+     <if test="supplierId!=null and supplierId!=''">
+     and pwi.supplier_id=#{supplierId}
+     </if>
+     <if test="operationType!=null and operationType!=''">
+     and pwi.operation_type=#{operationType}
+     </if>
+     and pwi.schema_name = wic.schema_name
+     and pwi.pk_id = wic.warehouse_in_id
+     
+   group by pwi.schema_name,
+            pwi.supplier_id,
+            pwi.org_id,
+            <if test="type==1">
+            wic.commodity_info_id,
+            </if>
+            pwi.operation_type         
+                   ) t11
+
+  left join
+<!-- 退货数量，退货金额 -->
+ (select pr.schema_name,
+         pr.supplier_id,
+         pr.org_id,
+         pr.operation_type,
+         <if test="type==1">
+         prc.commodity_info_id,
+         </if>
+         nvl(sum(prc.quantity),0) as refundsCount,
+         nvl(sum(prc.total_amount),0) as refundsAmount
+    from purchase_refunds pr, purchase_refunds_commodity prc
+   where pr.delete_flag = 1
+     and pr.refunds_status = 1
+     and prc.delete_flag = 1
+     and pr.schema_name = prc.schema_name
+     and pr.pk_id = prc.refunds_id
+   group by pr.schema_name,
+            pr.supplier_id,
+            pr.org_id,
+            <if test="type==1">
+            prc.commodity_info_id,
+            </if>
+            pr.operation_type
+            ) t22
+    on t11.schema_name = t22.schema_name
+   and t11.supplier_id = t22.supplier_id
+   and t11.org_id = t22.org_id
+   and t11.operation_type = t22.operation_type
+   <if test="type==1">
+   and t11.commodity_info_id = t22.commodity_info_id
+   </if>
+
+  left join
+	<!-- 采购数量，采购金额， -->
+        (select po.schema_name,
+                po.supplier_id,
+                po.purchase_org_id org_id,
+                po.operation_type,
+              <if test="type==1">
+                poc.commodity_info_id,
+              </if>
+                sum(poc.order_quantity) as purchaseCount,
+                sum(poc.order_total_amount) as purchaseAmount
+           from purchase_order po, purchase_order_commodity poc
+          where po.delete_flag = 1
+            and po.purchase_status = 4
+            and poc.delete_flag = 1
+            and po.schema_name = poc.schema_name
+           <!--  <if test="">
+            
+            </if> -->
+            and po.pk_id = poc.purchase_order_id
+          group by po.schema_name,
+                   po.supplier_id,
+                   po.purchase_org_id,
+                 <if test="type==1">
+                   poc.commodity_info_id,
+                 </if>
+                   po.operation_type
+            ) t33
+    on t11.schema_name = t33.schema_name
+   and t11.supplier_id = t33.supplier_id
+   and t11.org_id = t33.org_id
+   and t11.operation_type = t33.operation_type
+   <if test="type==1">
+   and t11.commodity_info_id = t33.commodity_info_id
+   </if>
+
+  left join
+<!-- 换入数量，换入金额 -->
+ (select pe.schema_name,
+         pe.supplier_id,
+         pe.org_id,
+         pe.operation_type,
+         <if test="type==1">
+         peic.commodity_info_id,
+         </if>
+         sum(peic.quantity) as exchangeInCount,
+         sum(peic.total_amount) as exchangeInAmount
+    from purchase_exchange pe, purchase_exchange_in_commodity peic
+   where pe.delete_flag = 1
+     and pe.exchange_status = 1
+     and peic.delete_flag = 1
+     and pe.schema_name = peic.schema_name
+     and pe.pk_id = peic.exchange_id
+   group by pe.schema_name,
+            pe.supplier_id,
+            pe.org_id,
+            <if test="type==1">
+            peic.commodity_info_id,
+            </if>
+            pe.operation_type
+            ) t44
+    on t11.schema_name = t44.schema_name
+   and t11.supplier_id = t44.supplier_id
+   and t11.org_id = t44.org_id
+   and t11.operation_type = t44.operation_type
+   <if test="type==1">
+   and t11.commodity_info_id = t44.commodity_info_id
+   </if>
+
+  left join
+<!-- 换出数量，换出金额 -->
+ (select pe.schema_name,
+         pe.supplier_id,
+         pe.org_id,
+         pe.operation_type,
+         <if test="type==1">
+         peoc.commodity_info_id,
+         </if>
+         sum(peoc.quantity) as exchangeOutCount,
+         sum(peoc.total_amount) as exchangeOutAmount
+    from purchase_exchange pe, urchase_exchange_out_commodity peoc
+   where pe.delete_flag = 1
+     and pe.exchange_status = 1
+     and peoc.delete_flag = 1
+     and pe.schema_name = peoc.schema_name
+     and pe.pk_id = peoc.exchange_id
+   group by pe.schema_name,
+            pe.supplier_id,
+            pe.org_id,
+            <if test="type==1">
+            peoc.commodity_info_id,
+            </if>
+            pe.operation_type
+            ) t55
+    on t11.schema_name = t55.schema_name
+   and t11.supplier_id = t55.supplier_id
+   and t11.org_id = t55.org_id
+   and t11.operation_type = t55.operation_type
+   <if test="type==1">
+   and t11.commodity_info_id = t55.commodity_info_id
+   </if>
+   ) tt
+   <if test="type==1">
+   ,c_commodity t1
+   where t1.delete_flag = 1
+   and t1.schema_name = tt.schema_name
+   and t1.pk_id = tt.commodity_info_id
+   <if test="commodityCode!=null and commodityCode!=''">
+   and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
+   </if>
+   <if test="commodityName!=null and commodityName!=''">
+   and t1.commodity_name like '%'||#{commodityCode, jdbcType=VARCHAR}||'%'
+   </if>
+   <if test="brandName!=null and brandName!=''">
+   and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+   </if>
+   <if test="catalogName!=null and catalogName!=''">
+   and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+   </if>
+   <if test="modelName!=null and modelName!=''">
+   and t1.model_code=#{modelName, jdbcType=VARCHAR}
+   </if>
+  	</if>
+  </select>
+  
+  <select id="getOrgList"  resultType="com.bqjr.report.model.SearchCondition">
+  	select t.pk_id as orgId,t.org_name as orgName from C_SYS_ORGANIZATION t where t.delete_flag=1 and t.schema_name=#{schemaName} and t.parent_id=#{orgId}
+  </select>
+ <select id="getSupplierList"  resultType="com.bqjr.report.model.SearchCondition">
+ 	select t.pk_id as supplierId ,t.supplier_name as supplierName from purchase_supplier t where t.delete_flag=1 and t.supplier_status=3 and t.schema_name=#{schemaName} and t.org_id=#{orgId}
+ </select>
+ <select id="getCatalogList" resultType="com.bqjr.report.model.SearchCondition">
+ 	select t.catalog_code as catalogCode,t.catalog_name as catalogName from c_commodity_catalog t where t.delete_flag=1 and t.status=2 and t.schema_name= #{schemaName}
+ </select>
+ <select id="getBrandList" resultType="com.bqjr.report.model.SearchCondition">
+ 	select b.brand_code as brandCode,b.brand_name as brandName from c_commodity_brand b where b.delete_flag=1 and b.status=2 and b.brand_code in
+(select t.brand_code from c_commodity_catalog2brand t where t.delete_flag=1 and t.schema_name=#{schemaName} and t.catalog_code=#{catalogCode})
+ </select>
+ <select id="getModelList" resultType="com.bqjr.report.model.SearchCondition">
+ 	select t.model_code as modelCode,t.model_name as modelName from c_commodity_model t where t.delete_flag=1 and t.status=2 and t.schema_name=#{schemaName} and t.brand_code=#{brandCode}
+ </select>
+</mapper>

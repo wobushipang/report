@@ -1,0 +1,1058 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>inventoryWarn</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/inventoryWarn/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/ie.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="files/inventoryWarn/data.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- 库存预警查询面板 (动态面板) -->
+      <div id="u11255" class="ax_default" data-label="库存预警查询面板">
+        <div id="u11255_state0" class="panel_state" data-label="查询条件">
+          <div id="u11255_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11256" class="ax_default box_1">
+              <div id="u11256_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11257" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11258" class="ax_default box_1">
+              <div id="u11258_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11259" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11260" class="ax_default box_1">
+              <div id="u11260_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11261" class="text" style="visibility: visible;">
+                <p><span>低库存</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (提交按钮) -->
+            <div id="u11262" class="ax_default html_button">
+              <input id="u11262_input" type="submit" value="滞销"/>
+            </div>
+
+            <!-- Unnamed (提交按钮) -->
+            <div id="u11263" class="ax_default html_button">
+              <input id="u11263_input" type="submit" value="重置"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11264" class="ax_default label">
+              <div id="u11264_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11265" class="text" style="visibility: visible;">
+                <p><span>商品编号</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u11266" class="ax_default text_field">
+              <input id="u11266_input" type="text" value="模糊查询"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11267" class="ax_default label">
+              <div id="u11267_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11268" class="text" style="visibility: visible;">
+                <p><span>品牌名称</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11269" class="ax_default label">
+              <div id="u11269_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11270" class="text" style="visibility: visible;">
+                <p><span>型号名称</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11271" class="ax_default label">
+              <div id="u11271_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11272" class="text" style="visibility: visible;">
+                <p><span>商品分类</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u11273" class="ax_default droplist">
+              <select id="u11273_input">
+                <option value="可输入的选择框">可输入的选择框</option>
+                <option value="弹出面板选择框">弹出面板选择框</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u11274" class="ax_default droplist">
+              <select id="u11274_input">
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11275" class="ax_default label">
+              <div id="u11275_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11276" class="text" style="visibility: visible;">
+                <p><span>组织机构</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u11277" class="ax_default droplist">
+              <select id="u11277_input">
+                <option value="请选择">请选择</option>
+                <option value="当前组织机构+下层机构">当前组织机构+下层机构</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u11278" class="ax_default droplist">
+              <select id="u11278_input">
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11279" class="ax_default label">
+              <div id="u11279_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11280" class="text" style="visibility: visible;">
+                <p><span>仓库</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (下拉列表框) -->
+            <div id="u11281" class="ax_default droplist">
+              <select id="u11281_input">
+                <option value="请选择">请选择</option>
+                <option value="根据组织">根据组织</option>
+              </select>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11282" class="ax_default label">
+              <div id="u11282_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11283" class="text" style="visibility: visible;">
+                <p><span>&nbsp;</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11284" class="ax_default label">
+              <div id="u11284_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11285" class="text" style="visibility: visible;">
+                <p><span>商品名称</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u11286" class="ax_default text_field">
+              <input id="u11286_input" type="text" value="模糊查询"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11287" class="ax_default box_1">
+              <div id="u11287_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11288" class="text" style="visibility: visible;">
+                <p><span>滞销查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (提交按钮) -->
+            <div id="u11289" class="ax_default html_button">
+              <input id="u11289_input" type="submit" value="低库存"/>
+            </div>
+          </div>
+        </div>
+        <div id="u11255_state1" class="panel_state" data-label="库存预警-低于安全库存" style="display: none; visibility: hidden;">
+          <div id="u11255_state1_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11290" class="ax_default box_1">
+              <div id="u11290_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11291" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11292" class="ax_default box_1">
+              <div id="u11292_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11293" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11294" class="ax_default box_1">
+              <div id="u11294_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11295" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (表格) -->
+            <div id="u11296" class="ax_default">
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11297" class="ax_default table_cell">
+                <img id="u11297_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11298" class="text" style="visibility: visible;">
+                  <p><span>组织机构</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11299" class="ax_default table_cell">
+                <img id="u11299_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11300" class="text" style="visibility: visible;">
+                  <p><span>仓库名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11301" class="ax_default table_cell">
+                <img id="u11301_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11302" class="text" style="visibility: visible;">
+                  <p><span>商品编码</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11303" class="ax_default table_cell">
+                <img id="u11303_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11304" class="text" style="visibility: visible;">
+                  <p><span>商品名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11305" class="ax_default table_cell">
+                <img id="u11305_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11306" class="text" style="visibility: visible;">
+                  <p><span>库存量</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11307" class="ax_default table_cell">
+                <img id="u11307_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11308" class="text" style="visibility: visible;">
+                  <p><span>安全库存量</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11309" class="ax_default table_cell">
+                <img id="u11309_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11310" class="text" style="visibility: visible;">
+                  <p><span>串号/批次</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11311" class="ax_default table_cell">
+                <img id="u11311_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11312" class="text" style="visibility: visible;">
+                  <p><span>分类名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11313" class="ax_default table_cell">
+                <img id="u11313_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11314" class="text" style="visibility: visible;">
+                  <p><span>品牌名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11315" class="ax_default table_cell">
+                <img id="u11315_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11316" class="text" style="visibility: visible;">
+                  <p><span>型号名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11317" class="ax_default table_cell">
+                <img id="u11317_img" class="img " src="images/库存查询（更新）/u10856.png"/>
+                <!-- Unnamed () -->
+                <div id="u11318" class="text" style="visibility: visible;">
+                  <p><span>规格</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11319" class="ax_default table_cell">
+                <img id="u11319_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11320" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11321" class="ax_default table_cell">
+                <img id="u11321_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11322" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11323" class="ax_default table_cell">
+                <img id="u11323_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11324" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11325" class="ax_default table_cell">
+                <img id="u11325_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11326" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11327" class="ax_default table_cell">
+                <img id="u11327_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11328" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11329" class="ax_default table_cell">
+                <img id="u11329_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11330" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11331" class="ax_default table_cell">
+                <img id="u11331_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11332" class="text" style="visibility: visible;">
+                  <p><span>查看</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11333" class="ax_default table_cell">
+                <img id="u11333_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11334" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11335" class="ax_default table_cell">
+                <img id="u11335_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11336" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11337" class="ax_default table_cell">
+                <img id="u11337_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11338" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11339" class="ax_default table_cell">
+                <img id="u11339_img" class="img " src="images/库存查询（更新）/u10856.png"/>
+                <!-- Unnamed () -->
+                <div id="u11340" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11341" class="ax_default table_cell">
+                <img id="u11341_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11342" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11343" class="ax_default table_cell">
+                <img id="u11343_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11344" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11345" class="ax_default table_cell">
+                <img id="u11345_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11346" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11347" class="ax_default table_cell">
+                <img id="u11347_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11348" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11349" class="ax_default table_cell">
+                <img id="u11349_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11350" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11351" class="ax_default table_cell">
+                <img id="u11351_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11352" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11353" class="ax_default table_cell">
+                <img id="u11353_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11354" class="text" style="visibility: visible;">
+                  <p><span>查看</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11355" class="ax_default table_cell">
+                <img id="u11355_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11356" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11357" class="ax_default table_cell">
+                <img id="u11357_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11358" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11359" class="ax_default table_cell">
+                <img id="u11359_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11360" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11361" class="ax_default table_cell">
+                <img id="u11361_img" class="img " src="images/inventoryWarn/u11361.png"/>
+                <!-- Unnamed () -->
+                <div id="u11362" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11363" class="ax_default box_1">
+              <div id="u11363_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11364" class="text" style="visibility: visible;">
+                <p><span>低库存</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11365" class="ax_default box_1">
+              <div id="u11365_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11366" class="text" style="visibility: visible;">
+                <p><span>滞销查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11367" class="ax_default sticky_1">
+              <div id="u11367_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11368" class="text" style="visibility: visible;">
+                <p><span>低于安全库存，按仓库+商品汇总显示数量，串号、批次，需点击查看明细 列表中需包含</span></p><p><span>串号/批次，数量，购销方式，初次入库时间，供应商</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="u11255_state2" class="panel_state" data-label="库存预警-滞销商品" style="display: none; visibility: hidden;">
+          <div id="u11255_state2_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11369" class="ax_default box_1">
+              <div id="u11369_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11370" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11371" class="ax_default box_1">
+              <div id="u11371_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11372" class="text" style="visibility: visible;">
+                <p><span>查询</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11373" class="ax_default box_1">
+              <div id="u11373_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11374" class="text" style="display: none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (表格) -->
+            <div id="u11375" class="ax_default">
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11376" class="ax_default table_cell">
+                <img id="u11376_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11377" class="text" style="visibility: visible;">
+                  <p><span>组织机构</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11378" class="ax_default table_cell">
+                <img id="u11378_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11379" class="text" style="visibility: visible;">
+                  <p><span>仓库名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11380" class="ax_default table_cell">
+                <img id="u11380_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11381" class="text" style="visibility: visible;">
+                  <p><span>商品编码</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11382" class="ax_default table_cell">
+                <img id="u11382_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11383" class="text" style="visibility: visible;">
+                  <p><span>商品名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11384" class="ax_default table_cell">
+                <img id="u11384_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11385" class="text" style="visibility: visible;">
+                  <p><span>串号/批次</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11386" class="ax_default table_cell">
+                <img id="u11386_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11387" class="text" style="visibility: visible;">
+                  <p><span>库存量</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11388" class="ax_default table_cell">
+                <img id="u11388_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11389" class="text" style="visibility: visible;">
+                  <p><span>安全库存量</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11390" class="ax_default table_cell">
+                <img id="u11390_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11391" class="text" style="visibility: visible;">
+                  <p><span>首次入库日期</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11392" class="ax_default table_cell">
+                <img id="u11392_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11393" class="text" style="visibility: visible;">
+                  <p><span>滞销天数</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11394" class="ax_default table_cell">
+                <img id="u11394_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11395" class="text" style="visibility: visible;">
+                  <p><span>购销方式</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11396" class="ax_default table_cell">
+                <img id="u11396_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11397" class="text" style="visibility: visible;">
+                  <p><span>供应商</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11398" class="ax_default table_cell">
+                <img id="u11398_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11399" class="text" style="visibility: visible;">
+                  <p><span>分类名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11400" class="ax_default table_cell">
+                <img id="u11400_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11401" class="text" style="visibility: visible;">
+                  <p><span>品牌名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11402" class="ax_default table_cell">
+                <img id="u11402_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11403" class="text" style="visibility: visible;">
+                  <p><span>型号名称</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11404" class="ax_default table_cell">
+                <img id="u11404_img" class="img " src="images/采购汇总汇总/u7566.png"/>
+                <!-- Unnamed () -->
+                <div id="u11405" class="text" style="visibility: visible;">
+                  <p><span>规格</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11406" class="ax_default table_cell">
+                <img id="u11406_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11407" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11408" class="ax_default table_cell">
+                <img id="u11408_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11409" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11410" class="ax_default table_cell">
+                <img id="u11410_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11411" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11412" class="ax_default table_cell">
+                <img id="u11412_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11413" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11414" class="ax_default table_cell">
+                <img id="u11414_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11415" class="text" style="visibility: visible;">
+                  <p><span>查看</span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11416" class="ax_default table_cell">
+                <img id="u11416_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11417" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11418" class="ax_default table_cell">
+                <img id="u11418_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11419" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11420" class="ax_default table_cell">
+                <img id="u11420_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11421" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11422" class="ax_default table_cell">
+                <img id="u11422_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11423" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11424" class="ax_default table_cell">
+                <img id="u11424_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11425" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11426" class="ax_default table_cell">
+                <img id="u11426_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11427" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11428" class="ax_default table_cell">
+                <img id="u11428_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11429" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11430" class="ax_default table_cell">
+                <img id="u11430_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11431" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11432" class="ax_default table_cell">
+                <img id="u11432_img" class="img " src="images/采购明细查询/u6749.png"/>
+                <!-- Unnamed () -->
+                <div id="u11433" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11434" class="ax_default table_cell">
+                <img id="u11434_img" class="img " src="images/采购汇总汇总/u7566.png"/>
+                <!-- Unnamed () -->
+                <div id="u11435" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11436" class="ax_default table_cell">
+                <img id="u11436_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11437" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11438" class="ax_default table_cell">
+                <img id="u11438_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11439" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11440" class="ax_default table_cell">
+                <img id="u11440_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11441" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11442" class="ax_default table_cell">
+                <img id="u11442_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11443" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11444" class="ax_default table_cell">
+                <img id="u11444_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11445" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11446" class="ax_default table_cell">
+                <img id="u11446_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11447" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11448" class="ax_default table_cell">
+                <img id="u11448_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11449" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11450" class="ax_default table_cell">
+                <img id="u11450_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11451" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11452" class="ax_default table_cell">
+                <img id="u11452_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11453" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11454" class="ax_default table_cell">
+                <img id="u11454_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11455" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11456" class="ax_default table_cell">
+                <img id="u11456_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11457" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11458" class="ax_default table_cell">
+                <img id="u11458_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11459" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11460" class="ax_default table_cell">
+                <img id="u11460_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11461" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11462" class="ax_default table_cell">
+                <img id="u11462_img" class="img " src="images/库存日报表（更新）/u11207.png"/>
+                <!-- Unnamed () -->
+                <div id="u11463" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (单元格) -->
+              <div id="u11464" class="ax_default table_cell">
+                <img id="u11464_img" class="img " src="images/inventoryWarn/u11464.png"/>
+                <!-- Unnamed () -->
+                <div id="u11465" class="text" style="display: none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11466" class="ax_default sticky_1">
+              <div id="u11466_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11467" class="text" style="visibility: visible;">
+                <p><span>&nbsp;滞销查询时，只能查询串号/批次的滞销条数，串号汇总显示，批次按批次号展示</span></p><p><span><br></span></p><p><span>串号需查看，查看明细，内容包括 串号，供应商，初次入库时间，滞销天数</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11468" class="ax_default box_1">
+              <div id="u11468_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11469" class="text" style="visibility: visible;">
+                <p><span>低库存</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u11470" class="ax_default box_1">
+              <div id="u11470_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u11471" class="text" style="visibility: visible;">
+                <p><span>滞销查询</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
