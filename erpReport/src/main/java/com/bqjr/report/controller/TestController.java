@@ -58,11 +58,11 @@ public class TestController {
 //
 //	}
 	
-	@RequestMapping("/inventoryWarn")
+	/*@RequestMapping("/inventoryWarn")
 	public String index() {
 		Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
 		Object obj = re.importData(files);
 		System.out.println(obj);
 		return "inventoryWarn";
-	}
+	}*/
 }

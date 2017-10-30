@@ -1,6 +1,7 @@
 package com.bqjr.report.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,10 +28,18 @@ public class SearchCondition {
 	private String catalogCode;
 	private String modelName;
 	private String modelCode;
+	private String warehouseId;
+	private String warehouseName;
+	private String specItem;
+	private String specName;
+	private List<String> orgs;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
+	
+	private String start;
+	private String end;
 	public String getOrgId() {
 		return orgId;
 	}
@@ -138,6 +147,49 @@ public class SearchCondition {
 	}
 	public void setModelCode(String modelCode) {
 		this.modelCode = modelCode;
+	}
+	public String getStart() {
+		return start;
+	}
+	public void setStart(String start) {
+		this.start = start;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	public String getWarehouseId() {
+		return warehouseId;
+	}
+	public void setWarehouseId(String warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+	
+	public String getSpecItem() {
+		return specItem;
+	}
+	public void setSpecItem(String specItem) {
+		this.specItem = specItem;
+	}
+	public String getSpecName() {
+		return specName;
+	}
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
+	public List<String> getOrgs() {
+		return orgs;
+	}
+	public void setOrgs(List<String> orgs) {
+		this.orgs = orgs;
 	}
 	
 }

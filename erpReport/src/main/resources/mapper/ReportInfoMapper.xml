@@ -5,7 +5,7 @@
 	<select id="findAll" resultType="com.bqjr.report.model.Organization">
 		select pk_id pkId,parent_id
 		parentId,org_name orgName
-		from c_sys_organization where 
+		from c_sys_organization 
 	</select>
 
 	<select id="getOrganizationById" parameterType="string"

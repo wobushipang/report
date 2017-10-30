@@ -1,6 +1,9 @@
 package com.bqjr.report.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
+import com.bqjr.report.service.ConditionService;
 import com.bqjr.report.service.PurchaseCollectService;
 
 @Controller
@@ -22,6 +27,8 @@ public class PurchaseCollectController {
 
 	@Autowired
 	private PurchaseCollectService service;
+	@Autowired
+	private ConditionService con;
 	
 	@RequestMapping("/purcaseCollect")
 	public ModelAndView redirect(String orgId,String openId,String schemaName){
@@ -39,7 +46,7 @@ public class PurchaseCollectController {
 	@ResponseBody
 	public Map<String,Object> getpurcaseCollect(HttpServletRequest request,SearchCondition condition,String type){
 		//分页参数
-		int pageNum = 1, pageSize = 3;
+		int pageNum = 1, pageSize = 15;
 		if(StringUtils.isNotBlank(request.getParameter("page"))){
 			pageNum = Integer.parseInt(request.getParameter("page"));
 		}
@@ -50,7 +57,7 @@ public class PurchaseCollectController {
 			condition.setSupplierId(null);
 		}
 		if(StringUtils.equals("0", condition.getOrgId())) {
-			condition.setOrgId(null);
+			condition.setOrgId(condition.getOrgName());
 		}
 		if(StringUtils.equals("0", condition.getOperationType())) {
 			condition.setOperationType(null);
@@ -58,6 +65,23 @@ public class PurchaseCollectController {
 		if(StringUtils.equals("0", condition.getCatalogName())) {
 			condition.setCatalogName(null);
 		}
+		if(condition.getStartDate()!=null) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+			String str=sdf.format(condition.getStartDate()); 
+			condition.setStart(str);
+		}
+		if(condition.getEndDate()!=null) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+			String str=sdf.format(condition.getEndDate()); 
+			condition.setEnd(str);
+		}
+		List<String> strs = new ArrayList<String>();
+		List<Organization> orgs=con.organizationList(condition.getOrgId());
+		for (Organization organization : orgs) {
+			String org=organization.getPkId();
+			strs.add(org);
+		}
+		condition.setOrgs(strs);
 		return service.getpurchaseCollectList(pageNum, pageSize, condition);
 	}
 	
@@ -66,7 +90,7 @@ public class PurchaseCollectController {
 	public String getOrgList(HttpServletRequest request){
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
-		return service.getOrgList(orgId, schemaName);
+		return con.getOrgList(orgId, schemaName);
 	}
 	
 	@RequestMapping("/getSupplierList")
@@ -74,6 +98,7 @@ public class PurchaseCollectController {
 	public String getSupplierList(HttpServletRequest request){
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
+		if(StringUtils.equals(orgId, "0"))orgId=null;
 		return service.getSupplierList(orgId, schemaName);
 	}
 	
@@ -99,7 +124,7 @@ public class PurchaseCollectController {
 	public String getModelList(HttpServletRequest request){
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
-		String catalogCode=request.getParameter("modelCode");
-		return service.getModelList(orgId, schemaName,catalogCode);
+		String brandCode=request.getParameter("brandCode");
+		return service.getModelList(orgId, schemaName,brandCode);
 	}
 }

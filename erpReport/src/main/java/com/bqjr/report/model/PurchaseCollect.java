@@ -11,13 +11,17 @@ public class PurchaseCollect {
 	private String supplier;//供应商
 	private String operationType;//购销方式
 	private String commodityCode;
+	private String commodityId;
 	private String commodityName;
 	private String brandName;
 	private String catalogName;//分类名称
 	private String modelName;
 	private String spec;//规格
-	private String purchaseCount;//采购数量
-	private String purchaseAmount;//采购总价
+	private String specName;//规格名
+	private String actualPurchaseCount;//实际采购数量
+	private String actualPurchaseAmount;//实际采购金额
+	private String purchaseCount;//采购订单数量
+	private String purchaseAmount;//采购订单总价
 	private String wareInCount;//入库数量
 	private String wareInAmount;//入库金额
 	private String refundsCount;//退货数量
@@ -139,6 +143,30 @@ public class PurchaseCollect {
 	}
 	public void setExchangeOutAmount(String exchangeOutAmount) {
 		this.exchangeOutAmount = exchangeOutAmount;
+	}
+	public String getActualPurchaseCount() {
+		return actualPurchaseCount;
+	}
+	public void setActualPurchaseCount(String actualPurchaseCount) {
+		this.actualPurchaseCount = actualPurchaseCount;
+	}
+	public String getActualPurchaseAmount() {
+		return actualPurchaseAmount;
+	}
+	public void setActualPurchaseAmount(String actualPurchaseAmount) {
+		this.actualPurchaseAmount = actualPurchaseAmount;
+	}
+	public String getSpecName() {
+		return specName;
+	}
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
+	public String getCommodityId() {
+		return commodityId;
+	}
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId;
 	}
 	
 }

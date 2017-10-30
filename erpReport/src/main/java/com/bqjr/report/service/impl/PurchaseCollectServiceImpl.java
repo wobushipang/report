@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,12 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.bqjr.report.mapper.ReportMapper;
 import com.bqjr.report.model.Option;
+import com.bqjr.report.model.ProxySale;
 import com.bqjr.report.model.PurchaseCollect;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.PurchaseCollectService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
+/**
+ * 
+ * @author jialong.sun
+ *
+ */
 @Service
 public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 
@@ -26,9 +32,40 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Map<String, Object> getpurchaseCollectList(int pageNum,int pageSize,SearchCondition condition) {
-		PageHelper.startPage(pageNum, pageSize);
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<String> codes = new ArrayList<String>();
+		PageHelper.startPage(pageNum, pageSize);
 		List<PurchaseCollect> list = mapper.getpurchaseCollectList(condition);
+		for (PurchaseCollect p : list) {
+			if(StringUtils.isEmpty(p.getExchangeInAmount())) p.setExchangeInAmount("0");
+			if(StringUtils.isEmpty(p.getExchangeInCount())) p.setExchangeInCount("0");
+			if(StringUtils.isEmpty(p.getExchangeOutAmount())) p.setExchangeOutAmount("0");
+			if(StringUtils.isEmpty(p.getExchangeOutCount())) p.setExchangeOutCount("0");
+			if(StringUtils.isEmpty(p.getRefundsAmount())) p.setRefundsAmount("0");
+			if(StringUtils.isEmpty(p.getRefundsCount())) p.setRefundsCount("0");
+			if(StringUtils.isEmpty(p.getWareInAmount())) p.setWareInAmount("0");
+			if(StringUtils.isEmpty(p.getWareInCount())) p.setWareInCount("0");
+			if(StringUtils.isEmpty(p.getPurchaseCount())) p.setPurchaseCount("0");
+			if(StringUtils.isEmpty(p.getPurchaseAmount())) p.setPurchaseAmount("0");
+			//实际采购数量
+			p.setActualPurchaseCount(Integer.valueOf(p.getWareInCount())-Integer.valueOf(p.getRefundsCount())+Integer.valueOf(p.getExchangeInCount())-Integer.valueOf(p.getExchangeOutCount())+"");
+			//实际采购金额
+			p.setActualPurchaseAmount(Float.valueOf(p.getWareInAmount())-Float.valueOf(p.getRefundsAmount())+Float.valueOf(p.getExchangeInAmount())-Float.valueOf(p.getExchangeOutAmount())+"");
+			codes.add(p.getCommodityCode());
+		}
+		List<SearchCondition> specs = new ArrayList<SearchCondition>();
+		if(condition.getType()==1&&codes.size()>0) {
+			specs = mapper.getSpecList(codes);
+		}
+		for (PurchaseCollect p : list) {
+			String str="";
+			for (SearchCondition s : specs) {
+				if(StringUtils.equals(p.getCommodityCode(), s.getCommodityCode())) {
+					str+=s.getSpecName()+":"+s.getSpecItem()+"/";
+				}
+				p.setSpec(str);
+		}
+		}
 		PageInfo pageInfo = new PageInfo(list);
 		map.put("rows", list);
 		map.put("total", pageInfo.getTotal());
@@ -98,8 +135,8 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		return JSON.toJSONString(listStages);
 	}
 	@Override
-	public String getModelList(String id, String schemaName, String modelCode) {
-		List<SearchCondition> list = mapper.getModelList(id, schemaName,modelCode);
+	public String getModelList(String id, String schemaName, String brandCode) {
+		List<SearchCondition> list = mapper.getModelList(id, schemaName,brandCode);
 		List<Option> listStages=new ArrayList<Option>();
 		for(SearchCondition dic : list){
 			Option opt=new Option();

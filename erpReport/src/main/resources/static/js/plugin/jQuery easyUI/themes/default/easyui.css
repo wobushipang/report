@@ -334,6 +334,7 @@
 	word-wrap:normal;
 	overflow:hidden;
 	text-align:center;
+	height:40px;
 }
 .datagrid-header .datagrid-cell-group{
 	margin:0;
@@ -421,7 +422,7 @@
 	height:15px;
 }
 .datagrid-row{
-	height:25px;
+	height:48px;
 }
 .datagrid-row-collapse{
 	background:url('images/datagrid_row_collapse.gif') no-repeat center center;

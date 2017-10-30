@@ -2,7 +2,7 @@ package com.bqjr.report.model;
 
 public class Option {
 
-private  String id;
+	private  String id;
 	
 	private String text;
 	
