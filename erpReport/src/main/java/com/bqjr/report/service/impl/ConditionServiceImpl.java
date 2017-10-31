@@ -50,7 +50,7 @@ public class ConditionServiceImpl implements ConditionService{
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();
 		d.setId("0");
-		d.setText("==请选择==");
+		d.setText("请选择");
 		d.setSelected(true);
 		listStages.add(d);
 		for(Organization dic : list){

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +45,7 @@ public class PurchaseCollectController {
 	@ResponseBody
 	public Map<String,Object> getpurcaseCollect(HttpServletRequest request,SearchCondition condition,String type){
 		//分页参数
-		int pageNum = 1, pageSize = 15;
+		int pageNum = 1, pageSize = 10;
 		if(StringUtils.isNotBlank(request.getParameter("page"))){
 			pageNum = Integer.parseInt(request.getParameter("page"));
 		}
@@ -64,6 +63,12 @@ public class PurchaseCollectController {
 		}
 		if(StringUtils.equals("0", condition.getCatalogName())) {
 			condition.setCatalogName(null);
+		}
+		if(StringUtils.equals("0", condition.getBrandName())) {
+			condition.setBrandName(null);
+		}
+		if(StringUtils.equals("0", condition.getModelName())) {
+			condition.setModelName(null);
 		}
 		if(condition.getStartDate()!=null) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  

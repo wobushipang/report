@@ -70,6 +70,12 @@ public class ProxySaleController {
 		if(StringUtils.equals("0", condition.getCatalogName())) {
 			condition.setCatalogName(null);
 		}
+		if(StringUtils.equals("0", condition.getBrandName())) {
+			condition.setBrandName(null);
+		}
+		if(StringUtils.equals("0", condition.getModelName())) {
+			condition.setModelName(null);
+		}
 		if(condition.getStartDate()!=null) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
 			String str=sdf.format(condition.getStartDate()); 

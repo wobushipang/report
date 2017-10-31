@@ -361,7 +361,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20602" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 1150px; height:580px">
+				<div id="layS" class="easyui-layout" style="width: 955px; height:580px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -425,7 +425,7 @@
 			textField:'text',
 			editable:false ,
 			width : '190',
-			panelHeight:'auto'
+			//panelHeight:'auto'
 		});
 		$('#u20196_input').combobox({
 			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
@@ -444,7 +444,7 @@
 					   	editable:true,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
-						panelHeight:'auto',
+						//panelHeight:'auto',
 						onChange:function(value){
 					    	if(value!=''&&value!=null){
 					    		//型号
@@ -455,7 +455,7 @@
 								   	editable:true,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
-									panelHeight:'auto'
+									//panelHeight:'auto'
 								 }); 
 						    }
 					    	}
@@ -502,6 +502,10 @@
 	  //var operationType=$('#u7309_input').val();
 	  var d1 = formatDatebox(start);
 		var d2 = formatDatebox(end);
+		if(start.length==0 || end.length==0){
+			  $.messager.alert('警告','必须选择时间范围','warning');
+				return;
+		  }
 		if(start && end && d1>d2){
 			$.messager.alert('警告','结束时间要大于开始时间','warning');
 			return;
@@ -552,23 +556,23 @@
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
 				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
-				   					},
 					
 					columns:[[
 						{
 							field:'orgName' , 
-							title:'组织机构' ,       
+							title:'组织机构' , 
+							align : 'center',
 							width:150
 						},{
 							field:'supplier' ,
 							title:'供应商' ,
+							align : 'center',
 							width:120 
 						},
 						{
 							field:'commodityCode' , 
 							title:'商品编码' ,  
+							align : 'center',
 							width:200,
 							
 						}  ,
@@ -576,6 +580,7 @@
 						{
 							field:'commodityName' , 
 							title:'商品名称' ,
+							align : 'center',
 							width:180
 						},
 						
@@ -608,7 +613,7 @@
 		               field : 'discountsAmount',
 		               title : '优惠后销售金额',
 		               align : 'center',
-		               width : 100 ,
+		               width : 120 ,
 		            },{
 							field:'catalogName' , 
 							title:'分类名称' , 
@@ -645,9 +650,13 @@
 						}
 					]] ,
 					pagination: true , 
-					pageSize: 15 ,
-					pageList:[15] ,
+					pageSize: 10 ,
+					pageList:[10] ,
 				});
+				document.getElementById('u20176_state0').style.display='none';
+				document.getElementById('u20176_state0').style.visibility='hidden'
+				document.getElementById('u20176_state2').style.display='none';
+				document.getElementById('u20176_state2').style.visibility='hidden'
 				document.getElementById('u20176_state1').style.display='block';
 				document.getElementById('u20176_state1').style.visibility='visible';
 		 }else{
@@ -694,24 +703,14 @@
 				   					columns:[[
 										{
 											field:'orgName' , 
-											title:'组织机构' ,       
+											title:'组织机构' , 
+											align : 'center',
 											width:150
 										},{
 											field:'supplier' ,
 											title:'供应商' ,
+											align : 'center',
 											width:120 
-										},
-										{
-											field:'commodityCode' , 
-											title:'商品编码' ,  
-											width:200,
-											
-										}  ,
-										
-										{
-											field:'commodityName' , 
-											title:'商品名称' ,
-											width:180
 										},
 										
 										{
@@ -743,37 +742,32 @@
 						               field : 'discountsAmount',
 						               title : '优惠后销售金额',
 						               align : 'center',
-						               width : 100 ,
+						               width : 120 ,
 						            },{
-											field:'catalogName' , 
-											title:'分类名称' , 
-											align : 'center',
-											width:150,
-											
-										},{
-											field:'brandName' , 
-											title:'品牌名称' , 
-											align : 'center',
-											width:150,
-											
-										},{
-											field:'modelName' , 
-											title:'型号名称' , 
-											align : 'center',
-											width:150,
-											
-										},{
-											field:'spec' , 
-											title:'规格' , 
-											align : 'center',
-											width:150,
-											
-										}
+							           field : 'chargeAmount',
+							           title : '应计收费金额',
+							           align : 'center',
+							           width : 120 ,
+							        },{
+								       field : 'accountAmount',
+								       title : '生成结算金额',
+								       align : 'center',
+								       width : 120 ,
+								    },{
+									   field : 'proceedsAmount',
+									   title : '已收款金额',
+									   align : 'center',
+									   width : 100 ,
+									   }
 									]] ,
 									pagination: true , 
-									pageSize: 15 ,
-									pageList:[15] ,
+									pageSize: 10 ,
+									pageList:[10] ,
 								});
+				document.getElementById('u20176_state0').style.display='none';
+				document.getElementById('u20176_state0').style.visibility='hidden'
+				document.getElementById('u20176_state1').style.display='none';
+				document.getElementById('u20176_state1').style.visibility='hidden'
 				document.getElementById('u20176_state2').style.display='block';
 				document.getElementById('u20176_state2').style.visibility='visible';
 		 }
@@ -789,18 +783,6 @@
 			document.getElementById('u20176_state0').style.visibility='visible';
 			
 	  });
-//js方法：序列化表单 			
-	function serializeForm(form){
-		var obj = {};
-		$.each(form.serializeArray(),function(index){
-			if(obj[this['name']]){
-				obj[this['name']] = obj[this['name']] + ','+this['value'];
-			} else {
-				obj[this['name']] =this['value'];
-			}
-		});
-		return obj;
-	}
 	$('#u20182_input').click(function(){
 		var orgId=$('#orgId').val();
 	  	var openId=$('#openId').val();
@@ -840,7 +822,7 @@
 					   	editable:true,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
-						panelHeight:'auto',
+						//panelHeight:'auto',
 						onChange:function(value){
 					    	if(value!=''&&value!=null){
 					    		//型号
@@ -851,7 +833,7 @@
 								   	editable:true,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
-									panelHeight:'auto'
+									//panelHeight:'auto'
 								 }); 
 						    }
 					    	}

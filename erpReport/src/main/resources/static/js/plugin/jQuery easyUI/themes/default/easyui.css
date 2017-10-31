@@ -318,7 +318,7 @@
 }
 .datagrid-header td{
 	border-right:1px dotted #ccc;
-	font-size:12px;
+	font-size:15px;
 	font-weight:normal;
 	background:#fafafa url('images/datagrid_header_bg.gif') repeat-x left bottom;
 	border-bottom:1px dotted #ccc;
@@ -334,7 +334,7 @@
 	word-wrap:normal;
 	overflow:hidden;
 	text-align:center;
-	height:40px;
+	height:30px;
 }
 .datagrid-header .datagrid-cell-group{
 	margin:0;

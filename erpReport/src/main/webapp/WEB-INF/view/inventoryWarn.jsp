@@ -66,7 +66,7 @@
       <div id="u11255" class="ax_default" data-label="库存预警查询面板">
         <div id="u11255_state0" class="panel_state" data-label="查询条件">
           <div id="u11255_state0_content" class="panel_state_content">
-
+			<form id="mysearch">
             <!-- Unnamed (矩形) -->
             <div id="u11256" class="ax_default box_1">
               <div id="u11256_div" class=""></div>
@@ -96,12 +96,12 @@
 
             <!-- Unnamed (提交按钮) -->
             <div id="u11262" class="ax_default html_button">
-              <input id="u11262_input" type="submit" value="滞销" onclick="search('2')"/>
+              <input id="u11262_input" type="button" value="滞销" onclick="search('2')"/>
             </div>
 
             <!-- Unnamed (提交按钮) -->
             <div id="u11263" class="ax_default html_button">
-              <input id="u11263_input" type="submit" value="重置"/>
+              <input id="u11263_input" type="button" value="重置"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -222,8 +222,9 @@
 
             <!-- Unnamed (提交按钮) -->
             <div id="u11289" class="ax_default html_button">
-              <input id="u11289_input" type="submit" value="低库存"  onclick="search('1')"/>
+              <input id="u11289_input" type="button" value="低库存"  onclick="search('1')"/>
             </div>
+            </form>
           </div>
         </div>
         <div id="u11255_state1" class="panel_state" data-label="库存预警-低于安全库存" style="display: none; visibility: hidden;">
@@ -356,7 +357,7 @@
 		<div id="layD" class="easyui-layout" style="width: 640px; height:390px">
 					<!-- 列表 -->
 					<div region="center" id="d">
-						<table id="detail"></table>
+						<table id="detail" class="easyui-datagrid"></table>
 					</div>
 				</div>
 	</div>
@@ -463,6 +464,7 @@
 	  var catalogName=$('#u11273_input').combobox('getValue');
 	  var modelName=$('#u11278_input').combobox('getValue');
 	  var schemaName=$('#schemaName').val();
+	  var warehouseId=$('#u11281_input').combobox('getValue');
 	//采用jquery easyui loading css效果
 		function ajaxLoading(){
 		    $("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
@@ -497,7 +499,8 @@
 						catalogName:catalogName,
 						modelName:modelName,
 		                type:type  ,
-		                orgName:org
+		                orgName:org,
+		                warehouseId:warehouseId
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,
@@ -513,16 +516,19 @@
 					columns:[[
 						{
 							field:'orgName' , 
-							title:'组织机构' ,       
+							title:'组织机构' ,    
+							align : 'center',
 							width:150
 						},{
 							field:'whName' ,
 							title:'仓库名称' ,
+							align : 'center',
 							width:120 
 						},
 						{
 							field:'commodityCode' , 
 							title:'商品编码' ,  
+							align : 'center',
 							width:200,
 							
 						}  ,
@@ -535,7 +541,8 @@
 						{
 							field:'commodityName' , 
 							title:'商品名称' ,
-							width:180
+							width:180,
+							align : 'center',
 						},
 						
 						{
@@ -646,15 +653,18 @@
 										{
 											field:'orgName' , 
 											title:'组织机构' ,       
-											width:150
+											width:150,
+											align: 'center'
 										},{
 											field:'whName' ,
 											title:'仓库名称' ,
+											align : 'center',
 											width:120 
 										},
 										{
 											field:'commodityCode' , 
 											title:'商品编码' ,  
+											align : 'center',
 											width:200,
 											
 										}  ,
@@ -662,6 +672,7 @@
 										{
 											field:'commodityName' , 
 											title:'商品名称' ,
+											align : 'center',
 											width:180
 										},
 										
@@ -674,7 +685,8 @@
 												if(value=='2'){
 													return row.infoContent
 												}else{
-													return '<a href="javascript:void(0)" onclick=detailss("'+ value +'","'+ row.infoContent+'","'+ row.inventoryNum +'","'+ row.inventoryInTime+'","'+ row.supplier+'","'+ row.unsalableDays +'")>查看</a>'
+													//return '<a href="javascript:void(0)" onclick=detailss("'+ row.infoContent +'","'+ row.supplier+'","'+ row.unsalableDays+'")>查看</a>'
+													return  "<a href='javascript:void(0);' title='删除'  onclick=\"detailss('"+row.infoContent+"','"+row.supplier+"','"+row.inventoryInTime+"','"+row.unsalableDays+"')\">查看</a>";
 												}
 											}
 										},{
@@ -795,96 +807,96 @@
 		});
 		return obj;
 	}
-	$('#u20182_input').click(function(){
-		var orgId=$('#orgId').val();
-	  	var openId=$('#openId').val();
-	  	var schemaName=$('#schemaName').val();
-		$('#u11277_input').combobox({
-			url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
-			valueField:'id',
-			textField:'text',
-			editable:false ,
-			width : '190',
-			//panelHeight:'auto'
-			onChange:function(value){
-				$('#u11281_input').combobox({
-					url:'<%=path%>/getWarehouseList?orgId='+value+'&schemaName='+schemaName ,
-					valueField:'id',
-					textField:'text',
-					editable:false ,
-					width : '190',
-					panelHeight:'auto'
-				});
-			}
-
-		});
-		$('#u11281_input').combobox({
-			url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&orgId='
-						+$('#u11277_input').combobox('getValue'),
-			valueField:'id',
-			textField:'text',
-			editable:false ,
-			width : '190',
-			panelHeight:'auto'
-		});
-		$('#u11273_input').combobox({
-			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
-			valueField:'id',
-			textField:'text',
-			editable:true ,
-			width : '190',
-			//panelHeight:'auto',
-			onChange:function(value){
-		    	if(value!='0'){
-		    		//品牌
-					 $('#u11274_input').combobox({
-					    valueField:'id', //值字段
-					    textField:'text', //显示的字段
-					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
-					   	//width: 200,
-						width : '190',
-						panelHeight:'auto',
-						onChange:function(value){
-					    	if(value!=''&&value!=null){
-					    		//型号
-								 $('#u11278_input').combobox({
-								    valueField:'id', //值字段
-								    textField:'text', //显示的字段
-								    url:'<%=path%>/getModelList?&modelCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
-								   	//width: 200,
-									width : '190',
-									panelHeight:'auto'
-								 }); 
-						    }
-					    	}
-					 }); 
-			    }
-		    	}
-				
-		});
-		//品牌
-		 $('#u11274_input').combobox({
-		    valueField:'id', //值字段
-		    textField:'text', //显示的字段
-		    url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
-		    		+ $('#u20196_input').combobox('getValue'),
-		   	editable:false,//不可编辑，只能选择
-		   	//width: 200,
-			width : '190',
-			//panelHeight:'auto',
-		 });
-		 $('#u11278_input').combobox({
-			    valueField:'id', //值字段
-			    textField:'text', //显示的字段
-			    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&modelCode='
-			    		+ $('#u11274_input').combobox('getValue'),
-			   	editable:false,//不可编辑，只能选择
-			   	//width: 200,
+	$('#u11263_input').click(function(){
+		 var orgId=$('#orgId').val();
+		  	var openId=$('#openId').val();
+		  	var schemaName=$('#schemaName').val();
+		  	$('#mysearch').form('clear');
+			$('#u11277_input').combobox({
+				url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
+				valueField:'id',
+				textField:'text',
+				editable:false ,
 				width : '190',
 				//panelHeight:'auto'
-			 }); 
+				onChange:function(value){
+					$('#u11281_input').combobox({
+						url:'<%=path%>/getWarehouseList?orgId='+value+'&schemaName='+schemaName ,
+						valueField:'id',
+						textField:'text',
+						editable:false ,
+						width : '190',
+						panelHeight:'auto'
+					});
+				}
+
+			});
+			$('#u11281_input').combobox({
+				url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&orgId='
+							+$('#u11277_input').combobox('getValue'),
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto'
+			});
+			$('#u11273_input').combobox({
+				url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
+				valueField:'id',
+				textField:'text',
+				editable:true ,
+				width : '190',
+				//panelHeight:'auto',
+				onChange:function(value){
+			    	if(value!='0'){
+			    		//品牌
+						 $('#u11274_input').combobox({
+						    valueField:'id', //值字段
+						    textField:'text', //显示的字段
+						    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+						   	editable:true,//不可编辑，只能选择
+						   	//width: 200,
+							width : '190',
+							panelHeight:'auto',
+							onChange:function(value){
+						    	if(value!=''&&value!=null){
+						    		//型号
+									 $('#u11278_input').combobox({
+									    valueField:'id', //值字段
+									    textField:'text', //显示的字段
+									    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+									   	editable:true,//不可编辑，只能选择
+									   	//width: 200,
+										width : '190',
+										panelHeight:'auto'
+									 }); 
+							    }
+						    	}
+						 }); 
+				    }
+			    	}
+					
+			});
+			//品牌
+			 $('#u11274_input').combobox({
+					valueField:'id', //值字段
+					textField:'text', //显示的字段
+					url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
+							+$('#u11273_input').combobox('getValue'),
+					editable:true,//不可编辑，只能选择
+					width : '190',
+					panelHeight:'auto'
+				}); 
+			 $('#u11278_input').combobox({
+				    valueField:'id', //值字段
+				    textField:'text', //显示的字段
+				    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
+				    		+ $('#u11274_input').combobox('getValue'),
+				   	editable:false,//不可编辑，只能选择
+				   	//width: 200,
+					width : '190',
+					//panelHeight:'auto'
+				 }); 
 	})
 	//详情
 		function details(schemaName,id) {
@@ -920,7 +932,7 @@
 					formatter: function(value){
 						if(value=='1'){
 							return '购销';
-						}else{
+						}else if(value=='2'){
 							return '代销';
 						}
 					}
@@ -942,11 +954,51 @@
 		$("#win").window('open');
 	}
 	//详情
-	function detailss(value,infoContent,inventoryNum,inventoryInTime,supplier,unsalableDays) {
+	function detailss(infoContent,supplier,time,unsalableDays) {
 	/**
 	 *	初始化数据表格  
 	 */
-	
+	 $('#detail').datagrid({
+			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
+			fit:true ,
+			height:450 ,
+			//url:'/getDetail?schemaName='+schemaName+'&commodityId='+id ,
+			loadMsg: '数据正在加载,请耐心的等待...' ,
+			onClickRow: function (rowIndex, rowData) {
+		                    $(this).datagrid('unselectRow', rowIndex);
+		   					},
+			columns:[[
+				{
+					field:'infoContent' , 
+					title:'串号批次' ,   
+					align : 'center',
+					width:120
+				},
+				
+				{
+					field:'inventoryInTime' , 
+					title:'初次入库时间' ,  
+					width:200,
+					align : 'center',
+					formatter:formatDatebox
+				}  ,
+				{
+					field:'supplier' , 
+					title:'供应商' ,
+					align : 'center',
+					width:180
+				},
+				{
+					field:'unsalableDays' , 
+					title:'滞销天数' ,
+					align : 'center',
+					width:100
+				}
+			]] ,
+		});
+	 var obj = '{"total":1,"rows":[{"infoContent":"'+infoContent+'","inventoryInTime":"'+time+'","supplier":"'+supplier+'","unsalableDays":"'+unsalableDays+'"}]}';    
+	 var data = $.parseJSON(obj);                //json字符串转成json对象  
+	 $('#detail').datagrid('loadData',data);  
 	$("#win").window('open');
 }
   </script>

@@ -145,7 +145,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7281" class="ax_default text_field">
-              <input id="u7281_input" name="commodityCode" type="text" placeholder="模糊查询"/>
+              <input id="u7281_input" name="commodityCode" type="text" placeholder="请输入商品编号"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -177,7 +177,7 @@
 
             <!-- Unnamed (下拉列表框) -->
             <div id="u7288" class="ax_default droplist">
-              <input id="u7288_input" name="catalogName" type="text">
+              <input id="u7288_input" name="catalogName" type="text" placeholder="请输入商品名称">
             </div>
 
             <!-- Unnamed (下拉列表框) -->
@@ -462,7 +462,7 @@
 					   	editable:true,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
-						panelHeight:'auto',
+						//panelHeight:'auto',
 						onChange:function(value){
 					    	if(value!=''&&value!=null){
 					    		//型号
@@ -473,7 +473,7 @@
 								   	editable:true,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
-									panelHeight:'auto'
+									//panelHeight:'auto'
 								 }); 
 						    }
 					    	}
@@ -518,12 +518,12 @@
 	  var end=$('#u7278_input').datebox('getValue');
 	  var supplierId=$('#supplierId').combobox('getValue');
 	  var operationType=$('#u7309_input').val();
-	  if(start.length==0 || end.length==0){
-		  $.messager.alert('警告','必须选择时间范围','warning');
-			return;
-	  }
 	  var d1 = formatDatebox(start);
 		var d2 = formatDatebox(end);
+		if(start.length==0 || end.length==0){
+			  $.messager.alert('警告','必须选择时间范围','warning');
+				return;
+		  }
 		if(start && end && d1>d2){
 			$.messager.alert('警告','结束时间要大于开始时间','warning');
 			return;
@@ -553,6 +553,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					showFooter:true,
 					queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
@@ -581,11 +582,13 @@
 					columns:[[
 						{
 							field:'orgName' , 
-							title:'组织机构' ,       
+							title:'组织机构' , 
+							align : 'center',
 							width:150
 						},{
 							field:'supplier' ,
 							title:'供应商' ,
+							align : 'center',
 							width:120 
 						},{
 							field:'operationType' ,
@@ -595,14 +598,15 @@
 							formatter:function(value)	{
 								if(value=='1'){
 									return '购销'
-								}else{
+								}else if(value=='2'){
 									return '代销'
 								}
 							}
 						},
 						{
 							field:'commodityCode' , 
-							title:'商品编码' ,  
+							title:'商品编码' , 
+							align : 'center',
 							width:200,
 							
 						}  ,
@@ -610,6 +614,7 @@
 						{
 							field:'commodityName' , 
 							title:'商品名称' ,
+							align : 'center',
 							width:180
 						},
 						
@@ -722,10 +727,16 @@
 							}
 						}
 					]] ,
+					
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
+					
 				});
+			 	
+				/*  */
+		   
+			 	
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
 		 }else{
@@ -739,6 +750,7 @@
 					fit:true ,
 					height:450 ,
 					url:'/getPurcaseCollect' ,
+					showFooter:true,
 					//fitColumns:true ,  
 					//striped: true ,					//隔行变色特性 
 					//nowrap: false ,				//折行显示 为true 显示在一会 
@@ -772,11 +784,13 @@
 					columns:[[
 						{
 							field:'orgName' , 
-							title:'组织机构' ,       
+							title:'组织机构' ,  
+							align : 'center',
 							width:150
 						},{
 							field:'supplier' ,
 							title:'供应商' ,
+							align : 'center',
 							width:120 
 						},{
 							field:'operationType' ,
@@ -786,7 +800,7 @@
 							formatter:function(value)	{
 								if(value=='1'){
 									return '购销'
-								}else{
+								}else if(value=='2'){
 									return '代销'
 								}
 							}
@@ -874,6 +888,7 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
+				
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
 		 }
@@ -951,7 +966,7 @@
 								   	editable:true,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
-									panelHeight:'auto'
+									//panelHeight:'auto'
 								 }); 
 						    }
 					    	}

@@ -64,6 +64,12 @@ public class InventoryWarnController {
 				if(StringUtils.equals("0", condition.getCatalogName())) {
 					condition.setCatalogName(null);
 				}
+				if(StringUtils.equals("0", condition.getBrandName())) {
+					condition.setBrandName(null);
+				}
+				if(StringUtils.equals("0", condition.getModelName())) {
+					condition.setModelName(null);
+				}
 				List<String> strs = new ArrayList<String>();
 				List<Organization> orgs=con.organizationList(condition.getOrgId());
 				for (Organization organization : orgs) {
@@ -87,6 +93,9 @@ public class InventoryWarnController {
 	@ResponseBody
 	public String getWarehouseList(HttpServletRequest request) {
 		String orgId=request.getParameter("orgId");
+		if(StringUtils.equals("0", orgId)) {
+			orgId=null;
+		}
 		String schemaName=request.getParameter("schemaName");
 		return con.getWarehouseList(orgId, schemaName);
 	}

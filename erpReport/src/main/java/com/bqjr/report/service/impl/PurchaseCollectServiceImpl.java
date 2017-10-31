@@ -33,6 +33,16 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	@Override
 	public Map<String, Object> getpurchaseCollectList(int pageNum,int pageSize,SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		 int purchaseCount=0;//采购订单数量
+		 float purchaseAmount=0;//采购订单总价
+		 int wareInCount=0;//入库数量
+		 float wareInAmount=0;//入库金额
+		 int refundsCount=0;//退货数量
+		 float refundsAmount=0;
+		 int exchangeInCount=0;
+		 float exchangeInAmount=0;
+		 int exchangeOutCount=0;
+		 float exchangeOutAmount=0;
 		List<String> codes = new ArrayList<String>();
 		PageHelper.startPage(pageNum, pageSize);
 		List<PurchaseCollect> list = mapper.getpurchaseCollectList(condition);
@@ -52,21 +62,50 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 			//实际采购金额
 			p.setActualPurchaseAmount(Float.valueOf(p.getWareInAmount())-Float.valueOf(p.getRefundsAmount())+Float.valueOf(p.getExchangeInAmount())-Float.valueOf(p.getExchangeOutAmount())+"");
 			codes.add(p.getCommodityCode());
+			 
+			 purchaseCount+=Integer.valueOf(p.getPurchaseCount());
+			 purchaseAmount+=Float.valueOf(p.getPurchaseAmount());
+			 wareInCount+=Integer.valueOf(p.getWareInCount());
+			 wareInAmount+=Float.valueOf(p.getWareInAmount());
+			 refundsCount+=Integer.valueOf(p.getRefundsCount());
+			 refundsAmount+=Float.valueOf(p.getRefundsAmount());
+			 exchangeInCount+=Integer.valueOf(p.getExchangeInCount());
+			 exchangeInAmount+=Float.valueOf(p.getExchangeInAmount());
+			 exchangeOutCount+=Integer.valueOf(p.getExchangeOutCount());
+			 exchangeOutAmount+=Float.valueOf(p.getExchangeOutAmount());
 		}
+		PurchaseCollect p = new PurchaseCollect();
+		p.setPurchaseCount(purchaseCount+"");
+		p.setPurchaseAmount(purchaseAmount+"");
+		p.setWareInCount(wareInCount+"");
+		p.setWareInAmount(wareInAmount+"");
+		p.setRefundsCount(refundsCount+"");
+		p.setRefundsAmount(refundsAmount+"");
+		p.setExchangeInCount(exchangeInCount+"");
+		p.setExchangeInAmount(exchangeInAmount+"");
+		p.setExchangeOutCount(exchangeOutCount+"");
+		p.setExchangeOutAmount(exchangeOutAmount+"");
+		if(condition.getType()==1) {
+			p.setCommodityName("总计");
+		}else {
+			p.setSupplier("总计");
+		}
+		
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
 		if(condition.getType()==1&&codes.size()>0) {
 			specs = mapper.getSpecList(codes);
 		}
-		for (PurchaseCollect p : list) {
+		for (PurchaseCollect pc : list) {
 			String str="";
 			for (SearchCondition s : specs) {
-				if(StringUtils.equals(p.getCommodityCode(), s.getCommodityCode())) {
+				if(StringUtils.equals(pc.getCommodityCode(), s.getCommodityCode())) {
 					str+=s.getSpecName()+":"+s.getSpecItem()+"/";
 				}
-				p.setSpec(str);
+				pc.setSpec(str);
 		}
 		}
 		PageInfo pageInfo = new PageInfo(list);
+		//list.add(p);
 		map.put("rows", list);
 		map.put("total", pageInfo.getTotal());
 		return map;
@@ -77,7 +116,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();
 		d.setId("0");
-		d.setText("==请选择==");
+		d.setText("请选择");
 		d.setSelected(true);
 		listStages.add(d);
 		for(SearchCondition dic : list){
@@ -94,7 +133,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();
 		d.setId("0");
-		d.setText("==请选择==");
+		d.setText("请选择");
 		d.setSelected(true);
 		listStages.add(d);
 		for(SearchCondition dic : list){
@@ -111,7 +150,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();
 		d.setId("0");
-		d.setText("==请选择==");
+		d.setText("请选择");
 		d.setSelected(true);
 		listStages.add(d);
 		for(SearchCondition dic : list){
@@ -126,6 +165,11 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	public String getBrandList(String id, String schemaName, String catalogCode) {
 		List<SearchCondition> list = mapper.getBrandList(id, schemaName,catalogCode);
 		List<Option> listStages=new ArrayList<Option>();
+		Option d=new Option();
+		d.setId("0");
+		d.setText("请选择");
+		d.setSelected(true);
+		listStages.add(d);
 		for(SearchCondition dic : list){
 			Option opt=new Option();
 			opt.setId(dic.getBrandCode());
@@ -138,6 +182,11 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	public String getModelList(String id, String schemaName, String brandCode) {
 		List<SearchCondition> list = mapper.getModelList(id, schemaName,brandCode);
 		List<Option> listStages=new ArrayList<Option>();
+		Option d=new Option();
+		d.setId("0");
+		d.setText("请选择");
+		d.setSelected(true);
+		listStages.add(d);
 		for(SearchCondition dic : list){
 			Option opt=new Option();
 			opt.setId(dic.getModelCode());
