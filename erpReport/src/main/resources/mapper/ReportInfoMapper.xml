@@ -16,67 +16,71 @@
 	</select>
 
 	<select id="getInfoByOrganizationId" parameterType="com.bqjr.report.model.OrganizationBean"
-		resultType="com.bqjr.report.model.OrganizationVo">
-		select cso.pk_id,
+		resultType="com.bqjr.report.model.OrganizationBudget">
+		select cso.schema_name,cso.pk_id,
 		cso.org_name orgName,
 		(select sum(fooi.total) from
 		finance_org_other_income fooi
-		where fooi.org_id = cso.pk_id and
-		fooi.status = '1'
+		where fooi.org_id = cso.pk_id
+		and fooi.schema_name=cso.schema_name
+		and fooi.status = '1'
 		and fooi.delete_flag = '1'
-		and last_up_time between
-		#{beginDay} and #{endDay}
-		group by org_id,org_name) income,
+		and last_up_time between #{start} and #{end}
+		group by schema_name,org_id,org_name) income,
 		(select
 		sum(fooe.total)
 		from finance_org_other_expend fooe
-		where fooe.org_id =
-		cso.pk_id
+		where fooe.org_id =cso.pk_id
+		and fooe.schema_name=cso.schema_name
 		and fooe.status = '1'
 		and fooe.delete_flag = '1'
-		and last_up_time between #{beginDay} and #{endDay}
-		group by org_id,org_name) expend
+		and last_up_time between #{start} and #{end}
+		group by schema_name,org_id,org_name) expend
 		from c_sys_organization cso
-		where cso.pk_id in
-		<foreach collection="list" item="pkIds" open="(" separator=","
+		where cso.delete_flag='1'
+		and cso.org_enable='1'
+		and cso.schema_name=#{schemaName}
+		and cso.pk_id in
+		<foreach collection="orgs" item="org" open="(" separator=","
 			close=")">
-			#{pkIds}
+			#{org}
 		</foreach>
-		group by cso.pk_id, cso.org_name
 	</select>
 
-	<select id="getIncomeByBusinessType" parameterType="com.bqjr.report.model.OrganizationBean"
-		resultType="com.bqjr.report.model.OrganizationVo">
-		select org_name orgName,'1' businessType,business_name businessName,sum(total) income
+	<select id="getIncomeByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
+		resultType="com.bqjr.report.model.OrganizationBudget">
+		select org_name orgName,'收入' businessType,business_name businessName,sum(total) money
 		from finance_org_other_income
 		where status = '1'
 		and delete_flag = '1'
-		<if test="businessType != null and businessType != '' ">
-			and business_type = #{businessType}
-		</if>
-		and last_up_time between #{beginDay} and #{endDay}
+		and schema_name=#{schemaName}
+		<if test="businessId != null">
+ 			and business_id=#{businessId}
+ 		</if>
+		and last_up_time between #{start} and #{end}
 		and org_id in
-		<foreach collection="list" item="pkIds" open="(" separator=","
+		<foreach collection="orgs" item="org" open="(" separator=","
 			close=")">
-			#{pkIds}
+			#{org}
 		</foreach>
 		group by org_id,org_name,business_id,business_name
 	</select>
 	
-	<select id="getExpendByBusinessType" parameterType="com.bqjr.report.model.OrganizationBean"
-		resultType="com.bqjr.report.model.OrganizationVo">
-		select org_name orgName,'1' businessType,business_name businessName,sum(total) expend
+	<select id="getExpendByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
+		resultType="com.bqjr.report.model.OrganizationBudget">
+		select org_name orgName,'支出' businessType,business_name businessName,sum(total) money
 		from finance_org_other_expend
 		where status = '1'
 		and delete_flag = '1'
-		<if test="businessType != null and businessType != '' ">
-			and business_type = #{businessType}
-		</if>
-		and last_up_time between #{beginDay} and #{endDay}
+		and schema_name=#{schemaName}
+		and last_up_time between #{start} and #{end}
+		<if test="businessId != null">
+ 			and business_id=#{businessId}
+ 		</if>
 		and org_id in
-		<foreach collection="list" item="pkIds" open="(" separator=","
+		<foreach collection="orgs" item="org" open="(" separator=","
 			close=")">
-			#{pkIds}
+			#{org}
 		</foreach>
 		group by org_id,org_name,business_id,business_name
 	</select>

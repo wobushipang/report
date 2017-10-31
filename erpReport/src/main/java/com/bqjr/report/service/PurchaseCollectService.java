@@ -26,4 +26,6 @@ public interface PurchaseCollectService {
 	public String getBrandList(String id,String schemaName,String catalogCode);
 	
 	public String getModelList(String id,String schemaName,String modelCode);
+	
+	public String getBusinessList(String schemaName, String businessType);
 }

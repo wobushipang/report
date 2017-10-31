@@ -1,779 +1,923 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bqjr.report.mapper.ReportMapper">
- 
-  <select id="getpurchaseCollectList" resultType="com.bqjr.report.model.PurchaseCollect" parameterType="com.bqjr.report.model.SearchCondition">
-  	select tt.schema_name,
-  	<if test="type==1">
-       t1.commodity_name commodityName,
-       t1.commodity_code commodityCode,
-       tt.commodity_info_id,
-       (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
-       (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
-       (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
-     </if>
-     	(select t5.org_name from c_sys_organization t5 where tt.org_id=t5.pk_id) as orgName,
-       (select ps.supplier_name from purchase_supplier ps where ps.pk_id=tt.supplier_id) supplier,
-       tt.org_id,
-       tt.operation_type operationType,
-       
-       purchaseCount,
-       purchaseAmount,
-       wareInCount,
-       wareInAmount,
-       refundsCount,
-       refundsAmount,
-       exchangeInCount,
-       exchangeInAmount,
-       exchangeOutCount,
-       exchangeOutAmount from(
-select t11.schema_name,
-       t11.supplier_id,
-       t11.org_id,
-       t11.operation_type,
-    <if test="type==1">
-       t11.commodity_info_id,
-    </if>
-       purchaseCount,
-       purchaseAmount,
-       wareInCount,
-       wareInAmount,
-       refundsCount,
-       refundsAmount,
-       exchangeInCount,
-       exchangeInAmount,
-       exchangeOutCount,
-       exchangeOutAmount
-  from 
- 
-                   
-                   
-          <!-- 入库数量，入库金额  -->
- (select pwi.schema_name,
-         
-         pwi.supplier_id,
-         pwi.org_id,
-         pwi.operation_type,
-         <if test="type==1">
-         wic.commodity_info_id,
-         </if>
-         sum(wic.quantity) as wareInCount,
-         sum(wic.total_amount) as wareInAmount
-    from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
-   where pwi.delete_flag = 1
-     and pwi.warehouse_in_status = 1
-     and wic.delete_flag = 1
-     and wic.create_time between #{start} and #{end}
-     <if test="supplierId!=null and supplierId!=''">
-     and pwi.supplier_id=#{supplierId}
-     </if>
-     <if test="operationType!=null and operationType!=''">
-     and pwi.operation_type=#{operationType}
-     </if>
-     and pwi.org_id in
-     <foreach collection="orgs" open="(" close=")" item="org" separator=",">
-     	#{org}
-     </foreach>
-     and pwi.schema_name = wic.schema_name
-     and pwi.pk_id = wic.warehouse_in_id
-     
-   group by pwi.schema_name,
-            pwi.supplier_id,
-            pwi.org_id,
-            <if test="type==1">
-            wic.commodity_info_id,
-            </if>
-            pwi.operation_type         
-                   ) t11
 
-  left join
-<!-- 退货数量，退货金额 -->
- (select pr.schema_name,
-         pr.supplier_id,
-         pr.org_id,
-         pr.operation_type,
-         <if test="type==1">
-         prc.commodity_info_id,
-         </if>
-         nvl(sum(prc.quantity),0) as refundsCount,
-         nvl(sum(prc.total_amount),0) as refundsAmount
-    from purchase_refunds pr, purchase_refunds_commodity prc
-   where pr.delete_flag = 1
-     and pr.refunds_status = 1
-     and prc.delete_flag = 1
-     and pr.create_time between #{start} and #{end}
-     and pr.schema_name = prc.schema_name
-     and pr.pk_id = prc.refunds_id
-   group by pr.schema_name,
-            pr.supplier_id,
-            pr.org_id,
-            <if test="type==1">
-            prc.commodity_info_id,
-            </if>
-            pr.operation_type
-            ) t22
-    on t11.schema_name = t22.schema_name
-   and t11.supplier_id = t22.supplier_id
-   and t11.org_id = t22.org_id
-   and t11.operation_type = t22.operation_type
-   <if test="type==1">
-   and t11.commodity_info_id = t22.commodity_info_id
-   </if>
-
-  left join
-	<!-- 采购数量，采购金额， -->
-        (select po.schema_name,
-                po.supplier_id,
-                po.purchase_org_id org_id,
-                po.operation_type,
-              <if test="type==1">
-                poc.commodity_info_id,
-              </if>
-                sum(poc.order_quantity) as purchaseCount,
-                sum(poc.order_total_amount) as purchaseAmount
-           from purchase_order po, purchase_order_commodity poc
-          where po.delete_flag = 1
-            and po.purchase_status = 4
-            and poc.create_time between #{start} and #{end}
-            and poc.delete_flag = 1
-            and po.schema_name = poc.schema_name
-           <!--  <if test="">
-            
-            </if> -->
-            and po.pk_id = poc.purchase_order_id
-          group by po.schema_name,
-                   po.supplier_id,
-                   po.purchase_org_id,
-                 <if test="type==1">
-                   poc.commodity_info_id,
-                 </if>
-                   po.operation_type
-            ) t33
-    on t11.schema_name = t33.schema_name
-   and t11.supplier_id = t33.supplier_id
-   and t11.org_id = t33.org_id
-   and t11.operation_type = t33.operation_type
-   <if test="type==1">
-   and t11.commodity_info_id = t33.commodity_info_id
-   </if>
-
-  left join
-<!-- 换入数量，换入金额 -->
- (select pe.schema_name,
-         pe.supplier_id,
-         pe.org_id,
-         pe.operation_type,
-         <if test="type==1">
-         peic.commodity_info_id,
-         </if>
-         sum(peic.quantity) as exchangeInCount,
-         sum(peic.total_amount) as exchangeInAmount
-    from purchase_exchange pe, purchase_exchange_in_commodity peic
-   where pe.delete_flag = 1
-     and pe.exchange_status = 1
-     and peic.delete_flag = 1
-     and peic.create_time between #{start} and #{end}
-     and pe.schema_name = peic.schema_name
-     and pe.pk_id = peic.exchange_id
-   group by pe.schema_name,
-            pe.supplier_id,
-            pe.org_id,
-            <if test="type==1">
-            peic.commodity_info_id,
-            </if>
-            pe.operation_type
-            ) t44
-    on t11.schema_name = t44.schema_name
-   and t11.supplier_id = t44.supplier_id
-   and t11.org_id = t44.org_id
-   and t11.operation_type = t44.operation_type
-   <if test="type==1">
-   and t11.commodity_info_id = t44.commodity_info_id
-   </if>
-
-  left join
-<!-- 换出数量，换出金额 -->
- (select pe.schema_name,
-         pe.supplier_id,
-         pe.org_id,
-         pe.operation_type,
-         <if test="type==1">
-         peoc.commodity_info_id,
-         </if>
-         sum(peoc.quantity) as exchangeOutCount,
-         sum(peoc.total_amount) as exchangeOutAmount
-    from purchase_exchange pe, urchase_exchange_out_commodity peoc
-   where pe.delete_flag = 1
-     and pe.exchange_status = 1
-     and peoc.delete_flag = 1
-     and peoc.create_time between #{start} and #{end}
-     and pe.schema_name = peoc.schema_name
-     and pe.pk_id = peoc.exchange_id
-   group by pe.schema_name,
-            pe.supplier_id,
-            pe.org_id,
-            <if test="type==1">
-            peoc.commodity_info_id,
-            </if>
-            pe.operation_type
-            ) t55
-    on t11.schema_name = t55.schema_name
-   and t11.supplier_id = t55.supplier_id
-   and t11.org_id = t55.org_id
-   and t11.operation_type = t55.operation_type
-   <if test="type==1">
-   and t11.commodity_info_id = t55.commodity_info_id
-   </if>
-   ) tt
-   <if test="type==1">
-   ,c_commodity t1
-   where t1.delete_flag = 1
-   and t1.schema_name = tt.schema_name
-   and t1.pk_id = tt.commodity_info_id
-   <if test="commodityCode!=null and commodityCode!=''">
-   and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="commodityName!=null and commodityName!=''">
-   and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="brandName!=null and brandName!=''">
-   and t1.brand_code=#{brandName, jdbcType=VARCHAR}
-   </if>
-   <if test="catalogName!=null and catalogName!=''">
-   and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
-   </if>
-   <if test="modelName!=null and modelName!=''">
-   and t1.model_code=#{modelName, jdbcType=VARCHAR}
-   </if>
-  	</if>
-  </select>
-  
-  <select id="getOrgList"  resultType="com.bqjr.report.model.SearchCondition">
-  	select t.pk_id as orgId,t.org_name as orgName from C_SYS_ORGANIZATION t where t.delete_flag=1 and t.schema_name=#{schemaName} and t.parent_id=#{orgId}
-  </select>
- <select id="getSupplierList"  resultType="com.bqjr.report.model.SearchCondition">
- 	select t.pk_id as supplierId ,t.supplier_name as supplierName from purchase_supplier t where t.delete_flag=1 and t.supplier_status=3
- 	<if test="orgId!=null and orgId!=''">
- 		and t.org_id=#{orgId, jdbcType=VARCHAR}
- 	</if>
- 	 and t.schema_name=#{schemaName} 
- 	
- </select>
- <select id="getCatalogList" resultType="com.bqjr.report.model.SearchCondition">
- 	select t.catalog_code as catalogCode,t.catalog_name as catalogName from c_commodity_catalog t where t.delete_flag=1 and t.status=2 and t.schema_name= #{schemaName}
- </select>
- <select id="getBrandList" resultType="com.bqjr.report.model.SearchCondition">
- 	select b.brand_code as brandCode,b.brand_name as brandName from c_commodity_brand b where b.delete_flag=1 and b.status=2 and b.brand_code in
-(select t.brand_code from c_commodity_catalog2brand t where t.delete_flag=1 and t.schema_name=#{schemaName} 
-<if test="catalogCode!=null and catalogCode!=''">
-and t.catalog_code=#{catalogCode}
-</if>
-)
- </select>
- <select id="getModelList" resultType="com.bqjr.report.model.SearchCondition">
- 	select t.model_code as modelCode,t.model_name as modelName from c_commodity_model t where t.delete_flag=1 and t.status=2 and t.schema_name=#{schemaName} 
- 	<if test="brandCode!=null and brandCode!=''">
- 	and t.brand_code=#{brandCode}
- 	</if>
- </select>
- 
- <select id="getProxySaleList" resultType="com.bqjr.report.model.ProxySale" parameterType="com.bqjr.report.model.SearchCondition">
- 	select 
-tot.schema_name schemaName,
-
-tot.org_id,
-tot.supplier_id,
-(select t.supplier_name as supplierName from purchase_supplier t where t.pk_id=tot.supplier_id) as supplier,
-<if test="type==1">
-t1.commodity_name commodityName,
-       t1.commodity_code commodityCode,
-       tot.commodity_pk_id,
-       (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
-       (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
-       (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
-       </if>
-       (select t5.org_name from c_sys_organization t5 where tot.org_id=t5.pk_id) as orgName,
-<if test="type==2">
-ps.price_method priceMethod,
-ps.price_ratio priceRatio,
-ps.supplier_name supplierName ,
-</if>
-tot.saleOrderNum saleOrderNum,
-tot.actualAmount actualAmount,
-tot.saleOrderAmount saleOrderAmount,
-tot.saleGiftNum saleGiftNum,
-tot.returnNumGift returnNumGift,
-tot.returnNum returnNum,
-tot.returnAmount returnAmount,
-
-tot.inventoryNum inventoryNum,
-tot.refundsCount refundsCount,
-tot.refundsAmount refundsAmount,
-tot.wareInCount wareInCount,
-tot.wareInAmount wareInAmount,
-tot.exchangeInCount exchangeInCount,
-tot.exchangeInAmount exchangeInAmount,
-tot.exchangeOutCount exchangeOutCount,
-tot.exchangeOutAmount exchangeOutAmount
-<if test="type==2">
-,
-tot.accountAmount accountAmount,
-tot.proceedsAmount proceedsAmount </if>from(
-select 
-tt1.schema_name,
-<if test="type==1">
-tt1.commodity_pk_id,
-</if>
-tt1.org_id,
-tt1.supplier_id,
-tt1.saleOrderNum saleOrderNum,
-tt1.actualAmount actualAmount,
-tt1.saleOrderAmount saleOrderAmount,
-tt2.saleGiftNum saleGiftNum,
-tt3.returnNumGift returnNumGift, 
-tt4.returnNum returnNum,
-tt4.returnAmount returnAmount,
-tt5.inventoryNum,
-t22.refundsCount,
-t22.refundsAmount,
-t33.wareInCount,
-t33.wareInAmount,
-t44.exchangeInCount,
-t44.exchangeInAmount,
-t55.exchangeOutCount,
-t55.exchangeOutAmount
-<if test="type==2">
-,
-t66.accountAmount,
-t66.proceedsAmount</if>
-from
-<!-- (select cd.schema_name, cd.org_id,cad.supplier_id
-<if test="type==1">
-,cad.commodity_pk_id , cad.commodity_code  
-</if>
-from market_commodity_add_details cad,market_commodity_add cd where cad.delete_flag=1 and cd.delete_flag=1 and cad.details_status=1 and cd.order_status=1 or cd.order_status=3
-and cad.operation_type=2  and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number
-group by  cd.schema_name, cd.org_id,cad.supplier_id
-<if test="type==1">
-,cad.commodity_pk_id 
-, cad.commodity_code
-</if>
-) tt1
-left join -->
-<!-- 销售（非赠品） -->
-(select cd.schema_name , cd.org_id,cad.supplier_id,
-<if test="type==1">
-cad.commodity_pk_id, cad.commodity_code, 
-</if>
-sum(cad.commodity_num) saleOrderNum,sum(cd.actual_amount) actualAmount, sum(cad.commodity_price*cad.commodity_num) saleOrderAmount from market_commodity_add_details cad,market_commodity_add cd where (cd.order_status=1 or cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and cad.details_status=1 
-and cad.operation_type=2 and cad.complimentary_mark=0 
-and cd.last_up_time between #{start, jdbcType=VARCHAR} and #{end, jdbcType=VARCHAR} 
-and cd.org_id in
-     <foreach collection="orgs" open="(" close=")" item="org" separator=",">
-     	#{org}
-     </foreach>
-<if test="supplierId!=null and supplierId!=''">
-and cad.supplier_id=#{supplierId}
-</if>
-and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number
-group by cd.schema_name, cd.org_id,cad.supplier_id
-<if test="type==1">
-, cad.commodity_code,cad.commodity_pk_id
-</if>
-) tt1
-<!-- on tt1.schema_name =tt.schema_name
-and tt1.org_id =tt.org_id
-and tt1.supplier_id =tt.supplier_id 
-<if test="type==1">
-and tt1.commodity_code =tt.commodity_code
-</if>-->
-
-left join
-<!-- 销售（赠品） -->
-(select cd.schema_name, cd.org_id,cad.supplier_id, 
-<if test="type==1">
-cad.commodity_code, 
-</if>
-sum(cad.commodity_num) saleGiftNum from market_commodity_add_details cad,market_commodity_add cd where (cd.order_status=1 or cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and cad.details_status=1 
-and cad.operation_type=2 and cad.complimentary_mark=1 
-and cd.last_up_time between #{start} and #{end}
-and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number
-group by cd.schema_name, cd.org_id,cad.supplier_id
-<if test="type==1">
-, cad.commodity_code
-</if>
-) tt2
-on tt1.schema_name =tt2.schema_name
-and tt1.org_id =tt2.org_id
-and tt1.supplier_id =tt2.supplier_id
-<if test="type==1">
-and tt1.commodity_code =tt2.commodity_code
-</if>
-
-left join
-<!-- 退货（赠品） -->
-(select mcr.schema_name,mcr.org_id,crd.supplier_id
-<if test="type==1">
-,crd.commodity_code
-</if>
-,sum(crd.commodity_num) returnNumGift from market_commodity_returns mcr,rket_commodity_returns_details crd where (mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and crd.details_status=2  
-and crd.operation_type=2 and crd.complimentary_mark=1 
-and mcr.last_up_time between #{start} and #{end}
-and mcr.schema_name=crd.schema_name and mcr.order_number=crd.order_number
-group by mcr.schema_name,mcr.org_id,crd.supplier_id<if test="type==1">,crd.commodity_code</if>) tt3
-on tt1.schema_name =tt3.schema_name
-and tt1.org_id =tt3.org_id
-and tt1.supplier_id =tt3.supplier_id
-<if test="type==1">
-and tt1.commodity_code =tt3.commodity_code
-</if>
-
-left join
-<!-- 退货（非赠品） -->
-(select mcr.schema_name,mcr.org_id,crd.supplier_id<if test="type==1">,crd.commodity_code</if>,sum(crd.commodity_num) returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount from market_commodity_returns mcr,rket_commodity_returns_details crd where (mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and crd.details_status=2 
-and crd.operation_type=2 and crd.complimentary_mark=0 
-and mcr.last_up_time between #{start} and #{end}
-and mcr.schema_name=crd.schema_name and mcr.order_number=crd.order_number
-group by mcr.schema_name,mcr.org_id,crd.supplier_id<if test="type==1">,crd.commodity_code</if>) tt4
-on tt1.schema_name =tt4.schema_name
-and tt1.org_id =tt4.org_id
-and tt1.supplier_id =tt4.supplier_id
-<if test="type==1">
-and tt1.commodity_code =tt4.commodity_code
-</if>
-
-left join
-<!-- 库存数量 -->
-(select ii.schema_name,ii.supplier_id<if test="type==1">,ii.commodity_info_id</if>,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii where ii.delete_flag=1 and ii.operation_type=2 
-and ii.last_up_time between #{start} and #{end}
-group by ii.schema_name,ii.supplier_id<if test="type==1">,ii.commodity_info_id</if>) tt5
-on tt1.schema_name = tt5.schema_name 
-and tt1.supplier_id=tt5.supplier_id
-<if test="type==1">
-and tt1.commodity_pk_id=tt5.commodity_info_id
-</if>
-
-left join
-<!-- 退货数量，退货金额 -->
-(select   pr.schema_name,
-         pr.supplier_id,
-         pr.org_id,
+	<select id="getpurchaseCollectList" resultType="com.bqjr.report.model.PurchaseCollect"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select tt.schema_name,
 		<if test="type==1">
-         prc.commodity_info_id,
-         </if>
-         sum(prc.quantity) as refundsCount,
-         sum(prc.total_amount) as refundsAmount
-    from purchase_refunds pr, purchase_refunds_commodity prc
-   where pr.delete_flag = 1
-     and pr.refunds_status = 1
-     and prc.delete_flag = 1
-     and pr.operation_type=2
-     and pr.last_up_time between #{start} and #{end}
-     and pr.schema_name = prc.schema_name
-     and pr.pk_id = prc.refunds_id
-   group by pr.schema_name,
-            pr.supplier_id,
-            pr.org_id
-            <if test="type==1">
-            ,prc.commodity_info_id
-            </if>) t22
-on tt1.schema_name =t22.schema_name
-and tt1.org_id =t22.org_id
-and tt1.supplier_id =t22.supplier_id
-<if test="type==1">
-and tt1.commodity_pk_id =t22.commodity_info_id   
-</if>
- 
-left join
+			t1.commodity_name commodityName,
+			t1.commodity_code commodityCode,
+			tt.commodity_info_id,
+			(select t2.brand_name from c_commodity_brand t2 where t2.status=2 and
+			t2.delete_flag=1 and t2.from_type=t1.from_type and
+			t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as
+			brandName,
+			(select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and
+			t3.delete_flag=1 and t3.from_type=t1.from_type and
+			t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as
+			catalogName,
+			(select t4.model_name from c_commodity_model t4 where t4.status=2 and
+			t4.delete_flag=1 and t4.from_type=t1.from_type and
+			t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as
+			modelName,
+			(select t7.spec_item_name from c_commodity_spec_item t7 where
+			t7.delete_flag=1 and t1.schema_name=t7.schema_name and
+			t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6
+			where t6.delete_flag=1 and t1.schema_name=t6.schema_name and
+			t1.org_id=t6.org_id and t6.commodity_code=t1.commodity_code)) spec,
+		</if>
+		(select t5.org_name from c_sys_organization t5 where
+		tt.org_id=t5.pk_id) as orgName,
+		(select ps.supplier_name from purchase_supplier ps where
+		ps.pk_id=tt.supplier_id) supplier,
+		tt.org_id,
+		tt.operation_type operationType,
 
-<!-- 入库数量，入库金额  -->
- (select pwi.schema_name,
-         
-         pwi.supplier_id,
-         pwi.org_id,
+		purchaseCount,
+		purchaseAmount,
+		wareInCount,
+		wareInAmount,
+		refundsCount,
+		refundsAmount,
+		exchangeInCount,
+		exchangeInAmount,
+		exchangeOutCount,
+		exchangeOutAmount from(
+		select t11.schema_name,
+		t11.supplier_id,
+		t11.org_id,
+		t11.operation_type,
 		<if test="type==1">
-         wic.commodity_info_id,
-         </if>
-         sum(wic.quantity) as wareInCount,
-         sum(wic.total_amount) as wareInAmount
-    from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
-   where pwi.delete_flag = 1
-     and pwi.warehouse_in_status = 1
-     and wic.delete_flag = 1
-     and pwi.operation_type=2
-     and pwi.last_up_time between #{start} and #{end}
-     and pwi.schema_name = wic.schema_name
-     and pwi.pk_id = wic.warehouse_in_id
-   group by pwi.schema_name,
-            pwi.supplier_id,
-            pwi.org_id
-            <if test="type==1">
-            ,wic.commodity_info_id</if>) t33
-  on tt1.schema_name =t33.schema_name
-and tt1.org_id =t33.org_id
-and tt1.supplier_id =t33.supplier_id
-<if test="type==1">
-and tt1.commodity_pk_id =t33.commodity_info_id   
-</if>   
+			t11.commodity_info_id,
+		</if>
+		purchaseCount,
+		purchaseAmount,
+		wareInCount,
+		wareInAmount,
+		refundsCount,
+		refundsAmount,
+		exchangeInCount,
+		exchangeInAmount,
+		exchangeOutCount,
+		exchangeOutAmount
+		from
 
-left join
-<!-- 换入数量，换入金额 -->
- (select pe.schema_name,
-         pe.supplier_id,
-         pe.org_id,
+
+
+		<!-- 入库数量，入库金额 -->
+		(select pwi.schema_name,
+
+		pwi.supplier_id,
+		pwi.org_id,
+		pwi.operation_type,
 		<if test="type==1">
-         peic.commodity_info_id,
-         </if>
-         sum(peic.quantity) as exchangeInCount,
-         sum(peic.total_amount) as exchangeInAmount
-    from purchase_exchange pe, purchase_exchange_in_commodity peic
-   where pe.delete_flag = 1
-     and pe.exchange_status = 1
-     and peic.delete_flag = 1
-     and pe.operation_type=2
-     and pe.last_up_time between #{start} and #{end}
-     and pe.schema_name = peic.schema_name
-     and pe.pk_id = peic.exchange_id
-   group by pe.schema_name,
-            pe.supplier_id,
-            pe.org_id
-            <if test="type==1">
-            ,peic.commodity_info_id</if>) t44
-  on tt1.schema_name =t44.schema_name
-and tt1.org_id =t44.org_id
-and tt1.supplier_id =t44.supplier_id
-<if test="type==1">
-and tt1.commodity_pk_id =t44.commodity_info_id 
-</if>       
+			wic.commodity_info_id,
+		</if>
+		sum(wic.quantity) as wareInCount,
+		sum(wic.total_amount) as wareInAmount
+		from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
+		where pwi.delete_flag = 1
+		and pwi.warehouse_in_status = 1
+		and wic.delete_flag = 1
+		and wic.create_time between #{start} and #{end}
+		<if test="supplierId!=null and supplierId!=''">
+			and pwi.supplier_id=#{supplierId}
+		</if>
+		<if test="operationType!=null and operationType!=''">
+			and pwi.operation_type=#{operationType}
+		</if>
+		and pwi.org_id in
+		<foreach collection="orgs" open="(" close=")" item="org"
+			separator=",">
+			#{org}
+		</foreach>
+		and pwi.schema_name = wic.schema_name
+		and pwi.pk_id = wic.warehouse_in_id
 
-left join
-<!--  换出数量，换出金额  -->
- (select pe.schema_name,
-         pe.supplier_id,
-         pe.org_id,
+		group by pwi.schema_name,
+		pwi.supplier_id,
+		pwi.org_id,
 		<if test="type==1">
-         peoc.commodity_info_id,
-         </if>
-         sum(peoc.quantity) as exchangeOutCount,
-         sum(peoc.total_amount) as exchangeOutAmount
-    from purchase_exchange pe, urchase_exchange_out_commodity peoc
-   where pe.delete_flag = 1
-     and pe.exchange_status = 1
-     and peoc.delete_flag = 1
-     and pe.operation_type=2
-     and pe.last_up_time between #{start} and #{end}
-     and pe.schema_name = peoc.schema_name
-     and pe.pk_id = peoc.exchange_id
-   group by pe.schema_name,
-            pe.supplier_id,
-            pe.org_id
-            <if test="type==1">
-            ,peoc.commodity_info_id</if>) t55
-   on tt1.schema_name =t55.schema_name
-and tt1.org_id =t55.org_id
-and tt1.supplier_id =t55.supplier_id
-<if test="type==1">
-and tt1.commodity_pk_id =t55.commodity_info_id </if> 
-<if test="type==2">
-left join 
-( select  mca.schema_name,mca.org_id,mca.supplier_id,sum(mca.consignment_amount) accountAmount,sum(mca.actual_receive_amount) proceedsAmount from market_consignment_account mca 
-where mca.account_status=2 and mca.delete_flag=1
-and mca.last_up_time between #{start} and #{end}
-group by mca.schema_name,mca.org_id,mca.supplier_id) t66
-on tt1.schema_name =t66.schema_name
-and tt1.org_id =t66.org_id
-and tt1.supplier_id =t66.supplier_id
-</if>
-) tot<if test="type==1">,c_commodity t1</if><if test="type==2">,purchase_supplier ps</if>
-where 1=1
-<if test="type==1">
-and t1.schema_name=tot.schema_name
-and t1.delete_flag=1 
-</if>
-<if test="type==2">
-and ps.delete_flag=1
-and ps.supplier_status=3
-and ps.operation_type=2
-and ps.schema_name=tot.schema_name
-and ps.pk_id=tot.supplier_id
-</if>
-<if test="type==1">
-and t1.pk_id=tot.commodity_pk_id
-<if test="commodityCode!=null and commodityCode!=''">
-   and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="commodityName!=null and commodityName!=''">
-   and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="brandName!=null and brandName!=''">
-   and t1.brand_code=#{brandName, jdbcType=VARCHAR}
-   </if>
-   <if test="catalogName!=null and catalogName!=''">
-   and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
-   </if>
-   <if test="modelName!=null and modelName!=''">
-   and t1.model_code=#{modelName, jdbcType=VARCHAR}
-   </if>
-</if>
+			wic.commodity_info_id,
+		</if>
+		pwi.operation_type
+		) t11
 
- 	
- </select>
- <select id="getWarehouseList" resultType="com.bqjr.report.model.SearchCondition">
- 	select t.pk_id warehouseId,t.wh_name warehouseName from storage_warehouse_info t where t.delete_flag=1 and t.wh_status=2 
- 	<if test="orgId!=null and orgId!=''">and t.org_id=#{orgId}</if> and t.schema_name=#{schemaName}
- </select>
- 
- <select id="getInventoryWarnList" resultType="com.bqjr.report.model.InventoryWarn" parameterType="com.bqjr.report.model.SearchCondition">
- 	select 
-       tt2.commodityName commodityName,
-       tt2.commodityCode commodityCode,
-       tt2.org_id orgId,
-       (select o.org_name from c_sys_organization o where o.pk_id=tt2.org_id)as orgName,
-       tt2.commodity_id commodityId,
-       tt2.catalogName catalogName,
-       tt2.brandName brandName,
-       tt2.modelName modelName,
-       tt2.schema_name schemaName,
-       tt2.warehouse_id warehouseId,
-       tt2.count1 inventoryNum,
-       tt2.wh_code,
-      tt2. wh_name whName,
-sew.safe_stock safeInventory,sew.unsalable_days unsalableDays from
-(select t1.commodity_name commodityName,
-       t1.commodity_code commodityCode,
-       t1.org_id,
-       t1.pk_id commodity_id,
-       (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
-       (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
-       (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
-        tt1.schema_name,tt1.warehouse_id,tt1.count1,
-        (select swi.wh_code from storage_warehouse_info swi where swi.pk_id=tt1.warehouse_id) as wh_code,
-        (select swi.wh_name from storage_warehouse_info swi where swi.pk_id=tt1.warehouse_id) as wh_name
-        
-        from
-(select ii.schema_name, ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1 from inventory_item ii,inventory_item_info iii where ii.delete_flag=1 
-group by ii.schema_name, ii.commodity_info_id,ii.warehouse_id)tt1,c_commodity t1
-where 1=1
-<if test="commodityCode!=null and commodityCode!=''">
-   and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="commodityName!=null and commodityName!=''">
-   and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="brandName!=null and brandName!=''">
-   and t1.brand_code=#{brandName, jdbcType=VARCHAR}
-   </if>
-   <if test="catalogName!=null and catalogName!=''">
-   and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
-   </if>
-   <if test="modelName!=null and modelName!=''">
-   and t1.model_code=#{modelName, jdbcType=VARCHAR}
-   </if>
-   and t1.org_id in
-     <foreach collection="orgs" open="(" close=")" item="org" separator=",">
-     	#{org}
-     </foreach>
-and tt1.commodity_info_id=t1.pk_id) tt2 ,storage_early_warning sew
-where sew.commodity_code=tt2.commodityCode
-and sew.delete_flag=1
-and sew.org_id=tt2.org_id
-and sew.safe_stock>tt2.count1
-<if test="warehouseId!=null and warehouseId!=''">
-and tt2.warehouse_id=#{warehouseId}
-</if>
-and sew.schema_name=tt2.schema_name
-and sew.wh_code=tt2.wh_code
+		left join
+		<!-- 退货数量，退货金额 -->
+		(select pr.schema_name,
+		pr.supplier_id,
+		pr.org_id,
+		pr.operation_type,
+		<if test="type==1">
+			prc.commodity_info_id,
+		</if>
+		nvl(sum(prc.quantity),0) as refundsCount,
+		nvl(sum(prc.total_amount),0) as refundsAmount
+		from purchase_refunds pr, purchase_refunds_commodity prc
+		where pr.delete_flag = 1
+		and pr.refunds_status = 1
+		and prc.delete_flag = 1
+		and pr.create_time between #{start} and #{end}
+		and pr.schema_name = prc.schema_name
+		and pr.pk_id = prc.refunds_id
+		group by pr.schema_name,
+		pr.supplier_id,
+		pr.org_id,
+		<if test="type==1">
+			prc.commodity_info_id,
+		</if>
+		pr.operation_type
+		) t22
+		on t11.schema_name = t22.schema_name
+		and t11.supplier_id = t22.supplier_id
+		and t11.org_id = t22.org_id
+		and t11.operation_type = t22.operation_type
+		<if test="type==1">
+			and t11.commodity_info_id = t22.commodity_info_id
+		</if>
+
+		left join
+		<!-- 采购数量，采购金额， -->
+		(select po.schema_name,
+		po.supplier_id,
+		po.purchase_org_id org_id,
+		po.operation_type,
+		<if test="type==1">
+			poc.commodity_info_id,
+		</if>
+		sum(poc.order_quantity) as purchaseCount,
+		sum(poc.order_total_amount) as purchaseAmount
+		from purchase_order po, purchase_order_commodity poc
+		where po.delete_flag = 1
+		and po.purchase_status = 4
+		and poc.create_time between #{start} and #{end}
+		and poc.delete_flag = 1
+		and po.schema_name = poc.schema_name
+		<!-- <if test=""> </if> -->
+		and po.pk_id = poc.purchase_order_id
+		group by po.schema_name,
+		po.supplier_id,
+		po.purchase_org_id,
+		<if test="type==1">
+			poc.commodity_info_id,
+		</if>
+		po.operation_type
+		) t33
+		on t11.schema_name = t33.schema_name
+		and t11.supplier_id = t33.supplier_id
+		and t11.org_id = t33.org_id
+		and t11.operation_type = t33.operation_type
+		<if test="type==1">
+			and t11.commodity_info_id = t33.commodity_info_id
+		</if>
+
+		left join
+		<!-- 换入数量，换入金额 -->
+		(select pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		pe.operation_type,
+		<if test="type==1">
+			peic.commodity_info_id,
+		</if>
+		sum(peic.quantity) as exchangeInCount,
+		sum(peic.total_amount) as exchangeInAmount
+		from purchase_exchange pe, purchase_exchange_in_commodity peic
+		where pe.delete_flag = 1
+		and pe.exchange_status = 1
+		and peic.delete_flag = 1
+		and peic.create_time between #{start} and #{end}
+		and pe.schema_name = peic.schema_name
+		and pe.pk_id = peic.exchange_id
+		group by pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		<if test="type==1">
+			peic.commodity_info_id,
+		</if>
+		pe.operation_type
+		) t44
+		on t11.schema_name = t44.schema_name
+		and t11.supplier_id = t44.supplier_id
+		and t11.org_id = t44.org_id
+		and t11.operation_type = t44.operation_type
+		<if test="type==1">
+			and t11.commodity_info_id = t44.commodity_info_id
+		</if>
+
+		left join
+		<!-- 换出数量，换出金额 -->
+		(select pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		pe.operation_type,
+		<if test="type==1">
+			peoc.commodity_info_id,
+		</if>
+		sum(peoc.quantity) as exchangeOutCount,
+		sum(peoc.total_amount) as exchangeOutAmount
+		from purchase_exchange pe, urchase_exchange_out_commodity peoc
+		where pe.delete_flag = 1
+		and pe.exchange_status = 1
+		and peoc.delete_flag = 1
+		and peoc.create_time between #{start} and #{end}
+		and pe.schema_name = peoc.schema_name
+		and pe.pk_id = peoc.exchange_id
+		group by pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		<if test="type==1">
+			peoc.commodity_info_id,
+		</if>
+		pe.operation_type
+		) t55
+		on t11.schema_name = t55.schema_name
+		and t11.supplier_id = t55.supplier_id
+		and t11.org_id = t55.org_id
+		and t11.operation_type = t55.operation_type
+		<if test="type==1">
+			and t11.commodity_info_id = t55.commodity_info_id
+		</if>
+		) tt
+		<if test="type==1">
+			,c_commodity t1
+			where t1.delete_flag = 1
+			and t1.schema_name = tt.schema_name
+			and t1.pk_id = tt.commodity_info_id
+			<if test="commodityCode!=null and commodityCode!=''">
+				and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="commodityName!=null and commodityName!=''">
+				and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="brandName!=null and brandName!=''">
+				and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+			</if>
+			<if test="catalogName!=null and catalogName!=''">
+				and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+			</if>
+			<if test="modelName!=null and modelName!=''">
+				and t1.model_code=#{modelName, jdbcType=VARCHAR}
+			</if>
+		</if>
+	</select>
+
+	<select id="getOrgList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.pk_id as orgId,t.org_name as orgName from C_SYS_ORGANIZATION t
+		where t.delete_flag=1 and t.schema_name=#{schemaName} and
+		t.parent_id=#{orgId}
+	</select>
+	<select id="getSupplierList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.pk_id as supplierId ,t.supplier_name as supplierName from
+		purchase_supplier t where t.delete_flag=1 and t.supplier_status=3
+		<if test="orgId!=null and orgId!=''">
+			and t.org_id=#{orgId, jdbcType=VARCHAR}
+		</if>
+		and t.schema_name=#{schemaName}
+
+	</select>
+	<select id="getCatalogList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.catalog_code as catalogCode,t.catalog_name as catalogName from
+		c_commodity_catalog t where t.delete_flag=1 and t.status=2 and
+		t.schema_name= #{schemaName}
+	</select>
+	<select id="getBrandList" resultType="com.bqjr.report.model.SearchCondition">
+		select b.brand_code as brandCode,b.brand_name as brandName from
+		c_commodity_brand b where b.delete_flag=1 and b.status=2 and
+		b.brand_code in
+		(select t.brand_code from c_commodity_catalog2brand t where t.delete_flag=1
+		and t.schema_name=#{schemaName}
+		<if test="catalogCode!=null and catalogCode!=''">
+			and t.catalog_code=#{catalogCode}
+		</if>
+		)
+	</select>
+	<select id="getModelList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.model_code as modelCode,t.model_name as modelName from
+		c_commodity_model t where t.delete_flag=1 and t.status=2 and
+		t.schema_name=#{schemaName}
+		<if test="brandCode!=null and brandCode!=''">
+			and t.brand_code=#{brandCode}
+		</if>
+	</select>
+
+	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.business_id as businessId,t.business_name as businessName
+		from finance_org_business_type t where t.delete_flag=1 and t.status=1
+		and t.schema_name=#{schemaName}
+		<if test="businessType!=null and businessType!='' and businessType!=0">
+			and t.business_type=#{businessType}
+		</if>
+	</select>
+
+	<select id="getProxySaleList" resultType="com.bqjr.report.model.ProxySale"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select
+		tot.schema_name schemaName,
+
+		tot.org_id,
+		tot.supplier_id,
+		(select t.supplier_name as supplierName from purchase_supplier t where
+		t.pk_id=tot.supplier_id) as supplier,
+		<if test="type==1">
+			t1.commodity_name commodityName,
+			t1.commodity_code commodityCode,
+			tot.commodity_pk_id,
+			(select t2.brand_name from c_commodity_brand t2 where t2.status=2 and
+			t2.delete_flag=1 and t2.from_type=t1.from_type and
+			t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as
+			brandName,
+			(select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and
+			t3.delete_flag=1 and t3.from_type=t1.from_type and
+			t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as
+			catalogName,
+			(select t4.model_name from c_commodity_model t4 where t4.status=2 and
+			t4.delete_flag=1 and t4.from_type=t1.from_type and
+			t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as
+			modelName,
+			(select t7.spec_item_name from c_commodity_spec_item t7 where
+			t7.delete_flag=1 and t1.schema_name=t7.schema_name and
+			t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6
+			where t6.delete_flag=1 and t1.schema_name=t6.schema_name and
+			t1.org_id=t6.org_id and t6.commodity_code=t1.commodity_code)) spec,
+		</if>
+		(select t5.org_name from c_sys_organization t5 where
+		tot.org_id=t5.pk_id) as orgName,
+		<if test="type==2">
+			ps.price_method priceMethod,
+			ps.price_ratio priceRatio,
+			ps.supplier_name supplierName ,
+		</if>
+		tot.saleOrderNum saleOrderNum,
+		tot.actualAmount actualAmount,
+		tot.saleOrderAmount saleOrderAmount,
+		tot.saleGiftNum saleGiftNum,
+		tot.returnNumGift returnNumGift,
+		tot.returnNum returnNum,
+		tot.returnAmount returnAmount,
+
+		tot.inventoryNum inventoryNum,
+		tot.refundsCount refundsCount,
+		tot.refundsAmount refundsAmount,
+		tot.wareInCount wareInCount,
+		tot.wareInAmount wareInAmount,
+		tot.exchangeInCount exchangeInCount,
+		tot.exchangeInAmount exchangeInAmount,
+		tot.exchangeOutCount exchangeOutCount,
+		tot.exchangeOutAmount exchangeOutAmount
+		<if test="type==2">
+			,
+			tot.accountAmount accountAmount,
+			tot.proceedsAmount proceedsAmount
+		</if>
+		from(
+		select
+		tt1.schema_name,
+		<if test="type==1">
+			tt1.commodity_pk_id,
+		</if>
+		tt1.org_id,
+		tt1.supplier_id,
+		tt1.saleOrderNum saleOrderNum,
+		tt1.actualAmount actualAmount,
+		tt1.saleOrderAmount saleOrderAmount,
+		tt2.saleGiftNum saleGiftNum,
+		tt3.returnNumGift returnNumGift,
+		tt4.returnNum returnNum,
+		tt4.returnAmount returnAmount,
+		tt5.inventoryNum,
+		t22.refundsCount,
+		t22.refundsAmount,
+		t33.wareInCount,
+		t33.wareInAmount,
+		t44.exchangeInCount,
+		t44.exchangeInAmount,
+		t55.exchangeOutCount,
+		t55.exchangeOutAmount
+		<if test="type==2">
+			,
+			t66.accountAmount,
+			t66.proceedsAmount
+		</if>
+		from
+		<!-- (select cd.schema_name, cd.org_id,cad.supplier_id <if test="type==1"> 
+			,cad.commodity_pk_id , cad.commodity_code </if> from market_commodity_add_details 
+			cad,market_commodity_add cd where cad.delete_flag=1 and cd.delete_flag=1 
+			and cad.details_status=1 and cd.order_status=1 or cd.order_status=3 and cad.operation_type=2 
+			and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number group 
+			by cd.schema_name, cd.org_id,cad.supplier_id <if test="type==1"> ,cad.commodity_pk_id 
+			, cad.commodity_code </if> ) tt1 left join -->
+		<!-- 销售（非赠品） -->
+		(select cd.schema_name , cd.org_id,cad.supplier_id,
+		<if test="type==1">
+			cad.commodity_pk_id, cad.commodity_code,
+		</if>
+		sum(cad.commodity_num) saleOrderNum,sum(cd.actual_amount)
+		actualAmount, sum(cad.commodity_price*cad.commodity_num)
+		saleOrderAmount from market_commodity_add_details
+		cad,market_commodity_add cd where (cd.order_status=1 or
+		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad.details_status=1
+		and cad.operation_type=2 and cad.complimentary_mark=0
+		and cd.last_up_time between #{start, jdbcType=VARCHAR} and #{end,
+		jdbcType=VARCHAR}
+		and cd.org_id in
+		<foreach collection="orgs" open="(" close=")" item="org"
+			separator=",">
+			#{org}
+		</foreach>
+		<if test="supplierId!=null and supplierId!=''">
+			and cad.supplier_id=#{supplierId}
+		</if>
+		and cd.schema_name=cad.schema_name and
+		cad.order_number=cd.order_number
+		group by cd.schema_name, cd.org_id,cad.supplier_id
+		<if test="type==1">
+			, cad.commodity_code,cad.commodity_pk_id
+		</if>
+		) tt1
+		<!-- on tt1.schema_name =tt.schema_name and tt1.org_id =tt.org_id and tt1.supplier_id 
+			=tt.supplier_id <if test="type==1"> and tt1.commodity_code =tt.commodity_code 
+			</if> -->
+
+		left join
+		<!-- 销售（赠品） -->
+		(select cd.schema_name, cd.org_id,cad.supplier_id,
+		<if test="type==1">
+			cad.commodity_code,
+		</if>
+		sum(cad.commodity_num) saleGiftNum from market_commodity_add_details
+		cad,market_commodity_add cd where (cd.order_status=1 or
+		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad.details_status=1
+		and cad.operation_type=2 and cad.complimentary_mark=1
+		and cd.last_up_time between #{start} and #{end}
+		and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number
+		group by cd.schema_name, cd.org_id,cad.supplier_id
+		<if test="type==1">
+			, cad.commodity_code
+		</if>
+		) tt2
+		on tt1.schema_name =tt2.schema_name
+		and tt1.org_id =tt2.org_id
+		and tt1.supplier_id =tt2.supplier_id
+		<if test="type==1">
+			and tt1.commodity_code =tt2.commodity_code
+		</if>
+
+		left join
+		<!-- 退货（赠品） -->
+		(select mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">
+			,crd.commodity_code
+		</if>
+		,sum(crd.commodity_num) returnNumGift from market_commodity_returns
+		mcr,rket_commodity_returns_details crd where (mcr.order_status=2 or
+		mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and
+		crd.details_status=2
+		and crd.operation_type=2 and crd.complimentary_mark=1
+		and mcr.last_up_time between #{start} and #{end}
+		and mcr.schema_name=crd.schema_name and mcr.order_number=crd.order_number
+		group by mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">,crd.commodity_code</if>
+		) tt3
+		on tt1.schema_name =tt3.schema_name
+		and tt1.org_id =tt3.org_id
+		and tt1.supplier_id =tt3.supplier_id
+		<if test="type==1">
+			and tt1.commodity_code =tt3.commodity_code
+		</if>
+
+		left join
+		<!-- 退货（非赠品） -->
+		(select mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">,crd.commodity_code</if>
+		,sum(crd.commodity_num)
+		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount from
+		market_commodity_returns mcr,rket_commodity_returns_details crd where
+		(mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and
+		crd.delete_flag=1 and crd.details_status=2
+		and crd.operation_type=2 and crd.complimentary_mark=0
+		and mcr.last_up_time between #{start} and #{end}
+		and mcr.schema_name=crd.schema_name and mcr.order_number=crd.order_number
+		group by mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">,crd.commodity_code</if>
+		) tt4
+		on tt1.schema_name =tt4.schema_name
+		and tt1.org_id =tt4.org_id
+		and tt1.supplier_id =tt4.supplier_id
+		<if test="type==1">
+			and tt1.commodity_code =tt4.commodity_code
+		</if>
+
+		left join
+		<!-- 库存数量 -->
+		(select ii.schema_name,ii.supplier_id
+		<if test="type==1">,ii.commodity_info_id</if>
+		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii where
+		ii.delete_flag=1 and ii.operation_type=2
+		and ii.last_up_time between #{start} and #{end}
+		group by ii.schema_name,ii.supplier_id
+		<if test="type==1">,ii.commodity_info_id</if>
+		) tt5
+		on tt1.schema_name = tt5.schema_name
+		and tt1.supplier_id=tt5.supplier_id
+		<if test="type==1">
+			and tt1.commodity_pk_id=tt5.commodity_info_id
+		</if>
+
+		left join
+		<!-- 退货数量，退货金额 -->
+		(select pr.schema_name,
+		pr.supplier_id,
+		pr.org_id,
+		<if test="type==1">
+			prc.commodity_info_id,
+		</if>
+		sum(prc.quantity) as refundsCount,
+		sum(prc.total_amount) as refundsAmount
+		from purchase_refunds pr, purchase_refunds_commodity prc
+		where pr.delete_flag = 1
+		and pr.refunds_status = 1
+		and prc.delete_flag = 1
+		and pr.operation_type=2
+		and pr.last_up_time between #{start} and #{end}
+		and pr.schema_name = prc.schema_name
+		and pr.pk_id = prc.refunds_id
+		group by pr.schema_name,
+		pr.supplier_id,
+		pr.org_id
+		<if test="type==1">
+			,prc.commodity_info_id
+		</if>
+		) t22
+		on tt1.schema_name =t22.schema_name
+		and tt1.org_id =t22.org_id
+		and tt1.supplier_id =t22.supplier_id
+		<if test="type==1">
+			and tt1.commodity_pk_id =t22.commodity_info_id
+		</if>
+
+		left join
+
+		<!-- 入库数量，入库金额 -->
+		(select pwi.schema_name,
+
+		pwi.supplier_id,
+		pwi.org_id,
+		<if test="type==1">
+			wic.commodity_info_id,
+		</if>
+		sum(wic.quantity) as wareInCount,
+		sum(wic.total_amount) as wareInAmount
+		from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
+		where pwi.delete_flag = 1
+		and pwi.warehouse_in_status = 1
+		and wic.delete_flag = 1
+		and pwi.operation_type=2
+		and pwi.last_up_time between #{start} and #{end}
+		and pwi.schema_name = wic.schema_name
+		and pwi.pk_id = wic.warehouse_in_id
+		group by pwi.schema_name,
+		pwi.supplier_id,
+		pwi.org_id
+		<if test="type==1">
+			,wic.commodity_info_id
+		</if>
+		) t33
+		on tt1.schema_name =t33.schema_name
+		and tt1.org_id =t33.org_id
+		and tt1.supplier_id =t33.supplier_id
+		<if test="type==1">
+			and tt1.commodity_pk_id =t33.commodity_info_id
+		</if>
+
+		left join
+		<!-- 换入数量，换入金额 -->
+		(select pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		<if test="type==1">
+			peic.commodity_info_id,
+		</if>
+		sum(peic.quantity) as exchangeInCount,
+		sum(peic.total_amount) as exchangeInAmount
+		from purchase_exchange pe, purchase_exchange_in_commodity peic
+		where pe.delete_flag = 1
+		and pe.exchange_status = 1
+		and peic.delete_flag = 1
+		and pe.operation_type=2
+		and pe.last_up_time between #{start} and #{end}
+		and pe.schema_name = peic.schema_name
+		and pe.pk_id = peic.exchange_id
+		group by pe.schema_name,
+		pe.supplier_id,
+		pe.org_id
+		<if test="type==1">
+			,peic.commodity_info_id
+		</if>
+		) t44
+		on tt1.schema_name =t44.schema_name
+		and tt1.org_id =t44.org_id
+		and tt1.supplier_id =t44.supplier_id
+		<if test="type==1">
+			and tt1.commodity_pk_id =t44.commodity_info_id
+		</if>
+
+		left join
+		<!-- 换出数量，换出金额 -->
+		(select pe.schema_name,
+		pe.supplier_id,
+		pe.org_id,
+		<if test="type==1">
+			peoc.commodity_info_id,
+		</if>
+		sum(peoc.quantity) as exchangeOutCount,
+		sum(peoc.total_amount) as exchangeOutAmount
+		from purchase_exchange pe, urchase_exchange_out_commodity peoc
+		where pe.delete_flag = 1
+		and pe.exchange_status = 1
+		and peoc.delete_flag = 1
+		and pe.operation_type=2
+		and pe.last_up_time between #{start} and #{end}
+		and pe.schema_name = peoc.schema_name
+		and pe.pk_id = peoc.exchange_id
+		group by pe.schema_name,
+		pe.supplier_id,
+		pe.org_id
+		<if test="type==1">
+			,peoc.commodity_info_id
+		</if>
+		) t55
+		on tt1.schema_name =t55.schema_name
+		and tt1.org_id =t55.org_id
+		and tt1.supplier_id =t55.supplier_id
+		<if test="type==1">
+			and tt1.commodity_pk_id =t55.commodity_info_id
+		</if>
+		<if test="type==2">
+			left join
+			( select
+			mca.schema_name,mca.org_id,mca.supplier_id,sum(mca.consignment_amount)
+			accountAmount,sum(mca.actual_receive_amount) proceedsAmount from
+			market_consignment_account mca
+			where mca.account_status=2 and mca.delete_flag=1
+			and mca.last_up_time between #{start} and #{end}
+			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
+			on tt1.schema_name =t66.schema_name
+			and tt1.org_id =t66.org_id
+			and tt1.supplier_id =t66.supplier_id
+		</if>
+		) tot
+		<if test="type==1">,c_commodity t1</if>
+		<if test="type==2">,purchase_supplier ps</if>
+		where 1=1
+		<if test="type==1">
+			and t1.schema_name=tot.schema_name
+			and t1.delete_flag=1
+		</if>
+		<if test="type==2">
+			and ps.delete_flag=1
+			and ps.supplier_status=3
+			and ps.operation_type=2
+			and ps.schema_name=tot.schema_name
+			and ps.pk_id=tot.supplier_id
+		</if>
+		<if test="type==1">
+			and t1.pk_id=tot.commodity_pk_id
+			<if test="commodityCode!=null and commodityCode!=''">
+				and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="commodityName!=null and commodityName!=''">
+				and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="brandName!=null and brandName!=''">
+				and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+			</if>
+			<if test="catalogName!=null and catalogName!=''">
+				and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+			</if>
+			<if test="modelName!=null and modelName!=''">
+				and t1.model_code=#{modelName, jdbcType=VARCHAR}
+			</if>
+		</if>
 
 
- 	
- </select>
- <select id="getInventoryWarnList1" resultType="com.bqjr.report.model.InventoryWarn" parameterType="com.bqjr.report.model.SearchCondition">
- 	select 
-       tt2.commodityName commodityName,
-       tt2.commodityCode commodityCode,
-       tt2.org_id orgId,
-       (select o.org_name from c_sys_organization o where o.pk_id=tt2.org_id)as orgName,
-       tt2.commodity_id,
-       tt2.operation_type operationType,
-       tt2.supplier_id supplierId,
-       tt2.supplier_name supplier,
-       tt2.catalogName catalogName,
-       tt2.brandName brandName,
-       tt2.modelName modelName,
-       tt2.schema_name schemaName,
-       tt2.warehouse_id warehouseId,
-       tt2.count1 inventoryNum,
-       tt2.time1 inventoryInTime,
-       tt2.wh_code,
-      tt2. wh_name whName,
-      tt2.info_content infoContent,
-      tt2.info_type infoType,
-sew.safe_stock safeInventory,sew.unsalable_days unsalableDays from
-(select t1.commodity_name commodityName,
-       t1.commodity_code commodityCode,
-       t1.org_id,     
-       t1.pk_id commodity_id,
-       (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
-       (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
-       (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
-        tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type,tt1.info_content,tt1.info_type,
-        (select swi.wh_code from storage_warehouse_info swi where swi.pk_id=tt1.warehouse_id) as wh_code,
-        (select swi.wh_name from storage_warehouse_info swi where swi.pk_id=tt1.warehouse_id) as wh_name
-        
-        from
-(select ii.schema_name, ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type,sum(ii.quantity_on_hand) count1,min(ii.create_time)time1  from inventory_item ii,inventory_item_info iii where ii.delete_flag=1
-  and ii.pk_id=iii.inventory_item_id
-group by ii.schema_name, ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type)tt1 , c_commodity t1
-where 1=1
-   <if test="commodityCode!=null and commodityCode!=''">
-   and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="commodityName!=null and commodityName!=''">
-   and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
-   </if>
-   <if test="brandName!=null and brandName!=''">
-   and t1.brand_code=#{brandName, jdbcType=VARCHAR}
-   </if>
-   <if test="catalogName!=null and catalogName!=''">
-   and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
-   </if>
-   <if test="modelName!=null and modelName!=''">
-   and t1.model_code=#{modelName, jdbcType=VARCHAR}
-   </if>
-   and t1.org_id in
-     <foreach collection="orgs" open="(" close=")" item="org" separator=",">
-     	#{org}
-     </foreach>
-and tt1.commodity_info_id=t1.pk_id) tt2 left join storage_early_warning sew
-on sew.commodity_code=tt2.commodityCode
-and sew.delete_flag=1
-and to_char(sysdate-sew.unsalable_days)> tt2.time1
-and sew.org_id=tt2.org_id
-<if test="warehouseId!=null and warehouseId!=''">
-and tt2.warehouse_id=#{warehouseId}
-</if>
-and sew.schema_name=tt2.schema_name
-and sew.wh_code=tt2.wh_code
+	</select>
+	<select id="getWarehouseList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.pk_id warehouseId,t.wh_name warehouseName from
+		storage_warehouse_info t where t.delete_flag=1 and t.wh_status=2
+		<if test="orgId!=null and orgId!=''">and t.org_id=#{orgId}</if>
+		and t.schema_name=#{schemaName}
+	</select>
+
+	<select id="getInventoryWarnList" resultType="com.bqjr.report.model.InventoryWarn"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select
+		tt2.commodityName commodityName,
+		tt2.commodityCode commodityCode,
+		tt2.org_id orgId,
+		(select o.org_name from c_sys_organization o where o.pk_id=tt2.org_id)as
+		orgName,
+		tt2.commodity_id commodityId,
+		tt2.catalogName catalogName,
+		tt2.brandName brandName,
+		tt2.modelName modelName,
+		tt2.schema_name schemaName,
+		tt2.warehouse_id warehouseId,
+		tt2.count1 inventoryNum,
+		tt2.wh_code,
+		tt2. wh_name whName,
+		sew.safe_stock safeInventory,sew.unsalable_days unsalableDays from
+		(select t1.commodity_name commodityName,
+		t1.commodity_code commodityCode,
+		t1.org_id,
+		t1.pk_id commodity_id,
+		(select t2.brand_name from c_commodity_brand t2 where t2.status=2 and
+		t2.delete_flag=1 and t2.from_type=t1.from_type and
+		t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as
+		brandName,
+		(select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and
+		t3.delete_flag=1 and t3.from_type=t1.from_type and
+		t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as
+		catalogName,
+		(select t4.model_name from c_commodity_model t4 where t4.status=2 and
+		t4.delete_flag=1 and t4.from_type=t1.from_type and
+		t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as
+		modelName,
+		(select t7.spec_item_name from c_commodity_spec_item t7 where
+		t7.delete_flag=1 and t1.schema_name=t7.schema_name and
+		t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6
+		where t6.delete_flag=1 and t1.schema_name=t6.schema_name and
+		t1.org_id=t6.org_id and t6.commodity_code=t1.commodity_code)) spec,
+		tt1.schema_name,tt1.warehouse_id,tt1.count1,
+		(select swi.wh_code from storage_warehouse_info swi where
+		swi.pk_id=tt1.warehouse_id) as wh_code,
+		(select swi.wh_name from storage_warehouse_info swi where
+		swi.pk_id=tt1.warehouse_id) as wh_name
+
+		from
+		(select ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
+		from inventory_item ii,inventory_item_info iii where ii.delete_flag=1
+		group by ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id)tt1,c_commodity t1
+		where 1=1
+		<if test="commodityCode!=null and commodityCode!=''">
+			and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and t1.model_code=#{modelName, jdbcType=VARCHAR}
+		</if>
+		and t1.org_id in
+		<foreach collection="orgs" open="(" close=")" item="org"
+			separator=",">
+			#{org}
+		</foreach>
+		and tt1.commodity_info_id=t1.pk_id) tt2 ,storage_early_warning sew
+		where sew.commodity_code=tt2.commodityCode
+		and sew.delete_flag=1
+		and sew.org_id=tt2.org_id
+		and sew.safe_stock>tt2.count1
+		<if test="warehouseId!=null and warehouseId!=''">
+			and tt2.warehouse_id=#{warehouseId}
+		</if>
+		and sew.schema_name=tt2.schema_name
+		and sew.wh_code=tt2.wh_code
 
 
 
- 	
- </select>
- 
- <select id="getSpecList" resultType="com.bqjr.report.model.SearchCondition">
- 	select t.commodity_code commodityCode, (select cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and  cs.schema_name=t.schema_name and cs.status=2 and cs.spec_code=t.spec_code) as specName,
-(select csi.spec_item_name from c_commodity_spec_item csi where csi.delete_flag=1 and csi.schema_name=t.schema_name and csi.spec_item_code=t.spec_item_code) as specItem 
-from c_commodity2spec t where t.delete_flag=1 and t.commodity_code in
-<foreach collection="codes" open="(" close=")" separator="," item="item">
-#{item}
-</foreach>
- </select>
- 
- <select id="getDetail"  resultType="com.bqjr.report.model.InventoryWarn">
- 	select ii.supplier_name supplier,ii.create_time inventoryInTime,ii.operation_type operationType,iii.quantity quantity，iii.info_content infoContent from inventory_item_info iii,inventory_item ii where ii.pk_id=iii.inventory_item_id and iii.delete_flag=1 and iii.schema_name= #{schemaName} and iii.commodity_info_id=#{commodityId}
- </select>
+	</select>
+	<select id="getInventoryWarnList1" resultType="com.bqjr.report.model.InventoryWarn"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select
+		tt2.commodityName commodityName,
+		tt2.commodityCode commodityCode,
+		tt2.org_id orgId,
+		(select o.org_name from c_sys_organization o where o.pk_id=tt2.org_id)as
+		orgName,
+		tt2.commodity_id,
+		tt2.operation_type operationType,
+		tt2.supplier_id supplierId,
+		tt2.supplier_name supplier,
+		tt2.catalogName catalogName,
+		tt2.brandName brandName,
+		tt2.modelName modelName,
+		tt2.schema_name schemaName,
+		tt2.warehouse_id warehouseId,
+		tt2.count1 inventoryNum,
+		tt2.time1 inventoryInTime,
+		tt2.wh_code,
+		tt2. wh_name whName,
+		tt2.info_content infoContent,
+		tt2.info_type infoType,
+		sew.safe_stock safeInventory,sew.unsalable_days unsalableDays from
+		(select t1.commodity_name commodityName,
+		t1.commodity_code commodityCode,
+		t1.org_id,
+		t1.pk_id commodity_id,
+		(select t2.brand_name from c_commodity_brand t2 where t2.status=2 and
+		t2.delete_flag=1 and t2.from_type=t1.from_type and
+		t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as
+		brandName,
+		(select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and
+		t3.delete_flag=1 and t3.from_type=t1.from_type and
+		t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as
+		catalogName,
+		(select t4.model_name from c_commodity_model t4 where t4.status=2 and
+		t4.delete_flag=1 and t4.from_type=t1.from_type and
+		t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as
+		modelName,
+		(select t7.spec_item_name from c_commodity_spec_item t7 where
+		t7.delete_flag=1 and t1.schema_name=t7.schema_name and
+		t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6
+		where t6.delete_flag=1 and t1.schema_name=t6.schema_name and
+		t1.org_id=t6.org_id and t6.commodity_code=t1.commodity_code)) spec,
+		tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type,tt1.info_content,tt1.info_type,
+		(select swi.wh_code from storage_warehouse_info swi where
+		swi.pk_id=tt1.warehouse_id) as wh_code,
+		(select swi.wh_name from storage_warehouse_info swi where
+		swi.pk_id=tt1.warehouse_id) as wh_name
+
+		from
+		(select ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type,sum(ii.quantity_on_hand)
+		count1,min(ii.create_time)time1 from inventory_item
+		ii,inventory_item_info iii where ii.delete_flag=1
+		and ii.pk_id=iii.inventory_item_id
+		group by ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type)tt1
+		, c_commodity t1
+		where 1=1
+		<if test="commodityCode!=null and commodityCode!=''">
+			and t1.commodity_code like #{commodityCode, jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and t1.commodity_name like '%'||#{commodityName, jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and t1.model_code=#{modelName, jdbcType=VARCHAR}
+		</if>
+		and t1.org_id in
+		<foreach collection="orgs" open="(" close=")" item="org"
+			separator=",">
+			#{org}
+		</foreach>
+		and tt1.commodity_info_id=t1.pk_id) tt2 left join
+		storage_early_warning sew
+		on sew.commodity_code=tt2.commodityCode
+		and sew.delete_flag=1
+		and to_char(sysdate-sew.unsalable_days)> tt2.time1
+		and sew.org_id=tt2.org_id
+		<if test="warehouseId!=null and warehouseId!=''">
+			and tt2.warehouse_id=#{warehouseId}
+		</if>
+		and sew.schema_name=tt2.schema_name
+		and sew.wh_code=tt2.wh_code
+
+
+
+
+	</select>
+
+	<select id="getSpecList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.commodity_code commodityCode, (select cs.spec_name from
+		c_commodity_spec cs where cs.delete_flag=1 and
+		cs.schema_name=t.schema_name and cs.status=2 and
+		cs.spec_code=t.spec_code) as specName,
+		(select csi.spec_item_name from c_commodity_spec_item csi where
+		csi.delete_flag=1 and csi.schema_name=t.schema_name and
+		csi.spec_item_code=t.spec_item_code) as specItem
+		from c_commodity2spec t where t.delete_flag=1 and t.commodity_code in
+		<foreach collection="codes" open="(" close=")" separator=","
+			item="item">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="getDetail" resultType="com.bqjr.report.model.InventoryWarn">
+		select ii.supplier_name supplier,ii.create_time
+		inventoryInTime,ii.operation_type operationType,iii.quantity
+		quantity，iii.info_content infoContent from inventory_item_info
+		iii,inventory_item ii where ii.pk_id=iii.inventory_item_id and
+		iii.delete_flag=1 and iii.schema_name= #{schemaName} and
+		iii.commodity_info_id=#{commodityId}
+	</select>
 </mapper>
