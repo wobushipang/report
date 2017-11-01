@@ -241,10 +241,7 @@
 
             <!-- 汇总方式 (下拉列表框) -->
             <div id="u20214" class="ax_default droplist" data-label="汇总方式">
-              <select id="u20214_input">
-                <option value="1">按商品汇总</option>
-                <option value="2">按供应商汇总</option>
-              </select>
+              <input type="text" id="u20214_input">
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -485,6 +482,14 @@
 				width : '190',
 				//panelHeight:'auto'
 			 }); 
+		 $('#u20214_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
+		 });
 	  }); 
   
   function search(){
@@ -874,7 +879,14 @@
 				width : '190',
 				//panelHeight:'auto'
 			 }); 
-		 $('#u20214_input').val('1')
+		 $('#u20214_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
+		 });
 	})
   </script>
 </html>

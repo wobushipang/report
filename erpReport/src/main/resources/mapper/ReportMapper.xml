@@ -402,7 +402,6 @@
 		cad,market_commodity_add cd where (cd.order_status=1 or
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		cad.details_status=1
-		
 		and cad.operation_type=2 and cad.complimentary_mark=0
 		and cd.last_up_time between #{start, jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}

@@ -238,10 +238,7 @@
 
             <!-- Unnamed (下拉列表框) -->
             <div id="u7301" class="ax_default droplist">
-              <select id="u7301_input" name="type">
-                <option value="1">商品汇总</option>
-                <option value="2">供应商汇总</option>
-              </select>
+              <input type="text" id="u7301_input" name="type">
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -507,10 +504,18 @@
 				panelHeight:'auto',
 				data : [{"id":"0","text":"请选择","selected":true},{"id":"1","text":"购销"},{"id":"2","text":"代销"}],
 		 });
+		 $('#u7301_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
+		 });
 		 }); 
   
   function search(){
-	  var type=$('#u7301_input').val();
+	  var type=$('#u7301_input').combobox('getValue');
 	  var orgId=$('#org').combobox('getValue');
 	  var org=$('#orgId').val();
 	  var schemaName=$('#schemaName').val();
@@ -522,7 +527,7 @@
 	  var start=$('#u7275_input').datebox('getValue');
 	  var end=$('#u7278_input').datebox('getValue');
 	  var supplierId=$('#supplierId').combobox('getValue');
-	  var operationType=$('#u7309_input').val();
+	  var operationType=$('#u7309_input').combobox('getValue');
 	  var d1 = formatDatebox(start);
 		var d2 = formatDatebox(end);
 		if(start.length==0 || end.length==0){
@@ -1010,8 +1015,22 @@
 				width : '190',
 				//panelHeight:'auto'
 			 }); 
-		 $('#u7309_input').val('0')
-		 $('#u7301_input').val('1')
+		 $('#u7309_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"0","text":"请选择","selected":true},{"id":"1","text":"购销"},{"id":"2","text":"代销"}],
+		 });
+		 $('#u7301_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
+		 });
 	})
   </script>
 </html>
