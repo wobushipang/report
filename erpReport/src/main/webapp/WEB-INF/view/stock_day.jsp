@@ -317,7 +317,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u11114" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1150px; height: 580px">
+							style="width: 1350px; height: 520px">
 							<!-- 列表 -->
 							<div region="center" id="s">
 								<table id="stock"></table>
@@ -432,6 +432,7 @@ $(function(){
 });
 
 function search(){
+	var schemaName=$('#schemaName').val();
 	var orgId=$('#u11092_input').combobox('getValue');
 	var warehouseName=$('#u11096_input').combobox('getValue');
 	var org=$('#orgId').val();
@@ -473,7 +474,8 @@ function search(){
 		loadMsg: '数据正在加载,请耐心等待...',
 		rownumbers:true,
 		showFooter:true,
-		queryParams: { 
+		queryParams: {
+			schemaName:schemaName,
 			orgId:orgId,
 			warehouseName:warehouseName,
 			commodityName:commodityName,
@@ -538,13 +540,13 @@ function search(){
 		   	field:'purchaseExpendIn',
 			title:'采购换货入库量',
 			align:'center',
-			width:100
+			width:120
 		},
 		{
 			field:'purchaseExpendOut',
 			title:'采购换货出库量',
 			align:'center',
-			width:100
+			width:120
 		},
 		{
 			field:'allotOut', 
@@ -592,13 +594,13 @@ function search(){
 			field:'saleExpendOut', 
 			title:'销售换货出库量', 
 			align:'center',
-			width:100
+			width:120
 		},
 		{
 			field:'saleExpendIn', 
 			title:'销售换货入库量', 
 			align:'center',
-			width:100
+			width:120
 		},
 		{
 			field:'finalQuantity', 
@@ -631,7 +633,7 @@ function search(){
 			width:150,
 			formatter:function(value){
 				var strs= new Array(); //定义一数组 
-				var a=''
+				var a='<br/>'
 				strs=value.split("/"); //字符分割 
 				for (i=0;i<strs.length;i++){ 
 					a+=strs[i]+'<br/>'

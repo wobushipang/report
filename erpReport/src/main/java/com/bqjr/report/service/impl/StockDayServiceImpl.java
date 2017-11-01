@@ -17,6 +17,7 @@ package com.bqjr.report.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -53,12 +54,8 @@ public class StockDayServiceImpl implements StockDayService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<String> codes = new ArrayList<String>();
 		PageHelper.startPage(pageNum, pageSize);
-		List<StockDay> list = new ArrayList<>();
-		try {
-			list = mapper.getStockDayList(condition);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<StockDay> list = new ArrayList<>();	
+		list = mapper.getStockDayList(condition);
 		for (StockDay s : list) {
 			if(StringUtils.isBlank(s.getAllotIn())) s.setAllotIn("0");
 			if(StringUtils.isBlank(s.getAllotOut())) s.setAllotOut("0");
@@ -79,12 +76,15 @@ public class StockDayServiceImpl implements StockDayService {
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
 		if(codes.size()>0) {
-			//specs = mapper1.getSpecList(codes);
+			HashSet<String> h = new HashSet<String>(codes);      
+			codes.clear();
+			codes.addAll(h);
+			specs = mapper1.getSpecList(codes,condition.getSchemaName(),"");
 		}
 		for (StockDay sd : list) {
 			String str="";
 			for (SearchCondition s : specs) {
-				if(StringUtils.equals(sd.getCommodityCode(), s.getCommodityCode())) {
+				if(StringUtils.equals(sd.getCommodityCode(), s.getCommodityCode())&&StringUtils.equals(sd.getOrgId(), s.getOrgId())) {
 					str+=s.getSpecName()+":"+s.getSpecItem()+"/";
 				}
 				sd.setSpec(str);

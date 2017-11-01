@@ -435,7 +435,8 @@
 			}
 		});
 		$('#u20902_input').combobox({
-			url:'<%=path%>/getBusinessList?orgId='+orgId+'&schemaName='+schemaName ,
+			url:'<%=path%>/getBusinessList?orgId='+orgId+'&schemaName='+schemaName+'&businessType='
+					+ $('#u20912_input').combobox('getValue'),
 			valueField:'id',
 			textField:'text',
 			editable:false ,

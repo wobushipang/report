@@ -297,6 +297,14 @@
 			and t.brand_code=#{brandCode}
 		</if>
 	</select>
+	
+	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
+		select business_id businessId,business_name businessName from finance_org_business_type  where delete_flag='1' and status='1' and
+		schema_name=#{schemaName}
+		<if test="businessType != 0">
+			and business_type=#{businessType}
+		</if>
+	</select>
 
 	<select id="getProxySaleList" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">

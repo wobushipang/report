@@ -27,6 +27,7 @@ import java.io.Serializable;
 public class StockDay implements Serializable {
 	private static final long serialVersionUID = -8634197196156308313L;
 
+	private String orgId;
 	private String orgName;
 	private String whName;// 仓库名称
 	private String commodityCode;// 商品编码
@@ -51,6 +52,12 @@ public class StockDay implements Serializable {
 	private String saleExpendOut; // 销售换货出库
 	private String saleExpendIn; // 销售换货入库
 	private String finalQuantity; // 期末库存量
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 	public String getOrgName() {
 		return orgName;
 	}

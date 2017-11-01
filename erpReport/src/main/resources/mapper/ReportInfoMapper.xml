@@ -100,6 +100,7 @@
 	<select id="getStockDayList" parameterType="com.bqjr.report.model.SearchCondition"
 		resultType="com.bqjr.report.model.StockDay">
 		select t.schemaName,
+		t.orgId,
 		(select t1.org_name from c_sys_organization t1 where t1.org_enable='1' and
 		t1.delete_flag='1' and t.schemaName=t1.schema_name and c.org_id=t1.pk_id) as orgName,
 		t.whName,
