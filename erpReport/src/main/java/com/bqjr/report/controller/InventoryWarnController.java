@@ -31,7 +31,7 @@ public class InventoryWarnController {
 	@RequestMapping("/inventoryWarn")
 	public ModelAndView redirect(String orgId,String openId,String schemaName) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		orgId="BQJR999_G000000001";
+		orgId="BQJR999_G000000012";
 		openId="F2500B5240E54BB2A5A0683787A85BA2";
 		schemaName="bqjr_erp_0000000001";
 		map.put("orgId", orgId);

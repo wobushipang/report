@@ -8,6 +8,7 @@ package com.bqjr.report.model;
 public class PurchaseCollect {
 
 	private String orgName;
+	private String orgId;
 	private String supplier;//供应商
 	private String operationType;//购销方式
 	private String commodityCode;
@@ -30,6 +31,7 @@ public class PurchaseCollect {
 	private String exchangeInAmount;
 	private String exchangeOutCount;
 	private String exchangeOutAmount;
+	private String schemaName;
 	public String getOrgName() {
 		return orgName;
 	}
@@ -167,6 +169,18 @@ public class PurchaseCollect {
 	}
 	public void setCommodityId(String commodityId) {
 		this.commodityId = commodityId;
+	}
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+	public String getSchemaName() {
+		return schemaName;
+	}
+	public void setSchemaName(String schemaName) {
+		this.schemaName = schemaName;
 	}
 	
 }

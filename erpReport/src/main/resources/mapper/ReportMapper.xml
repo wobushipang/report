@@ -11,13 +11,12 @@
        (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
        (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
        (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
      </if>
      	(select t5.org_name from c_sys_organization t5 where tt.org_id=t5.pk_id) as orgName,
        (select ps.supplier_name from purchase_supplier ps where ps.pk_id=tt.supplier_id) supplier,
-       tt.org_id,
+       tt.org_id orgId,
        tt.operation_type operationType,
-       
+       tt.schema_name schemaName,
        purchaseCount,
        purchaseAmount,
        wareInCount,
@@ -282,7 +281,7 @@ and t.catalog_code=#{catalogCode}
  	select 
 tot.schema_name schemaName,
 
-tot.org_id,
+tot.org_id orgId,
 tot.supplier_id,
 (select t.supplier_name as supplierName from purchase_supplier t where t.pk_id=tot.supplier_id) as supplier,
 <if test="type==1">
@@ -292,7 +291,6 @@ t1.commodity_name commodityName,
        (select t2.brand_name from c_commodity_brand t2 where t2.status=2 and t2.delete_flag=1 and t2.from_type=t1.from_type and t1.schema_name=t2.schema_name and t2.brand_code=t1.brand_code) as brandName,
        (select t3.catalog_name from c_commodity_catalog t3 where t3.status=2 and t3.delete_flag=1 and t3.from_type=t1.from_type and t1.schema_name=t3.schema_name and t3.catalog_code=t1.catalog_code) as catalogName,
        (select t4.model_name from c_commodity_model t4 where t4.status=2 and t4.delete_flag=1 and t4.from_type=t1.from_type and t1.schema_name=t4.schema_name and t4.model_code=t1.model_code ) as modelName,
-       (select t7.spec_item_name from c_commodity_spec_item t7 where t7.delete_flag=1 and t1.schema_name=t7.schema_name and t7.spec_item_code=(select t6.spec_item_code from c_commodity2spec t6 where t6.delete_flag=1 and t1.schema_name=t6.schema_name and t1.org_id=t6.org_id and  t6.commodity_code=t1.commodity_code)) spec,
        </if>
        (select t5.org_name from c_sys_organization t5 where tot.org_id=t5.pk_id) as orgName,
 <if test="type==2">
@@ -373,7 +371,7 @@ and cd.last_up_time between #{start, jdbcType=VARCHAR} and #{end, jdbcType=VARCH
 and cd.org_id in
      <foreach collection="orgs" open="(" close=")" item="org" separator=",">
      	#{org}
-     </foreach>
+     </foreach> 
 <if test="supplierId!=null and supplierId!=''">
 and cad.supplier_id=#{supplierId}
 </if>
@@ -590,12 +588,12 @@ and tt1.supplier_id =t66.supplier_id
 where 1=1
 <if test="type==1">
 and t1.schema_name=tot.schema_name
-and t1.delete_flag=1 
+<!-- and t1.delete_flag=1 --> 
 </if>
 <if test="type==2">
-and ps.delete_flag=1
+<!-- and ps.delete_flag=1
 and ps.supplier_status=3
-and ps.operation_type=2
+and ps.operation_type=2 -->
 and ps.schema_name=tot.schema_name
 and ps.pk_id=tot.supplier_id
 </if>
@@ -680,7 +678,7 @@ and tt1.commodity_info_id=t1.pk_id) tt2 ,storage_early_warning sew
 where sew.commodity_code=tt2.commodityCode
 and sew.delete_flag=1
 and sew.org_id=tt2.org_id
-and sew.safe_stock>tt2.count1
+<!-- and sew.safe_stock>tt2.count1 -->
 <if test="warehouseId!=null and warehouseId!=''">
 and tt2.warehouse_id=#{warehouseId}
 </if>
@@ -765,12 +763,13 @@ and sew.wh_code=tt2.wh_code
  </select>
  
  <select id="getSpecList" resultType="com.bqjr.report.model.SearchCondition">
- 	select t.commodity_code commodityCode, (select cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and  cs.schema_name=t.schema_name and cs.status=2 and cs.spec_code=t.spec_code) as specName,
+ 	select t.commodity_code commodityCode,t.org_id orgId, (select cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and  cs.schema_name=t.schema_name and cs.status=2 and cs.spec_code=t.spec_code) as specName,
 (select csi.spec_item_name from c_commodity_spec_item csi where csi.delete_flag=1 and csi.schema_name=t.schema_name and csi.spec_item_code=t.spec_item_code) as specItem 
 from c_commodity2spec t where t.delete_flag=1 and t.commodity_code in
 <foreach collection="codes" open="(" close=")" separator="," item="item">
 #{item}
 </foreach>
+and t.schema_name=#{schemaName}
  </select>
  
  <select id="getDetail"  resultType="com.bqjr.report.model.InventoryWarn">

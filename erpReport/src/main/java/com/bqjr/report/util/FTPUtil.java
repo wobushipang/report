@@ -45,9 +45,9 @@ import org.apache.log4j.Logger;
 public class FTPUtil {
 	private static Logger logger = Logger.getLogger(FTPUtil.class);
 	private static FTPClient ftpClient;
-	private final static String userName = "erp";
+	private final static String userName = "reader";
 	private final static String password = "123456";
-	private final static String ftpHostName = "10.89.1.90";
+	private final static String ftpHostName = "10.89.1.79";
 	private final static int port = 21;
 
 	/**
@@ -101,6 +101,7 @@ public class FTPUtil {
 		try {
 			
 			folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
+			folderName = "2017-10-30";
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";

@@ -649,6 +649,10 @@
 							}
 						}
 					]] ,
+					onLoadSuccess:function(data){  
+				        if(data.total > 0) return;  
+				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 });
+					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
@@ -760,6 +764,10 @@
 									   width : 100 ,
 									   }
 									]] ,
+									onLoadSuccess:function(data){  
+								        if(data.total > 0) return;  
+								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 8 }); 
+									},
 									pagination: true , 
 									pageSize: 10 ,
 									pageList:[10] ,

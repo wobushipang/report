@@ -53,11 +53,15 @@ public class ConditionServiceImpl implements ConditionService{
 		d.setText("请选择");
 		d.setSelected(true);
 		listStages.add(d);
+		if(list.size()>0) {
 		for(Organization dic : list){
-			Option opt=new Option();
-			opt.setId(dic.getPkId());
-			opt.setText(dic.getOrgName());
-			listStages.add(opt);
+			if(dic!=null) {
+				Option opt=new Option();
+				opt.setId(dic.getPkId());
+				opt.setText(dic.getOrgName());
+				listStages.add(opt);
+			}
+		}
 		}
 		return JSON.toJSONString(listStages);
 	}

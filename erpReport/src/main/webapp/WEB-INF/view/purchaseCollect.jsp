@@ -319,7 +319,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u7316" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1150px; height:580px">
+				<div id="layL" class="easyui-layout" style="width: 1151px; height:580px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -379,7 +379,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u7537" class="ax_default">
-				 <div id="layA" class="easyui-layout" style="width: 1150px; height:580px">
+				 <div id="layA" class="easyui-layout" style="width: 915px; height:580px">
 					<!-- 列表 -->
 					<div region="center"  id="s">
 						<table id="suppliers"></table>
@@ -727,7 +727,10 @@
 							}
 						}
 					]] ,
-					
+					onLoadSuccess:function(data){  
+				        if(data.total > 0) return;  
+				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 8 });  
+					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
@@ -884,6 +887,10 @@
 							
 						}
 					]] ,
+					onLoadSuccess:function(data){  
+				        if(data.total > 0) return;  
+				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 8 });  
+					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,

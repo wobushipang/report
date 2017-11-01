@@ -259,7 +259,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11296" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1250px; height:580px">
+				<div id="layL" class="easyui-layout" style="width: 670px; height:580px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -320,7 +320,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11375" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 1150px; height:580px">
+				<div id="layS" class="easyui-layout" style="width: 910px; height:580px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -382,7 +382,7 @@
 					textField:'text',
 					editable:false ,
 					width : '190',
-					panelHeight:'auto'
+					//panelHeight:'auto'
 				});
 			}
 
@@ -394,7 +394,7 @@
 			textField:'text',
 			editable:false ,
 			width : '190',
-			panelHeight:'auto'
+			//panelHeight:'auto'
 		});
 		$('#u11273_input').combobox({
 			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
@@ -413,7 +413,7 @@
 					   	editable:true,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
-						panelHeight:'auto',
+						//panelHeight:'auto',
 						onChange:function(value){
 					    	if(value!=''&&value!=null){
 					    		//型号
@@ -424,7 +424,7 @@
 								   	editable:true,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
-									panelHeight:'auto'
+									//panelHeight:'auto'
 								 }); 
 						    }
 					    	}
@@ -441,7 +441,7 @@
 						+$('#u11273_input').combobox('getValue'),
 				editable:true,//不可编辑，只能选择
 				width : '190',
-				panelHeight:'auto'
+				//panelHeight:'auto'
 			}); 
 		 $('#u11278_input').combobox({
 			    valueField:'id', //值字段
@@ -601,6 +601,10 @@
 							}
 						}
 					]] ,
+					onLoadSuccess:function(data){  
+				        if(data.total > 0) return;  
+				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 4 }); 
+					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
@@ -644,9 +648,6 @@
 					//sortOrder: 'desc' ,
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
-				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
 				   					},
 					
 				   					columns:[[
@@ -772,6 +773,10 @@
 											}
 										}
 									]] ,
+									onLoadSuccess:function(data){  
+								        if(data.total > 0) return;  
+								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 6 }); 
+									},
 									pagination: true , 
 									pageSize: 10 ,
 									pageList:[10] ,
@@ -826,7 +831,7 @@
 						textField:'text',
 						editable:false ,
 						width : '190',
-						panelHeight:'auto'
+						//panelHeight:'auto'
 					});
 				}
 
@@ -838,7 +843,7 @@
 				textField:'text',
 				editable:false ,
 				width : '190',
-				panelHeight:'auto'
+				//panelHeight:'auto'
 			});
 			$('#u11273_input').combobox({
 				url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
@@ -857,7 +862,7 @@
 						   	editable:true,//不可编辑，只能选择
 						   	//width: 200,
 							width : '190',
-							panelHeight:'auto',
+							//panelHeight:'auto',
 							onChange:function(value){
 						    	if(value!=''&&value!=null){
 						    		//型号
@@ -868,7 +873,7 @@
 									   	editable:true,//不可编辑，只能选择
 									   	//width: 200,
 										width : '190',
-										panelHeight:'auto'
+										//panelHeight:'auto'
 									 }); 
 							    }
 						    	}
@@ -885,7 +890,7 @@
 							+$('#u11273_input').combobox('getValue'),
 					editable:true,//不可编辑，只能选择
 					width : '190',
-					panelHeight:'auto'
+					//panelHeight:'auto'
 				}); 
 			 $('#u11278_input').combobox({
 				    valueField:'id', //值字段

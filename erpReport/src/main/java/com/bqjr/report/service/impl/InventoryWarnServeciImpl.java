@@ -33,6 +33,8 @@ public class InventoryWarnServeciImpl implements InventoryWarnService{
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<InventoryWarn> list = new ArrayList<InventoryWarn>();
 		List<String> codes = new ArrayList<String>();
+		String schemaName=null;
+		 String orgId=null;
 		PageHelper.startPage(pageNum, pageSize);
 		if( condition.getType()==1) {
 			list = mapper.getInventoryWarnList(condition);
@@ -41,13 +43,16 @@ public class InventoryWarnServeciImpl implements InventoryWarnService{
 		}
 		for (InventoryWarn i : list) {
 			codes.add(i.getCommodityCode());
+			schemaName=i.getSchemaName();
+			orgId=i.getOrgId();
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
-		if(codes.size()>0) specs = mapper.getSpecList(codes);
+		if(codes.size()>0) specs = mapper.getSpecList(codes,schemaName,orgId);
 		for (InventoryWarn i : list) {
 			String str="";
 			for (SearchCondition s : specs) {
-				if(StringUtils.equals(i.getCommodityCode(), s.getCommodityCode())) {
+				if(StringUtils.equals(i.getCommodityCode(), s.getCommodityCode())
+						&&StringUtils.equals(i.getOrgId(), s.getOrgId())) {
 					str+=s.getSpecName()+":"+s.getSpecItem()+"/";
 				}
 				i.setSpec(str);

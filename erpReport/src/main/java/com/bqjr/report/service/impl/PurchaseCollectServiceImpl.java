@@ -2,6 +2,7 @@ package com.bqjr.report.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,8 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		 float exchangeInAmount=0;
 		 int exchangeOutCount=0;
 		 float exchangeOutAmount=0;
+		 String schemaName=null;
+		 String orgId=null;
 		List<String> codes = new ArrayList<String>();
 		PageHelper.startPage(pageNum, pageSize);
 		List<PurchaseCollect> list = mapper.getpurchaseCollectList(condition);
@@ -62,7 +65,8 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 			//实际采购金额
 			p.setActualPurchaseAmount(Float.valueOf(p.getWareInAmount())-Float.valueOf(p.getRefundsAmount())+Float.valueOf(p.getExchangeInAmount())-Float.valueOf(p.getExchangeOutAmount())+"");
 			codes.add(p.getCommodityCode());
-			 
+			schemaName=p.getSchemaName();
+			orgId=p.getOrgId();
 			 purchaseCount+=Integer.valueOf(p.getPurchaseCount());
 			 purchaseAmount+=Float.valueOf(p.getPurchaseAmount());
 			 wareInCount+=Integer.valueOf(p.getWareInCount());
@@ -93,20 +97,26 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
 		if(condition.getType()==1&&codes.size()>0) {
-			specs = mapper.getSpecList(codes);
+			HashSet h = new HashSet(codes);      
+			codes.clear();      
+			codes.addAll(h); 
+			specs = mapper.getSpecList(codes,schemaName,orgId);
 		}
 		for (PurchaseCollect pc : list) {
 			String str="";
 			for (SearchCondition s : specs) {
-				if(StringUtils.equals(pc.getCommodityCode(), s.getCommodityCode())) {
+				if(StringUtils.equals(pc.getCommodityCode(), s.getCommodityCode())
+				 &&StringUtils.equals(pc.getOrgId(), s.getOrgId())) {
 					str+=s.getSpecName()+":"+s.getSpecItem()+"/";
 				}
 				pc.setSpec(str);
 		}
 		}
+		List<PurchaseCollect> footer= new ArrayList<PurchaseCollect>();
 		PageInfo pageInfo = new PageInfo(list);
-		//list.add(p);
+		footer.add(p);
 		map.put("rows", list);
+		//map.put("footer", footer);
 		map.put("total", pageInfo.getTotal());
 		return map;
 	}
@@ -180,6 +190,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	}
 	@Override
 	public String getModelList(String id, String schemaName, String brandCode) {
+		if(StringUtils.equals(brandCode, "0"))brandCode=null;
 		List<SearchCondition> list = mapper.getModelList(id, schemaName,brandCode);
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();

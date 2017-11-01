@@ -37,6 +37,8 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 			 float saleAmount=0;//销售金额
 			 float chargeAmount=0;//应计收费金额
 			 float accountAmount=0;//生成结算金额
+			 String schemaName=null;
+			 String orgId=null;
 			PageHelper.startPage(pageNum, pageSize);
 			List<ProxySale> list = mapper.getProxySaleList(condition);
 			List<String> codes = new ArrayList<String>();
@@ -81,6 +83,8 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 					}
 				}
 				codes.add(p.getCommodityCode());
+				schemaName=p.getSchemaName();
+				orgId=p.getOrgId();
 				  stockNum+=Integer.valueOf(p.getStockNum());
 				  saleNum+=Integer.valueOf(p.getSaleNum());
 				  giftNum+=Integer.valueOf(p.getGiftNum());
@@ -107,18 +111,19 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 			
 			List<SearchCondition> specs = new ArrayList<SearchCondition>();
 			if(condition.getType()==1&&codes.size()>0) {
-				specs = mapper.getSpecList(codes);
+				specs = mapper.getSpecList(codes,schemaName,orgId);
 			}
 			for (ProxySale p : list) {
 				String str="";
 				for (SearchCondition s : specs) {
-					if(StringUtils.equals(p.getCommodityCode(), s.getCommodityCode())) {
+					if(StringUtils.equals(p.getCommodityCode(), s.getCommodityCode())
+							&&StringUtils.equals(p.getOrgId(), s.getOrgId())) {
 						str+=s.getSpecName()+":"+s.getSpecItem()+"/";
 					}
 					p.setSpec(str);
 			}
 			}
-			list.add(ps);
+			//list.add(ps);
 			PageInfo pageInfo = new PageInfo(list);
 			map.put("rows", list);
 			map.put("total", pageInfo.getTotal());
