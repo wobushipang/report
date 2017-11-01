@@ -115,7 +115,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u11266" class="ax_default text_field">
-              <input id="u11266_input" type="text"  placeholder="模糊查询"/>
+              <input id="u11266_input" type="text"  placeholder="请输入商品编号"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -208,7 +208,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u11286" class="ax_default text_field">
-              <input id="u11286_input" type="text"  placeholder="模糊查询"/>
+              <input id="u11286_input" type="text"  placeholder="请输入商品名称"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -259,7 +259,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11296" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 670px; height:580px">
+				<div id="layL" class="easyui-layout" style="width: 670px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -320,7 +320,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11375" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 910px; height:580px">
+				<div id="layS" class="easyui-layout" style="width: 910px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -458,6 +458,7 @@
   function search(type){
 	  var orgId=$('#u11277_input').combobox('getValue');
 	  var org=$('#orgId').val();
+	  var schemaName=$('#schemaName').val();
 	  var commodityCode=$('#u11266_input').val();
 	  var commodityName=$('#u11286_input').val();
 	  var brandName=$('#u11274_input').combobox('getValue');
@@ -500,7 +501,8 @@
 						modelName:modelName,
 		                type:type  ,
 		                orgName:org,
-		                warehouseId:warehouseId
+		                warehouseId:warehouseId,
+		                schemaName:schemaName
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,
@@ -640,7 +642,9 @@
 						catalogName:catalogName,
 						modelName:modelName,
 		                type:type  ,
-		                orgName:org
+		                orgName:org,
+		                warehouseId:warehouseId,
+		                schemaName:schemaName
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,

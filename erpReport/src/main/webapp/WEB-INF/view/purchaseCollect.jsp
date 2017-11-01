@@ -177,7 +177,7 @@
 
             <!-- Unnamed (下拉列表框) -->
             <div id="u7288" class="ax_default droplist">
-              <input id="u7288_input" name="catalogName" type="text" placeholder="请输入商品名称">
+              <input id="u7288_input" name="catalogName" type="text">
             </div>
 
             <!-- Unnamed (下拉列表框) -->
@@ -264,7 +264,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7306" class="ax_default text_field">
-              <input id="u7306_input" type="text" value="" name="commodityName"/>
+              <input id="u7306_input" type="text" value="" placeholder="请输入商品编号"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -278,11 +278,7 @@
 
             <!-- Unnamed (下拉列表框) -->
             <div id="u7309" class="ax_default droplist">
-              <select id="u7309_input" name="operationType">
-                <option value="0">请选择</option>
-                <option value="1">购销</option>
-                <option value="2">代销</option>
-              </select>
+              <input type="text" id="u7309_input" name="operationType">
             </div>
             </form>
           </div>
@@ -319,7 +315,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u7316" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1151px; height:580px">
+				<div id="layL" class="easyui-layout" style="width: 1151px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -379,7 +375,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u7537" class="ax_default">
-				 <div id="layA" class="easyui-layout" style="width: 915px; height:580px">
+				 <div id="layA" class="easyui-layout" style="width: 915px; height:575px">
 					<!-- 列表 -->
 					<div region="center"  id="s">
 						<table id="suppliers"></table>
@@ -503,12 +499,21 @@
 				width : '190',
 				//panelHeight:'auto'
 			 }); 
-	  }); 
+		 $('#u7309_input').combobox({
+				valueField:'id',
+				textField:'text',
+				editable:false ,
+				width : '190',
+				panelHeight:'auto',
+				data : [{"id":"0","text":"请选择","selected":true},{"id":"1","text":"购销"},{"id":"2","text":"代销"}],
+		 });
+		 }); 
   
   function search(){
 	  var type=$('#u7301_input').val();
 	  var orgId=$('#org').combobox('getValue');
 	  var org=$('#orgId').val();
+	  var schemaName=$('#schemaName').val();
 	  var commodityCode=$('#commodityCode').val();
 	  var commodityName=$('#u7306_input').val();
 	  var brandName=$('#u7289_input').combobox('getValue');
@@ -566,7 +571,8 @@
 		                type:type  ,
 		                startDate:start,
 		                endDate:end,
-		                orgName:org
+		                orgName:org,
+		                schemaName:schemaName
 		              }  ,  
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,
@@ -771,7 +777,8 @@
 		                type:type  ,
 		                startDate:start,
 		                endDate:end,
-		                orgName:org
+		                orgName:org,
+		                schemaName:schemaName
 		              }  ,  
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,

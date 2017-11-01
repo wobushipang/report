@@ -125,7 +125,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20189" class="ax_default text_field">
-              <input id="u20189_input" type="text" placeholder="模糊查询"/>
+              <input id="u20189_input" type="text" placeholder="请输入商品编号"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -213,7 +213,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20208" class="ax_default text_field">
-              <input id="u20208_input" type="text" placeholder="模糊查询"/>
+              <input id="u20208_input" type="text" placeholder="请输入商品名称"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -300,7 +300,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20225" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1250px; height:580px">
+				<div id="layL" class="easyui-layout" style="width: 1250px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -361,7 +361,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20602" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 955px; height:580px">
+				<div id="layS" class="easyui-layout" style="width: 955px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -491,6 +491,7 @@
 	  var type=$('#u20214_input').val();
 	  var orgId=$('#u20200_input').combobox('getValue');
 	  var org=$('#orgId').val();
+	  var schemaName=$('#schemaName').val();
 	  var commodityCode=$('#u20189_input').val();
 	  var commodityName=$('#u20208_input').val();
 	  var brandName=$('#u20197_input').combobox('getValue');
@@ -547,7 +548,8 @@
 		                type:type  ,
 		                startDate:start,
 		                endDate:end,
-		                orgName:org
+		                orgName:org,
+		                schemaName:schemaName
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,
@@ -691,7 +693,8 @@
 		                type:type  ,
 		                startDate:start,
 		                endDate:end,
-		                orgName:org
+		                orgName:org,
+		                schemaName,schemaName
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,

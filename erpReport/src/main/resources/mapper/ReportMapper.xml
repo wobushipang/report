@@ -74,6 +74,7 @@
 		from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
 		where pwi.delete_flag = 1
 		and pwi.warehouse_in_status = 1
+		and pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
 		and wic.create_time between #{start} and #{end}
 		<if test="supplierId!=null and supplierId!=''">
@@ -297,14 +298,6 @@
 			and t.brand_code=#{brandCode}
 		</if>
 	</select>
-	
-	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
-		select business_id businessId,business_name businessName from finance_org_business_type  where delete_flag='1' and status='1' and
-		schema_name=#{schemaName}
-		<if test="businessType != 0">
-			and business_type=#{businessType}
-		</if>
-	</select>
 
 	<select id="getProxySaleList" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">
@@ -409,6 +402,7 @@
 		cad,market_commodity_add cd where (cd.order_status=1 or
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		cad.details_status=1
+		
 		and cad.operation_type=2 and cad.complimentary_mark=0
 		and cd.last_up_time between #{start, jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
@@ -420,8 +414,9 @@
 		<if test="supplierId!=null and supplierId!=''">
 			and cad.supplier_id=#{supplierId}
 		</if>
-		and cd.schema_name=cad.schema_name and
-		cad.order_number=cd.order_number
+		and cd.schema_name=cad.schema_name 
+		and cd.schema_name= #{schemaName}
+		and cad.order_number=cd.order_number
 		group by cd.schema_name, cd.org_id,cad.supplier_id
 		<if test="type==1">
 			, cad.commodity_code,cad.commodity_pk_id
@@ -749,6 +744,8 @@
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
 		from inventory_item ii,inventory_item_info iii where ii.delete_flag=1
+		and ii.schema_name=#{schemaName}
+		and ii.pk_id=iii.inventory_item_id
 		group by ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id)tt1,c_commodity t1
 		where 1=1
@@ -842,6 +839,7 @@
 		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type,sum(ii.quantity_on_hand)
 		count1,min(ii.create_time)time1 from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1
+		and ii.schema_name = #{schemaName}
 		and ii.pk_id=iii.inventory_item_id
 		group by ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type)tt1
