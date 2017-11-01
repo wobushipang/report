@@ -9,12 +9,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.bqjr.report.mapper.ReportMapper;
 import com.bqjr.report.model.Option;
-import com.bqjr.report.model.ProxySale;
 import com.bqjr.report.model.PurchaseCollect;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.PurchaseCollectService;
@@ -30,6 +28,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 
 	@Autowired
 	private ReportMapper mapper;
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Map<String, Object> getpurchaseCollectList(int pageNum,int pageSize,SearchCondition condition) {
@@ -207,4 +206,21 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		return JSON.toJSONString(listStages);
 	}
 
+	@Override
+	public String getBusinessList(String schemaName, String businessType) {
+		List<SearchCondition> list = mapper.getBusinessList(schemaName,businessType);
+		List<Option> listStages=new ArrayList<Option>();
+		Option d=new Option();
+		d.setId("0");
+		d.setText("请选择");
+		d.setSelected(true);
+		listStages.add(d);
+		for(SearchCondition dic : list){
+			Option opt=new Option();
+			opt.setId(dic.getBusinessId());
+			opt.setText(dic.getBusinessName());
+			listStages.add(opt);
+		}
+		return JSON.toJSONString(listStages);
+	}
 }

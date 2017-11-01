@@ -38,5 +38,10 @@ public interface ReportMapper {
 
 	List<SearchCondition> getWarehouseList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
+
 	List<SearchCondition> getSpecList(@Param("codes")List<String> codes,@Param("schemaName")String schemaName,@Param("orgId")String orgId);
+
+	
+	List<SearchCondition> getBusinessList(@Param("schemaName")String schemaName, @Param("businessType")String businessType);
+
 }

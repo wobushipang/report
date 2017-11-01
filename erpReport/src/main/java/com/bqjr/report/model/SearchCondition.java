@@ -40,6 +40,9 @@ public class SearchCondition {
 	
 	private String start;
 	private String end;
+	private String businessType;// 收支类型
+	private String businessId;// 业务ID
+	private String businessName;// 业务名称
 	public String getOrgId() {
 		return orgId;
 	}
@@ -191,5 +194,22 @@ public class SearchCondition {
 	public void setOrgs(List<String> orgs) {
 		this.orgs = orgs;
 	}
-	
+	public String getBusinessType() {
+		return businessType;
+	}
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
+	}
+	public String getBusinessId() {
+		return businessId;
+	}
+	public void setBusinessId(String businessId) {
+		this.businessId = businessId;
+	}
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
 }

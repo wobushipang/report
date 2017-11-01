@@ -591,7 +591,7 @@
 							width:150,
 							formatter: function(value){
 								var strs= new Array(); //定义一数组 
-								var a=''
+								var a=' <br/>'
 								strs=value.split("/"); //字符分割 
 								for (i=0;i<strs.length ;i++ ) 
 								{ 
@@ -763,7 +763,7 @@
 											width:150,
 											formatter: function(value){
 												var strs= new Array(); //定义一数组 
-												var a=''
+												var a=' <br/>'
 												strs=value.split("/"); //字符分割 
 												for (i=0;i<strs.length ;i++ ) 
 												{ 

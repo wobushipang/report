@@ -132,4 +132,12 @@ public class PurchaseCollectController {
 		String brandCode=request.getParameter("brandCode");
 		return service.getModelList(orgId, schemaName,brandCode);
 	}
+	
+	@RequestMapping("/getBusinessList")
+	@ResponseBody
+	public String getBusinessList(HttpServletRequest request){
+		String schemaName=request.getParameter("schemaName");
+		String businessType=request.getParameter("businessType");
+		return service.getBusinessList(schemaName,businessType);
+	}
 }

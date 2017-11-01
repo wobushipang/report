@@ -18,8 +18,9 @@ package com.bqjr.report.mapper;
 import java.util.List;
 
 import com.bqjr.report.model.Organization;
-import com.bqjr.report.model.OrganizationBean;
-import com.bqjr.report.model.OrganizationVo;
+import com.bqjr.report.model.OrganizationBudget;
+import com.bqjr.report.model.SearchCondition;
+import com.bqjr.report.model.StockDay;
 
 /**
  * @ClassName ReportInfoMapper.java
@@ -34,7 +35,7 @@ public interface ReportInfoMapper {
 	 * @param organizationBean
 	 * @return
 	 */
-	public List<OrganizationVo> getInfoByOrganizationId(OrganizationBean organizationBean);
+	public List<OrganizationBudget> getInfoByOrganizationId(SearchCondition condition);
 
 	/**
 	 * 获取所有的机构信息
@@ -54,12 +55,14 @@ public interface ReportInfoMapper {
 	 * @param organizationBean
 	 * @return
 	 */
-	public List<OrganizationVo> getIncomeByBusinessType(OrganizationBean organizationBean);
+	public List<OrganizationBudget> getIncomeByBusinessType(SearchCondition condition);
 	
 	/**
 	 * 按业务类型机构的支出情况
 	 * @param organizationBean
 	 * @return
 	 */
-	public List<OrganizationVo> getExpendByBusinessType(OrganizationBean organizationBean);
+	public List<OrganizationBudget> getExpendByBusinessType(SearchCondition condition);
+
+	public List<StockDay> getStockDayList(SearchCondition condition);
 }
