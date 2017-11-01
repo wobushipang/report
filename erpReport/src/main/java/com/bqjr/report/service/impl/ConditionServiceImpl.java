@@ -66,10 +66,15 @@ public class ConditionServiceImpl implements ConditionService{
 	public String getWarehouseList(String orgId, String schemaName) {
 		List<SearchCondition> list = mapper.getWarehouseList(orgId, schemaName);
 		List<Option> listStages=new ArrayList<Option>();
+		Option o=new Option();
+		o.setId("0");
+		o.setText("请选择");
+		o.setSelected(true);
+		listStages.add(o);
 		for(SearchCondition dic : list){
 			Option opt=new Option();
-			opt.setId(dic.getOrgId());
-			opt.setText(dic.getOrgName());
+			opt.setId(dic.getWarehouseId());
+			opt.setText(dic.getWarehouseName());
 			listStages.add(opt);
 		}
 		return JSON.toJSONString(listStages);

@@ -20,6 +20,7 @@ import java.util.List;
 import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.OrganizationBudget;
 import com.bqjr.report.model.SearchCondition;
+import com.bqjr.report.model.StockDay;
 
 /**
  * @ClassName ReportInfoMapper.java
@@ -62,4 +63,6 @@ public interface ReportInfoMapper {
 	 * @return
 	 */
 	public List<OrganizationBudget> getExpendByBusinessType(SearchCondition condition);
+
+	public List<StockDay> getStockDayList(SearchCondition condition);
 }
