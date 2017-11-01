@@ -303,7 +303,7 @@
 		select
 		tot.schema_name schemaName,
 
-		tot.org_id,
+		tot.org_id orgId,
 		tot.supplier_id,
 		(select t.supplier_name as supplierName from purchase_supplier t where
 		t.pk_id=tot.supplier_id) as supplier,
