@@ -15,33 +15,44 @@ import com.bqjr.report.model.SearchCondition;
  *
  */
 public interface ReportMapper {
-
+	
+	//采购汇总
 	List<PurchaseCollect> getpurchaseCollectList(SearchCondition condition);
 	
+	//代销汇总
 	List<ProxySale> getProxySaleList(SearchCondition condition);
 	
+	//低库存
 	List<InventoryWarn> getInventoryWarnList(SearchCondition condition);
 	
+	//滞销库存
 	List<InventoryWarn> getInventoryWarnList1(SearchCondition condition);
 	
+	//串号详情
 	List<InventoryWarn> getDetail(@Param("schemaName")String schemaName,@Param("commodityId")String commodityId);
 	
+	//组织机构
 	List<SearchCondition> getOrgList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
+	//供应商
 	List<SearchCondition> getSupplierList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
+	//商品分类
 	List<SearchCondition> getCatalogList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
+	//商品品牌
 	List<SearchCondition> getBrandList(@Param("orgId")String id,@Param("schemaName")String schemaName,@Param("catalogCode")String catalogCode);
 	
+	//商品型号
 	List<SearchCondition> getModelList(@Param("orgId")String id,@Param("schemaName")String schemaName,@Param("brandCode")String brandCode);
 
+	//仓库
 	List<SearchCondition> getWarehouseList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
-
+	//商品规格
 	List<SearchCondition> getSpecList(@Param("codes")List<String> codes,@Param("schemaName")String schemaName,@Param("orgId")String orgId);
 
-	
+	//
 	List<SearchCondition> getBusinessList(@Param("schemaName")String schemaName, @Param("businessType")String businessType);
 
 }

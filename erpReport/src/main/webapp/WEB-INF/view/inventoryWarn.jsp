@@ -55,6 +55,9 @@
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
       $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <style type="text/css">
+		p {background:#FFF;}
+	</style>
   </head>
   <body>
   <input type="hidden" id="orgId" value="${orgId}"/>
@@ -259,7 +262,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11296" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 670px; height:575px">
+				<div id="layL" class="easyui-layout" style="width: 1200px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -320,7 +323,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11375" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 910px; height:575px">
+				<div id="layS" class="easyui-layout" style="width: 1200px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -484,7 +487,8 @@
 				//	title:'活动列表' ,
 					//width:1300 ,
 					fit:true ,
-					height:450 ,
+					//width:'auto',              
+					//height:'auto',   
 					url:'/getInventoryWarnList' ,
 					//fitColumns:true ,  
 					//striped: true ,					//隔行变色特性 
@@ -605,7 +609,7 @@
 					]] ,
 					onLoadSuccess:function(data){  
 				        if(data.total > 0) return;  
-				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 4 }); 
+				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 }); 
 					},
 					pagination: true , 
 					pageSize: 10 ,
@@ -624,9 +628,9 @@
 				$('#suppliers').datagrid({
 					idField:'commodityName' ,		//只要创建数据表格 就必须要加 ifField
 				//	title:'活动列表' ,
-					//width:1300 ,
+					//width:'auto' ,
 					fit:true ,
-					height:450 ,
+					//height:'auto' ,
 					url:'/getInventoryWarnList' ,
 					//fitColumns:true ,  
 					//striped: true ,					//隔行变色特性 
@@ -779,7 +783,7 @@
 									]] ,
 									onLoadSuccess:function(data){  
 								        if(data.total > 0) return;  
-								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 6 }); 
+								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 }); 
 									},
 									pagination: true , 
 									pageSize: 10 ,

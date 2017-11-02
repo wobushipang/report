@@ -55,6 +55,9 @@
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
       $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
+    <style type="text/css">
+		p {background:#FFF;}
+	</style>
   </head>
   <body>
   	<input type="hidden" id="orgId" value="${orgId}"/>
@@ -297,7 +300,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20225" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1250px; height:575px">
+				<div id="layL" class="easyui-layout" style="width: 1200px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -358,7 +361,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20602" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 955px; height:575px">
+				<div id="layS" class="easyui-layout" style="width: 1200px; height:575px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -493,7 +496,7 @@
 	  }); 
   
   function search(){
-	  var type=$('#u20214_input').val();
+	  var type=$('#u20214_input').combobox('getValue');
 	  var orgId=$('#u20200_input').combobox('getValue');
 	  var org=$('#orgId').val();
 	  var schemaName=$('#schemaName').val();
@@ -774,7 +777,7 @@
 									]] ,
 									onLoadSuccess:function(data){  
 								        if(data.total > 0) return;  
-								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 8 }); 
+								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 10 }); 
 									},
 									pagination: true , 
 									pageSize: 10 ,

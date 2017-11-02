@@ -121,8 +121,9 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 						&& StringUtils.equals(pc.getOrgId(), s.getOrgId())) {
 					str += s.getSpecName() + ":" + s.getSpecItem() + "/";
 				}
-				pc.setSpec(str);
+				
 			}
+			pc.setSpec(str);
 		}
 		List<PurchaseCollect> footer = new ArrayList<PurchaseCollect>();
 		PageInfo pageInfo = new PageInfo(list);
