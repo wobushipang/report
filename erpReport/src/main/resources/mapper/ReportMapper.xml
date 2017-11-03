@@ -97,11 +97,16 @@
 		<if test="operationType!=null and operationType!=''">
 			and pwi.operation_type=#{operationType}
 		</if>
+		<if test="orgId==null">
 		 and pwi.org_id in
 		<foreach collection="orgs" open="(" close=")" item="org"
 			separator=",">
 			#{org}
 		</foreach>
+		</if>
+		<if test="orgId!=null">
+		and pwi.org_id =#{orgId}
+		</if>
 		and pwi.schema_name = wic.schema_name
 		and pwi.pk_id =
 		wic.warehouse_in_id
@@ -467,11 +472,16 @@
 		and cd.last_up_time between #{start,
 		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
+		<if test="orgId==null">
 		and cd.org_id in
 		<foreach collection="orgs" open="(" close=")" item="org"
 			separator=",">
 			#{org}
 		</foreach>
+		</if>
+		<if test="orgId!=null">
+		and cd.org_id =#{orgId}
+		</if>
 		<if test="supplierId!=null and supplierId!=''">
 			and cad.supplier_id=#{supplierId}
 		</if>
@@ -889,11 +899,19 @@
 		<if test="modelName!=null and modelName!=''">
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
+		<if test="orgId==null">
 		 and t1.org_id in
 		<foreach collection="orgs" open="(" close=")" item="org"
 			separator=",">
 			#{org}
 		</foreach> 
+		</if>
+		<if test="orgId!=null">
+		and t1.org_id = #{orgId}
+		</if>
+		<if test="warehouseId!=null and warehouseId!=''">
+			and tt1.warehouse_id=#{warehouseId}
+		</if>
 		and tt1.commodity_info_id=t1.pk_id) tt2 ,
 		storage_early_warning sew
 		where sew.commodity_code=tt2.commodityCode
@@ -901,9 +919,7 @@
 		and
 		sew.org_id=tt2.org_id
 		and nvl(sew.safe_stock,0)>tt2.count1
-		<if test="warehouseId!=null and warehouseId!=''">
-			and tt2.warehouse_id=#{warehouseId}
-		</if>
+		
 		and sew.schema_name=tt2.schema_name
 		and sew.wh_code=tt2.wh_code
 
@@ -1011,11 +1027,19 @@
 		<if test="modelName!=null and modelName!=''">
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
+		<if test="orgId==null">
 		and t1.org_id in
 		<foreach collection="orgs" open="(" close=")" item="org"
 			separator=",">
 			#{org}
 		</foreach>
+		</if>
+		<if test="orgId!=null">
+		and t1.org_id = #{orgId}
+		</if>
+		<if test="warehouseId!=null and warehouseId!=''">
+			and tt1.warehouse_id=#{warehouseId}
+		</if>
 		and tt1.commodity_info_id=t1.pk_id) tt2 left join
 		storage_early_warning sew
 		on sew.commodity_code=tt2.commodityCode
@@ -1023,9 +1047,7 @@
 		sew.delete_flag=1
 		and to_char(sysdate-sew.unsalable_days)> tt2.time1
 		and sew.org_id=tt2.org_id
-		<if test="warehouseId!=null and warehouseId!=''">
-			and tt2.warehouse_id=#{warehouseId}
-		</if>
+		
 		and sew.schema_name=tt2.schema_name
 		and sew.wh_code=tt2.wh_code
 

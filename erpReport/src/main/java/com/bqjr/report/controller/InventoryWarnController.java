@@ -45,6 +45,7 @@ public class InventoryWarnController {
 	@ResponseBody
 	public Map<String,Object> getInventoryWarnList(HttpServletRequest request,SearchCondition condition){
 		//分页参数
+				List<String> strs = new ArrayList<String>();
 				int pageNum = 1, pageSize = 15;
 				if(StringUtils.isNotBlank(request.getParameter("page"))){
 					pageNum = Integer.parseInt(request.getParameter("page"));
@@ -56,7 +57,13 @@ public class InventoryWarnController {
 					condition.setSupplierId(null);
 				}
 				if(StringUtils.equals("0", condition.getOrgId())) {
-					condition.setOrgId(condition.getOrgName());
+					condition.setOrgId(null);
+					List<Organization> orgs=con.organizationList(condition.getOrgName());
+					for (Organization organization : orgs) {
+						String org=organization.getPkId();
+						strs.add(org);
+					}
+					condition.setOrgs(strs);
 				}
 				if(StringUtils.equals("0", condition.getOperationType())) {
 					condition.setOperationType(null);
@@ -73,13 +80,8 @@ public class InventoryWarnController {
 				if(StringUtils.equals("0", condition.getWarehouseId())) {
 					condition.setWarehouseId(null);
 				}
-				List<String> strs = new ArrayList<String>();
-				List<Organization> orgs=con.organizationList(condition.getOrgId());
-				for (Organization organization : orgs) {
-					String org=organization.getPkId();
-					strs.add(org);
-				}
-				condition.setOrgs(strs);
+				
+				
 		return service.getInventoryWarnList(pageNum, pageSize, condition);
 	}
 	

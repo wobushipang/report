@@ -50,6 +50,7 @@ public class ProxySaleController {
 	@RequestMapping(value="/getProxySale", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getProxySale(HttpServletRequest request,SearchCondition condition){
+		List<String> strs = new ArrayList<String>();
 		//分页参数
 		int pageNum = 1, pageSize = 15;
 		if(StringUtils.isNotBlank(request.getParameter("page"))){
@@ -62,7 +63,13 @@ public class ProxySaleController {
 			condition.setSupplierId(null);
 		}
 		if(StringUtils.equals("0", condition.getOrgId())) {
-			condition.setOrgId(condition.getOrgName());
+			condition.setOrgId(null);
+			List<Organization> orgs=con.organizationList(condition.getOrgName());
+			for (Organization organization : orgs) {
+				String org=organization.getPkId();
+				strs.add(org);
+			}
+			condition.setOrgs(strs);
 		}
 		if(StringUtils.equals("0", condition.getOperationType())) {
 			condition.setOperationType(null);
@@ -86,13 +93,8 @@ public class ProxySaleController {
 			String str=sdf.format(condition.getEndDate()); 
 			condition.setEnd(str);
 		}
-		List<String> strs = new ArrayList<String>();
-		List<Organization> orgs=con.organizationList(condition.getOrgId());
-		for (Organization organization : orgs) {
-			String org=organization.getPkId();
-			strs.add(org);
-		}
-		condition.setOrgs(strs);
+		
+		
 		return service.getProxySaleList(pageNum, pageSize, condition);
 	}
 }

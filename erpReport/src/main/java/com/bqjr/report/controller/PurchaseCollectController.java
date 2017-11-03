@@ -46,6 +46,7 @@ public class PurchaseCollectController {
 	public Map<String,Object> getpurcaseCollect(HttpServletRequest request,SearchCondition condition,String type){
 		//分页参数
 		int pageNum = 1, pageSize = 10;
+		List<String> strs = new ArrayList<String>();
 		if(StringUtils.isNotBlank(request.getParameter("page"))){
 			pageNum = Integer.parseInt(request.getParameter("page"));
 		}
@@ -56,7 +57,14 @@ public class PurchaseCollectController {
 			condition.setSupplierId(null);
 		}
 		if(StringUtils.equals("0", condition.getOrgId())) {
-			condition.setOrgId(condition.getOrgName());
+			condition.setOrgId(null);
+			List<Organization> orgs=con.organizationList(condition.getOrgName());
+			for (Organization organization : orgs) {
+				String org=organization.getPkId();
+				strs.add(org);
+			}
+			condition.setOrgs(strs);
+			//
 		}
 		if(StringUtils.equals("0", condition.getOperationType())) {
 			condition.setOperationType(null);
@@ -80,13 +88,9 @@ public class PurchaseCollectController {
 			String str=sdf.format(condition.getEndDate()); 
 			condition.setEnd(str);
 		}
-		List<String> strs = new ArrayList<String>();
-		List<Organization> orgs=con.organizationList(condition.getOrgId());
-		for (Organization organization : orgs) {
-			String org=organization.getPkId();
-			strs.add(org);
-		}
-		condition.setOrgs(strs);
+		
+		
+		
 		return service.getpurchaseCollectList(pageNum, pageSize, condition);
 	}
 	
