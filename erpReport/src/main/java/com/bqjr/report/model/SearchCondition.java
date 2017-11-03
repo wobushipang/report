@@ -43,6 +43,8 @@ public class SearchCondition {
 	private String businessType;// 收支类型
 	private String businessId;// 业务ID
 	private String businessName;// 业务名称
+	private String memberMobilePhone;// 会员手机号
+	private String memberName;// 会员名字
 	public String getOrgId() {
 		return orgId;
 	}
@@ -211,5 +213,17 @@ public class SearchCondition {
 	}
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
+	}
+	public String getMemberMobilePhone() {
+		return memberMobilePhone;
+	}
+	public void setMemberMobilePhone(String memberMobilePhone) {
+		this.memberMobilePhone = memberMobilePhone;
+	}
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 }

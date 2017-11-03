@@ -9,9 +9,9 @@
  *
  * @ProjectName erp
  * @PackageName com.bqjr.report.service.impl
- * @FileName StockDayServiceImpl 
+ * @FileName SaleReturnServiceImpl 
  * @author wei.huang02
- * @Date 2017年10月31日 下午7:28:41 
+ * @Date 2017年11月2日 下午2:17:09 
  *****************************************************************************/
 package com.bqjr.report.service.impl;
 
@@ -27,51 +27,42 @@ import org.springframework.stereotype.Service;
 
 import com.bqjr.report.mapper.ReportInfoMapper;
 import com.bqjr.report.mapper.ReportMapper;
+import com.bqjr.report.model.SaleReturn;
 import com.bqjr.report.model.SearchCondition;
-import com.bqjr.report.model.StockDay;
-import com.bqjr.report.service.StockDayService;
+import com.bqjr.report.service.SaleReturnService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 /**
- * @ClassName StockDayServiceImpl.java
+ * @ClassName SaleReturnServiceImpl.java
  * @Description 
  * @author wei.huang02
- * @Date 2017年10月31日 下午7:28:41
+ * @Date 2017年11月2日 下午2:17:09
  * @since JDK 1.8
  */
 @Service
-public class StockDayServiceImpl implements StockDayService {
-	
+public class SaleReturnServiceImpl implements SaleReturnService {
+
 	@Autowired
 	private ReportInfoMapper mapper;
 	
 	@Autowired
 	private ReportMapper mapper1;
-
+	
 	@Override
-	public Map<String, Object> getStockDayList(int pageNum, int pageSize, SearchCondition condition) {
+	public Map<String, Object> getSaleReturnList(int pageNum, int pageSize, SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<String> codes = new ArrayList<String>();
-		List<StockDay> list = new ArrayList<>();	
+		List<SaleReturn> list = new ArrayList<SaleReturn>();	
 		PageHelper.startPage(pageNum, pageSize);
-		list = mapper.getStockDayList(condition);
-		for (StockDay s : list) {
-			if(StringUtils.isBlank(s.getAllotIn())) s.setAllotIn("0");
-			if(StringUtils.isBlank(s.getAllotOut())) s.setAllotOut("0");
-			if(StringUtils.isBlank(s.getBeginQuantity())) s.setBeginQuantity("0");
-			if(StringUtils.isBlank(s.getFinalQuantity())) s.setFinalQuantity("0");
-			if(StringUtils.isBlank(s.getLossQuantity())) s.setLossQuantity("0");
-			if(StringUtils.isBlank(s.getProfitQuantity())) s.setProfitQuantity("0");
-			if(StringUtils.isBlank(s.getPurchaseExpendIn())) s.setPurchaseExpendIn("0");
-			if(StringUtils.isBlank(s.getPurchaseExpendOut())) s.setPurchaseExpendOut("0");
-			if(StringUtils.isBlank(s.getPurchaseIn())) s.setPurchaseIn("0");
-			if(StringUtils.isBlank(s.getPurchaseReturn())) s.setPurchaseReturn("0");
-			if(StringUtils.isBlank(s.getSaleExpendIn())) s.setSaleExpendIn("0");
-			if(StringUtils.isBlank(s.getSaleExpendOut())) s.setSaleExpendOut("0");
-			if(StringUtils.isBlank(s.getSaleOut())) s.setSaleOut("0");
-			if(StringUtils.isBlank(s.getSaleReturn())) s.setSaleReturn("0");
-			if(StringUtils.isBlank(s.getTrimQuantity())) s.setTrimQuantity("0");
+		list = mapper.getSaleReturnList(condition);
+		for (SaleReturn s : list) {
+			if(StringUtils.isBlank(s.getGiftNum())) s.setGiftNum("0");
+			if(StringUtils.isBlank(s.getDiscountSaleSum())) s.setDiscountSaleSum("0");
+			if(StringUtils.isBlank(s.getSaleCost())) s.setSaleCost("0");
+			if(StringUtils.isBlank(s.getSaleGross())) s.setSaleGross("0");
+			if(StringUtils.isBlank(s.getSaleNum())) s.setSaleNum("0");
+			if(StringUtils.isBlank(s.getSaleSum())) s.setSaleSum("0");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
@@ -81,7 +72,7 @@ public class StockDayServiceImpl implements StockDayService {
 			codes.addAll(h);
 			specs = mapper1.getSpecList(codes,condition.getSchemaName(),"");
 		}
-		for (StockDay sd : list) {
+		for (SaleReturn sd : list) {
 			String str="";
 			for (SearchCondition s : specs) {
 				if(StringUtils.equals(sd.getCommodityCode(), s.getCommodityCode())&&StringUtils.equals(sd.getOrgId(), s.getOrgId())) {
@@ -90,7 +81,7 @@ public class StockDayServiceImpl implements StockDayService {
 				sd.setSpec(str);
 			}
 		}
-		PageInfo<StockDay> pageInfo = new PageInfo<StockDay>(list);
+		PageInfo<SaleReturn> pageInfo = new PageInfo<SaleReturn>(list);
 		map.put("rows", list);
 		map.put("total", pageInfo.getTotal());
 		return map;

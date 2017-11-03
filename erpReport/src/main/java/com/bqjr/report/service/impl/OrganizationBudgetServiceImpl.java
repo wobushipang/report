@@ -46,8 +46,8 @@ public class OrganizationBudgetServiceImpl implements OrganizationBudgetService 
 	@Override
 	public Map<String, Object> getOrganizationBudgetList(int pageNum, int pageSize, SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		PageHelper.startPage(pageNum, pageSize);
 		List<OrganizationBudget> list = new ArrayList<OrganizationBudget>();
+		PageHelper.startPage(pageNum, pageSize);
 		if (condition.getType() == 1) {
 			if (StringUtils.equals("1", condition.getBusinessType())) {
 				list = mapper.getIncomeByBusinessType(condition);

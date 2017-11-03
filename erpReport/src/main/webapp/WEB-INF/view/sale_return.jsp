@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>库存日报表</title>
+<title>销售毛利查询</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -17,7 +17,8 @@
 <link href="resources/css/axure_rp_page.css" type="text/css"
 	rel="stylesheet" />
 <link href="data/styles.css" type="text/css" rel="stylesheet" />
-<link href="files/stock_day/styles.css" type="text/css" rel="stylesheet" />
+<link href="files/sale_return/styles.css" type="text/css"
+	rel="stylesheet" />
 <script src="resources/scripts/jquery-1.7.1.min.js"></script>
 <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
 <script src="resources/scripts/axure/axQuery.js"></script>
@@ -47,33 +48,39 @@
 <script src="resources/scripts/axure/adaptive.js"></script>
 <script src="resources/scripts/axure/tree.js"></script>
 <script src="resources/scripts/axure/init.temp.js"></script>
-<script src="files/stock_day/data.js"></script>
+<script src="files/sale_return/data.js"></script>
 <script src="resources/scripts/axure/legacy.js"></script>
 <script src="resources/scripts/axure/viewer.js"></script>
 <script src="resources/scripts/axure/math.js"></script>
 <%@ include file="../../../page/public_base.jsp"%>
 <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
+	$axure.utils.getTransparentGifPath = function() {
+		return 'resources/images/transparent.gif';
+	};
+	$axure.utils.getOtherPath = function() {
+		return 'resources/Other.html';
+	};
+	$axure.utils.getReloadPath = function() {
+		return 'resources/reload.html';
+	};
+</script>
 </head>
 <body>
 	<input type="hidden" id="orgId" value="${orgId}" />
 	<input type="hidden" id="openId" value="${openId}" />
 	<input type="hidden" id="schemaName" value="${schemaName}" />
-
 	<div id="base" class="">
-		<!-- 库存日报表查询面板 (动态面板) -->
-		<div id="u11070" class="ax_default" data-label="库存日报表查询面板">
-			<div id="u11070_state0" class="panel_state" data-label="查询条件">
-				<div id="u11070_state0_content" class="panel_state_content">
+		<!-- 销售状况汇总查询表 (动态面板) -->
+		<div id="u16023" class="ax_default" data-label="销售状况汇总查询表">
+			<div id="u16023_state0" class="panel_state" data-label="查询条件">
+				<div id="u16023_state0_content" class="panel_state_content">
 					<form id="mysearch" method="post">
+
 						<!-- Unnamed (矩形) -->
-						<div id="u11071" class="ax_default box_1">
-							<div id="u11071_div" class=""></div>
+						<div id="u16024" class="ax_default box_1">
+							<div id="u16024_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11072" class="text"
+							<div id="u16025" class="text"
 								style="display: none; visibility: hidden">
 								<p>
 									<span></span>
@@ -82,10 +89,10 @@
 						</div>
 
 						<!-- Unnamed (矩形) -->
-						<div id="u11073" class="ax_default box_1">
-							<div id="u11073_div" class=""></div>
+						<div id="u16026" class="ax_default box_1">
+							<div id="u16026_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11074" class="text" style="visibility: visible;">
+							<div id="u16027" class="text" style="visibility: visible;">
 								<p>
 									<span class="a">查询</span>
 								</p>
@@ -93,163 +100,37 @@
 						</div>
 
 						<!-- Unnamed (矩形) -->
-						<div id="u11075" class="ax_default box_1">
-							<div id="u11075_div" class=""></div>
+						<div id="u16028" class="ax_default box_1">
+							<div id="u16028_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11076" class="text" style="visibility: visible;">
+							<div id="u16029" class="text" style="visibility: visible;">
 								<p>
-									<span>库存日报表</span>
+									<span>销售毛利</span>
 								</p>
 							</div>
 						</div>
 
-						<!-- 查询按钮 (提交按钮) -->
-						<div id="u11077" class="ax_default html_button">
-							<input id="u11077_input" type="button" value="查询"
-								onclick='search()' />
+						<!-- Unnamed (提交按钮) -->
+						<div id="u16030" class="ax_default html_button">
+							<input id="u16030_input" type="button" value="查询" onclick="search()"/>
 						</div>
 
-						<!-- 重置按钮 (提交按钮) -->
-						<div id="u11078" class="ax_default html_button">
-							<input id="u11078_input" type="button" value="重置" />
-						</div>
-
-						<!-- 商品编号 (矩形) -->
-						<div id="u11079" class="ax_default label">
-							<div id="u11079_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11080" class="text" style="visibility: visible;">
-								<p>
-									<span>商品编号</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- 商品编号 (文本框) -->
-						<div id="u11081" class="ax_default text_field">
-							<input id="u11081_input" name="commodityCode" type="text"
-								placeholder="请输入商品编号" />
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11082" class="ax_default label">
-							<div id="u11082_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11083" class="text" style="visibility: visible;">
-								<p>
-									<span>品牌名称</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11084" class="ax_default label">
-							<div id="u11084_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11085" class="text" style="visibility: visible;">
-								<p>
-									<span>型号名称</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11086" class="ax_default label">
-							<div id="u11086_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11087" class="text" style="visibility: visible;">
-								<p>
-									<span>商品分类</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- 商品分类 (下拉列表框) -->
-						<div id="u11088" class="ax_default droplist">
-							<input type="text" id="u11088_input">
-						</div>
-
-						<!-- 品牌名称 (下拉列表框) -->
-						<div id="u11089" class="ax_default droplist">
-							<input type="text" id="u11089_input">
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11090" class="ax_default label">
-							<div id="u11090_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11091" class="text" style="visibility: visible;">
-								<p>
-									<span>组织机构</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- 组织机构 (下拉列表框) -->
-						<div id="u11092" class="ax_default droplist">
-							<input type="text" id="u11092_input">
-						</div>
-
-						<!-- 型号名称 (下拉列表框) -->
-						<div id="u11093" class="ax_default droplist">
-							<input type="text" id="u11093_input">
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11094" class="ax_default label">
-							<div id="u11094_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11095" class="text" style="visibility: visible;">
-								<p>
-									<span>仓库</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- 仓库名称 (下拉列表框) -->
-						<div id="u11096" class="ax_default droplist">
-							<input type="text" id="u11096_input">
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11097" class="ax_default label">
-							<div id="u11097_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11098" class="text" style="visibility: visible;">
-								<p>
-									<span>&nbsp;</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- Unnamed (矩形) -->
-						<div id="u11099" class="ax_default label">
-							<div id="u11099_div" class=""></div>
-							<!-- Unnamed () -->
-							<div id="u11100" class="text" style="visibility: visible;">
-								<p>
-									<span>商品名称</span>
-								</p>
-							</div>
-						</div>
-
-						<!-- 商品名称 (文本框) -->
-						<div id="u11101" class="ax_default text_field">
-							<input id="u11101_input" name="commodityName" type="text"
-								placeholder="请输入商品名称" />
+						<!-- Unnamed (提交按钮) -->
+						<div id="u16031" class="ax_default html_button">
+							<input id="u16031_input" type="button" value="重置" />
 						</div>
 
 						<!-- 起始日期 (文本框) -->
-						<div id="u11102" class="ax_default text_field">
-							<input id="u11102_input" name="startDate" type="text"
+						<div id="u16032" class="ax_default text_field">
+							<input id="u16032_input" name="startDate" type="text"
 								class="easyui-datebox" style="width: 190px" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
-						<div id="u11103" class="ax_default label">
-							<div id="u11103_div" class=""></div>
+						<div id="u16033" class="ax_default label">
+							<div id="u16033_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11104" class="text" style="visibility: visible;">
+							<div id="u16034" class="text" style="visibility: visible;">
 								<p>
 									<span>起始日期</span>
 								</p>
@@ -257,33 +138,153 @@
 						</div>
 
 						<!-- 终止日期 (文本框) -->
-						<div id="u11105" class="ax_default text_field">
-							<input id="u11105_input" name="endDate" type="text"
+						<div id="u16035" class="ax_default text_field">
+							<input id="u16035_input" name="endDate" type="text"
 								class="easyui-datebox" style="width: 190px" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
-						<div id="u11106" class="ax_default label">
-							<div id="u11106_div" class=""></div>
+						<div id="u16036" class="ax_default label">
+							<div id="u16036_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11107" class="text" style="visibility: visible;">
+							<div id="u16037" class="text" style="visibility: visible;">
+								<p>
+									<span>商品编号</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- 商品编号 (文本框) -->
+						<div id="u16038" class="ax_default text_field">
+							<input id="u16038_input" name="commodityCode" type="text"
+								placeholder="请输入商品编号" />
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16039" class="ax_default label">
+							<div id="u16039_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16040" class="text" style="visibility: visible;">
+								<p>
+									<span>品牌名称</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16041" class="ax_default label">
+							<div id="u16041_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16042" class="text" style="visibility: visible;">
+								<p>
+									<span>型号名称</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16043" class="ax_default label">
+							<div id="u16043_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16044" class="text" style="visibility: visible;">
+								<p>
+									<span>商品分类</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- 商品分类  (下拉列表框) -->
+						<div id="u16045" class="ax_default droplist">
+							<input type="text" id="u16045_input">
+						</div>
+
+						<!-- 品牌名称 (下拉列表框) -->
+						<div id="u16046" class="ax_default droplist">
+							<input type="text" id="u16046_input">
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16047" class="ax_default label">
+							<div id="u16047_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16048" class="text" style="visibility: visible;">
+								<p>
+									<span>组织机构</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- 组织机构 (下拉列表框) -->
+						<div id="u16049" class="ax_default droplist">
+							<input type="text" id="u16049_input">
+						</div>
+
+						<!-- 型号名称 (下拉列表框) -->
+						<div id="u16050" class="ax_default droplist">
+							<input type="text" id="u16050_input">
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16051" class="ax_default label">
+							<div id="u16051_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16052" class="text" style="visibility: visible;">
 								<p>
 									<span>终止日期</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16053" class="ax_default label">
+							<div id="u16053_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16054" class="text" style="visibility: visible;">
+								<p>
+									<span>&nbsp;</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16055" class="ax_default label">
+							<div id="u16055_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16056" class="text" style="visibility: visible;">
+								<p>
+									<span>商品名称</span>
+								</p>
+							</div>
+						</div>
+
+						<!-- 商品名称 (文本框) -->
+						<div id="u16057" class="ax_default text_field">
+							<input id="u16057_input" name="commodityName" type="text"
+								placeholder="请输入商品名称" />
+						</div>
+
+						<!-- Unnamed (矩形) -->
+						<div id="u16058" class="ax_default label">
+							<div id="u16058_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u16059" class="text" style="visibility: hidden;">
+								<p>
+									<span>注：销售日报表用来查询指定时间段内的销售状况(购销商品)，目前只有串号/批次管理商品可支持销售毛利的计算</span>
 								</p>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
-			<div id="u11070_state1" class="panel_state" data-label="库存日报表"
+			<div id="u16023_state1" class="panel_state" data-label="销售毛利"
 				style="display: none; visibility: hidden;">
-				<div id="u11070_state1_content" class="panel_state_content">
+				<div id="u16023_state1_content" class="panel_state_content">
 
 					<!-- Unnamed (矩形) -->
-					<div id="u11108" class="ax_default box_1">
-						<div id="u11108_div" class=""></div>
+					<div id="u16060" class="ax_default box_1">
+						<div id="u16060_div" class=""></div>
 						<!-- Unnamed () -->
-						<div id="u11109" class="text"
+						<div id="u16061" class="text"
 							style="display: none; visibility: hidden">
 							<p>
 								<span></span>
@@ -292,10 +293,10 @@
 					</div>
 
 					<!-- Unnamed (矩形) -->
-					<div id="u11110" class="ax_default box_1">
-						<div id="u11110_div" class=""></div>
+					<div id="u16062" class="ax_default box_1">
+						<div id="u16062_div" class=""></div>
 						<!-- Unnamed () -->
-						<div id="u11111" class="text" style="visibility: visible;">
+						<div id="u16063" class="text" style="visibility: visible;">
 							<p>
 								<span class="a">查询</span>
 							</p>
@@ -303,10 +304,10 @@
 					</div>
 
 					<!-- Unnamed (矩形) -->
-					<div id="u11112" class="ax_default box_1">
-						<div id="u11112_div" class=""></div>
+					<div id="u16064" class="ax_default box_1">
+						<div id="u16064_div" class=""></div>
 						<!-- Unnamed () -->
-						<div id="u11113" class="text"
+						<div id="u16065" class="text"
 							style="display: none; visibility: hidden">
 							<p>
 								<span></span>
@@ -315,23 +316,23 @@
 					</div>
 
 					<!-- Unnamed (表格) -->
-					<div id="u11114" class="ax_default">
+					<div id="u16066" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1350px; height: 520px">
+							style="width: 1350px; height: 560px;position:absolute;left:0px;">
 							<!-- 列表 -->
-							<div region="center" id="s">
-								<table id="stock"></table>
+							<div region="center" id="g">
+								<table id="gross"></table>
 							</div>
 						</div>
 					</div>
 
 					<!-- Unnamed (矩形) -->
-					<div id="u11253" class="ax_default box_1">
-						<div id="u11253_div" class=""></div>
+					<div id="u16431" class="ax_default box_1">
+						<div id="u16431_div" class=""></div>
 						<!-- Unnamed () -->
-						<div id="u11254" class="text" style="visibility: visible;">
+						<div id="u16432" class="text" style="visibility: visible;">
 							<p>
-								<span>库存日报表</span>
+								<span>销售毛利</span>
 							</p>
 						</div>
 					</div>
@@ -346,36 +347,16 @@ $(function(){
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
 	//组织机构
-	$('#u11092_input').combobox({
+	$('#u16049_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 		valueField:'id',
 		textField:'text',
 		editable:false ,
-		width : '190',
-		//panelHeight:'auto'
-		onChange:function(value){
-			$('#u11096_input').combobox({
-				url:'<%=path%>/getWarehouseList?orgId='+value+'&schemaName='+schemaName ,
-				valueField:'id',
-				textField:'text',
-				editable:false,
-				width:'190',
-				//panelHeight:'auto'
-			});
-		}
-	});
-	//仓库名称
-	$('#u11096_input').combobox({
-		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&orgId=' 
-			+$('#u11092_input').combobox('getValue'),
-		valueField:'id',
-		textField:'text',
-		editable:false,
-		width:'190',
+		width : '190'
 		//panelHeight:'auto'
 	});
 	//商品分类
-	$('#u11088_input').combobox({
+	$('#u16045_input').combobox({
 		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName,
 		valueField:'id',
 		textField:'text',
@@ -385,7 +366,7 @@ $(function(){
 		onChange:function(value){
 		    if(value!='0'){
 		    	//品牌
-				$('#u11089_input').combobox({
+				$('#u16046_input').combobox({
 					valueField:'id', //值字段
 					textField:'text', //显示的字段
 					url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
@@ -395,7 +376,7 @@ $(function(){
 					onChange:function(value){
 						if(value!=''&&value!=null){
 						    //型号
-							$('#u11093_input').combobox({
+							$('#u16050_input').combobox({
 								valueField:'id', //值字段
 								textField:'text', //显示的字段
 								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
@@ -410,21 +391,21 @@ $(function(){
 		}
 	});
 	//品牌
-	$('#u11089_input').combobox({
+	$('#u16046_input').combobox({
 		valueField:'id', //值字段
 		textField:'text', //显示的字段
 		url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
-			+ $('#u11088_input').combobox('getValue'),
+			+ $('#u16045_input').combobox('getValue'),
 		editable:true,//不可编辑，只能选择
 		width:'190',
 		//panelHeight:'auto',
 	});
 	//型号
-	$('#u11093_input').combobox({
+	$('#u16050_input').combobox({
 		valueField:'id', //值字段
 		textField:'text', //显示的字段
 		url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
-			+ $('#u11089_input').combobox('getValue'),
+			+ $('#u16046_input').combobox('getValue'),
 		editable:true,//不可编辑，只能选择
 		width:'190',
 		//panelHeight:'auto'
@@ -433,16 +414,15 @@ $(function(){
 
 function search(){
 	var schemaName=$('#schemaName').val();
-	var orgId=$('#u11092_input').combobox('getValue');
-	var warehouseName=$('#u11096_input').combobox('getValue');
 	var org=$('#orgId').val();
-	var commodityCode=$('#u11081_input').val();
-	var commodityName=$('#u11101_input').val();
-	var catalogName=$('#u11088_input').combobox('getValue');
-	var brandName=$('#u11089_input').combobox('getValue');
-	var modelName=$('#u11093_input').combobox('getValue');
-	var start=$('#u11102_input').datebox('getValue');
-	var end=$('#u11105_input').datebox('getValue');
+	var orgId=$('#u16049_input').combobox('getValue');
+	var commodityCode=$('#u16038_input').val();
+	var commodityName=$('#u16057_input').val();
+	var catalogName=$('#u16045_input').combobox('getValue');
+	var brandName=$('#u16046_input').combobox('getValue');
+	var modelName=$('#u16050_input').combobox('getValue');
+	var start=$('#u16032_input').datebox('getValue');
+	var end=$('#u16035_input').datebox('getValue');
 	var d1 = formatDatebox(start);
 	var d2 = formatDatebox(end);
 	if(start.length==0 || end.length==0){
@@ -463,11 +443,11 @@ function search(){
 		$(".datagrid-mask").remove();
 		$(".datagrid-mask-msg").remove();            
 	}
-	$('#stock').datagrid({
-		idField:'stockDay',	//只要创建数据表格 就必须要加 ifField
+	$('#gross').datagrid({
+		idField:'saleReturn',	//只要创建数据表格 就必须要加 ifField
 		fit:true,
 		height:450,
-		url:'/getStockDay',
+		url:'/getSaleReturn',
 		//fitColumns:true ,  
 		//striped: true ,	//隔行变色特性 
 		//nowrap: false ,	//折行显示 为true 显示在一会 
@@ -477,7 +457,6 @@ function search(){
 		queryParams: {
 			schemaName:schemaName,
 			orgId:orgId,
-			warehouseName:warehouseName,
 			commodityName:commodityName,
 			commodityCode:commodityCode,
 			catalogName:catalogName,
@@ -501,12 +480,6 @@ function search(){
 			width:150
 		},
 		{
-			field:'warehouseName',
-			title:'仓库名称',
-			align:'center',
-			width:120
-		},
-		{
 			field:'commodityCode', 
 			title:'商品编码', 
 			align:'center',
@@ -519,92 +492,38 @@ function search(){
 			width:180
 		},
 		{
-			field:'beginQuantity', 
-			title:'期初库存量',
+			field:'saleNum', 
+			title:'销售数量',
 			align:'center',
 			width:100
 		},
 		{
-			field:'purchaseIn' , 
-			title:'采购入库量' ,
+			field:'giftNum', 
+			title:'赠品数量',
 			align:'center',
 			width:100
 		},
 		{
-			field:'purchaseReturn' , 
-			title:'采购退货量' ,
+			field:'saleSum', 
+			title:'销售金额',
 			align:'center',
 			width:100
 		},
 		{
-		   	field:'purchaseExpendIn',
-			title:'采购换货入库量',
+		   	field:'discountSaleSum',
+			title:'优惠后销售金额',
 			align:'center',
 			width:120
 		},
 		{
-			field:'purchaseExpendOut',
-			title:'采购换货出库量',
-			align:'center',
-			width:120
-		},
-		{
-			field:'allotOut', 
-			title:'调拨出库数量',
+			field:'saleCost',
+			title:'销售成本',
 			align:'center',
 			width:100
 		},
 		{
-			field:'allotIn', 
-			title:'调拨入库数量',
-			align:'center',
-			width:100
-		},
-		{
-			field:'profitQuantity', 
-			title:'盘盈数量',
-			align:'center',
-			width:100
-		},
-		{
-			field:'lossQuantity', 
-			title:'盘亏数量', 
-			align:'center',
-			width:100
-		},
-		{
-			field:'trimQuantity', 
-			title:'调整量', 
-			align:'center',
-			width:100
-		},
-		{
-			field:'saleOut', 
-			title:'销售出库量', 
-			align:'center',
-			width:100
-		},
-		{
-			field:'saleReturn', 
-			title:'销售退货量', 
-			align:'center',
-			width:100
-		},
-		{
-			field:'saleExpendOut', 
-			title:'销售换货出库量', 
-			align:'center',
-			width:120
-		},
-		{
-			field:'saleExpendIn', 
-			title:'销售换货入库量', 
-			align:'center',
-			width:120
-		},
-		{
-			field:'finalQuantity', 
-			title:'期末库存量', 
+			field:'saleGross', 
+			title:'销售毛利',
 			align:'center',
 			width:100
 		},
@@ -627,13 +546,13 @@ function search(){
 			width:150
 		},
 		{
-			field:'spec', 
-			title:'规格', 
-			align:'center',
+			field:'spec' , 
+			title:'规格' , 
+			align : 'center',
 			width:150,
-			formatter:function(value){
+			formatter: function(value){
 				var strs= new Array(); //定义一数组 
-				var a='<br/>'
+				var a=' <br/>'
 				if(value != null){
 					strs=value.split("/"); //字符分割 
 					for (i=0;i<strs.length ;i++ ) 
@@ -649,16 +568,16 @@ function search(){
 		pageSize:10,
 		pageList:[10],	
 	});
-	document.getElementById('u11070_state1').style.display='block';
-	document.getElementById('u11070_state1').style.visibility='visible';
+	document.getElementById('u16023_state1').style.display='block';
+	document.getElementById('u16023_state1').style.visibility='visible';
 }
 
 //查询按钮点击事件
 $('.a').click(function(){
-	document.getElementById('u11070_state1').style.display='none';
-	document.getElementById('u11070_state1').style.visibility='hidden';
-	document.getElementById('u11070_state0').style.display='block';
-	document.getElementById('u11070_state0').style.visibility='visible';
+	document.getElementById('u16023_state1').style.display='none';
+	document.getElementById('u16023_state1').style.visibility='hidden';
+	document.getElementById('u16023_state0').style.display='block';
+	document.getElementById('u16023_state0').style.visibility='visible';
 });
 
 //js方法：序列化表单 			
@@ -675,29 +594,21 @@ function serializeForm(form){
 }
 
 //重置按钮
-$('#u11078_input').click(function(){
+$('#u16031_input').click(function(){
 	var orgId=$('#orgId').val();
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
 	$('#mysearch').form('clear');
-	$('#u11092_input').combobox({
+	$('#u16049_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName,
 		valueField:'id',
 		textField:'text',
 		editable:false,
-		width : '190',
-		//panelHeight:'auto'
-	});
-	$('#u11096_input').combobox({
-		url:'<%=path%>/getWarehouseList?orgId='+orgId+'&schemaName='+schemaName,
-		valueField:'id',
-		textField:'text',
-		editable:false ,
-		width:'190',
+		width : '190'
 		//panelHeight:'auto'
 	});
 	//商品分类
-	$('#u11088_input').combobox({
+	$('#u16045_input').combobox({
 		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
 		valueField:'id',
 		textField:'text',
@@ -707,7 +618,7 @@ $('#u11078_input').click(function(){
 		onChange:function(value){
 			if(value!='0'){
 				//商品品牌
-				$('#u11089_input').combobox({
+				$('#u16046_input').combobox({
 					valueField:'id', //值字段
 					textField:'text', //显示的字段
 					url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
@@ -718,7 +629,7 @@ $('#u11078_input').click(function(){
 					onChange:function(value){
 						if(value!=''&&value!=null){
 							//商品型号
-							$('#u11093_input').combobox({
+							$('#u16050_input').combobox({
 								valueField:'id', //值字段
 								textField:'text', //显示的字段
 								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
@@ -733,22 +644,22 @@ $('#u11078_input').click(function(){
 		}
 	});
 	//品牌
-	$('#u11089_input').combobox({
+	$('#u16046_input').combobox({
 		valueField:'id', //值字段
 		textField:'text', //显示的字段
 		url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
-			+ $('#u11088_input').combobox('getValue'),
+			+ $('#u16045_input').combobox('getValue'),
 		editable:true,//不可编辑，只能选择
 		//width: 200,
 		width : '190',
 		//panelHeight:'auto',
 	});
 	//型号
-	$('#u11093_input').combobox({
+	$('#u16050_input').combobox({
 		valueField:'id', //值字段
 		textField:'text', //显示的字段
 		url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
-			+ $('#u11089_input').combobox('getValue'),
+			+ $('#u16046_input').combobox('getValue'),
 		editable : true,//不可编辑，只能选择
 		width : '190',
 		//panelHeight:'auto'

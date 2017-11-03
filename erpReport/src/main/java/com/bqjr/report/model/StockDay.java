@@ -27,6 +27,7 @@ import java.io.Serializable;
 public class StockDay implements Serializable {
 	private static final long serialVersionUID = -8634197196156308313L;
 
+	private String schemaName;
 	private String orgId;
 	private String orgName;
 	private String whName;// 仓库名称
@@ -52,6 +53,12 @@ public class StockDay implements Serializable {
 	private String saleExpendOut; // 销售换货出库
 	private String saleExpendIn; // 销售换货入库
 	private String finalQuantity; // 期末库存量
+	public String getSchemaName() {
+		return schemaName;
+	}
+	public void setSchemaName(String schemaName) {
+		this.schemaName = schemaName;
+	}
 	public String getOrgId() {
 		return orgId;
 	}
