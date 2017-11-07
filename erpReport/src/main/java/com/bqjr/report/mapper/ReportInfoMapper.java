@@ -19,6 +19,8 @@ import java.util.List;
 
 import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.OrganizationBudget;
+import com.bqjr.report.model.SaleReturn;
+import com.bqjr.report.model.SaleTotal;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.model.StockDay;
 
@@ -65,4 +67,8 @@ public interface ReportInfoMapper {
 	public List<OrganizationBudget> getExpendByBusinessType(SearchCondition condition);
 
 	public List<StockDay> getStockDayList(SearchCondition condition);
+
+	public List<SaleTotal> getSaleTotalList(SearchCondition condition);
+
+	public List<SaleReturn> getSaleReturnList(SearchCondition condition);
 }

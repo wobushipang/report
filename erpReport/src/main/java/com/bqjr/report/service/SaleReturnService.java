@@ -8,23 +8,24 @@
  * ============================================================================
  *
  * @ProjectName erp
- * @PackageName com.bqjr.report.controller
- * @FileName SaleTotal 
+ * @PackageName com.bqjr.report.service
+ * @FileName SaleReturnService 
  * @author wei.huang02
- * @Date 2017年11月1日 下午5:43:08 
+ * @Date 2017年11月2日 下午2:05:16 
  *****************************************************************************/
-package com.bqjr.report.controller;
+package com.bqjr.report.service;
 
-import org.springframework.stereotype.Controller;
+import java.util.Map;
+
+import com.bqjr.report.model.SearchCondition;
 
 /**
- * @ClassName SaleTotal.java
+ * @ClassName SaleReturnService.java
  * @Description 
  * @author wei.huang02
- * @Date 2017年11月1日 下午5:43:08
+ * @Date 2017年11月2日 下午2:05:16
  * @since JDK 1.8
  */
-@Controller
-public class SaleTotal {
-	
+public interface SaleReturnService {
+	Map<String, Object> getSaleReturnList(int pageNum, int pageSize, SearchCondition condition);
 }

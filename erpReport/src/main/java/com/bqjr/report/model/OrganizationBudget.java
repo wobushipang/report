@@ -27,6 +27,7 @@ import java.io.Serializable;
 public class OrganizationBudget implements Serializable {
 	private static final long serialVersionUID = -6942929988907995584L;
 	private String schemaName;
+	private String orgId;
 	private String orgName;
 	private String businessType;
 	private String businessName;
@@ -39,6 +40,12 @@ public class OrganizationBudget implements Serializable {
 	}
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
+	}
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 	public String getOrgName() {
 		return orgName;
