@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
@@ -76,6 +77,7 @@ public class FTPUtil {
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
 						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));
+						Thread.sleep(1);
 					}
 				} else {
 					logger.info("The folder [" + folderName + "] is not exists or empty");
@@ -101,7 +103,6 @@ public class FTPUtil {
 		try {
 			
 			folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
-			folderName = "2017-10-30";
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";
@@ -154,7 +155,10 @@ public class FTPUtil {
 		// 获得指定目录下所有文件名
 		FTPFile[] ftpFiles = null;
 		try {
-			ftpFiles = ftpClient.listFiles(path);
+			ftpClient.changeWorkingDirectory(path);
+			ftpClient.enterLocalPassiveMode();
+			ftpClient.configure(new FTPClientConfig());
+			ftpFiles = ftpClient.listFiles();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
