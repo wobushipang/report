@@ -37,13 +37,12 @@ public class ProxySaleController {
 	@RequestMapping("/proxySale")
 	public ModelAndView redirect(String orgId,String openId,String schemaName) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		orgId="BQJR999";
-		openId="F2500B5240E54BB2A5A0683787A85BA2";
-		schemaName="bqjr_erp_0000000013";
+		if(orgId==null)orgId="BQJR999";
+		if(openId==null)openId="F2500B5240E54BB2A5A0683787A85BA2";
+		if(schemaName==null)schemaName="bqjr_erp_0000000013";
 		map.put("orgId", orgId);
 		map.put("openId", openId);
 		map.put("schemaName", schemaName);
-		//map=service.getProxySaleList(1, 12, null);
 		return new ModelAndView("proxySale",map);
 	}
 	

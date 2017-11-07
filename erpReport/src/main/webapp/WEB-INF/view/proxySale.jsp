@@ -702,7 +702,7 @@
 		                startDate:start,
 		                endDate:end,
 		                orgName:org,
-		                schemaName,schemaName
+		                schemaName:schemaName
 		              }  ,   
 					//singleSelect:true ,				//单选模式 
 					//remoteSort: false ,
