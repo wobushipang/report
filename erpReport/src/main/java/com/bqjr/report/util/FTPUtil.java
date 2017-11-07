@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.SocketException;
+import java.net.URI;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,10 +32,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
+
+import it.sauronsoftware.ftp4j.*;
 
 /**
  * @ClassName FTPUtil.java
@@ -76,6 +77,7 @@ public class FTPUtil {
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
 						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));
+						Thread.sleep(1);
 					}
 				} else {
 					logger.info("The folder [" + folderName + "] is not exists or empty");
@@ -126,21 +128,22 @@ public class FTPUtil {
 			logger.debug("开始连接ftp服务器");
 			// 连接
 			ftpClient.connect(ftpHostName, port);
-			int reply = ftpClient.getReplyCode();
-			if (!FTPReply.isPositiveCompletion(reply)) {
-				ftpClient.disconnect();
-			}
+//			int reply = ftpClient.getReplyCode();
+//			if (!FTPReply.isPositiveCompletion(reply)) {
+//				ftpClient.disconnect();
+//			}
 			// 登录
 			logger.debug("开始登录！");
 			ftpClient.login(username, password);
+			ftpClient.setType(FTPClient.TYPE_AUTO);
 			// ftpClient.setBufferSize(256);
 			// ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-			ftpClient.setControlEncoding("utf8");
+//			ftpClient.setControlEncoding("utf8");
 			logger.debug("登录成功！");
 		} catch (SocketException e) {
 			logger.error("Socket异常", e);
-		} catch (IOException e) {
-			logger.error("文件流处理失败", e);
+		} catch (Exception e) {
+			logger.error("连接FTP异常", e);
 		}
 	}
 
@@ -154,15 +157,17 @@ public class FTPUtil {
 		// 获得指定目录下所有文件名
 		FTPFile[] ftpFiles = null;
 		try {
-			ftpFiles = ftpClient.listFiles(path);
-		} catch (IOException e) {
-			e.printStackTrace();
+			ftpClient.changeDirectory(path);
+			ftpFiles = ftpClient.list("*.csv");
+		} catch (Exception e) {
+			logger.error("获取文件异常", e);
 		}
 		for (int i = 0; ftpFiles != null && i < ftpFiles.length; i++) {
 			FTPFile file = ftpFiles[i];
-			if (file.isFile()) {
-				fileLists.add(file.getName());
-			}
+//			if (file.isFile()) {
+//				fileLists.add(file.getName());
+//			}
+			fileLists.add(file.getName());
 		}
 		return fileLists;
 	}
@@ -178,7 +183,10 @@ public class FTPUtil {
 		InputStream ins = null;
 		BufferedReader reader = null;
 		try {
-			ins = ftpClient.retrieveFileStream(fileName);
+			URI uri = new URI("ftp://"+userName+":"+password+"@"+ftpHostName+fileName);
+			URL url = uri.toURL();
+			ins = url.openStream();
+//			ins = ftpClient.retrieveFileStream(fileName);
 			reader = new BufferedReader(new InputStreamReader(ins));
 			String inLine = reader.readLine();
 			while (inLine != null) {
@@ -188,8 +196,8 @@ public class FTPUtil {
 				// result = (inLine + System.getProperty("line.separator"));
 				inLine = reader.readLine();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("读取文件异常", e);
 		} finally {
 			try {
 				if (reader != null) {
@@ -199,7 +207,7 @@ public class FTPUtil {
 					ins.close();
 				}
 				// 主动调用一次getReply()把接下来的226消费掉. 这样做是可以解决返回null问题
-				ftpClient.getReply();
+//				ftpClient.getReply();
 			} catch (IOException e) {
 				logger.error("文件流处理失败", e);
 			}
@@ -242,10 +250,15 @@ public class FTPUtil {
 	public static void closeServer() {
 		if (ftpClient.isConnected()) {
 			try {
-				ftpClient.logout();
-				ftpClient.disconnect();
+				ftpClient.disconnect(true);
+			} catch (IllegalStateException e) {
+				logger.error("ftp连接关闭异常");
 			} catch (IOException e) {
-				logger.error("ftp连接关闭异常", e);
+				logger.error("ftp连接关闭异常");
+			} catch (FTPIllegalReplyException e) {
+				logger.error("ftp连接关闭异常");
+			} catch (FTPException e) {
+				logger.error("ftp连接关闭异常");
 			}
 		}
 	}
