@@ -364,6 +364,15 @@
 					</div>
 				</div>
 	</div>
+	<div id="win1" class="easyui-window" title="详情" maximizable="false" minimizable="false"
+		style="width: 640px; height: 380px; padding: 1px;" closed="true">
+		<div id="layDs" class="easyui-layout" style="width: 620px; height:340px">
+					<!-- 列表 -->
+					<div region="center" id="ds">
+						<table id="details" class="easyui-datagrid"></table>
+					</div>
+				</div>
+	</div>
   </body>
   <script type="text/javascript">
   
@@ -971,10 +980,10 @@
 	/**
 	 *	初始化数据表格  
 	 */
-	 $('#detail').datagrid({
+	 $('#details').datagrid({
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true ,
-			height:450 ,
+			//height:450 ,
 			//url:'/getDetail?schemaName='+schemaName+'&commodityId='+id ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
 			onClickRow: function (rowIndex, rowData) {
@@ -985,7 +994,7 @@
 					field:'infoContent' , 
 					title:'串号批次' ,   
 					align : 'center',
-					width:120
+					width:150
 				},
 				
 				{
@@ -1005,14 +1014,14 @@
 					field:'unsalableDays' , 
 					title:'滞销天数' ,
 					align : 'center',
-					width:100
+					width:80
 				}
 			]] ,
 		});
 	 var obj = '{"total":1,"rows":[{"infoContent":"'+infoContent+'","inventoryInTime":"'+time+'","supplier":"'+supplier+'","unsalableDays":"'+unsalableDays+'"}]}';    
 	 var data = $.parseJSON(obj);                //json字符串转成json对象  
-	 $('#detail').datagrid('loadData',data);  
-	$("#win").window('open');
+	 $('#details').datagrid('loadData',data);  
+	$("#win1").window('open');
 }
   </script>
 </html>
