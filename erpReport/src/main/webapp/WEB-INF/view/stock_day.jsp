@@ -317,7 +317,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u11114" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1350px; height: 520px">
+							style="width: 1350px; height: 565px">
 							<!-- 列表 -->
 							<div region="center" id="s">
 								<table id="stock"></table>
@@ -501,7 +501,7 @@ function search(){
 			width:150
 		},
 		{
-			field:'warehouseName',
+			field:'whName',
 			title:'仓库名称',
 			align:'center',
 			width:120

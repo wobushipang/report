@@ -86,7 +86,7 @@
 		from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
 		where pwi.delete_flag = 1
 		and pwi.warehouse_in_status = 1
-		and 
+		and
 		pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
 		and
@@ -98,14 +98,14 @@
 			and pwi.operation_type=#{operationType}
 		</if>
 		<if test="orgId==null">
-		 and pwi.org_id in
-		<foreach collection="orgs" open="(" close=")" item="org"
-			separator=",">
-			#{org}
-		</foreach>
+			and pwi.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
 		</if>
 		<if test="orgId!=null">
-		and pwi.org_id =#{orgId}
+			and pwi.org_id =#{orgId}
 		</if>
 		and pwi.schema_name = wic.schema_name
 		and pwi.pk_id =
@@ -334,10 +334,14 @@
 	</select>
 	<select id="getBrandList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.brand_code brandCode,
-		(select b.brand_name from c_commodity_brand b where b.delete_flag=1 and
-		b.status='2' and b.schema_name=t.schema_name and
-		b.brand_code=t.brand_code and rownum=1)as brandName
-		from c_commodity_catalog2brand t where t.delete_flag=1
+		(select b.brand_name from
+		c_commodity_brand b where b.delete_flag=1 and
+		b.status='2' and
+		b.schema_name=t.schema_name and
+		b.brand_code=t.brand_code and
+		rownum=1)as brandName
+		from c_commodity_catalog2brand t where
+		t.delete_flag=1
 		and t.schema_name=#{schemaName}
 		<if test="catalogCode!=null and catalogCode!=''">
 			and t.catalog_code=#{catalogCode}
@@ -351,7 +355,7 @@
 			and t.brand_code=#{brandCode}
 		</if>
 	</select>
-	
+
 	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.business_id as businessId,t.business_name as businessName
 		from finance_org_business_type t where t.delete_flag=1 and t.status=1
@@ -482,14 +486,14 @@
 		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
 		<if test="orgId==null">
-		and cd.org_id in
-		<foreach collection="orgs" open="(" close=")" item="org"
-			separator=",">
-			#{org}
-		</foreach>
+			and cd.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
 		</if>
 		<if test="orgId!=null">
-		and cd.org_id =#{orgId}
+			and cd.org_id =#{orgId}
 		</if>
 		<if test="supplierId!=null and supplierId!=''">
 			and cad.supplier_id=#{supplierId}
@@ -497,7 +501,8 @@
 		and cd.schema_name=cad.schema_name
 		and cd.schema_name= #{schemaName}
 		and cad.order_number=cd.order_number
-		group by cd.schema_name, cd.org_id,cad.supplier_id
+		group by cd.schema_name,
+		cd.org_id,cad.supplier_id
 		<if test="type==1">
 			, cad.commodity_code,cad.commodity_pk_id
 		</if>
@@ -909,14 +914,14 @@
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
 		<if test="orgId==null">
-		 and t1.org_id in
-		<foreach collection="orgs" open="(" close=")" item="org"
-			separator=",">
-			#{org}
-		</foreach> 
+			and t1.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
 		</if>
 		<if test="orgId!=null">
-		and t1.org_id = #{orgId}
+			and t1.org_id = #{orgId}
 		</if>
 		<if test="warehouseId!=null and warehouseId!=''">
 			and tt1.warehouse_id=#{warehouseId}
@@ -928,7 +933,7 @@
 		and
 		sew.org_id=tt2.org_id
 		and nvl(sew.safe_stock,0)>tt2.count1
-		
+
 		and sew.schema_name=tt2.schema_name
 		and sew.wh_code=tt2.wh_code
 
@@ -1037,14 +1042,14 @@
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
 		<if test="orgId==null">
-		and t1.org_id in
-		<foreach collection="orgs" open="(" close=")" item="org"
-			separator=",">
-			#{org}
-		</foreach>
+			and t1.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
 		</if>
 		<if test="orgId!=null">
-		and t1.org_id = #{orgId}
+			and t1.org_id = #{orgId}
 		</if>
 		<if test="warehouseId!=null and warehouseId!=''">
 			and tt1.warehouse_id=#{warehouseId}
@@ -1056,7 +1061,6 @@
 		sew.delete_flag=1
 		and to_char(sysdate-sew.unsalable_days,'yyyy/MM/dd')> tt2.time1
 		and sew.org_id=tt2.org_id
-		
 		and sew.schema_name=tt2.schema_name
 		and sew.wh_code=tt2.wh_code
 

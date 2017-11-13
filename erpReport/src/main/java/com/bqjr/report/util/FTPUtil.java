@@ -73,7 +73,7 @@ public class FTPUtil {
 				// 读取指定目录下的文件名
 				String folderName = getFolderName();
 				List<String> fileNames = getFileList("/" + folderName);
-				logger.info("开始读取【" + folderName + "】文件夹下的文件数据......");
+				logger.info("开始读取【" + folderName + "】文件夹下的CSV文件......");
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
 						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));

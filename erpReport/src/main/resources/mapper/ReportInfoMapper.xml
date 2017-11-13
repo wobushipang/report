@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bqjr.report.mapper.ReportInfoMapper">
 
-	<select id="findAll" resultType="com.bqjr.report.model.Organization">
+	<select id="findAll" parameterType="string" resultType="com.bqjr.report.model.Organization">
 		select pk_id pkId,parent_id
 		parentId,org_name orgName
-		from c_sys_organization
+		from c_sys_organization where org_enable='1' and delete_flag='1' and virtual_node='0'
 	</select>
 
 	<select id="getOrganizationById" parameterType="string"
@@ -25,10 +25,10 @@
 		where fooi.org_id =
 		cso.pk_id
 		and fooi.schema_name=cso.schema_name
-		and fooi.status = '1'
+		and fooi.status = '2'
 		and
 		fooi.delete_flag = '1'
-		and last_up_time between #{start} and #{end}
+		and fooi.confirm_time between #{start} and #{end}
 		group by schema_name,org_id,org_name) income,
 		(select
 		sum(fooe.total)
@@ -36,15 +36,16 @@
 		where fooe.org_id =cso.pk_id
 		and
 		fooe.schema_name=cso.schema_name
-		and fooe.status = '1'
+		and fooe.status = '2'
 		and
 		fooe.delete_flag = '1'
-		and last_up_time between #{start} and #{end}
+		and fooe.confirm_time between #{start} and #{end}
 		group by schema_name,org_id,org_name) expend
 		from c_sys_organization
 		cso
 		where cso.delete_flag='1'
 		and cso.org_enable='1'
+		and cso.virtual_node='0'
 		and
 		cso.schema_name=#{schemaName}
 		and cso.pk_id in
@@ -59,14 +60,13 @@
 		select org_name orgName,'收入' businessType,business_name
 		businessName,sum(total) money
 		from finance_org_other_income
-		where status
-		= '1'
+		where status= '2'
 		and delete_flag = '1'
 		and schema_name=#{schemaName}
 		<if test="businessId != null">
 			and business_id=#{businessId}
 		</if>
-		and last_up_time between #{start} and #{end}
+		and confirm_time between #{start} and #{end}
 		and org_id in
 		<foreach collection="orgs" item="org" open="(" separator=","
 			close=")">
@@ -80,12 +80,10 @@
 		select org_name orgName,'支出' businessType,business_name
 		businessName,sum(total) money
 		from finance_org_other_expend
-		where status
-		= '1'
+		where status = '2'
 		and delete_flag = '1'
 		and schema_name=#{schemaName}
-		and
-		last_up_time between #{start} and #{end}
+		and confirm_time between #{start} and #{end}
 		<if test="businessId != null">
 			and business_id=#{businessId}
 		</if>
@@ -133,10 +131,15 @@
 		t3.status='2' and t3.delete_flag='1'
 		and t3.schema_name=c.schema_name
 		and t3.brand_code=c.brand_code) brandName,
-		t.modelName
+		(select t4.model_name from
+		c_commodity_model t4 where
+		t4.status='2' and t4.delete_flag='1'
+		and t4.schema_name=c.schema_name
+		and t4.model_code=c.model_code) modelName
 		from (
 		select
-		tt2.schema_name schemaName,tt2.org_id
+		tt2.schema_name
+		schemaName,tt2.org_id
 		orgId,tt2.warehouse_id,tt2.whname,tt2.commodity_info_id,
 		beginQuantity,
 		purchaseIn,
@@ -711,7 +714,8 @@
 		select t.schemaName,
 		t.org_id orgId,
 		(select t1.org_name
-		from c_sys_organization t1
+		from
+		c_sys_organization t1
 		where t1.org_enable = '1'
 		and t1.delete_flag = '1'
 		and t.schemaName = t1.schema_name
@@ -722,25 +726,32 @@
 		(giftSaleOrderNum-giftReturnOrderNum) giftNum,
 		(saleOrderSum-returnOrderSum) saleSum,
 		(saleOrderDiscountSum-returnOrderSum) discountSaleSum,
-		(select t2.catalog_name
+		(select
+		t2.catalog_name
 		from c_commodity_catalog t2
 		where t2.status = '2'
-		and t2.delete_flag = '1'
+		and
+		t2.delete_flag = '1'
 		and t2.schema_name = c.schema_name
-		and t2.catalog_code = c.catalog_code) catalogName,
+		and
+		t2.catalog_code = c.catalog_code) catalogName,
 		(select t3.brand_name
 		from c_commodity_brand t3
 		where t3.status = '2'
 		and t3.delete_flag = '1'
 		and t3.schema_name = c.schema_name
-		and t3.brand_code = c.brand_code) brandName,
+		and t3.brand_code = c.brand_code)
+		brandName,
 		(select t4.model_name
 		from c_commodity_model t4
-		where t4.status = '2'
+		where
+		t4.status = '2'
 		and t4.delete_flag = '1'
-		and t4.schema_name = c.schema_name
+		and t4.schema_name =
+		c.schema_name
 		and t4.model_code = c.model_code) modelName
-		from (select tt1.schema_name schemaName,
+		from (select
+		tt1.schema_name schemaName,
 		tt1.org_id,
 		tt1.commodity_code,
 		saleOrderNum,
@@ -750,62 +761,82 @@
 		returnOrderNum,
 		returnOrderSum,
 		giftReturnOrderNum
-		from (select mca.schema_name,
+		from (select
+		mca.schema_name,
 		mca.org_id,
 		mcad.commodity_code,
 		sum(mcad.commodity_num) saleOrderNum,
-		sum(mcad.commodity_num * mcad.commodity_price) saleOrderSum,
-		sum(mca.actual_amount) saleOrderDiscountSum
+		sum(mcad.commodity_num *
+		mcad.commodity_price) saleOrderSum,
+		sum(mca.actual_amount)
+		saleOrderDiscountSum
 		from market_commodity_add mca,
 		market_commodity_add_details mcad
 		where mca.order_status in ('1', '3')
 		and mca.delete_flag = '1'
 		and mcad.delete_flag = '1'
-		and mcad.operation_type = '1'
+		and
+		mcad.operation_type = '1'
 		and mcad.warehouse_mgt_way in ('1', '2')
-		and mcad.complimentary_mark = '0'
+		and
+		mcad.complimentary_mark = '0'
 		and mca.schema_name = mcad.schema_name
 		and mca.order_number = mcad.order_number
-		and sales_date between #{start} and #{end}
-		group by mca.schema_name, mca.org_id, mcad.commodity_code) tt1
+		and sales_date between
+		#{start} and #{end}
+		group by mca.schema_name, mca.org_id,
+		mcad.commodity_code) tt1
 		left join (select mca.schema_name,
 		mca.org_id,
 		mcad.commodity_code,
 		sum(mcad.commodity_num) giftSaleOrderNum
-		from market_commodity_add mca,
+		from
+		market_commodity_add mca,
 		market_commodity_add_details mcad
-		where mca.order_status in ('1', '3')
+		where
+		mca.order_status in ('1', '3')
 		and mca.delete_flag = '1'
-		and mcad.delete_flag = '1'
+		and
+		mcad.delete_flag = '1'
 		and mcad.operation_type = '1'
-		and mcad.warehouse_mgt_way in ('1', '2')
+		and
+		mcad.warehouse_mgt_way in ('1', '2')
 		and mcad.complimentary_mark = '1'
 		and mca.schema_name = mcad.schema_name
-		and mca.order_number = mcad.order_number
+		and mca.order_number =
+		mcad.order_number
 		and sales_date between #{start} and #{end}
-		group by mca.schema_name,
+		group by
+		mca.schema_name,
 		mca.org_id,
 		mcad.commodity_code) tt2
-		on tt1.schema_name = tt2.schema_name
+		on tt1.schema_name
+		= tt2.schema_name
 		and tt1.org_id = tt2.org_id
-		and tt1.commodity_code = tt2.commodity_code
+		and tt1.commodity_code =
+		tt2.commodity_code
 		left join (select cr.schema_name,
 		cr.org_id,
 		crd.commodity_code,
 		sum(crd.commodity_num) returnOrderNum,
 		sum(crd.commodity_num * crd.commodity_price) returnOrderSum
-		from market_commodity_returns cr,
+		from
+		market_commodity_returns cr,
 		rket_commodity_returns_details crd
-		where cr.schema_name = crd.schema_name
+		where
+		cr.schema_name = crd.schema_name
 		and cr.order_number = crd.order_number
 		and cr.order_status in ('2', '4')
 		and cr.delete_flag = '1'
-		and crd.delete_flag = '1'
+		and
+		crd.delete_flag = '1'
 		and crd.operation_type = '1'
-		and crd.warehouse_mgt_way in ('1', '2')
+		and
+		crd.warehouse_mgt_way in ('1', '2')
 		and crd.complimentary_mark = '0'
 		and returns_date between #{start} and #{end}
-		group by cr.schema_name, cr.org_id, crd.commodity_code) tt3
+		group by cr.schema_name,
+		cr.org_id, crd.commodity_code) tt3
 		on tt1.schema_name = tt3.schema_name
 		and tt1.org_id = tt3.org_id
 		and tt1.commodity_code = tt3.commodity_code
@@ -813,26 +844,34 @@
 		cr.org_id,
 		crd.commodity_code,
 		sum(crd.commodity_num) giftReturnOrderNum
-		from market_commodity_returns cr,
+		from market_commodity_returns
+		cr,
 		rket_commodity_returns_details crd
-		where cr.schema_name = crd.schema_name
+		where cr.schema_name =
+		crd.schema_name
 		and cr.order_number = crd.order_number
-		and cr.order_status in ('2', '4')
+		and
+		cr.order_status in ('2', '4')
 		and cr.delete_flag = '1'
-		and crd.delete_flag = '1'
+		and
+		crd.delete_flag = '1'
 		and crd.operation_type = '1'
-		and crd.warehouse_mgt_way in ('1', '2')
+		and
+		crd.warehouse_mgt_way in ('1', '2')
 		and crd.complimentary_mark = '1'
 		and returns_date between #{start} and #{end}
-		group by cr.schema_name, cr.org_id, crd.commodity_code) tt4
+		group by cr.schema_name,
+		cr.org_id, crd.commodity_code) tt4
 		on tt1.schema_name = tt4.schema_name
 		and tt1.org_id = tt4.org_id
-		and tt1.commodity_code = tt4.commodity_code) t,
+		and tt1.commodity_code =
+		tt4.commodity_code) t,
 		c_commodity c
 		where c.schema_name = t.schemaName
 		and c.org_id = t.org_id
 		and c.commodity_code = t.commodity_code
-		and c.delete_flag = '1'
+		and
+		c.delete_flag = '1'
 		<if test="commodityCode!=null and commodityCode!=''">
 			and c.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'

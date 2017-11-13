@@ -280,13 +280,13 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u11365" class="ax_default box_1">
+            <!-- <div id="u11365" class="ax_default box_1">
               <div id="u11365_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u11366" class="text" style="visibility: visible;">
                 <p><span>滞销查询</span></p>
               </div>
-            </div>
+            </div> -->
 
             
           </div>
@@ -334,13 +334,13 @@
             
 
             <!-- Unnamed (矩形) -->
-            <div id="u11468" class="ax_default box_1">
+            <!-- <div id="u11468" class="ax_default box_1">
               <div id="u11468_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u11469" class="text" style="visibility: visible;">
                 <p><span>低库存</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (矩形) -->
             <div id="u11470" class="ax_default box_1">
@@ -504,6 +504,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						//operationType:operationType,
@@ -624,6 +625,10 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
+				document.getElementById('u11260').style.visibility='visible';
+				document.getElementById('u11287').style.visibility='hidden';
+		   		document.getElementById('u11288').style.visibility='hidden';
+			 
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state2').style.display='none';
@@ -646,6 +651,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						//operationType:operationType,
@@ -798,6 +804,10 @@
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
+				document.getElementById('u11288').style.visibility='visible';
+				document.getElementById('u11260').style.visibility='hidden';
+		   		document.getElementById('u11261').style.visibility='hidden';
+			 
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state1').style.display='none';
@@ -809,6 +819,10 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
+	  document.getElementById('u11287').style.visibility='visible';
+	  document.getElementById('u11288').style.visibility='visible';
+		document.getElementById('u11260').style.visibility='visible';
+ 		document.getElementById('u11261').style.visibility='visible';
 	  document.getElementById('u11255_state2').style.display='none';
 		document.getElementById('u11255_state2').style.visibility='hidden';
 		document.getElementById('u11255_state1').style.display='none';

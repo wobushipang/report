@@ -29,7 +29,6 @@ import com.bqjr.report.model.OrganizationBudget;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.OrganizationBudgetService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 /**
  * @ClassName OrganizationBudgetServiceImpl.java
@@ -68,9 +67,9 @@ public class OrganizationBudgetServiceImpl implements OrganizationBudgetService 
 			if (StringUtils.isBlank(o.getExpend()))
 				o.setExpend("0");
 		}
-		PageInfo<OrganizationBudget> pageInfo = new PageInfo<OrganizationBudget>(list);
+		//PageInfo<OrganizationBudget> pageInfo = new PageInfo<OrganizationBudget>(list);
 		map.put("rows", list);
-		map.put("total", pageInfo.getTotal());
+		map.put("total", list.size());
 		return map;
 	}
 }

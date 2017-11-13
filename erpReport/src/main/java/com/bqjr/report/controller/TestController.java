@@ -4,22 +4,24 @@ package com.bqjr.report.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bqjr.report.job.task.ReadFileAndSaveJob;
 import com.bqjr.report.service.ReceiveCsvData;
 import com.bqjr.report.util.FTPUtil;
+import com.bqjr.report.util.SpringBeanUtils;
 
 @Controller
 public class TestController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ReadFileAndSaveJob.class);
 
 	// 从 application.properties 中读取配置，如取不到默认值为HelloShanhy
 //	@Value("${application.hello:Hello Angel}")
 //	private String hello;
-	
-	@Autowired
-	private  ReceiveCsvData re;
 
 //	@RequestMapping("/helloJsp")
 //	public String StringhelloJsp(Map<String, Object> map) {
@@ -60,9 +62,17 @@ public class TestController {
 	
 	@RequestMapping("/insertData")
 	public String index() {
-		Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
-		Object obj = re.importData(files);
-		System.out.println(obj);
-		return "1";
+		logger.info("[execute BEGIN],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+		try {
+			// 读取指定路径下所有文件，返回集合
+			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
+			receiveCsvData.importData(files);
+		} catch (Exception e) {
+			logger.error("执行定时任务，读取ftp文件并保存数据到数据库发生异常，异常信息为：" + e.getMessage());
+		} finally {
+			logger.info("[execute END],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+		}
+		return "NewFile";
 	}
 }

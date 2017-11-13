@@ -83,5 +83,4 @@ public class ConditionServiceImpl implements ConditionService{
 		}
 		return JSON.toJSONString(listStages);
 	}
-	
 }

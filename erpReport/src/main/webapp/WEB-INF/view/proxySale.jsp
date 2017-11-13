@@ -100,7 +100,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20183" class="ax_default text_field">
-              <input id="u20183_input" name="startDate" type="text" class="easyui-datebox" style="width:190px"/>
+              <input id="u20183_input" name="startDate" type="text" class="easyui-datebox" editable="false" style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -114,7 +114,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20186" class="ax_default text_field">
-              <input id="u20186_input"  type="text" class="easyui-datebox" style="width:190px"/>
+              <input id="u20186_input"  type="text" class="easyui-datebox" editable="false" style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -320,13 +320,13 @@
 
 
             <!-- Unnamed (矩形) -->
-            <div id="u20594" class="ax_default box_1">
+            <!-- <div id="u20594" class="ax_default box_1">
               <div id="u20594_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u20595" class="text" style="visibility: visible;">
                 <p><span>供应商汇总</span></p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div id="u20176_state2" class="panel_state" data-label="供应商汇总" style="display: none; visibility: hidden;">
@@ -371,13 +371,13 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u20883" class="ax_default box_1">
+            <!-- <div id="u20883" class="ax_default box_1">
               <div id="u20883_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u20884" class="text" style="visibility: visible;">
                 <p><span>商品汇总</span></p>
               </div>
-            </div>
+            </div> -->
 
 
             <!-- Unnamed (矩形) -->
@@ -544,6 +544,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
@@ -667,6 +668,10 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
+				document.getElementById('u20216').style.visibility='visible';
+				document.getElementById('u20217').style.visibility='hidden';
+		   		document.getElementById('u20218').style.visibility='hidden';
+			 	
 				document.getElementById('u20176_state0').style.display='none';
 				document.getElementById('u20176_state0').style.visibility='hidden'
 				document.getElementById('u20176_state2').style.display='none';
@@ -689,6 +694,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
@@ -783,6 +789,10 @@
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
+				document.getElementById('u20218').style.visibility='visible';
+				document.getElementById('u20215').style.visibility='hidden';
+		   		document.getElementById('u20216').style.visibility='hidden';
+			 	
 				document.getElementById('u20176_state0').style.display='none';
 				document.getElementById('u20176_state0').style.visibility='hidden'
 				document.getElementById('u20176_state1').style.display='none';
@@ -794,6 +804,10 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
+	  document.getElementById('u20215').style.visibility='visible';
+	  document.getElementById('u20216').style.visibility='visible';
+		document.getElementById('u20217').style.visibility='visible';
+ 		document.getElementById('u20218').style.visibility='visible';
 	  document.getElementById('u20176_state2').style.display='none';
 		document.getElementById('u20176_state2').style.visibility='hidden';
 		document.getElementById('u20176_state1').style.display='none';

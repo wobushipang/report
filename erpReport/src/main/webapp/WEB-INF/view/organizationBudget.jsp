@@ -318,7 +318,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u20924" class="ax_default">
 						<div id="layb" class="easyui-layout"
-							style="width: 688px; height: 580px">
+							style="width: 687px; height: 565px">
 							<!-- 列表 -->
 							<div region="center" id="b">
 								<table id="business"></table>
@@ -391,7 +391,7 @@
 						<!-- Unnamed (表格) -->
 						<div id="u21047" class="ax_default">
 							<div id="layo" class="easyui-layout"
-								style="width: 488px; height: 580px">
+								style="width: 687px; height: 565px">
 								<!-- 列表 -->
 								<div region="center" id="o">
 									<table id="orgnization"></table>
@@ -573,17 +573,17 @@
 											{
 												field:'orgName' , 
 												title:'组织机构' ,       
-												width:150
+												width:210
 											},
 											{
 												field:'income' ,
 												title:'其他收入金额' ,
-												width:120 
+												width:210 
 											},
 											{
 												field:'expend' , 
 												title:'其他支出金额' ,  
-												width:200,
+												width:210,
 												
 											}
 										]],
