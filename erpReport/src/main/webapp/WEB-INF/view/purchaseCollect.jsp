@@ -567,6 +567,7 @@
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
 					showFooter:true,
+					nowrap:false,
 					queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
@@ -773,6 +774,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,

@@ -100,7 +100,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20183" class="ax_default text_field">
-              <input id="u20183_input" name="startDate" type="text" class="easyui-datebox" style="width:190px"/>
+              <input id="u20183_input" name="startDate" type="text" class="easyui-datebox" editable="false" style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -114,7 +114,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u20186" class="ax_default text_field">
-              <input id="u20186_input"  type="text" class="easyui-datebox" style="width:190px"/>
+              <input id="u20186_input"  type="text" class="easyui-datebox" editable="false" style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -544,6 +544,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
@@ -689,6 +690,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
 						supplierId:supplierId,
