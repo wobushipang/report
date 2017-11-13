@@ -264,7 +264,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7306" class="ax_default text_field">
-              <input id="u7306_input" type="text" value="" placeholder="请输入商品编号"/>
+              <input id="u7306_input" type="text" value="" placeholder="请输入商品名称"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -334,13 +334,13 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u7529" class="ax_default box_1">
+            <!-- <div id="u7529" class="ax_default box_1">
               <div id="u7529_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u7530" class="text" style="visibility: visible;">
                 <p><span>供应商汇总表</span></p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div id="u7264_state2" class="panel_state" data-label="按供应商汇总" style="display: none; visibility: hidden;">
@@ -384,13 +384,13 @@
             	</div>
 			</div>
             <!-- Unnamed (矩形) -->
-            <div id="u7628" class="ax_default box_1">
+            <!-- <div id="u7628" class="ax_default box_1">
               <div id="u7628_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u7629" class="text" style="visibility: visible;">
                 <p><span>商品汇总</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (矩形) -->
             <div id="u7630" class="ax_default box_1">
@@ -753,8 +753,10 @@
 				});
 			 	
 				/*  */
-		   
-			 	
+				document.getElementById('u7270').style.visibility='visible';
+				document.getElementById('u7271').style.visibility='hidden';
+		   		document.getElementById('u7272').style.visibility='hidden';
+			 	//document.getElementById('u7631').style.visibility='hidden';
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
 		 }else{
@@ -912,7 +914,9 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
-				
+				document.getElementById('u7272').style.visibility='visible';
+				document.getElementById('u7269').style.visibility='hidden';
+				document.getElementById('u7270').style.visibility='hidden';
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
 		 }
@@ -920,6 +924,10 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
+	  document.getElementById('u7269').style.visibility='visible';
+	  document.getElementById('u7270').style.visibility='visible';
+		document.getElementById('u7271').style.visibility='visible';
+ 		document.getElementById('u7272').style.visibility='visible';
 	  document.getElementById('u7264_state2').style.display='none';
 		document.getElementById('u7264_state2').style.visibility='hidden';
 		document.getElementById('u7264_state1').style.display='none';
