@@ -242,10 +242,10 @@
 							</div>
 						</div> -->
 						<!-- Unnamed (矩形) -->
-						<div id="u210391" class="ax_default box_1">
-							<div id="u210391_div" class=""></div>
+						<div id="u21039" class="ax_default box_1">
+							<div id="u21039_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u210401" class="text" style="visibility: visible;">
+							<div id="u21040" class="text" style="visibility: visible;">
 								<p>
 									<span>组织机构汇总</span>
 								</p>
@@ -271,10 +271,10 @@
 							</div>
 						</div>
 						<!-- Unnamed (矩形) -->
-						<div id="u21039" class="ax_default box_1">
-							<div id="u21039_div" class=""></div>
+						<div id="u210391" class="ax_default box_1">
+							<div id="u210391_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u21040" class="text" style="visibility: visible;">
+							<div id="u210401" class="text" style="visibility: visible;">
 								<p>
 									<span>组织机构汇总</span>
 								</p>
@@ -298,7 +298,7 @@
 						<!-- Unnamed () -->
 						<div id="u20921" class="text" style="visibility: visible;">
 							<p>
-								<span>查询</span>
+								<span class="a">查询</span>
 							</p>
 						</div>
 					</div>
@@ -371,7 +371,7 @@
 							<!-- Unnamed () -->
 							<div id="u21044" class="text" style="visibility: visible;">
 								<p>
-									<span>查询</span>
+									<span class="a">查询</span>
 								</p>
 							</div>
 						</div>
@@ -530,8 +530,14 @@
 						pageSize: 10,
 						pageList:[10],
 					});
+				document.getElementById('u20916').style.visibility='visible';
+				document.getElementById('u21039').style.visibility='hidden';
+		   		document.getElementById('u21040').style.visibility='hidden';
+				
 				document.getElementById('u20889_state0').style.display='none';
 				document.getElementById('u20889_state0').style.visibility='hidden';
+				document.getElementById('u20889_state2').style.display='none';
+				document.getElementById('u20889_state2').style.visibility='hidden';
 				document.getElementById('u20889_state1').style.display='block';
 				document.getElementById('u20889_state1').style.visibility='visible';
 			 }else{
@@ -591,6 +597,10 @@
 										pageSize: 10 ,
 										pageList:[10] ,
 									});
+					document.getElementById('u21039').style.visibility='visible';
+					document.getElementById('u21132').style.visibility='hidden';
+			   		document.getElementById('u21133').style.visibility='hidden';
+				 
 					document.getElementById('u20889_state0').style.display='none';
 					document.getElementById('u20889_state0').style.visibility='hidden';
 					document.getElementById('u20889_state1').style.display='none';
@@ -612,6 +622,10 @@
   }
   
   $('.a').click(function(){
+	  document.getElementById('u21039').style.visibility='visible';
+	  document.getElementById('u21040').style.visibility='visible';
+	  document.getElementById('u21132').style.visibility='visible';
+	  document.getElementById('u21133').style.visibility='visible';
 	  document.getElementById('u20889_state2').style.display='none';
 	  document.getElementById('u20889_state2').style.visibility='hidden';
 	  document.getElementById('u20889_state1').style.display='none';
