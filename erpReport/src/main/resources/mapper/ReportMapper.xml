@@ -351,6 +351,15 @@
 			and t.brand_code=#{brandCode}
 		</if>
 	</select>
+	
+	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.business_id as businessId,t.business_name as businessName
+		from finance_org_business_type t where t.delete_flag=1 and t.status=1
+		and t.schema_name=#{schemaName}
+		<if test="businessType!=null and businessType!='' and businessType!=0">
+			and t.business_type=#{businessType}
+		</if>
+	</select>
 
 	<select id="getProxySaleList" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">
@@ -804,7 +813,7 @@
 	</select>
 	<select id="getWarehouseList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.pk_id warehouseId,t.wh_name warehouseName from
-		storage_warehouse_info t where t.delete_flag=1 and t.wh_status=2
+		storage_warehouse_info t where t.delete_flag=1 and t.wh_status=1
 		<if test="orgId!=null and orgId!=''">and t.org_id=#{orgId}</if>
 		and t.schema_name=#{schemaName}
 	</select>
@@ -1040,12 +1049,12 @@
 		<if test="warehouseId!=null and warehouseId!=''">
 			and tt1.warehouse_id=#{warehouseId}
 		</if>
-		and tt1.commodity_info_id=t1.pk_id) tt2 left join
+		and tt1.commodity_info_id=t1.pk_id) tt2 ,
 		storage_early_warning sew
-		on sew.commodity_code=tt2.commodityCode
+		where sew.commodity_code=tt2.commodityCode
 		and
 		sew.delete_flag=1
-		and to_char(sysdate-sew.unsalable_days)> tt2.time1
+		and to_char(sysdate-sew.unsalable_days,'yyyy/MM/dd')> tt2.time1
 		and sew.org_id=tt2.org_id
 		
 		and sew.schema_name=tt2.schema_name
