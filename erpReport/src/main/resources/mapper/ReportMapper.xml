@@ -481,7 +481,7 @@
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		cad.details_status=1
 		and cad.operation_type=2 and
-		cad.complimentary_mark='0'
+		cad.complimentary_mark='false'
 		and cd.last_up_time between #{start,
 		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
@@ -522,7 +522,7 @@
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		cad.details_status=1
 		and cad.operation_type=2 and
-		cad.complimentary_mark='1'
+		cad.complimentary_mark='true'
 		and cd.last_up_time between #{start} and
 		#{end}
 		and cd.schema_name=cad.schema_name and
@@ -552,7 +552,7 @@
 		mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and
 		crd.details_status=2
 		and crd.operation_type=2 and
-		crd.complimentary_mark='1'
+		crd.complimentary_mark='true'
 		and mcr.last_up_time between #{start} and
 		#{end}
 		and mcr.schema_name=crd.schema_name and
@@ -579,7 +579,7 @@
 		(mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and
 		crd.delete_flag=1 and crd.details_status=2
 		and crd.operation_type=2 and
-		crd.complimentary_mark='0'
+		crd.complimentary_mark='false'
 		and mcr.last_up_time between #{start} and
 		#{end}
 		and mcr.schema_name=crd.schema_name and
