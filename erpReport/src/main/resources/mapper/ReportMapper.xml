@@ -319,8 +319,12 @@
 	<select id="getSupplierList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.pk_id as supplierId ,t.supplier_name as supplierName from
 		purchase_supplier t where t.delete_flag=1 and t.supplier_status=3
-		<if test="orgId!=null and orgId!=''">
-			and t.org_id=#{orgId, jdbcType=VARCHAR}
+		<if test="orgId!=null and orgId.size()>0">
+			and t.org_id in 
+			<foreach collection="orgId" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
 		</if>
 		and t.schema_name=#{schemaName}
 

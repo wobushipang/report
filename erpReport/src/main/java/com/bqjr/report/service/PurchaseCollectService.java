@@ -1,5 +1,6 @@
 package com.bqjr.report.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public interface PurchaseCollectService {
 	
 	public String getOrgList(String id,String schemaName);
 	
-	public String getSupplierList(String id,String schemaName);
+	public String getSupplierList(List<String> strs,String schemaName);
 	
 	public String getCatalogList(String id,String schemaName);
 	

@@ -32,7 +32,7 @@ public class PurchaseCollectController {
 	@RequestMapping("/purcaseCollect")
 	public ModelAndView redirect(String orgId,String openId,String schemaName){
 			Map<String,Object> map = new HashMap<String,Object>();
-			if(orgId==null)orgId="BQJR999_G000000013";
+			if(orgId==null)orgId="BQJR999_G000000019";
 			if(openId==null)openId="F2500B5240E54BB2A5A0683787A85BA2";
 			if(schemaName==null)schemaName="bqjr_erp_0000000019";
 			map.put("orgId", orgId);
@@ -79,12 +79,12 @@ public class PurchaseCollectController {
 			condition.setModelName(null);
 		}
 		if(condition.getStartDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
 			String str=sdf.format(condition.getStartDate()); 
 			condition.setStart(str);
 		}
 		if(condition.getEndDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
 			String str=sdf.format(condition.getEndDate()); 
 			condition.setEnd(str);
 		}
@@ -105,10 +105,20 @@ public class PurchaseCollectController {
 	@RequestMapping("/getSupplierList")
 	@ResponseBody
 	public String getSupplierList(HttpServletRequest request){
+		List<String> strs = new ArrayList<String>();
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
 		if(StringUtils.equals(orgId, "0"))orgId=null;
-		return service.getSupplierList(orgId, schemaName);
+		if(StringUtils.isNotEmpty(orgId)) {
+			List<Organization> orgs=con.organizationList(orgId);
+			for (Organization organization : orgs) {
+				String org=organization.getPkId();
+				strs.add(org);
+			}
+		}
+		
+		//condition.setOrgs(strs);
+		return service.getSupplierList(strs, schemaName);
 	}
 	
 	@RequestMapping("/getCatalogList")

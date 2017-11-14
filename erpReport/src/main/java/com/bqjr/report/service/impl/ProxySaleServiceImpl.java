@@ -75,11 +75,11 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				p.setGiftNum(Integer.valueOf(p.getSaleGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
 				//优惠后销售金额
 				p.setDiscountsAmount(Double.valueOf(p.getActualAmount())-Double.valueOf(p.getReturnNum())+"");
-				if(StringUtils.isEmpty(p.getPriceMethod())) {
+				if(!StringUtils.isEmpty(p.getPriceMethod())) {
 					if(p.getPriceMethod()=="1") {
-						p.setChargeAmount(Double.valueOf(p.getDiscountsAmount())*Double.valueOf(p.getPriceRatio())+"");
+						p.setChargeAmount(Float.valueOf(p.getDiscountsAmount())*(Float.valueOf(p.getPriceRatio())/100)+"");
 					}else {
-						p.setChargeAmount(Double.valueOf(p.getSaleOrderAmount())-Double.valueOf(p.getReturnAmount())+"");
+						p.setChargeAmount(Float.valueOf(p.getSaleOrderAmount())-Float.valueOf(p.getReturnAmount())+"");
 					}
 				}
 				codes.add(p.getCommodityCode());

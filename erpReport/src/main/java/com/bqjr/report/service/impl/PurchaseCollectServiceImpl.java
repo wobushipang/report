@@ -153,8 +153,9 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	}
 
 	@Override
-	public String getSupplierList(String id, String schemaName) {
-		List<SearchCondition> list = mapper.getSupplierList(id, schemaName);
+	public String getSupplierList(List<String> strs, String schemaName) {
+		if(strs.size()==0)strs=null;
+		List<SearchCondition> list = mapper.getSupplierList(strs, schemaName);
 		List<Option> listStages = new ArrayList<Option>();
 		Option d = new Option();
 		d.setId("0");

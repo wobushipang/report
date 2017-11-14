@@ -35,7 +35,7 @@ public interface ReportMapper {
 	List<SearchCondition> getOrgList(@Param("orgId")String id,@Param("schemaName")String schemaName);
 	
 	//供应商
-	List<SearchCondition> getSupplierList(@Param("orgId")String id,@Param("schemaName")String schemaName);
+	List<SearchCondition> getSupplierList(@Param("orgId")List<String> orgId,@Param("schemaName")String schemaName);
 	
 	//商品分类
 	List<SearchCondition> getCatalogList(@Param("orgId")String id,@Param("schemaName")String schemaName);
