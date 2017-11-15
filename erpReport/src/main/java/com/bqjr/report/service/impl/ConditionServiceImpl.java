@@ -62,7 +62,9 @@ public class ConditionServiceImpl implements ConditionService{
 				//organizationListAll(organizationList, organization.getParentId());
 				Organization org = reportInfoMapper.getOrganizationById(organization.getParentId());
 				organizationListAll(organizationList, organization.getParentId());
-				father.add(org);
+				if(org!=null) {
+					father.add(org);
+				}
 			}
 		}
 		return father;

@@ -138,10 +138,13 @@ public class PurchaseCollectController {
 				strs.add(o);
 			}
 			List<Organization> orgss=con.upOrganizationList(orgId);
-			for (Organization organization : orgss) {
-				String o=organization.getPkId();
-				strs.add(o);
+			if(orgss.size()>0) {
+				for (Organization organization : orgss) {
+					String o=organization.getPkId();
+					strs.add(o);
+				}
 			}
+			
 		}
 		
 		//condition.setOrgs(strs);

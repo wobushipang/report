@@ -90,7 +90,7 @@
 		pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
 		and
-		substr(wic.create_time between,1,10) #{start} and #{end}
+		substr(wic.create_time ,1,10) between #{start} and #{end}
 		<if test="supplierId!=null and supplierId!=''">
 			and pwi.supplier_id=#{supplierId}
 		</if>
