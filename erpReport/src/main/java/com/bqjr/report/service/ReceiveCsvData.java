@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.druid.util.StringUtils;
 import com.bqjr.report.mapper.BaseUtilMapper;
 
 
@@ -39,7 +40,7 @@ public Object importData(Map<String,List<List<String>>> map) {
 			tableName=tableName.substring(6,tableName.indexOf("."));
 			if(tableName.length()>30) {
 				tableName=tableName.substring(tableName.length()-30);
-				if("_"==tableName.substring(0, 1)) {
+				if(StringUtils.equals(tableName.substring(0, 1),"_")) {
 					tableName=tableName.substring(1, tableName.length());
 				}
 			}

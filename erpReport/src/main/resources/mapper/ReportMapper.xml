@@ -90,7 +90,7 @@
 		pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
 		and
-		wic.create_time between #{start} and #{end}
+		substr(wic.create_time between,1,10) #{start} and #{end}
 		<if test="supplierId!=null and supplierId!=''">
 			and pwi.supplier_id=#{supplierId}
 		</if>
@@ -138,7 +138,7 @@
 		and pr.refunds_status = 1
 		and
 		prc.delete_flag = 1
-		and pr.create_time between #{start} and #{end}
+		and substr(pr.create_time,1,10) between #{start} and #{end}
 		and
 		pr.schema_name = prc.schema_name
 		and pr.pk_id = prc.refunds_id
@@ -176,7 +176,7 @@
 		from purchase_order po, purchase_order_commodity poc
 		where po.delete_flag = 1
 		and po.purchase_status = 4
-		and poc.create_time
+		and substr(poc.create_time,1,10)
 		between #{start} and #{end}
 		and poc.delete_flag = 1
 		and po.schema_name =
@@ -219,7 +219,7 @@
 		and
 		pe.exchange_status = 1
 		and peic.delete_flag = 1
-		and peic.create_time
+		and substr(peic.create_time,1,10)
 		between #{start} and #{end}
 		and pe.schema_name = peic.schema_name
 		and
@@ -260,7 +260,7 @@
 		and
 		pe.exchange_status = 1
 		and peoc.delete_flag = 1
-		and peoc.create_time
+		and substr(peoc.create_time,1,10)
 		between #{start} and #{end}
 		and pe.schema_name = peoc.schema_name
 		and
@@ -486,7 +486,7 @@
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='false'
-		and cd.last_up_time between #{start,
+		and substr(cd.last_up_time,1,10) between #{start,
 		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
 		<if test="orgId==null">
@@ -527,7 +527,7 @@
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='true'
-		and cd.last_up_time between #{start} and
+		and substr(cd.last_up_time,1,10) between #{start} and
 		#{end}
 		and cd.schema_name=cad.schema_name and
 		cad.order_number=cd.order_number
@@ -557,7 +557,7 @@
 		crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='true'
-		and mcr.last_up_time between #{start} and
+		and substr(mcr.last_up_time,1,10) between #{start} and
 		#{end}
 		and mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -584,7 +584,7 @@
 		crd.delete_flag=1 and crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='false'
-		and mcr.last_up_time between #{start} and
+		and substr(mcr.last_up_time,1,10) between #{start} and
 		#{end}
 		and mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -606,7 +606,7 @@
 		<if test="type==1">,ii.commodity_info_id</if>
 		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii where
 		ii.delete_flag=1 and ii.operation_type=2
-		and ii.last_up_time between
+		and substr(ii.last_up_time,1,10) between
 		#{start} and #{end}
 		group by ii.schema_name,ii.supplier_id
 		<if test="type==1">,ii.commodity_info_id</if>
@@ -635,7 +635,7 @@
 		and prc.delete_flag =
 		1
 		and pr.operation_type=2
-		and pr.last_up_time between #{start} and
+		and substr(pr.last_up_time,1,10) between #{start} and
 		#{end}
 		and pr.schema_name = prc.schema_name
 		and pr.pk_id =
@@ -673,7 +673,7 @@
 		and
 		wic.delete_flag = 1
 		and pwi.operation_type=2
-		and pwi.last_up_time
+		and substr(pwi.last_up_time,1,10)
 		between #{start} and #{end}
 		and pwi.schema_name = wic.schema_name
 		and
@@ -711,7 +711,7 @@
 		pe.exchange_status = 1
 		and peic.delete_flag = 1
 		and pe.operation_type=2
-		and pe.last_up_time between #{start} and #{end}
+		and substr(pe.last_up_time,1,10) between #{start} and #{end}
 		and pe.schema_name =
 		peic.schema_name
 		and pe.pk_id = peic.exchange_id
@@ -749,7 +749,7 @@
 		pe.exchange_status = 1
 		and peoc.delete_flag = 1
 		and pe.operation_type=2
-		and pe.last_up_time between #{start} and #{end}
+		and substr(pe.last_up_time,1,10) between #{start} and #{end}
 		and pe.schema_name =
 		peoc.schema_name
 		and pe.pk_id = peoc.exchange_id
@@ -776,7 +776,7 @@
 			market_consignment_account mca
 			where mca.account_status=2 and
 			mca.delete_flag=1
-			and mca.last_up_time between #{start} and #{end}
+			and substr(mca.last_up_time,1,10) between #{start} and #{end}
 			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
 			on
 			tt1.schema_name =t66.schema_name
