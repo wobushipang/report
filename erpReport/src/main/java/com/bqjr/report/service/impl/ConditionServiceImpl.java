@@ -25,6 +25,8 @@ public class ConditionServiceImpl implements ConditionService{
 
 	// 子机构
 	List<Organization> child = new ArrayList<Organization>();
+	//父机构
+	List<Organization> father = new ArrayList<Organization>();
 	
 	public List<Organization> organizationList(String pkId) {
 		child.clear();
@@ -45,6 +47,27 @@ public class ConditionServiceImpl implements ConditionService{
 		}
 		return child;
 	}
+	
+	public List<Organization> upOrganizationList(String pkId) {
+		father.clear();
+		List<Organization> organizationsAll = reportInfoMapper.findAll();
+		List<Organization> organizations = upOrganizationListAll(organizationsAll, pkId);
+		return organizations;
+	}
+	
+	public List<Organization> upOrganizationListAll(List<Organization> organizationList, String orgId) {
+		for (Organization organization : organizationList) {
+			if (orgId.equals(organization.getPkId())) {
+				// 递归遍历上一级
+				//organizationListAll(organizationList, organization.getParentId());
+				Organization org = reportInfoMapper.getOrganizationById(organization.getParentId());
+				organizationListAll(organizationList, organization.getParentId());
+				father.add(org);
+			}
+		}
+		return father;
+	}
+	
 	public String getOrgList(String id,String schemaName) {
 		List<Organization> list = this.organizationList(id);
 		List<Option> listStages=new ArrayList<Option>();

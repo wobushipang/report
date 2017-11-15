@@ -408,7 +408,7 @@
 			//panelHeight:'auto'
 			onChange:function(value){
 				$('#u20211_input').combobox({
-					url:'<%=path%>/getSupplierList?orgId='+value+'&schemaName='+schemaName ,
+					url:'<%=path%>/getSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 					valueField:'id',
 					textField:'text',
 					editable:false ,
@@ -419,7 +419,7 @@
 
 		});
 		$('#u20211_input').combobox({
-			url:'<%=path%>/getSupplierList?orgId='
+			url:'<%=path%>/getSupplierList?org='+orgId+'&orgId='
 					+$('#u20200_input').combobox('getValue')+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',

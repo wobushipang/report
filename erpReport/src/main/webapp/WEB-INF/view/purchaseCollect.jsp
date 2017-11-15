@@ -422,7 +422,7 @@
 			//panelHeight:'auto'
 			onChange:function(value){
 				$('#supplierId').combobox({
-					url:'<%=path%>/getSupplierList?orgId='+value+'&schemaName='+schemaName ,
+					url:'<%=path%>/getAllSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 					valueField:'id',
 					textField:'text',
 					editable:false ,
@@ -433,7 +433,7 @@
 
 		});
 		$('#supplierId').combobox({
-			url:'<%=path%>/getSupplierList?schemaName='+schemaName+'&orgId=' 
+			url:'<%=path%>/getAllSupplierList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
 					+$('#org').combobox('getValue'),
 			valueField:'id',
 			textField:'text',
@@ -963,7 +963,7 @@
 
 		});
 		$('#supplierId').combobox({
-			url:'<%=path%>/getSupplierList?orgId='+orgId+'&schemaName='+schemaName ,
+			url:'<%=path%>/getAllSupplierList?orgId='+orgId+'&org='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,

@@ -14,4 +14,6 @@ public interface ConditionService {
 	public String getOrgList(String id,String schemaName);
 	
 	public List<Organization> organizationList(String pkId);
+	
+	public List<Organization> upOrganizationList(String pkId);
 }

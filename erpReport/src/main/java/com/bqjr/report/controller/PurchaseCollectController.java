@@ -108,13 +108,39 @@ public class PurchaseCollectController {
 	public String getSupplierList(HttpServletRequest request){
 		List<String> strs = new ArrayList<String>();
 		String orgId=request.getParameter("orgId");
+		String org=request.getParameter("org");
 		String schemaName=request.getParameter("schemaName");
-		if(StringUtils.equals(orgId, "0"))orgId=null;
+		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId))orgId=org;
 		if(StringUtils.isNotEmpty(orgId)) {
 			List<Organization> orgs=con.organizationList(orgId);
 			for (Organization organization : orgs) {
-				String org=organization.getPkId();
-				strs.add(org);
+				String o=organization.getPkId();
+				strs.add(o);
+			}
+		}
+		
+		//condition.setOrgs(strs);
+		return service.getSupplierList(strs, schemaName);
+	}
+	
+	@RequestMapping("/getAllSupplierList")
+	@ResponseBody
+	public String getAllSupplierList(HttpServletRequest request){
+		List<String> strs = new ArrayList<String>();
+		String orgId=request.getParameter("orgId");
+		String org=request.getParameter("org");
+		String schemaName=request.getParameter("schemaName");
+		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId))orgId=org;
+		if(StringUtils.isNotEmpty(orgId)) {
+			List<Organization> orgs=con.organizationList(orgId);
+			for (Organization organization : orgs) {
+				String o=organization.getPkId();
+				strs.add(o);
+			}
+			List<Organization> orgss=con.upOrganizationList(orgId);
+			for (Organization organization : orgss) {
+				String o=organization.getPkId();
+				strs.add(o);
 			}
 		}
 		

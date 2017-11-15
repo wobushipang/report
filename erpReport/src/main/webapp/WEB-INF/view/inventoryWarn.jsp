@@ -540,6 +540,12 @@
 							title:'仓库名称' ,
 							align : 'center',
 							width:120 
+						},{
+							field:'whId' ,
+							title:'仓库id' ,
+							align : 'center',
+							width:120 ,
+							hidden:true
 						},
 						{
 							field:'commodityCode' , 
@@ -579,7 +585,7 @@
 							align : 'center',
 							width:100,
 							formatter: function(value,row){
-								return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'")>查看</a>'
+								return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'")>查看</a>'
 							}
 						},
 						{
@@ -829,7 +835,7 @@
 		document.getElementById('u11255_state1').style.visibility='hidden';
 		  	document.getElementById('u11255_state0').style.display='block';
 			document.getElementById('u11255_state0').style.visibility='visible';
-			
+			$('#win').window('close');
 	  });
 //js方法：序列化表单 			
 	function serializeForm(form){
@@ -935,7 +941,7 @@
 				 }); 
 	})
 	//详情
-		function details(schemaName,id) {
+		function details(schemaName,id,warehouseId) {
 		/**
 		 *	初始化数据表格  
 		 */
@@ -943,7 +949,7 @@
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true ,
 			height:450 ,
-			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id ,
+			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&whId='+warehouseId ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
