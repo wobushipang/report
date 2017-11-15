@@ -51,7 +51,7 @@ public class SaleTotalServiceImpl implements SaleTotalService {
 	
 	@Override
 	public Map<String, Object> getSaleTotalList(int pageNum, int pageSize, SearchCondition condition) {
-		Map<String, Object> map = new HashMap<String, Object>();
+ 		Map<String, Object> map = new HashMap<String, Object>();
 		List<String> codes = new ArrayList<String>();
 		List<SaleTotal> list = new ArrayList<>();	
 		PageHelper.startPage(pageNum, pageSize);

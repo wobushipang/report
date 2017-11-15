@@ -48,11 +48,16 @@
 		and cso.virtual_node='0'
 		and
 		cso.schema_name=#{schemaName}
-		and cso.pk_id in
-		<foreach collection="orgs" item="org" open="(" separator=","
-			close=")">
-			#{org}
-		</foreach>
+		<if test="orgId==null">
+			and cso.pk_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and cso.pk_id=#{orgId, jdbcType=VARCHAR}
+		</if>
 	</select>
 
 	<select id="getIncomeByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
@@ -63,15 +68,20 @@
 		where status= '2'
 		and delete_flag = '1'
 		and schema_name=#{schemaName}
+		<if test="orgId==null">
+			and org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and org_id=#{orgId, jdbcType=VARCHAR}
+		</if>
 		<if test="businessId != null">
 			and business_id=#{businessId}
 		</if>
 		and confirm_time between #{start} and #{end}
-		and org_id in
-		<foreach collection="orgs" item="org" open="(" separator=","
-			close=")">
-			#{org}
-		</foreach>
 		group by org_id,org_name,business_id,business_name
 	</select>
 
@@ -84,14 +94,19 @@
 		and delete_flag = '1'
 		and schema_name=#{schemaName}
 		and confirm_time between #{start} and #{end}
+		<if test="orgId==null">
+			and org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and org_id=#{orgId, jdbcType=VARCHAR}
+		</if>
 		<if test="businessId != null">
 			and business_id=#{businessId}
 		</if>
-		and org_id in
-		<foreach collection="orgs" item="org" open="(" separator=","
-			close=")">
-			#{org}
-		</foreach>
 		group by org_id,org_name,business_id,business_name
 	</select>
 
@@ -100,9 +115,9 @@
 		select t.schemaName,
 		t.orgId,
 		(select t1.org_name from
-		c_sys_organization t1 where t1.org_enable='1' and
-		t1.delete_flag='1'
-		and t.schemaName=t1.schema_name and c.org_id=t1.pk_id) as orgName,
+		c_sys_organization t1 where t1.org_enable='1' and t1.delete_flag='1'
+		and c.schema_name=t1.schema_name and c.org_id=t1.pk_id) as orgName,
+		t.warehouse_id,
 		t.whName,
 		c.commodity_code commodityCode,
 		c.commodity_name
@@ -165,11 +180,9 @@
 		over(partition by
 		ii.schema_name,ii.warehouse_id,ii.commodity_info_id order by
 		ii.create_time) as code_id
-		from inventory_item ii,inventory_item_detail
-		iid
+		from inventory_item ii,inventory_item_detail iid
 		where ii.delete_flag='1' and iid.delete_flag='1'
-		and iid.create_time
-		between #{start} and #{end} and iid.schema_name=ii.schema_name
+		and substr(iid.create_time,1,10) between #{start} and #{end} and iid.schema_name=ii.schema_name
 		and
 		ii.pk_id=iid.inventory_item_id) where code_id = 1) tt1
 		left join
@@ -181,12 +194,11 @@
 		where
 		wi.warehouse_in_status='1' and wi.delete_flag='1' and
 		wic.delete_flag='1'
-		and wi.warehouse_in_date between #{start} and
+		and substr(wi.warehouse_in_date,1,10) between #{start} and
 		#{end}
 		and wic.schema_name=wi.schema_name and
 		wi.pk_id=wic.warehouse_in_id
-		group by
-		wi.schema_name,wi.org_id,wi.warehouse_id,wi.wh_name,wic.commodity_info_id
+		group by wi.schema_name,wi.org_id,wi.warehouse_id,wi.wh_name,wic.commodity_info_id
 		) tt2
 		on tt1.schemaname=tt2.schema_name and
 		tt1.warehouse_id=tt2.warehouse_id
@@ -200,7 +212,7 @@
 		from purchase_refunds pr,purchase_refunds_commodity prc
 		where pr.refunds_status='1' and pr.delete_flag='1' and
 		prc.delete_flag='1'
-		and pr.refunds_date between #{start} and #{end}
+		and substr(pr.refunds_date,1,10) between #{start} and #{end}
 		and
 		prc.schema_name=pr.schema_name and pr.pk_id=prc.refunds_id
 		group by
@@ -222,8 +234,7 @@
 		peic.delete_flag='1'
 		and
 		peic.schema_name=pe.schema_name and peic.exchange_id=pe.pk_id
-		and
-		pe.exchange_date between #{start} and #{end}
+		and substr(pe.exchange_date,1,10) between #{start} and #{end}
 		group by
 		pe.schema_name,pe.org_id,pe.warehouse_id,peic.commodity_info_id
 		) tt4
@@ -239,11 +250,9 @@
 		pe1,urchase_exchange_out_commodity eoc
 		where pe1.exchange_status='1'
 		and pe1.delete_flag='1' and
-		eoc.delete_flag='1'
-		and
+		eoc.delete_flag='1' and
 		eoc.schema_name=pe1.schema_name and eoc.exchange_id=pe1.pk_id
-		and
-		pe1.exchange_date between #{start} and #{end}
+		and substr(pe1.exchange_date,1,10) between #{start} and #{end}
 		group by
 		pe1.schema_name,pe1.org_id,pe1.warehouse_id,eoc.commodity_info_id
 		) tt5
@@ -255,15 +264,11 @@
 		select
 		sto.schema_name,sto.org_id_from,sto.warehouse_id_from,tofd.commodity_id,sum(tofd.quantity)
 		allotOut
-		from storage_transfer_order_from
-		sto,age_transfer_order_from_detail tofd
+		from storage_transfer_order_from sto,age_transfer_order_from_detail tofd
 		where sto.order_status
-		in('1','3') and sto.delete_flag='1' and
-		tofd.delete_flag='1'
-		and
-		tofd.schema_name=sto.schema_name and tofd.order_id=sto.pk_id
-		and
-		sto.confirmation_time between #{start} and #{end}
+		in('1','3') and sto.delete_flag='1' and tofd.delete_flag='1'
+		and tofd.schema_name=sto.schema_name and tofd.order_id=sto.pk_id
+		and substr(sto.confirmation_time,1,10) between #{start} and #{end}
 		group by
 		sto.schema_name,sto.org_id_from,sto.warehouse_id_from,tofd.commodity_id
 		) tt6
@@ -274,46 +279,28 @@
 		left join
 		(
 		select
-		stot.schema_name,stot.org_id_to,totd.warehouse_id_to,totd.commodity_id,sum(totd.quantity)
-		allotIn
-		from storage_transfer_order_to
-		stot,orage_transfer_order_to_detail totd
+		stot.schema_name,stot.org_id_to,totd.warehouse_id_to,totd.commodity_id,sum(totd.quantity) allotIn
+		from storage_transfer_order_to stot,orage_transfer_order_to_detail totd
 		where stot.order_status ='1'
-		and stot.delete_flag='1' and
-		totd.delete_flag='1'
-		and
-		totd.schema_name=stot.schema_name and totd.order_to_id=stot.pk_id
-		and
-		stot.confirmation_time between #{start} and #{end}
-		group by
-		stot.schema_name,stot.org_id_to,totd.warehouse_id_to,totd.commodity_id
+		and stot.delete_flag='1' and totd.delete_flag='1'
+		and totd.schema_name=stot.schema_name and totd.order_to_id=stot.pk_id
+		and substr(stot.confirmation_time,1,10) between #{start} and #{end}
+		group by stot.schema_name,stot.org_id_to,totd.warehouse_id_to,totd.commodity_id
 		) tt7
 		on tt2.schema_name=tt7.schema_name and tt2.org_id=tt7.org_id_to
-		and
-		tt2.warehouse_id=tt7.warehouse_id_to and
-		tt2.commodity_info_id=tt7.commodity_id
+		and tt2.warehouse_id=tt7.warehouse_id_to and tt2.commodity_info_id=tt7.commodity_id
 		left join
 		(
 		select
-		sipo.schema_name,sipo.org_id,sipo.warehouse_id,ipod.commodity_id,sum(ipod.profit_quantity)
-		profitQuantity
-		from storage_inventory_profit_order
-		sipo,inventory_profit_order_detail
-		ipod
-		where sipo.order_status='1' and
-		sipo.delete_flag='1' and
-		ipod.delete_flag='1'
-		and
-		ipod.schema_name=sipo.schema_name and
-		ipod.inventory_profit_order_id=sipo.pk_id
-		and sipo.adjust_time between
-		#{start} and #{end}
-		group by
-		sipo.schema_name,sipo.org_id,sipo.warehouse_id,ipod.commodity_id
+		sipo.schema_name,sipo.org_id,sipo.warehouse_id,ipod.commodity_id,sum(ipod.profit_quantity) profitQuantity
+		from storage_inventory_profit_order sipo,inventory_profit_order_detail ipod
+		where sipo.order_status='1' and sipo.delete_flag='1' and ipod.delete_flag='1'
+		and ipod.schema_name=sipo.schema_name and ipod.inventory_profit_order_id=sipo.pk_id
+		and substr(sipo.adjust_time,1,10) between #{start} and #{end}
+		group by sipo.schema_name,sipo.org_id,sipo.warehouse_id,ipod.commodity_id
 		) tt8
-		on tt2.schema_name=tt8.schema_name and tt2.org_id=tt8.org_id and
-		tt2.warehouse_id=tt8.warehouse_id and
-		tt2.commodity_info_id=tt8.commodity_id
+		on tt2.schema_name=tt8.schema_name and tt2.org_id=tt8.org_id and tt2.warehouse_id=tt8.warehouse_id
+		and tt2.commodity_info_id=tt8.commodity_id
 		left join
 		(
 		select
@@ -327,8 +314,7 @@
 		and
 		silo.schema_name=ilod.schema_name and
 		ilod.inventory_loss_order_id=silo.pk_id
-		and silo.adjust_time between
-		#{start} and #{end}
+		and substr(silo.adjust_time,1,10) between #{start} and #{end}
 		group by
 		silo.schema_name,silo.org_id,silo.warehouse_id,ilod.commodity_id
 		) tt9
@@ -348,8 +334,7 @@
 		iac.delete_flag='1'
 		and iac.schema_name=ia.schema_name and
 		iac.inventory_adjust_id=ia.pk_id
-		and ia.adjust_date between #{start}
-		and #{end}
+		and substr(ia.adjust_date,1,10) between #{start} and #{end}
 		group by
 		ia.schema_name,ia.adjust_org_id,ia.adjust_warehouse_id,iac.commodity_info_id
 		) tt10
@@ -368,8 +353,7 @@
 		mcad.delete_flag='1'
 		and mcad.schema_name=mca.schema_name and
 		mcad.order_number=mca.order_number
-		and mca.sales_date between #{start}
-		and #{end}
+		and substr(mca.sales_date,1,10) between #{start} and #{end}
 		group by
 		mca.schema_name,mca.org_id,mca.warehouse_id,mcad.commodity_pk_id,mcad.commodity_code
 		) tt11
@@ -388,8 +372,7 @@
 		cr.order_status ='2' and cr.delete_flag='1' and crd.delete_flag='1'
 		and cr.schema_name=crd.schema_name and
 		cr.order_number=crd.order_number
-		and cr.returns_date between #{start}
-		and #{end}
+		and substr(cr.returns_date,1,10) between #{start} and #{end}
 		group by
 		cr.schema_name,cr.org_id,cr.warehouse_id,crd.commodity_code,crd.commodity_model_name
 		) tt12
@@ -409,8 +392,7 @@
 		and
 		mcad.schema_name=mca.schema_name and
 		mcad.order_number=mca.order_number
-		and mca.sales_date between #{start}
-		and #{end}
+		and substr(mca.sales_date,1,10) between #{start} and #{end}
 		group by
 		mca.schema_name,mca.org_id,mca.warehouse_id,mcad.commodity_pk_id,mcad.commodity_code
 		) tt13
@@ -430,8 +412,7 @@
 		and
 		cr.schema_name=crd.schema_name and
 		cr.order_number=crd.order_number
-		and
-		cr.returns_date between #{start} and #{end}
+		and substr(cr.returns_date,1,10) between #{start} and #{end}
 		group by
 		cr.schema_name,cr.org_id,cr.warehouse_id,crd.commodity_code
 		) tt14
@@ -454,9 +435,8 @@
 		ii,inventory_item_detail iid
 		where ii.delete_flag='1' and
 		iid.delete_flag='1'
-		and iid.create_time between #{start} and #{end}
-		and
-		iid.schema_name=ii.schema_name and ii.pk_id=iid.inventory_item_id
+		and substr(iid.create_time,1,10) between #{start} and #{end}
+		and iid.schema_name=ii.schema_name and ii.pk_id=iid.inventory_item_id
 		)
 		where code_id = 1
 		) tt15
@@ -468,6 +448,16 @@
 		t.schemaName=c.schema_name and t.commodity_info_id =c.pk_id
 		and
 		c.delete_flag='1'
+		<if test="orgId==null">
+			and t.orgId in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and t.orgId=#{orgId, jdbcType=VARCHAR}
+		</if>
 		<if test="commodityCode!=null and commodityCode!=''">
 			and c.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'
@@ -486,7 +476,7 @@
 			and c.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
 		<if test="warehouseName!=null and warehouseName!=''">
-			and t.whName=#{warehouseName, jdbcType=VARCHAR}
+			and t.warehouse_id=#{warehouseName, jdbcType=VARCHAR}
 		</if>
 	</select>
 
@@ -522,12 +512,11 @@
 		from
 		(
 		select
-		mca.schema_name,mca.org_id,mcad.commodity_code,mcad.operation_type,sum(mcad.commodity_num)
-		saleNum
+		mca.schema_name,mca.org_id,mcad.commodity_code,mcad.operation_type,sum(mcad.commodity_num) saleNum
 		from market_commodity_add mca,market_commodity_add_details mcad
 		where mca.order_status='1' and mca.delete_flag='1' and
 		mcad.delete_flag='1'
-		and mcad.complimentary_mark!='1'
+		and mcad.complimentary_mark='false'
 		and
 		mca.schema_name=mcad.schema_name and
 		mca.order_number=mcad.order_number
@@ -552,7 +541,7 @@
 		from market_commodity_add mca,market_commodity_add_details mcad
 		where mca.order_status='1' and mca.delete_flag='1' and
 		mcad.delete_flag='1'
-		and mcad.complimentary_mark='1'
+		and mcad.complimentary_mark='true'
 		and
 		mca.schema_name=mcad.schema_name and
 		mca.order_number=mcad.order_number
@@ -581,7 +570,7 @@
 		where
 		mca.order_status in('1','3') and mca.delete_flag='1'and
 		mcad.delete_flag='1'
-		and mcad.complimentary_mark='1'
+		and mcad.complimentary_mark='false'
 		and
 		mca.schema_name=mcad.schema_name and
 		mca.order_number=mcad.order_number
@@ -612,7 +601,7 @@
 		cr.schema_name=crd.schema_name and cr.order_number=crd.order_number
 		and cr.order_status ='2' and cr.delete_flag='1' and
 		crd.delete_flag='1'
-		and crd.complimentary_mark!='1'
+		and crd.complimentary_mark='false'
 		<if test="memberMobilePhone!=null and memberMobilePhone!=''">
 			and member_mobile_phone like '%'||#{memberMobilePhone,
 			jdbcType=VARCHAR}||'%'
@@ -637,7 +626,7 @@
 		from market_commodity_returns cr,rket_commodity_returns_details crd
 		where cr.order_status = '4' and cr.delete_flag='1' and
 		crd.delete_flag='1'
-		and crd.complimentary_mark!='1'
+		and crd.complimentary_mark='false'
 		and
 		cr.schema_name=crd.schema_name and cr.order_number=crd.order_number
 		<if test="memberMobilePhone!=null and memberMobilePhone!=''">
@@ -667,7 +656,7 @@
 		where mca.order_status='3' and
 		mca.delete_flag='1' and mcad.delete_flag='1'
 		and
-		mcad.complimentary_mark!='1'
+		mcad.complimentary_mark='false'
 		and mca.schema_name=mcad.schema_name and
 		mca.order_number=mcad.order_number
 		<if test="memberMobilePhone!=null and memberMobilePhone!=''">
@@ -690,6 +679,16 @@
 		where
 		c.schema_name=t.schemaName and c.org_id=t.org_id and
 		c.commodity_code=t.commodity_code and c.delete_flag='1'
+		<if test="orgId==null">
+			and t.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and t.org_id=#{orgId, jdbcType=VARCHAR}
+		</if>
 		<if test="commodityCode!=null and commodityCode!=''">
 			and c.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'
@@ -713,12 +712,9 @@
 		resultType="com.bqjr.report.model.SaleReturn">
 		select t.schemaName,
 		t.org_id orgId,
-		(select t1.org_name
-		from
-		c_sys_organization t1
-		where t1.org_enable = '1'
+		(select t1.org_name from c_sys_organization t1 where t1.org_enable = '1'
 		and t1.delete_flag = '1'
-		and t.schemaName = t1.schema_name
+		and c.schema_name = t1.schema_name
 		and c.org_id = t1.pk_id) as orgName,
 		c.commodity_code commodityCode,
 		c.commodity_name commodityName,
@@ -779,11 +775,10 @@
 		mcad.operation_type = '1'
 		and mcad.warehouse_mgt_way in ('1', '2')
 		and
-		mcad.complimentary_mark = '0'
+		mcad.complimentary_mark = 'false'
 		and mca.schema_name = mcad.schema_name
 		and mca.order_number = mcad.order_number
-		and sales_date between
-		#{start} and #{end}
+		and sales_date between #{start} and #{end}
 		group by mca.schema_name, mca.org_id,
 		mcad.commodity_code) tt1
 		left join (select mca.schema_name,
@@ -801,7 +796,7 @@
 		and mcad.operation_type = '1'
 		and
 		mcad.warehouse_mgt_way in ('1', '2')
-		and mcad.complimentary_mark = '1'
+		and mcad.complimentary_mark = 'true'
 		and mca.schema_name = mcad.schema_name
 		and mca.order_number =
 		mcad.order_number
@@ -833,7 +828,7 @@
 		and crd.operation_type = '1'
 		and
 		crd.warehouse_mgt_way in ('1', '2')
-		and crd.complimentary_mark = '0'
+		and crd.complimentary_mark = 'false'
 		and returns_date between #{start} and #{end}
 		group by cr.schema_name,
 		cr.org_id, crd.commodity_code) tt3
@@ -858,7 +853,7 @@
 		and crd.operation_type = '1'
 		and
 		crd.warehouse_mgt_way in ('1', '2')
-		and crd.complimentary_mark = '1'
+		and crd.complimentary_mark = 'true'
 		and returns_date between #{start} and #{end}
 		group by cr.schema_name,
 		cr.org_id, crd.commodity_code) tt4
@@ -872,6 +867,16 @@
 		and c.commodity_code = t.commodity_code
 		and
 		c.delete_flag = '1'
+		<if test="orgId==null">
+			and t.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and t.org_id=#{orgId, jdbcType=VARCHAR}
+		</if>
 		<if test="commodityCode!=null and commodityCode!=''">
 			and c.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'

@@ -43,6 +43,15 @@ public class SaleReturn implements Serializable {
 	private String discountSaleSum; // 优惠后销售金额
 	private String saleCost; // 销售成本
 	private String saleGross; // 销售毛利
+	private String saleOrderNum;
+	private String saleOrderSum;
+	private String saleOrderDiscountSum;
+	private String giftSaleOrderNum;
+	private String returnOrderNum;
+	private String returnOrderSum;
+	private String giftReturnOrderNum;
+	private String saleOrderCost;
+	private String returnOrderCost;
 	public String getSchemaName() {
 		return schemaName;
 	}
@@ -138,5 +147,59 @@ public class SaleReturn implements Serializable {
 	}
 	public void setSaleGross(String saleGross) {
 		this.saleGross = saleGross;
+	}
+	public String getSaleOrderNum() {
+		return saleOrderNum;
+	}
+	public void setSaleOrderNum(String saleOrderNum) {
+		this.saleOrderNum = saleOrderNum;
+	}
+	public String getSaleOrderSum() {
+		return saleOrderSum;
+	}
+	public void setSaleOrderSum(String saleOrderSum) {
+		this.saleOrderSum = saleOrderSum;
+	}
+	public String getSaleOrderDiscountSum() {
+		return saleOrderDiscountSum;
+	}
+	public void setSaleOrderDiscountSum(String saleOrderDiscountSum) {
+		this.saleOrderDiscountSum = saleOrderDiscountSum;
+	}
+	public String getGiftSaleOrderNum() {
+		return giftSaleOrderNum;
+	}
+	public void setGiftSaleOrderNum(String giftSaleOrderNum) {
+		this.giftSaleOrderNum = giftSaleOrderNum;
+	}
+	public String getReturnOrderNum() {
+		return returnOrderNum;
+	}
+	public void setReturnOrderNum(String returnOrderNum) {
+		this.returnOrderNum = returnOrderNum;
+	}
+	public String getReturnOrderSum() {
+		return returnOrderSum;
+	}
+	public void setReturnOrderSum(String returnOrderSum) {
+		this.returnOrderSum = returnOrderSum;
+	}
+	public String getGiftReturnOrderNum() {
+		return giftReturnOrderNum;
+	}
+	public void setGiftReturnOrderNum(String giftReturnOrderNum) {
+		this.giftReturnOrderNum = giftReturnOrderNum;
+	}
+	public String getSaleOrderCost() {
+		return saleOrderCost;
+	}
+	public void setSaleOrderCost(String saleOrderCost) {
+		this.saleOrderCost = saleOrderCost;
+	}
+	public String getReturnOrderCost() {
+		return returnOrderCost;
+	}
+	public void setReturnOrderCost(String returnOrderCost) {
+		this.returnOrderCost = returnOrderCost;
 	}
 }

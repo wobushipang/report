@@ -318,7 +318,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u16066" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1350px; height: 560px;position:absolute;left:0px;">
+							style="width: 1087px; height: 460px;position:absolute;left:0px;">
 							<!-- 列表 -->
 							<div region="center" id="g">
 								<table id="gross"></table>

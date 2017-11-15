@@ -53,7 +53,7 @@ public class SaleReturnServiceImpl implements SaleReturnService {
 	public Map<String, Object> getSaleReturnList(int pageNum, int pageSize, SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<String> codes = new ArrayList<String>();
-		List<SaleReturn> list = new ArrayList<SaleReturn>();	
+		List<SaleReturn> list = new ArrayList<SaleReturn>();
 		PageHelper.startPage(pageNum, pageSize);
 		list = mapper.getSaleReturnList(condition);
 		for (SaleReturn s : list) {

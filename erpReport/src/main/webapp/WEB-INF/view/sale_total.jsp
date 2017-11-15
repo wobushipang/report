@@ -343,7 +343,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u15768" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1350px; height: 520px">
+							style="width: 1350px; height: 565px">
 							<!-- 列表 -->
 							<div region="center" id="s">
 								<table id="sale"></table>
@@ -477,7 +477,7 @@ function search(){
 	$('#sale').datagrid({
 		idField:'saleTotal',	//只要创建数据表格 就必须要加 ifField
 		fit:true,
-		height:450,
+		height:465,
 		url:'/getSaleTotal',
 		//fitColumns:true ,  
 		//striped: true ,	//隔行变色特性 

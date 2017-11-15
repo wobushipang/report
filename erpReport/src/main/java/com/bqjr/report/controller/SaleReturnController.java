@@ -35,10 +35,11 @@ import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.ConditionService;
 import com.bqjr.report.service.SaleReturnService;
+import com.bqjr.report.util.Constants;
 
 /**
  * @ClassName SaleReturnController.java
- * @Description 
+ * @Description
  * @author wei.huang02
  * @Date 2017年11月2日 下午2:03:56
  * @since JDK 1.8
@@ -48,62 +49,62 @@ public class SaleReturnController {
 
 	@Autowired
 	private SaleReturnService service;
-	
+
 	@Autowired
 	private ConditionService con;
-	
+
 	@RequestMapping("/saleReturn")
-	public ModelAndView redirect(String orgId,String openId,String schemaName){
-			Map<String,Object> map = new HashMap<String,Object>();
-			if(orgId==null)orgId="BQJR999_G000000001";
-			if(openId==null)openId="F2500B5240E54BB2A5A0683787A85BA2";
-			if(schemaName==null)schemaName="bqjr_erp_0000000001";
-			map.put("orgId", orgId);
-			map.put("openId", openId);
-			map.put("schemaName", schemaName);
-			return new ModelAndView("sale_return",map);
+	public ModelAndView redirect(String orgId, String openId, String schemaName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (orgId == null) orgId = "BQJR999_G000000019";
+		if (openId == null) openId = "F2500B5240E54BB2A5A0683787A85BA2";
+		if (schemaName == null) schemaName = "bqjr_erp_0000000019";
+		map.put("orgId", orgId);
+		map.put("openId", openId);
+		map.put("schemaName", schemaName);
+		return new ModelAndView("sale_return", map);
 	}
-	
-	@RequestMapping(value="/getSaleReturn", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/getSaleReturn", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getSaleReturn(HttpServletRequest request,SearchCondition condition,String type){
-		//分页参数
+	public Map<String, Object> getSaleReturn(HttpServletRequest request, SearchCondition condition, String type) {
+		// 分页参数
 		int pageNum = 1, pageSize = 10;
-		if(StringUtils.isNotBlank(request.getParameter("page"))){
+		if (StringUtils.isNotBlank(request.getParameter("page"))) {
 			pageNum = Integer.parseInt(request.getParameter("page"));
 		}
-		if(StringUtils.isNotBlank(request.getParameter("rows"))){
+		if (StringUtils.isNotBlank(request.getParameter("rows"))) {
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 		}
-		if(StringUtils.equals("0", condition.getOrgId())) {
-			condition.setOrgId(condition.getOrgName());
+		if (StringUtils.equals("0", condition.getOrgId())) {
+			condition.setOrgId(null);
+			List<String> strs = new ArrayList<String>();
+			List<Organization> orgs = con.organizationList(condition.getOrgName());
+			for (Organization organization : orgs) {
+				String org = organization.getPkId();
+				strs.add(org);
+			}
+			condition.setOrgs(strs);
 		}
-		if(StringUtils.equals("0", condition.getCatalogName())) {
+		if (StringUtils.equals("0", condition.getCatalogName())) {
 			condition.setCatalogName(null);
 		}
-		if(StringUtils.equals("0", condition.getBrandName())) {
+		if (StringUtils.equals("0", condition.getBrandName())) {
 			condition.setBrandName(null);
 		}
-		if(StringUtils.equals("0", condition.getModelName())) {
+		if (StringUtils.equals("0", condition.getModelName())) {
 			condition.setModelName(null);
 		}
-		if(condition.getStartDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
-			String str=sdf.format(condition.getStartDate()); 
+		if (condition.getStartDate() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			String str = sdf.format(condition.getStartDate());
 			condition.setStart(str);
 		}
-		if(condition.getEndDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
-			String str=sdf.format(condition.getEndDate()); 
+		if (condition.getEndDate() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			String str = sdf.format(condition.getEndDate());
 			condition.setEnd(str);
 		}
-		List<String> strs = new ArrayList<String>();
-		List<Organization> orgs=con.organizationList(condition.getOrgId());
-		for (Organization organization : orgs) {
-			String org=organization.getPkId();
-			strs.add(org);
-		}
-		condition.setOrgs(strs);
 		return service.getSaleReturnList(pageNum, pageSize, condition);
 	}
 }

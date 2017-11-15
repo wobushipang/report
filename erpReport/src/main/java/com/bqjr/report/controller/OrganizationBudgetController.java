@@ -34,6 +34,7 @@ import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.ConditionService;
 import com.bqjr.report.service.OrganizationBudgetService;
+import com.bqjr.report.util.Constants;
 
 /**
  * @ClassName OrganizationBudgetController.java
@@ -54,7 +55,7 @@ public class OrganizationBudgetController {
 	@RequestMapping("/organizationBudget")
 	public ModelAndView redirect(String orgId,String openId,String schemaName) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(orgId==null) orgId="BQJR999_G000000013";
+		if(orgId==null) orgId="BQJR999_G000000019";
 		if(openId==null) openId="";
 		if(schemaName==null) schemaName="bqjr_erp_0000000019";
 		map.put("orgId", orgId);
@@ -76,28 +77,28 @@ public class OrganizationBudgetController {
 					pageSize = Integer.parseInt(request.getParameter("rows"));
 				}
 				if(StringUtils.equals("0", condition.getOrgId())) {
-					condition.setOrgId(condition.getOrgName());
+					condition.setOrgId(null);
+					List<String> strs = new ArrayList<String>();
+					List<Organization> orgs=con.organizationList(condition.getOrgName());
+					for (Organization organization : orgs) {
+						String org=organization.getPkId();
+						strs.add(org);
+					}
+					condition.setOrgs(strs);
 				}
 				if(StringUtils.equals("0", condition.getBusinessId())) {
 					condition.setBusinessId(null);
 				}
 				if(condition.getStartDate()!=null) {
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+					SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 					String str=sdf.format(condition.getStartDate()); 
 					condition.setStart(str);
 				}
 				if(condition.getEndDate()!=null) {
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");  
+					SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 					String str=sdf.format(condition.getEndDate()); 
 					condition.setEnd(str);
 				}
-				List<String> strs = new ArrayList<String>();
-				List<Organization> orgs=con.organizationList(condition.getOrgId());
-				for (Organization organization : orgs) {
-					String org=organization.getPkId();
-					strs.add(org);
-				}
-				condition.setOrgs(strs);
 		return service.getOrganizationBudgetList(pageNum, pageSize, condition);
 	}
 }
