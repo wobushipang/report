@@ -1,5 +1,6 @@
 package com.bqjr.report.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -74,8 +75,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 			p.setActualPurchaseCount(Integer.valueOf(p.getWareInCount()) - Integer.valueOf(p.getRefundsCount())
 					+ Integer.valueOf(p.getExchangeInCount()) - Integer.valueOf(p.getExchangeOutCount()) + "");
 			// 实际采购金额
-			p.setActualPurchaseAmount(Float.valueOf(p.getWareInAmount()) - Float.valueOf(p.getRefundsAmount())
-					+ Float.valueOf(p.getExchangeInAmount()) - Float.valueOf(p.getExchangeOutAmount()) + "");
+			p.setActualPurchaseAmount(new BigDecimal(p.getWareInAmount()).subtract(new BigDecimal(p.getRefundsAmount())).add(new BigDecimal(p.getExchangeInAmount())).subtract(new BigDecimal(p.getExchangeOutAmount())).toString());
 			codes.add(p.getCommodityCode());
 			schemaName = p.getSchemaName();
 			orgId = p.getOrgId();

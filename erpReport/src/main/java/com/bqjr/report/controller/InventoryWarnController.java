@@ -90,8 +90,9 @@ public class InventoryWarnController {
 	public Map<String,Object>getDetail(HttpServletRequest request){
 		String commodityId=request.getParameter("commodityId");
 		String schemaName=request.getParameter("schemaName");
+		String whId=request.getParameter("whId");
 		//commodityId="31704B663E244562BD019C2795669DD9";
-		return service.getDetail(schemaName, commodityId);
+		return service.getDetail(schemaName, commodityId,whId);
 	}
 	
 	@RequestMapping("/getWarehouseList")

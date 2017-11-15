@@ -20,6 +20,7 @@ import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.ConditionService;
 import com.bqjr.report.service.PurchaseCollectService;
+import com.bqjr.report.util.Constants;
 
 @Controller
 public class PurchaseCollectController {
@@ -79,12 +80,12 @@ public class PurchaseCollectController {
 			condition.setModelName(null);
 		}
 		if(condition.getStartDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 			String str=sdf.format(condition.getStartDate()); 
 			condition.setStart(str);
 		}
 		if(condition.getEndDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 			String str=sdf.format(condition.getEndDate()); 
 			condition.setEnd(str);
 		}

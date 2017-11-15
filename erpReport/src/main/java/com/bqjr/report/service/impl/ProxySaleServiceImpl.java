@@ -1,5 +1,6 @@
 package com.bqjr.report.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,12 +75,12 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				//赠品数量
 				p.setGiftNum(Integer.valueOf(p.getSaleGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
 				//优惠后销售金额
-				p.setDiscountsAmount(Double.valueOf(p.getActualAmount())-Double.valueOf(p.getReturnNum())+"");
+				p.setDiscountsAmount(new BigDecimal(p.getActualAmount()).subtract(new BigDecimal(p.getReturnAmount())).toString());
 				if(!StringUtils.isEmpty(p.getPriceMethod())) {
 					if(p.getPriceMethod()=="1") {
-						p.setChargeAmount(Float.valueOf(p.getDiscountsAmount())*(Float.valueOf(p.getPriceRatio())/100)+"");
+						p.setChargeAmount(Double.valueOf(p.getDiscountsAmount())*(Double.valueOf(p.getPriceRatio())/100)+"");
 					}else {
-						p.setChargeAmount(Float.valueOf(p.getSaleOrderAmount())-Float.valueOf(p.getReturnAmount())+"");
+						p.setChargeAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).toString());
 					}
 				}
 				codes.add(p.getCommodityCode());

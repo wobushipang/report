@@ -29,7 +29,7 @@ public interface ReportMapper {
 	List<InventoryWarn> getInventoryWarnList1(SearchCondition condition);
 	
 	//串号详情
-	List<InventoryWarn> getDetail(@Param("schemaName")String schemaName,@Param("commodityId")String commodityId);
+	List<InventoryWarn> getDetail(@Param("schemaName")String schemaName,@Param("commodityId")String commodityId,@Param("whId")String whId);
 	
 	//组织机构
 	List<SearchCondition> getOrgList(@Param("orgId")String id,@Param("schemaName")String schemaName);

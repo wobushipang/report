@@ -6,6 +6,7 @@ public class InventoryWarn extends PurchaseCollect {
 	private String safeInventory;//安全库存
 	private String unsalableDays;//滞销天数
 	private String whName;//仓库名称
+	private String whId;
 	private String infoContent;//串号批次信息
 	private String inventoryInTime;//首次入库时间
 	private String infoType;
@@ -57,6 +58,12 @@ public class InventoryWarn extends PurchaseCollect {
 	}
 	public void setQuantity(String quantity) {
 		this.quantity = quantity;
+	}
+	public String getWhId() {
+		return whId;
+	}
+	public void setWhId(String whId) {
+		this.whId = whId;
 	}
 	
 }

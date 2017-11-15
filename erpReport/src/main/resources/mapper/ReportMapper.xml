@@ -318,7 +318,7 @@
 	</select>
 	<select id="getSupplierList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.pk_id as supplierId ,t.supplier_name as supplierName from
-		purchase_supplier t where t.delete_flag=1 and t.supplier_status=3
+		purchase_supplier t where t.delete_flag=1 and t.supplier_status=2
 		<if test="orgId!=null and orgId.size()>0">
 			and t.org_id in 
 			<foreach collection="orgId" open="(" close=")" item="org"
@@ -483,7 +483,7 @@
 		saleOrderAmount from market_commodity_add_details
 		cad,market_commodity_add cd where (cd.order_status=1 or
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
-		cad.details_status=1
+		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='false'
 		and cd.last_up_time between #{start,
@@ -524,7 +524,7 @@
 		sum(cad.commodity_num) saleGiftNum from market_commodity_add_details
 		cad,market_commodity_add cd where (cd.order_status=1 or
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
-		cad.details_status=1
+		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='true'
 		and cd.last_up_time between #{start} and
@@ -842,7 +842,7 @@
 		tt2.modelName
 		modelName,
 		tt2.schema_name schemaName,
-		tt2.warehouse_id warehouseId,
+		tt2.warehouse_id whId,
 		tt2.count1 inventoryNum,
 		tt2.wh_code,
 		tt2. wh_name whName,
@@ -894,9 +894,9 @@
 		from
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
-		from inventory_item ii,inventory_item_info iii where ii.delete_flag=1
+		from inventory_item ii<!-- ,inventory_item_info iii --> where ii.delete_flag=1
 		and ii.schema_name=#{schemaName}
-		and ii.pk_id=iii.inventory_item_id
+		<!-- and ii.pk_id=iii.inventory_item_id -->
 		group by ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id)tt1,c_commodity t1
 		where 1=1
@@ -967,7 +967,6 @@
 		tt2.count1 inventoryNum,
 		tt2.time1 inventoryInTime,
 		tt2.wh_code,
-		tt2.
 		wh_name whName,
 		tt2.info_content infoContent,
 		tt2.info_type infoType,
@@ -1014,12 +1013,11 @@
 		(select swi.wh_name from
 		storage_warehouse_info swi where
 		swi.pk_id=tt1.warehouse_id) as wh_name
-
 		from
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,iii.info_content,iii.info_type,sum(ii.quantity_on_hand)
 		count1,min(ii.create_time)time1 from inventory_item
-		ii,inventory_item_info iii where ii.delete_flag=1
+		ii,inventory_item_info iii where ii.delete_flag=1 and iii.delete_flag=1
 		and ii.schema_name =
 		#{schemaName}
 		and ii.pk_id=iii.inventory_item_id
@@ -1098,12 +1096,13 @@
 		supplier,ii.create_time
 		inventoryInTime,ii.operation_type
 		operationType,iii.quantity
-		quantity，iii.info_content infoContent from
+		quantity,iii.info_content infoContent from
 		inventory_item_info
 		iii,inventory_item ii where
 		ii.pk_id=iii.inventory_item_id and
-		iii.delete_flag=1 and
-		iii.schema_name= #{schemaName} and
-		iii.commodity_info_id=#{commodityId}
+		iii.delete_flag=1 and  ii.delete_flag=1
+		and ii.schema_name= #{schemaName} and
+		ii.commodity_info_id=#{commodityId}
+		and ii.warehouse_id =#{whId}
 	</select>
 </mapper>
