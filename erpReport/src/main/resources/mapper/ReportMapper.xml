@@ -317,8 +317,14 @@
 		t.parent_id=#{orgId}
 	</select>
 	<select id="getSupplierList" resultType="com.bqjr.report.model.SearchCondition">
-		select t.pk_id as supplierId ,t.supplier_name as supplierName from
-		purchase_supplier t where t.delete_flag=1 and t.supplier_status=2
+		select t.pk_id as supplierId ,t.supplier_name as supplierName,t.supplier_code from
+		purchase_supplier t ,
+		purchase_supplier_org_relation r
+		where t.delete_flag=1 
+		and r.delete_flag=1
+		and t.schema_name=r.schema_name
+		and t.org_id=r.org_id
+		and t.supplier_status=2
 		<if test="orgId!=null and orgId.size()>0">
 			and t.org_id in 
 			<foreach collection="orgId" open="(" close=")" item="org"
@@ -327,7 +333,7 @@
 			</foreach>
 		</if>
 		and t.schema_name=#{schemaName}
-
+		group by t.pk_id  ,t.supplier_name ,t.supplier_code
 	</select>
 	<select id="getCatalogList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.catalog_code as
@@ -480,7 +486,9 @@
 		</if>
 		sum(cad.commodity_num) saleOrderNum,sum(cd.actual_amount)
 		actualAmount, sum(cad.commodity_price*cad.commodity_num)
-		saleOrderAmount from market_commodity_add_details
+		saleOrderAmount
+		
+		 from market_commodity_add_details
 		cad,market_commodity_add cd where (cd.order_status=1 or
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		(cad.details_status=1 or cad.details_status=3)
@@ -578,7 +586,7 @@
 		(select mcr.schema_name,mcr.org_id,crd.supplier_id
 		<if test="type==1">,crd.commodity_code</if>
 		,sum(crd.commodity_num)
-		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount from
+		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount  from
 		market_commodity_returns mcr,rket_commodity_returns_details crd where
 		(mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and
 		crd.delete_flag=1 and crd.details_status=2
@@ -596,6 +604,7 @@
 		and tt1.org_id =tt4.org_id
 		and
 		tt1.supplier_id =tt4.supplier_id
+		
 		<if test="type==1">
 			and tt1.commodity_code =tt4.commodity_code
 		</if>
