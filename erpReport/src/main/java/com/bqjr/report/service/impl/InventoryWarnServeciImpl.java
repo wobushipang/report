@@ -65,9 +65,18 @@ public class InventoryWarnServeciImpl implements InventoryWarnService{
 	}
 
 	@Override
-	public Map<String, Object> getDetail(String schemaName, String commodityId,String whId) {
+	public Map<String, Object> getDetail(String schemaName, String commodityId,String whId,String type,String unsalableDays) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<InventoryWarn> list = mapper.getDetail(schemaName, commodityId,whId);
+		List<InventoryWarn> list  = new ArrayList<InventoryWarn>();
+		if(StringUtils.equals(type, "1")) {
+			list = mapper.getDetail(schemaName, commodityId,whId);
+		}else{
+			list = mapper.getDetails(schemaName, commodityId,whId);
+			for (InventoryWarn inventoryWarn : list) {
+				inventoryWarn.setUnsalableDays(unsalableDays);
+			}
+		}
+		
 		map.put("rows", list);
 		return map;
 	}

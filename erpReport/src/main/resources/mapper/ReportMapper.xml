@@ -953,7 +953,7 @@
 		(select o.org_name from c_sys_organization o where
 		o.pk_id=tt2.org_id)as
 		orgName,
-		tt2.commodity_id,
+		tt2.commodity_id commodityId,
 		tt2.operation_type
 		operationType,
 		tt2.supplier_id supplierId,
@@ -963,12 +963,12 @@
 		tt2.modelName
 		modelName,
 		tt2.schema_name schemaName,
-		tt2.warehouse_id warehouseId,
+		tt2.warehouse_id whId,
 		tt2.count1 inventoryNum,
 		tt2.time1 inventoryInTime,
 		tt2.wh_code,
 		wh_name whName,
-		<!-- tt2.info_content infoContent, -->
+		tt2.infoContent infoContent,
 		tt2.info_type infoType,
 		sew.safe_stock safeInventory,sew.unsalable_days unsalableDays from
 		(select t1.commodity_name commodityName,
@@ -1007,7 +1007,7 @@
 		t1.schema_name=t6.schema_name and
 		t1.org_id=t6.org_id and
 		t6.commodity_code=t1.commodity_code)) spec,
-		tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type<!-- ,tt1.info_content -->,tt1.info_type,
+		tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type ,tt1.infoContent ,tt1.info_type,
 		(select swi.wh_code from storage_warehouse_info swi where
 		swi.pk_id=tt1.warehouse_id) as wh_code,
 		(select swi.wh_name from
@@ -1015,15 +1015,15 @@
 		swi.pk_id=tt1.warehouse_id) as wh_name
 		from
 		(select ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type<!-- ,iii.info_content -->,iii.info_type,sum(ii.quantity_on_hand)
-		count1,min(ii.create_time)time1 from inventory_item
+		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type ,decode(iii.info_type,'2',iii.info_content,null) infoContent,iii.info_type,decode(iii.info_type,'2',sum(ii.quantity_on_hand),max(ii.quantity_on_hand)) count1,
+		min(ii.create_time)time1 from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1 and iii.delete_flag=1
 		and ii.schema_name =
 		#{schemaName}
 		and ii.pk_id=iii.inventory_item_id
 		group by
 		ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type<!-- ,iii.info_content -->,iii.info_type)tt1
+		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type, decode(iii.info_type,'2',iii.info_content,null),iii.info_type)tt1
 		, c_commodity t1
 		where 1=1
 		<if test="commodityCode!=null and commodityCode!=''">
@@ -1043,7 +1043,7 @@
 		<if test="modelName!=null and modelName!=''">
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
-		<if test="orgId==null">
+		<if test="orgId==null and orgs.size()>0">
 			and t1.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
 				separator=",">
@@ -1132,5 +1132,21 @@
     ,ii.operation_type
     ,decode(t.type,'1',1,ii.quantity_on_hand) 
     ,t.commodity_imei_batch 
+	</select>
+	
+	<select id="getDetails" resultType="com.bqjr.report.model.InventoryWarn">
+		select ii.supplier_name
+		supplier,ii.create_time
+		inventoryInTime,ii.operation_type
+		operationType,iii.quantity
+		quantity,iii.info_content infoContent,iii.info_type infoType from
+		inventory_item_info
+		iii,inventory_item ii where
+		ii.pk_id=iii.inventory_item_id and
+		iii.delete_flag=1 and  ii.delete_flag=1
+		and ii.schema_name= #{schemaName} and
+		ii.commodity_info_id=#{commodityId}
+		and ii.warehouse_id =#{whId}
+	
 	</select>
 </mapper>

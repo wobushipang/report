@@ -697,15 +697,26 @@
 											align : 'center',
 											width:200,
 											
-										}  ,
-										
-										{
-											field:'commodityName' , 
-											title:'商品名称' ,
+										}  ,{
+											field:'whId' ,
+											title:'仓库id' ,
 											align : 'center',
-											width:180
+											width:120 ,
+											hidden:true
 										},
-										
+										{
+											field:'commodityCode' , 
+											title:'商品编码' ,  
+											align : 'center',
+											width:200,
+											
+										}  ,
+										{
+											field:'commodityId' , 
+											title:'商品ID' ,  
+											width:200,
+											hidden:true
+										}  ,
 										{
 											field:'infoType' , 
 											title:'串号/批次' ,
@@ -715,8 +726,8 @@
 												if(value=='2'){
 													return row.infoContent
 												}else{
-													//return '<a href="javascript:void(0)" onclick=detailss("'+ row.infoContent +'","'+ row.supplier+'","'+ row.unsalableDays+'")>查看</a>'
-													return  "<a href='javascript:void(0);' title='删除'  onclick=\"detailss('"+row.infoContent+"','"+row.supplier+"','"+row.inventoryInTime+"','"+row.unsalableDays+"')\">查看</a>";
+													return '<a href="javascript:void(0)" onclick=detailss("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'","'+ row.unsalableDays+'")>查看</a>'
+													//return  "<a href='javascript:void(0);' title='删除'  onclick=\"detailss('"+row.infoContent+"','"+row.supplier+"','"+row.inventoryInTime+"','"+row.unsalableDays+"')\">查看</a>";
 												}
 											}
 										},{
@@ -836,6 +847,7 @@
 		  	document.getElementById('u11255_state0').style.display='block';
 			document.getElementById('u11255_state0').style.visibility='visible';
 			$('#win').window('close');
+			$('#win1').window('close');
 	  });
 //js方法：序列化表单 			
 	function serializeForm(form){
@@ -949,7 +961,7 @@
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true ,
 			height:450 ,
-			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&whId='+warehouseId ,
+			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&whId='+warehouseId+'&type=1',
 			loadMsg: '数据正在加载,请耐心的等待...' ,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
@@ -996,7 +1008,7 @@
 		$("#win").window('open');
 	}
 	//详情
-	function detailss(infoContent,supplier,time,unsalableDays) {
+	function detailss(schemaName,id,warehouseId,unsalableDays) {
 	/**
 	 *	初始化数据表格  
 	 */
@@ -1004,7 +1016,7 @@
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true ,
 			//height:450 ,
-			//url:'/getDetail?schemaName='+schemaName+'&commodityId='+id ,
+			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&unsalableDays='+unsalableDays+'&whId='+warehouseId+'&type=2' ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
@@ -1038,9 +1050,9 @@
 				}
 			]] ,
 		});
-	 var obj = '{"total":1,"rows":[{"infoContent":"'+infoContent+'","inventoryInTime":"'+time+'","supplier":"'+supplier+'","unsalableDays":"'+unsalableDays+'"}]}';    
-	 var data = $.parseJSON(obj);                //json字符串转成json对象  
-	 $('#details').datagrid('loadData',data);  
+	 //var obj = '{"total":1,"rows":[{"infoContent":"'+infoContent+'","inventoryInTime":"'+time+'","supplier":"'+supplier+'","unsalableDays":"'+unsalableDays+'"}]}';    
+	 //var data = $.parseJSON(obj);                //json字符串转成json对象  
+	 //$('#details').datagrid('loadData',data);  
 	$("#win1").window('open');
 }
   </script>

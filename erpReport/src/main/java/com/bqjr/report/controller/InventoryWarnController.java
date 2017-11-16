@@ -91,8 +91,10 @@ public class InventoryWarnController {
 		String commodityId=request.getParameter("commodityId");
 		String schemaName=request.getParameter("schemaName");
 		String whId=request.getParameter("whId");
+		String type= request.getParameter("type");
+		String unsalableDays= request.getParameter("unsalableDays");
 		//commodityId="31704B663E244562BD019C2795669DD9";
-		return service.getDetail(schemaName, commodityId,whId);
+		return service.getDetail(schemaName, commodityId,whId,type,unsalableDays);
 	}
 	
 	@RequestMapping("/getWarehouseList")
