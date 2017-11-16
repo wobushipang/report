@@ -1092,17 +1092,45 @@
 	</select>
 
 	<select id="getDetail" resultType="com.bqjr.report.model.InventoryWarn">
-		select ii.supplier_name
+		 <!-- select ii.supplier_name
 		supplier,ii.create_time
 		inventoryInTime,ii.operation_type
 		operationType,iii.quantity
-		quantity,iii.info_content infoContent from
+		quantity,iii.info_content infoContent,iii.info_type infoType from
 		inventory_item_info
 		iii,inventory_item ii where
 		ii.pk_id=iii.inventory_item_id and
 		iii.delete_flag=1 and  ii.delete_flag=1
 		and ii.schema_name= #{schemaName} and
 		ii.commodity_info_id=#{commodityId}
+		and ii.warehouse_id =#{whId} -->
+		
+		select ii.supplier_name
+    supplier,ii.create_time
+    inventoryInTime,ii.operation_type
+    operationType,decode(t.type,'1',1,ii.quantity_on_hand) 
+    quantity,t.commodity_imei_batch infoContent
+  from inventory_item                 ii,
+      NVENTORY_ITEM_DETAIL_COMMODITY t,
+       --inventory_item_info            iii,
+       inventory_item_detail          iid
+ where ii.delete_flag = 1
+
+   and iid.delete_flag = 1
+   and t.delete_flag = 1
+
+   and ii.pk_id = iid.inventory_item_id
+   and iid.pk_id = t.inventory_item_detail_id
+
+   and ii.commodity_info_id = t.commodity_info_id
+   and ii.schema_name= #{schemaName} and
+		ii.commodity_info_id=#{commodityId}
 		and ii.warehouse_id =#{whId}
+		group by
+ 	ii.supplier_name
+    ,ii.create_time
+    ,ii.operation_type
+    ,decode(t.type,'1',1,ii.quantity_on_hand) 
+    ,t.commodity_imei_batch 
 	</select>
 </mapper>
