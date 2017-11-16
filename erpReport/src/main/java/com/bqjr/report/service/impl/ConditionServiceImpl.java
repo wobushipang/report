@@ -3,6 +3,7 @@ package com.bqjr.report.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,9 @@ public class ConditionServiceImpl implements ConditionService{
 		List<Organization> organizationsAll = reportInfoMapper.findAll();
 		List<Organization> organizations = organizationListAll(organizationsAll, pkId);
 		Organization org = reportInfoMapper.getOrganizationById(pkId);
-		organizations.add(org);
+		if (org != null) {
+			organizations.add(org);
+		}
 		return organizations;
 	}
 
