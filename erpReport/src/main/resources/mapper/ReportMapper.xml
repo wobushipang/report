@@ -489,8 +489,8 @@
 		saleOrderAmount
 		
 		 from market_commodity_add_details
-		cad,market_commodity_add cd where (cd.order_status=1 or
-		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad,market_commodity_add cd where (cd.order_status=1 <!-- or
+		cd.order_status=3 -->) and cad.delete_flag=1 and cd.delete_flag=1 and
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='0'
@@ -530,8 +530,8 @@
 			cad.commodity_code,
 		</if>
 		sum(cad.commodity_num) saleGiftNum from market_commodity_add_details
-		cad,market_commodity_add cd where (cd.order_status=1 or
-		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad,market_commodity_add cd where (cd.order_status=1 <!-- or
+		cd.order_status=3 -->) and cad.delete_flag=1 and cd.delete_flag=1 and
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
 		cad.complimentary_mark='1'
@@ -560,8 +560,8 @@
 			,crd.commodity_code
 		</if>
 		,sum(crd.commodity_num) returnNumGift from market_commodity_returns
-		mcr,rket_commodity_returns_details crd where (mcr.order_status=2 or
-		mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and
+		mcr,rket_commodity_returns_details crd where (mcr.order_status=2 <!-- or
+		mcr.order_status=4 -->) and mcr.delete_flag=1 and crd.delete_flag=1 and
 		crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='1'
@@ -588,7 +588,7 @@
 		,sum(crd.commodity_num)
 		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount  from
 		market_commodity_returns mcr,rket_commodity_returns_details crd where
-		(mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and
+		(mcr.order_status=2<!--  or mcr.order_status=4 -->) and mcr.delete_flag=1 and
 		crd.delete_flag=1 and crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='0'
