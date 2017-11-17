@@ -926,7 +926,7 @@
 		<if test="modelName!=null and modelName!=''">
 			and t1.model_code=#{modelName, jdbcType=VARCHAR}
 		</if>
-		<if test="orgId==null">
+		<if test="orgId==null and orgs.size()>0">
 			and t1.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
 				separator=",">
