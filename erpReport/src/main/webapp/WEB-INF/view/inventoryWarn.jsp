@@ -262,7 +262,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11296" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1200px; height:575px">
+				<div id="layL" class="easyui-layout" style="width: 1200px; height:530px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -323,7 +323,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u11375" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 1200px; height:575px">
+				<div id="layS" class="easyui-layout" style="width: 1200px; height:530px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
@@ -540,12 +540,6 @@
 							title:'仓库名称' ,
 							align : 'center',
 							width:120 
-						},{
-							field:'whId' ,
-							title:'仓库id' ,
-							align : 'center',
-							width:120 ,
-							hidden:true
 						},
 						{
 							field:'commodityCode' , 
@@ -554,12 +548,7 @@
 							width:200,
 							
 						}  ,
-						{
-							field:'commodityId' , 
-							title:'商品ID' ,  
-							width:200,
-							hidden:true
-						}  ,
+						
 						{
 							field:'commodityName' , 
 							title:'商品名称' ,
@@ -585,7 +574,9 @@
 							align : 'center',
 							width:100,
 							formatter: function(value,row){
-								return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'")>查看</a>'
+								if(value!=null){
+									return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'")>查看</a>'
+								}
 							}
 						},
 						{
@@ -607,6 +598,17 @@
 							width:150,
 							
 						},{
+							field:'whId' ,
+							title:'仓库id' ,
+							align : 'center',
+							width:120 ,
+							hidden:true
+						},{
+							field:'commodityId' , 
+							title:'商品ID' ,  
+							width:200,
+							hidden:true
+						}  ,{
 							field:'spec' , 
 							title:'规格' , 
 							align : 'center',
@@ -697,25 +699,6 @@
 											align : 'center',
 											width:200,
 											
-										}  ,{
-											field:'whId' ,
-											title:'仓库id' ,
-											align : 'center',
-											width:120 ,
-											hidden:true
-										},
-										{
-											field:'commodityCode' , 
-											title:'商品编码' ,  
-											align : 'center',
-											width:200,
-											
-										}  ,
-										{
-											field:'commodityId' , 
-											title:'商品ID' ,  
-											width:200,
-											hidden:true
 										}  ,
 										{
 											field:'infoType' , 
@@ -725,17 +708,11 @@
 											formatter: function(value,row){
 												if(value=='2'){
 													return row.infoContent
-												}else{
+												}else if(value=='1'){
 													return '<a href="javascript:void(0)" onclick=detailss("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'","'+ row.unsalableDays+'")>查看</a>'
 													//return  "<a href='javascript:void(0);' title='删除'  onclick=\"detailss('"+row.infoContent+"','"+row.supplier+"','"+row.inventoryInTime+"','"+row.unsalableDays+"')\">查看</a>";
 												}
 											}
-										},{
-											field:'infoContent' , 
-											title:'串号/批次内容' ,
-											width:100,
-											align : 'center',
-											hidden:true
 										},
 										{
 											field:'inventoryNum' , 
@@ -770,7 +747,7 @@
 										formatter: function(value,row){
 											if(value=='1'){
 												return '购销'
-											}else{
+											}else if(value=='2'){
 												return '代销'
 											}
 										}
@@ -797,6 +774,25 @@
 											width:150,
 											
 										},{
+											field:'whId' ,
+											title:'仓库id' ,
+											align : 'center',
+											width:120 ,
+											hidden:true
+										},
+										{
+											field:'infoContent' , 
+											title:'串号/批次内容' ,
+											width:100,
+											align : 'center',
+											hidden:true
+										},
+										{
+											field:'commodityId' , 
+											title:'商品ID' ,  
+											width:200,
+											hidden:true
+										}  ,{
 											field:'spec' , 
 											title:'规格' , 
 											align : 'center',

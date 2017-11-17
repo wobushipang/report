@@ -493,9 +493,9 @@
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
-		cad.complimentary_mark='false'
-		and substr(cd.last_up_time,1,10) between #{start,
-		jdbcType=VARCHAR} and #{end,
+		cad.complimentary_mark='0'
+		and cd.sales_date between #{start1,
+		jdbcType=VARCHAR} and #{end1,
 		jdbcType=VARCHAR}
 		<if test="orgId==null">
 			and cd.org_id in
@@ -534,9 +534,9 @@
 		cd.order_status=3) and cad.delete_flag=1 and cd.delete_flag=1 and
 		(cad.details_status=1 or cad.details_status=3)
 		and cad.operation_type=2 and
-		cad.complimentary_mark='true'
-		and substr(cd.last_up_time,1,10) between #{start} and
-		#{end}
+		cad.complimentary_mark='1'
+		and cd.sales_date between #{start1} and
+		#{end1}
 		and cd.schema_name=cad.schema_name and
 		cad.order_number=cd.order_number
 		group by cd.schema_name,
@@ -564,9 +564,9 @@
 		mcr.order_status=4) and mcr.delete_flag=1 and crd.delete_flag=1 and
 		crd.details_status=2
 		and crd.operation_type=2 and
-		crd.complimentary_mark='true'
-		and substr(mcr.last_up_time,1,10) between #{start} and
-		#{end}
+		crd.complimentary_mark='1'
+		and mcr.returns_date between #{start1} and
+		#{end1}
 		and mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
 		group by
@@ -591,9 +591,9 @@
 		(mcr.order_status=2 or mcr.order_status=4) and mcr.delete_flag=1 and
 		crd.delete_flag=1 and crd.details_status=2
 		and crd.operation_type=2 and
-		crd.complimentary_mark='false'
-		and substr(mcr.last_up_time,1,10) between #{start} and
-		#{end}
+		crd.complimentary_mark='0'
+		and mcr.returns_date between #{start1} and
+		#{end1}
 		and mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
 		group by

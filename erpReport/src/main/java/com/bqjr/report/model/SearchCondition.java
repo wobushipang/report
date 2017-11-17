@@ -40,6 +40,8 @@ public class SearchCondition {
 	
 	private String start;
 	private String end;
+	private String start1;
+	private String end1;
 	private String businessType;// 收支类型
 	private String businessId;// 业务ID
 	private String businessName;// 业务名称
@@ -225,5 +227,17 @@ public class SearchCondition {
 	}
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
+	}
+	public String getStart1() {
+		return start1;
+	}
+	public void setStart1(String start1) {
+		this.start1 = start1;
+	}
+	public String getEnd1() {
+		return end1;
+	}
+	public void setEnd1(String end1) {
+		this.end1 = end1;
 	}
 }

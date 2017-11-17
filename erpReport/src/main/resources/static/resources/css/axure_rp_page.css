@@ -1,6 +1,6 @@
-﻿/* so the window resize fires within a frame in IE7 */
+/* so the window resize fires within a frame in IE7 */
 html, body {
-    height: 100%;
+    height: 95%;
 }
 
 a {

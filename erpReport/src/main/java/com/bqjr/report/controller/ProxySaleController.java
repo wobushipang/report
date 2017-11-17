@@ -93,7 +93,16 @@ public class ProxySaleController {
 			String str=sdf.format(condition.getEndDate()); 
 			condition.setEnd(str);
 		}
-		
+		if(condition.getStartDate()!=null) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+			String str=sdf.format(condition.getStartDate()); 
+			condition.setStart1(str);
+		}
+		if(condition.getEndDate()!=null) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+			String str=sdf.format(condition.getEndDate()); 
+			condition.setEnd1(str);
+		}
 		
 		return service.getProxySaleList(pageNum, pageSize, condition);
 	}
