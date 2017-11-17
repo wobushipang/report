@@ -300,7 +300,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20225" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1100px; height:520px">
+				<div id="layL" class="easyui-layout" style="width: 1090px; height:520px">
 					<!-- 列表 -->
 					<div region="center" id="c">
 						<table id="commodity"></table>
@@ -361,7 +361,7 @@
 
             <!-- Unnamed (表格) -->
             <div id="u20602" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 1100px; height:520px">
+				<div id="layS" class="easyui-layout" style="width: 1090px; height:520px">
 					<!-- 列表 -->
 					<div region="center" id="s">
 						<table id="suppliers"></table>
