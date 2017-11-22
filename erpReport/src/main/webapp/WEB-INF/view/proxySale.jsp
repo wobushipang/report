@@ -404,6 +404,7 @@
 			valueField:'id',
 			textField:'text',
 			editable:false ,
+			async: false,
 			width : '190',
 			//panelHeight:'auto'
 			onChange:function(value){
@@ -411,7 +412,7 @@
 					url:'<%=path%>/getSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 					valueField:'id',
 					textField:'text',
-					editable:false ,
+					//editable:false ,
 					width : '190',
 					//panelHeight:'auto'
 				});
@@ -419,8 +420,8 @@
 
 		});
 		$('#u20211_input').combobox({
-			url:'<%=path%>/getSupplierList?org='+orgId+'&orgId='
-					+$('#u20200_input').combobox('getValue')+'&schemaName='+schemaName ,
+			url:'<%=path%>/getSupplierList?org='+orgId+'&orgId=null'
+					/* +$('#u20200_input').combobox('getValue') */+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,

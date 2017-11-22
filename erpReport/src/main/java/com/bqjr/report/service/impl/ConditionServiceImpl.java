@@ -64,8 +64,8 @@ public class ConditionServiceImpl implements ConditionService{
 				// 递归遍历上一级
 				//organizationListAll(organizationList, organization.getParentId());
 				Organization org = reportInfoMapper.getOrganizationById(organization.getParentId());
-				organizationListAll(organizationList, organization.getParentId());
 				if(org!=null) {
+					upOrganizationListAll(organizationList, org.getPkId());
 					father.add(org);
 				}
 			}
@@ -74,7 +74,8 @@ public class ConditionServiceImpl implements ConditionService{
 	}
 	
 	public String getOrgList(String id,String schemaName) {
-		List<Organization> list = this.organizationList(id);
+		List<Organization> list = new ArrayList<Organization>();
+		list = organizationList(id);
 		List<Option> listStages=new ArrayList<Option>();
 		Option d=new Option();
 		d.setId("0");
@@ -91,6 +92,7 @@ public class ConditionServiceImpl implements ConditionService{
 			}
 		}
 		}
+		System.out.println("----------------------------"+list.size());
 		return JSON.toJSONString(listStages);
 	}
 	

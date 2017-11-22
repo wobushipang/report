@@ -100,7 +100,9 @@ public class PurchaseCollectController {
 	public String getOrgList(HttpServletRequest request){
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
-		return con.getOrgList(orgId, schemaName);
+		String list = con.getOrgList(orgId, schemaName);
+		//System.out.println("++++++"+list);
+		return list;
 	}
 	
 	@RequestMapping("/getSupplierList")
