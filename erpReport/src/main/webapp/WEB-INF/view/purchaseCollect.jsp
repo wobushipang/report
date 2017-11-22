@@ -418,31 +418,32 @@
 			valueField:'id',
 			textField:'text',
 			editable:false ,
-			async: false,
+			//async: false,
 			width : '190',
 			//panelHeight:'auto'
 			onChange:function(value){
 				$('#supplierId').combobox({
-					url:'<%=path%>/getAllSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
+					url:'<%=path%>/getAllSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName , 
 					valueField:'id',
 					textField:'text',
 					editable:false ,
-					async: false,
+					//async: false,
 					width : '190',
 					//panelHeight:'auto'
 				});
 			}
 
 		});
-		$('#supplierId').combobox({
-			url:'<%=path%>/getAllSupplierList?schemaName='+schemaName+'&org='+orgId+'&orgId=null' 
-					/* +$('#org').combobox('getValue') */,
+		<%-- $('#supplierId').combobox({
+			 url:'<%=path%>/getAllSupplierList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
+					+$('#org').combobox('getValue') , 
 			valueField:'id',
 			textField:'text',
 			editable:false ,
+			async: false,
 			width : '190',
 			//panelHeight:'auto'
-		});
+		}); --%>
 		$('#u7288_input').combobox({
 			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',

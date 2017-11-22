@@ -419,15 +419,16 @@
 			}
 
 		});
-		$('#u20211_input').combobox({
-			url:'<%=path%>/getSupplierList?org='+orgId+'&orgId=null'
-					/* +$('#u20200_input').combobox('getValue') */+'&schemaName='+schemaName ,
+		<%-- $('#u20211_input').combobox({
+			url:'<%=path%>/getSupplierList?org='+orgId+'&orgId='
+					 +$('#u20200_input').combobox('getValue') +'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,
+			async: false,
 			width : '190',
 			//panelHeight:'auto'
-		});
+		}); --%>
 		$('#u20196_input').combobox({
 			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
