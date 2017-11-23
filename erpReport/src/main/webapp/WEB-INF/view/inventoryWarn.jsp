@@ -89,13 +89,13 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u11260" class="ax_default box_1">
+           <!--  <div id="u11260" class="ax_default box_1">
               <div id="u11260_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11261" class="text" style="visibility: visible;">
+              Unnamed ()
+              <div id="u11261" class="text" style="visibility: hidden;">
                 <p><span>低库存</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (提交按钮) -->
             <div id="u11262" class="ax_default html_button">
@@ -215,13 +215,13 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u11287" class="ax_default box_1">
+            <!-- <div id="u11287" class="ax_default box_1">
               <div id="u11287_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11288" class="text" style="visibility: visible;">
+              Unnamed ()
+              <div id="u11288" class="text" style="visibility: hidden;">
                 <p><span>滞销查询</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (提交按钮) -->
             <div id="u11289" class="ax_default html_button">
@@ -631,9 +631,9 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
-				document.getElementById('u11260').style.visibility='visible';
-				document.getElementById('u11287').style.visibility='hidden';
-		   		document.getElementById('u11288').style.visibility='hidden';
+				//document.getElementById('u11260').style.visibility='visible';
+				//document.getElementById('u11287').style.visibility='hidden';
+		   		//document.getElementById('u11288').style.visibility='hidden';
 			 
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
@@ -815,9 +815,9 @@
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
-				document.getElementById('u11288').style.visibility='visible';
-				document.getElementById('u11260').style.visibility='hidden';
-		   		document.getElementById('u11261').style.visibility='hidden';
+				//document.getElementById('u11288').style.visibility='visible';
+				//document.getElementById('u11260').style.visibility='hidden';
+		   		//document.getElementById('u11261').style.visibility='hidden';
 			 
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
@@ -830,10 +830,10 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
-	  document.getElementById('u11287').style.visibility='visible';
-	  document.getElementById('u11288').style.visibility='visible';
-		document.getElementById('u11260').style.visibility='visible';
- 		document.getElementById('u11261').style.visibility='visible';
+	  //document.getElementById('u11287').style.visibility='visible';
+	  //document.getElementById('u11288').style.visibility='visible';
+		//document.getElementById('u11260').style.visibility='visible';
+ 		//document.getElementById('u11261').style.visibility='visible';
 	  document.getElementById('u11255_state2').style.display='none';
 		document.getElementById('u11255_state2').style.visibility='hidden';
 		document.getElementById('u11255_state1').style.display='none';

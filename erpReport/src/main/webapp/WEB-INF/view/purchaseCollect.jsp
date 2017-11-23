@@ -91,22 +91,22 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <div id="u7269" class="ax_default box_1">
+            <!-- <div id="u7269" class="ax_default box_1">
               <div id="u7269_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u7270" class="text" style="visibility: visible;">
                 <p><span>商品汇总</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (矩形) -->
-            <div id="u7271" class="ax_default box_1">
+            <!-- <div id="u7271" class="ax_default box_1">
               <div id="u7271_div" class=""></div>
-              <!-- Unnamed () -->
+              Unnamed ()
               <div id="u7272" class="text" style="visibility: visible;">
                 <p><span>供应商汇总表</span></p>
               </div>
-            </div>
+            </div> -->
 
             <!-- Unnamed (提交按钮) -->
             <div id="u7273" class="ax_default html_button">
@@ -756,9 +756,9 @@
 				});
 			 	
 				/*  */
-				document.getElementById('u7270').style.visibility='visible';
-				document.getElementById('u7271').style.visibility='hidden';
-		   		document.getElementById('u7272').style.visibility='hidden';
+				//document.getElementById('u7270').style.visibility='visible';
+				//document.getElementById('u7271').style.visibility='hidden';
+		   		//document.getElementById('u7272').style.visibility='hidden';
 			 	//document.getElementById('u7631').style.visibility='hidden';
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
@@ -917,9 +917,9 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
-				document.getElementById('u7272').style.visibility='visible';
-				document.getElementById('u7269').style.visibility='hidden';
-				document.getElementById('u7270').style.visibility='hidden';
+				//document.getElementById('u7272').style.visibility='visible';
+				//document.getElementById('u7269').style.visibility='hidden';
+				//document.getElementById('u7270').style.visibility='hidden';
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
 		 }
@@ -927,10 +927,10 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
-	  document.getElementById('u7269').style.visibility='visible';
-	  document.getElementById('u7270').style.visibility='visible';
-		document.getElementById('u7271').style.visibility='visible';
- 		document.getElementById('u7272').style.visibility='visible';
+	  //document.getElementById('u7269').style.visibility='visible';
+	  //document.getElementById('u7270').style.visibility='visible';
+		//document.getElementById('u7271').style.visibility='visible';
+ 		//document.getElementById('u7272').style.visibility='visible';
 	  document.getElementById('u7264_state2').style.display='none';
 		document.getElementById('u7264_state2').style.visibility='hidden';
 		document.getElementById('u7264_state1').style.display='none';
