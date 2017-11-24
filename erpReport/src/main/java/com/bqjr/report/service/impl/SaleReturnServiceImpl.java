@@ -57,12 +57,22 @@ public class SaleReturnServiceImpl implements SaleReturnService {
 		PageHelper.startPage(pageNum, pageSize);
 		list = mapper.getSaleReturnList(condition);
 		for (SaleReturn s : list) {
-			if(StringUtils.isBlank(s.getGiftNum())) s.setGiftNum("0");
-			if(StringUtils.isBlank(s.getDiscountSaleSum())) s.setDiscountSaleSum("0");
-			if(StringUtils.isBlank(s.getSaleCost())) s.setSaleCost("0");
-			if(StringUtils.isBlank(s.getSaleGross())) s.setSaleGross("0");
-			if(StringUtils.isBlank(s.getSaleNum())) s.setSaleNum("0");
-			if(StringUtils.isBlank(s.getSaleSum())) s.setSaleSum("0");
+			if(StringUtils.isBlank(s.getSaleOrderNum())) s.setSaleOrderNum("0");
+			if(StringUtils.isBlank(s.getReturnOrderNum())) s.setReturnOrderNum("0");
+			if(StringUtils.isBlank(s.getGiftReturnOrderNum())) s.setGiftReturnOrderNum("0");
+			if(StringUtils.isBlank(s.getGiftSaleOrderNum())) s.setGiftSaleOrderNum("0");
+			if(StringUtils.isBlank(s.getSaleOrderSum())) s.setSaleOrderSum("0");
+			if(StringUtils.isBlank(s.getSaleOrderDiscountSum())) s.setSaleOrderDiscountSum("0");
+			if(StringUtils.isBlank(s.getReturnOrderNum())) s.setReturnOrderNum("0");
+			if(StringUtils.isBlank(s.getReturnOrderSum())) s.setReturnOrderSum("0");
+			if(StringUtils.isBlank(s.getAllCost())) s.setAllCost("0");
+			if(StringUtils.isBlank(s.getReturnCost())) s.setReturnCost("0");
+			s.setSaleNum(Integer.valueOf(s.getSaleOrderNum())-Integer.valueOf(s.getReturnOrderNum())+"");
+			s.setGiftNum(Integer.valueOf(s.getGiftSaleOrderNum())-Integer.valueOf(s.getGiftReturnOrderNum())+"");
+			s.setSaleSum(Double.valueOf(s.getSaleOrderSum())-Double.valueOf(s.getReturnOrderSum())+"");
+			s.setDiscountSaleSum(Double.valueOf(s.getSaleOrderDiscountSum())-Double.valueOf(s.getReturnOrderSum())+"");
+			s.setSaleCost(Double.valueOf(s.getAllCost())-Double.valueOf(s.getReturnCost())+"");
+			s.setSaleGross(Double.valueOf(s.getDiscountSaleSum())-Double.valueOf(s.getSaleCost())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

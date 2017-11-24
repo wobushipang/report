@@ -39,7 +39,7 @@ import com.bqjr.report.util.Constants;
 
 /**
  * @ClassName StockDayController.java
- * @Description 
+ * @Description
  * @author wei.huang02
  * @Date 2017年10月31日 下午7:25:06
  * @since JDK 1.8
@@ -48,63 +48,66 @@ import com.bqjr.report.util.Constants;
 public class StockDayController {
 	@Autowired
 	private StockDayService service;
-	
+
 	@Autowired
 	private ConditionService con;
-	
+
 	@RequestMapping("/stockDay")
-	public ModelAndView redirect(String orgId,String openId,String schemaName){
-			Map<String,Object> map = new HashMap<String,Object>();
-			if(orgId==null) orgId="BQJR999_G000000019";
-			if(openId==null) openId="";
-			if(schemaName==null) schemaName="bqjr_erp_0000000019";
-			map.put("orgId", orgId);
-			map.put("openId", openId);
-			map.put("schemaName", schemaName);
-			return new ModelAndView("stock_day",map);
+	public ModelAndView redirect(String orgId, String openId, String schemaName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (orgId == null)
+			orgId = "BQJR999_G000000002";
+		if (openId == null)
+			openId = "";
+		if (schemaName == null)
+			schemaName = "bqjr_erp_0000000002";
+		map.put("orgId", orgId);
+		map.put("openId", openId);
+		map.put("schemaName", schemaName);
+		return new ModelAndView("stock_day", map);
 	}
-	
-	@RequestMapping(value="/getStockDay", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/getStockDay", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getStockDayList(HttpServletRequest request,SearchCondition condition,String type){
-		//分页参数
+	public Map<String, Object> getStockDayList(HttpServletRequest request, SearchCondition condition, String type) {
+		// 分页参数
 		int pageNum = 1, pageSize = 10;
-		if(StringUtils.isNotBlank(request.getParameter("page"))){
+		if (StringUtils.isNotBlank(request.getParameter("page"))) {
 			pageNum = Integer.parseInt(request.getParameter("page"));
 		}
-		if(StringUtils.isNotBlank(request.getParameter("rows"))){
+		if (StringUtils.isNotBlank(request.getParameter("rows"))) {
 			pageSize = Integer.parseInt(request.getParameter("rows"));
 		}
-		if(StringUtils.equals("0", condition.getOrgId())) {
+		if (StringUtils.equals("0", condition.getOrgId())) {
 			condition.setOrgId(null);
 			List<String> strs = new ArrayList<String>();
-			List<Organization> orgs=con.organizationList(condition.getOrgName());
+			List<Organization> orgs = con.organizationList(condition.getOrgName());
 			for (Organization organization : orgs) {
-				String org=organization.getPkId();
+				String org = organization.getPkId();
 				strs.add(org);
 			}
 			condition.setOrgs(strs);
 		}
-		if(StringUtils.equals("0", condition.getWarehouseName())) {
+		if (StringUtils.equals("0", condition.getWarehouseName())) {
 			condition.setWarehouseName(null);
 		}
-		if(StringUtils.equals("0", condition.getCatalogName())) {
+		if (StringUtils.equals("0", condition.getCatalogName())) {
 			condition.setCatalogName(null);
 		}
-		if(StringUtils.equals("0", condition.getBrandName())) {
+		if (StringUtils.equals("0", condition.getBrandName())) {
 			condition.setBrandName(null);
 		}
-		if(StringUtils.equals("0", condition.getModelName())) {
+		if (StringUtils.equals("0", condition.getModelName())) {
 			condition.setModelName(null);
 		}
-		if(condition.getStartDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
-			String str=sdf.format(condition.getStartDate()); 
+		if (condition.getStartDate() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
+			String str = sdf.format(condition.getStartDate());
 			condition.setStart(str);
 		}
-		if(condition.getEndDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
-			String str=sdf.format(condition.getEndDate()); 
+		if (condition.getEndDate() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
+			String str = sdf.format(condition.getEndDate());
 			condition.setEnd(str);
 		}
 		return service.getStockDayList(pageNum, pageSize, condition);

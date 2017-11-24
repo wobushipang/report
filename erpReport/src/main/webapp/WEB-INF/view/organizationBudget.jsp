@@ -52,7 +52,7 @@
 <script src="resources/scripts/axure/legacy.js"></script>
 <script src="resources/scripts/axure/viewer.js"></script>
 <script src="resources/scripts/axure/math.js"></script>
-<%@ include file="../../../page/public_base.jsp"%>
+<%@ include file="../../../page/public_base_new.jsp"%>
 <script type="text/javascript">
 	$axure.utils.getTransparentGifPath = function() {
 		return 'resources/images/transparent.gif';
@@ -110,7 +110,7 @@
 
 					<!-- Unnamed (文本框) -->
 					<div id="u20896" class="ax_default text_field">
-						<input id="u20896_input" name="startDate" type="text"
+						<input id="u20896_input" name="startDate" type="text" editable="false"
 							class="easyui-datebox" style="width: 190px" />
 					</div>
 
@@ -127,7 +127,7 @@
 
 					<!-- Unnamed (文本框) -->
 					<div id="u20899" class="ax_default text_field">
-						<input id="u20899_input" name="endDate" type="text"
+						<input id="u20899_input" name="endDate" type="text" editable="false"
 							class="easyui-datebox" style="width: 190px" />
 					</div>
 
@@ -221,15 +221,15 @@
 					</div>
 
 					<!-- Unnamed (矩形) -->
-					<div id="u20916" class="ax_default box_1">
+					<!-- <div id="u20916" class="ax_default box_1">
 						<div id="u20916_div" class=""></div>
-						<!-- Unnamed () -->
+						Unnamed ()
 						<div id="u20917" class="text" style="visibility: visible;">
 							<p>
 								<span>业务类型汇总</span>
 							</p>
 						</div>
-					</div>
+					</div> -->
 					
 					<!-- Unnamed (矩形) -->
 						<!-- <div id="u21037" class="ax_default box_1">
@@ -242,15 +242,15 @@
 							</div>
 						</div> -->
 						<!-- Unnamed (矩形) -->
-						<div id="u21039" class="ax_default box_1">
+						<!-- <div id="u21039" class="ax_default box_1">
 							<div id="u21039_div" class=""></div>
-							<!-- Unnamed () -->
+							Unnamed ()
 							<div id="u21040" class="text" style="visibility: visible;">
 								<p>
 									<span>组织机构汇总</span>
 								</p>
 							</div>
-						</div>
+						</div> -->
 					</form>
 				</div>
 			</div>
@@ -271,15 +271,15 @@
 							</div>
 						</div>
 						<!-- Unnamed (矩形) -->
-						<div id="u210391" class="ax_default box_1">
+						<!-- <div id="u210391" class="ax_default box_1">
 							<div id="u210391_div" class=""></div>
-							<!-- Unnamed () -->
+							Unnamed ()
 							<div id="u210401" class="text" style="visibility: visible;">
 								<p>
 									<span>组织机构汇总</span>
 								</p>
 							</div>
-						</div>
+						</div> -->
 					<!-- Unnamed (矩形) -->
 					<div id="u20918" class="ax_default box_1">
 						<div id="u20918_div" class=""></div>
@@ -318,7 +318,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u20924" class="ax_default">
 						<div id="layb" class="easyui-layout"
-							style="width: 687px; height: 565px">
+							style="width: 668px; height: 520px">
 							<!-- 列表 -->
 							<div region="center" id="b">
 								<table id="business"></table>
@@ -333,15 +333,15 @@
 					style="display: none; visibility: hidden;">
 					<div id="u20889_state2_content" class="panel_state_content">
 						<!-- Unnamed (矩形) -->
-							<div id="u21132" class="ax_default box_1">
+							<!-- <div id="u21132" class="ax_default box_1">
 								<div id="u21132_div" class=""></div>
-								<!-- Unnamed () -->
+								Unnamed ()
 								<div id="u21133" class="text" style="visibility: visible;">
 									<p>
 										<span>业务类型汇总</span>
 									</p>
 								</div>
-							</div>
+							</div> -->
 
 							<!-- Unnamed (矩形) -->
 							<div id="u21134" class="ax_default box_1">
@@ -391,7 +391,7 @@
 						<!-- Unnamed (表格) -->
 						<div id="u21047" class="ax_default">
 							<div id="layo" class="easyui-layout"
-								style="width: 687px; height: 565px">
+								style="width: 668px; height: 520px">
 								<!-- 列表 -->
 								<div region="center" id="o">
 									<table id="orgnization"></table>
@@ -512,32 +512,25 @@
 							{
 								field:'businessType' ,
 								title:'收支类型' ,
-								width:120 
+								width:130 
 							},
 							{
 								field:'businessName', 
 								title:'业务名称',  
-								width:200,
+								width:180,
 								
 							},
 							{
 								field:'money', 
 								title:'金额',
-								width:180
+								width:180,
 							}
 						]],
 						pagination: true, 
 						pageSize: 10,
 						pageList:[10],
 					});
-				document.getElementById('u20916').style.visibility='visible';
-				document.getElementById('u21039').style.visibility='hidden';
-		   		document.getElementById('u21040').style.visibility='hidden';
-				
-				document.getElementById('u20889_state0').style.display='none';
-				document.getElementById('u20889_state0').style.visibility='hidden';
-				document.getElementById('u20889_state2').style.display='none';
-				document.getElementById('u20889_state2').style.visibility='hidden';
+				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u20889_state1').style.display='block';
 				document.getElementById('u20889_state1').style.visibility='visible';
 			 }else{
@@ -584,12 +577,12 @@
 											{
 												field:'income' ,
 												title:'其他收入金额' ,
-												width:210 
+												width:215 
 											},
 											{
 												field:'expend' , 
 												title:'其他支出金额' ,  
-												width:210,
+												width:215,
 												
 											}
 										]],
@@ -597,14 +590,7 @@
 										pageSize: 10 ,
 										pageList:[10] ,
 									});
-					document.getElementById('u21039').style.visibility='visible';
-					document.getElementById('u21132').style.visibility='hidden';
-			   		document.getElementById('u21133').style.visibility='hidden';
-				 
-					document.getElementById('u20889_state0').style.display='none';
-					document.getElementById('u20889_state0').style.visibility='hidden';
-					document.getElementById('u20889_state1').style.display='none';
-					document.getElementById('u20889_state1').style.visibility='hidden';
+					$(".datagrid-body").css("overflow-x","scroll");
 					document.getElementById('u20889_state2').style.display='block';
 					document.getElementById('u20889_state2').style.visibility='visible';
 		}
@@ -622,10 +608,10 @@
   }
   
   $('.a').click(function(){
-	  document.getElementById('u21039').style.visibility='visible';
+	  /* document.getElementById('u21039').style.visibility='visible';
 	  document.getElementById('u21040').style.visibility='visible';
 	  document.getElementById('u21132').style.visibility='visible';
-	  document.getElementById('u21133').style.visibility='visible';
+	  document.getElementById('u21133').style.visibility='visible'; */
 	  document.getElementById('u20889_state2').style.display='none';
 	  document.getElementById('u20889_state2').style.visibility='hidden';
 	  document.getElementById('u20889_state1').style.display='none';

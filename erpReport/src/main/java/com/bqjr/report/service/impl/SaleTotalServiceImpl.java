@@ -64,9 +64,9 @@ public class SaleTotalServiceImpl implements SaleTotalService {
 			if(StringUtils.isBlank(s.getReturnSum())) s.setReturnSum("0");
 			if(StringUtils.isBlank(s.getSaleExpendNum())) s.setSaleExpendNum("0");
 			if(StringUtils.isBlank(s.getSaleExpendSum())) s.setSaleExpendSum("0");
-			if(StringUtils.isBlank(s.getSaleNum())) s.setSaleNum("0");
 			if(StringUtils.isBlank(s.getSaleReturnNum())) s.setSaleReturnNum("0");
 			if(StringUtils.isBlank(s.getSaleReturnSum())) s.setSaleReturnSum("0");
+			s.setSaleNum(Integer.valueOf(s.getOrderSaleNum())-Integer.valueOf(s.getReturnNum())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

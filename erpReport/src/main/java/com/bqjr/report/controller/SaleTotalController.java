@@ -56,9 +56,12 @@ public class SaleTotalController {
 	@RequestMapping("/saleTotal")
 	public ModelAndView redirect(String orgId,String openId,String schemaName){
 			Map<String,Object> map = new HashMap<String,Object>();
-			if(orgId==null) orgId="BQJR999_G000000019";
-			if(openId==null) openId="";
-			if(schemaName==null) schemaName="bqjr_erp_0000000019";
+			if (orgId == null)
+				orgId = "BQJR999_G000000002";
+			if (openId == null)
+				openId = "";
+			if (schemaName == null)
+				schemaName = "bqjr_erp_0000000002";
 			map.put("orgId", orgId);
 			map.put("openId", openId);
 			map.put("schemaName", schemaName);

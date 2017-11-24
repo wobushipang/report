@@ -52,7 +52,7 @@
 <script src="resources/scripts/axure/legacy.js"></script>
 <script src="resources/scripts/axure/viewer.js"></script>
 <script src="resources/scripts/axure/math.js"></script>
-<%@ include file="../../../page/public_base.jsp"%>
+<%@ include file="../../../page/public_base_new.jsp"%>
 <script type="text/javascript">
 	$axure.utils.getTransparentGifPath = function() {
 		return 'resources/images/transparent.gif';
@@ -122,7 +122,7 @@
 
 						<!-- 起始日期 (文本框) -->
 						<div id="u16032" class="ax_default text_field">
-							<input id="u16032_input" name="startDate" type="text"
+							<input id="u16032_input" name="startDate" type="text" editable="false"
 								class="easyui-datebox" style="width: 190px" />
 						</div>
 
@@ -139,7 +139,7 @@
 
 						<!-- 终止日期 (文本框) -->
 						<div id="u16035" class="ax_default text_field">
-							<input id="u16035_input" name="endDate" type="text"
+							<input id="u16035_input" name="endDate" type="text" editable="false"
 								class="easyui-datebox" style="width: 190px" />
 						</div>
 
@@ -318,7 +318,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u16066" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1087px; height: 460px;position:absolute;left:0px;">
+							style="width: 1087px; height: 520px;">
 							<!-- 列表 -->
 							<div region="center" id="g">
 								<table id="gross"></table>
@@ -370,7 +370,7 @@ $(function(){
 					valueField:'id', //值字段
 					textField:'text', //显示的字段
 					url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					editable:true,//不可编辑，只能选择
+					editable:false,//不可编辑，只能选择
 					width:'190',
 					//panelHeight:'auto',
 					onChange:function(value){
@@ -380,7 +380,7 @@ $(function(){
 								valueField:'id', //值字段
 								textField:'text', //显示的字段
 								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								editable:true,//不可编辑，只能选择
+								editable:false,//不可编辑，只能选择
 								width:'190',
 								//panelHeight:'auto'
 							}); 
@@ -396,7 +396,7 @@ $(function(){
 		textField:'text', //显示的字段
 		url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 			+ $('#u16045_input').combobox('getValue'),
-		editable:true,//不可编辑，只能选择
+		editable:false,//不可编辑，只能选择
 		width:'190',
 		//panelHeight:'auto',
 	});
@@ -406,7 +406,7 @@ $(function(){
 		textField:'text', //显示的字段
 		url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
 			+ $('#u16046_input').combobox('getValue'),
-		editable:true,//不可编辑，只能选择
+		editable:false,//不可编辑，只能选择
 		width:'190',
 		//panelHeight:'auto'
 	});
@@ -446,7 +446,7 @@ function search(){
 	$('#gross').datagrid({
 		idField:'saleReturn',	//只要创建数据表格 就必须要加 ifField
 		fit:true,
-		height:450,
+		height:520,
 		url:'/getSaleReturn',
 		//fitColumns:true ,  
 		//striped: true ,	//隔行变色特性 
@@ -568,6 +568,7 @@ function search(){
 		pageSize:10,
 		pageList:[10],	
 	});
+	$(".datagrid-body").css("overflow-x","scroll");
 	document.getElementById('u16023_state1').style.display='block';
 	document.getElementById('u16023_state1').style.visibility='visible';
 }

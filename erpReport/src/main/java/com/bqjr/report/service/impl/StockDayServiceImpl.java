@@ -60,7 +60,6 @@ public class StockDayServiceImpl implements StockDayService {
 			if(StringUtils.isBlank(s.getAllotIn())) s.setAllotIn("0");
 			if(StringUtils.isBlank(s.getAllotOut())) s.setAllotOut("0");
 			if(StringUtils.isBlank(s.getBeginQuantity())) s.setBeginQuantity("0");
-			if(StringUtils.isBlank(s.getFinalQuantity())) s.setFinalQuantity("0");
 			if(StringUtils.isBlank(s.getLossQuantity())) s.setLossQuantity("0");
 			if(StringUtils.isBlank(s.getProfitQuantity())) s.setProfitQuantity("0");
 			if(StringUtils.isBlank(s.getPurchaseExpendIn())) s.setPurchaseExpendIn("0");
@@ -72,6 +71,10 @@ public class StockDayServiceImpl implements StockDayService {
 			if(StringUtils.isBlank(s.getSaleOut())) s.setSaleOut("0");
 			if(StringUtils.isBlank(s.getSaleReturn())) s.setSaleReturn("0");
 			if(StringUtils.isBlank(s.getTrimQuantity())) s.setTrimQuantity("0");
+			s.setFinalQuantity(Integer.valueOf(s.getBeginQuantity())+Integer.valueOf(s.getPurchaseIn())
+			- Integer.valueOf(s.getPurchaseReturn())+Integer.valueOf(s.getPurchaseExpendIn())-Integer.valueOf(s.getPurchaseExpendOut())
+			-Integer.valueOf(s.getAllotOut())+Integer.valueOf(s.getAllotIn())+Integer.valueOf(s.getTrimQuantity())-Integer.valueOf(s.getSaleOut())
+			+Integer.valueOf(s.getSaleReturn())-Integer.valueOf(s.getSaleExpendOut())+Integer.valueOf(s.getSaleExpendIn())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

@@ -50,8 +50,8 @@ public class SaleReturn implements Serializable {
 	private String returnOrderNum;
 	private String returnOrderSum;
 	private String giftReturnOrderNum;
-	private String saleOrderCost;
-	private String returnOrderCost;
+	private String allCost;
+	private String returnCost;
 	public String getSchemaName() {
 		return schemaName;
 	}
@@ -190,16 +190,16 @@ public class SaleReturn implements Serializable {
 	public void setGiftReturnOrderNum(String giftReturnOrderNum) {
 		this.giftReturnOrderNum = giftReturnOrderNum;
 	}
-	public String getSaleOrderCost() {
-		return saleOrderCost;
+	public String getAllCost() {
+		return allCost;
 	}
-	public void setSaleOrderCost(String saleOrderCost) {
-		this.saleOrderCost = saleOrderCost;
+	public void setAllCost(String allCost) {
+		this.allCost = allCost;
 	}
-	public String getReturnOrderCost() {
-		return returnOrderCost;
+	public String getReturnCost() {
+		return returnCost;
 	}
-	public void setReturnOrderCost(String returnOrderCost) {
-		this.returnOrderCost = returnOrderCost;
+	public void setReturnCost(String returnCost) {
+		this.returnCost = returnCost;
 	}
 }
