@@ -49,7 +49,7 @@
     <script src="resources/scripts/axure/legacy.js"></script>
     <script src="resources/scripts/axure/viewer.js"></script>
     <script src="resources/scripts/axure/math.js"></script>
-    <%@ include file="../../../page/public_base.jsp"%>
+    <%@ include file="../../../page/public_base_new.jsp"%>
     <script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
@@ -412,7 +412,7 @@
 					url:'<%=path%>/getSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 					valueField:'id',
 					textField:'text',
-					//editable:false ,
+					editable:false ,
 					width : '190',
 					//panelHeight:'auto'
 				});
@@ -443,7 +443,7 @@
 					    valueField:'id', //值字段
 					    textField:'text', //显示的字段
 					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
+					   	editable:false,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
 						//panelHeight:'auto',
@@ -454,7 +454,7 @@
 								    valueField:'id', //值字段
 								    textField:'text', //显示的字段
 								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
+								   	editable:false,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
 									//panelHeight:'auto'
@@ -719,9 +719,6 @@
 					//sortOrder: 'desc' ,
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
-				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
 				   					},
 					
 				   					columns:[[

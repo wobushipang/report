@@ -49,7 +49,7 @@
     <script src="resources/scripts/axure/legacy.js"></script>
     <script src="resources/scripts/axure/viewer.js"></script>
     <script src="resources/scripts/axure/math.js"></script>
-    <%@ include file="../../../page/public_base.jsp"%>
+    <%@ include file="../../../page/public_base_new.jsp"%>
     <script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
