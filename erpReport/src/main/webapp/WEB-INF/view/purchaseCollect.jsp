@@ -734,6 +734,7 @@
 							align : 'center',
 							width:150,
 							formatter: function(value){
+								if(value==null)return;
 								var strs= new Array(); //定义一数组 
 								var a=' <br/>'
 								strs=value.split("/"); //字符分割 
@@ -754,12 +755,6 @@
 					pageList:[10] ,
 					
 				});
-			 	
-				/*  */
-				//document.getElementById('u7270').style.visibility='visible';
-				//document.getElementById('u7271').style.visibility='hidden';
-		   		//document.getElementById('u7272').style.visibility='hidden';
-			 	//document.getElementById('u7631').style.visibility='hidden';
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
 		 }else{
@@ -917,9 +912,6 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
-				//document.getElementById('u7272').style.visibility='visible';
-				//document.getElementById('u7269').style.visibility='hidden';
-				//document.getElementById('u7270').style.visibility='hidden';
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
 		 }
@@ -927,10 +919,6 @@
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
   $('.a').click(function(){
-	  //document.getElementById('u7269').style.visibility='visible';
-	  //document.getElementById('u7270').style.visibility='visible';
-		//document.getElementById('u7271').style.visibility='visible';
- 		//document.getElementById('u7272').style.visibility='visible';
 	  document.getElementById('u7264_state2').style.display='none';
 		document.getElementById('u7264_state2').style.visibility='hidden';
 		document.getElementById('u7264_state1').style.display='none';

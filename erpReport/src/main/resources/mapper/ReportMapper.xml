@@ -98,11 +98,13 @@
 			and pwi.operation_type=#{operationType}
 		</if>
 		<if test="orgId==null">
+			<if test="orgs.size()>0">
 			and pwi.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
 				separator=",">
 				#{org}
 			</foreach>
+			</if>
 		</if>
 		<if test="orgId!=null">
 			and pwi.org_id =#{orgId}
@@ -498,11 +500,13 @@
 		jdbcType=VARCHAR} and #{end1,
 		jdbcType=VARCHAR}
 		<if test="orgId==null">
+		<if test="orgs.size()>0">
 			and cd.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
 				separator=",">
 				#{org}
 			</foreach>
+			</if>
 		</if>
 		<if test="orgId!=null">
 			and cd.org_id =#{orgId}
@@ -903,9 +907,8 @@
 		from
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
-		from inventory_item ii<!-- ,inventory_item_info iii --> where ii.delete_flag=1
+		from inventory_item ii where ii.delete_flag=1
 		and ii.schema_name=#{schemaName}
-		<!-- and ii.pk_id=iii.inventory_item_id -->
 		group by ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id)tt1,c_commodity t1
 		where 1=1

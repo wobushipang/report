@@ -651,6 +651,7 @@
 							align : 'center',
 							width:150,
 							formatter: function(value){
+								if(value==null)return;
 								var strs= new Array(); //定义一数组 
 								var a=' <br/>'
 								strs=value.split("/"); //字符分割 
