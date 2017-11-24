@@ -635,7 +635,7 @@
 				//document.getElementById('u11260').style.visibility='visible';
 				//document.getElementById('u11287').style.visibility='hidden';
 		   		//document.getElementById('u11288').style.visibility='hidden';
-			 
+			 	$(".datagrid-body").css("overflow-x","scroll");
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state2').style.display='none';
@@ -819,7 +819,7 @@
 				//document.getElementById('u11288').style.visibility='visible';
 				//document.getElementById('u11260').style.visibility='hidden';
 		   		//document.getElementById('u11261').style.visibility='hidden';
-			 
+			 	$(".datagrid-body").css("overflow-x","scroll");
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state1').style.display='none';

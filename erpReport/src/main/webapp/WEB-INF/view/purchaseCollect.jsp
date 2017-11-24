@@ -5,6 +5,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,12 +13,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
+     
     <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
     <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
     <link href="data/styles.css" type="text/css" rel="stylesheet"/>
     <link href="files/采购汇总汇总/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <!-- <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script> -->
     <script src="resources/scripts/axure/axQuery.js"></script>
     <script src="resources/scripts/axure/globals.js"></script>
     <script src="resources/scripts/axutils.js"></script>
@@ -50,7 +52,7 @@
     <script src="resources/scripts/axure/legacy.js"></script>
     <script src="resources/scripts/axure/viewer.js"></script>
     <script src="resources/scripts/axure/math.js"></script>
-    <%@ include file="../../../page/public_base.jsp"%>
+     <%@ include file="../../../page/public_base_new.jsp"%>
     <script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
@@ -60,6 +62,7 @@
 		p {background:#FFF;}
 	</style>
   </head>
+ 
   <body>
   	<input type="hidden" id="orgId" value="${orgId}"/>
 	<input type="hidden" id="openId" value="${openId}"/>
@@ -120,7 +123,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7275" class="ax_default text_field">
-              <input id="u7275_input" name="startDate" type="text"  class="easyui-datebox" style="width:190px"/>
+              <input id="u7275_input" name="startDate" type="text"  class="easyui-datebox" editable="false"  style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -134,7 +137,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7278" class="ax_default text_field">
-              <input id="u7278_input" name="endDate" type="text" class="easyui-datebox" style="width:190px"/>
+              <input id="u7278_input" name="endDate" type="text" class="easyui-datebox" editable="false"  style="width:190px"/>
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -317,11 +320,8 @@
             <div id="u7316" class="ax_default">
 				<div id="layL" class="easyui-layout" style="width: 1090px; height:520px">
 					<!-- 列表 -->
-					<div region="center" id="c">
 						<table id="commodity"></table>
-					</div>
 				</div>
-              
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -375,13 +375,13 @@
 
             <!-- Unnamed (表格) -->
             <div id="u7537" class="ax_default">
-				 <div id="layA" class="easyui-layout" style="width: 1090px; height:520px">
+				  <div id="layA" class="easyui-layout" style="width: 1090px; height:520px">
 					<!-- 列表 -->
-					<div region="center"  id="s">
+					<!-- <div id="dataGridBox" style="position:absolute; left:0;right:0;bottom:0;"> -->
 						<table id="suppliers"></table>
-					</div> 
-              
-            	</div>
+					
+              		</div>
+            	<!-- </div> -->
 			</div>
             <!-- Unnamed (矩形) -->
             <!-- <div id="u7628" class="ax_default box_1">
@@ -458,7 +458,7 @@
 					    valueField:'id', //值字段
 					    textField:'text', //显示的字段
 					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
+					   	editable:false,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
 						//panelHeight:'auto',
@@ -469,7 +469,7 @@
 								    valueField:'id', //值字段
 								    textField:'text', //显示的字段
 								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
+								   	editable:false,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
 									//panelHeight:'auto'
@@ -487,7 +487,7 @@
 		    textField:'text', //显示的字段
 		    url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 		    		+ $('#u7288_input').combobox('getValue'),
-		   	editable:true,//不可编辑，只能选择
+		   	editable:false,//不可编辑，只能选择
 		   	//width: 200,
 			width : '190',
 			//panelHeight:'auto',
@@ -497,7 +497,7 @@
 			    textField:'text', //显示的字段
 			    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
 			    		+ $('#u7289_input').combobox('getValue'),
-			   	editable:true,//不可编辑，只能选择
+			   	editable:false,//不可编辑，只能选择
 			   	//width: 200,
 				width : '190',
 				//panelHeight:'auto'
@@ -553,6 +553,7 @@
 		     $(".datagrid-mask").remove();
 		     $(".datagrid-mask-msg").remove();            
 		}
+		 $(".datagrid-body").css("overflow-x","scroll");
 		 if(type=='1'){
 			 /**
 				 *	初始化数据表格  
@@ -560,16 +561,16 @@
 				$('#commodity').datagrid({
 					idField:'commodityCode' ,		//只要创建数据表格 就必须要加 ifField
 				//	title:'活动列表' ,
-					//width:1300 ,
+					width:1300 ,
 					fit:true ,
-					height:450 ,
+					//height:450 ,
 					url:'/getPurcaseCollect' ,
-					//fitColumns:true ,  
+					//fitColumns:true,  
 					//striped: true ,					//隔行变色特性 
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
-					showFooter:true,
+					//showFooter:true,
 					nowrap:false,
 					queryParams: { 
 						orgId:orgId,
@@ -593,21 +594,19 @@
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
 				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
-				   					},
 					
 					columns:[[
 						{
 							field:'orgName' , 
 							title:'组织机构' , 
 							align : 'center',
-							width:150
+							width:150,
+							height:50
 						},{
 							field:'supplier' ,
 							title:'供应商' ,
 							align : 'center',
-							width:120 
+							width:150 
 						},{
 							field:'operationType' ,
 							title:'购销方式' ,
@@ -752,9 +751,10 @@
 					},
 					pagination: true , 
 					pageSize: 10 ,
-					pageList:[10] ,
+					pageList:[5,10,20,30] ,
 					
 				});
+				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
 		 }else{
@@ -797,10 +797,6 @@
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
 				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
-				   					},
-					
 					columns:[[
 						{
 							field:'orgName' , 
@@ -912,6 +908,7 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
+				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
 		 }
@@ -975,7 +972,7 @@
 					    valueField:'id', //值字段
 					    textField:'text', //显示的字段
 					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
+					   	editable:false,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
 						//panelHeight:'auto',
@@ -986,7 +983,7 @@
 								    valueField:'id', //值字段
 								    textField:'text', //显示的字段
 								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
+								   	editable:false,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
 									//panelHeight:'auto'
@@ -1004,7 +1001,7 @@
 		    textField:'text', //显示的字段
 		    url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 		    		+ $('#u7288_input').combobox('getValue'),
-		   	editable:true,//不可编辑，只能选择
+		   	editable:false,//不可编辑，只能选择
 		   	//width: 200,
 			width : '190',
 			//panelHeight:'auto',
@@ -1014,7 +1011,7 @@
 			    textField:'text', //显示的字段
 			    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
 			    		+ $('#u7289_input').combobox('getValue'),
-			   	editable:true,//不可编辑，只能选择
+			   	editable:false,//不可编辑，只能选择
 			   	//width: 200,
 				width : '190',
 				//panelHeight:'auto'

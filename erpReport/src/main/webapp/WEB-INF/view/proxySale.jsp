@@ -671,10 +671,7 @@
 					pageSize: 10 ,
 					pageList:[10] ,
 				});
-				//document.getElementById('u20216').style.visibility='visible';
-				//document.getElementById('u20217').style.visibility='hidden';
-		   		//document.getElementById('u20218').style.visibility='hidden';
-			 	
+				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u20176_state0').style.display='none';
 				document.getElementById('u20176_state0').style.visibility='hidden'
 				document.getElementById('u20176_state2').style.display='none';
@@ -792,7 +789,7 @@
 				//document.getElementById('u20218').style.visibility='visible';
 				//document.getElementById('u20215').style.visibility='hidden';
 		   		//document.getElementById('u20216').style.visibility='hidden';
-			 	
+			 	$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u20176_state0').style.display='none';
 				document.getElementById('u20176_state0').style.visibility='hidden'
 				document.getElementById('u20176_state1').style.display='none';

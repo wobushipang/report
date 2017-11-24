@@ -21,8 +21,8 @@
 <script type="text/javascript" src="${BASE_PATH}js/plugin/validation/messages_cn.js" ></script>
 <script type="text/javascript" src="${BASE_PATH}js/common/common.js" ></script>
 
-<script type="text/javascript" src="${BASE_PATH}js/echarts/echarts.js" ></script>
-<script type="text/javascript" src="${BASE_PATH}js/echarts/china.js" ></script>
+<%-- <script type="text/javascript" src="${BASE_PATH}js/echarts/echarts.js" ></script>
+<script type="text/javascript" src="${BASE_PATH}js/echarts/china.js" ></script> --%>
 
 
 <link rel="stylesheet" type="text/css" href="${BASE_PATH}js/plugin/jQuery easyUI/themes/icon.css" />
