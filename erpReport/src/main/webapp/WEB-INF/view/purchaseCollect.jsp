@@ -18,8 +18,8 @@
     <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
     <link href="data/styles.css" type="text/css" rel="stylesheet"/>
     <link href="files/采购汇总汇总/styles.css" type="text/css" rel="stylesheet"/>
-    <!-- <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script> -->
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="resources/scripts/axure/axQuery.js"></script>
     <script src="resources/scripts/axure/globals.js"></script>
     <script src="resources/scripts/axutils.js"></script>
