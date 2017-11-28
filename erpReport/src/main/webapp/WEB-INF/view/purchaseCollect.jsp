@@ -525,7 +525,7 @@
 	  var orgId=$('#org').combobox('getValue');
 	  var org=$('#orgId').val();
 	  var schemaName=$('#schemaName').val();
-	  var commodityCode=$('#commodityCode').val();
+	  var commodityCode=$('#u7281_input').val();
 	  var commodityName=$('#u7306_input').val();
 	  var brandName=$('#u7289_input').combobox('getValue');
 	  var catalogName=$('#u7288_input').combobox('getValue');
@@ -559,7 +559,7 @@
 				 *	初始化数据表格  
 				 */
 				$('#commodity').datagrid({
-					idField:'commodityCode' ,		//只要创建数据表格 就必须要加 ifField
+					idField:'commodityId' ,		//只要创建数据表格 就必须要加 ifField
 				//	title:'活动列表' ,
 					width:1300 ,
 					fit:true ,

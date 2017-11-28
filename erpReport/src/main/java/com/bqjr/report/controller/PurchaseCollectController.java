@@ -112,7 +112,7 @@ public class PurchaseCollectController {
 		String orgId=request.getParameter("orgId");
 		String org=request.getParameter("org");
 		String schemaName=request.getParameter("schemaName");
-		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId))orgId=org;
+		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId)||StringUtils.equals(orgId, "null"))orgId=org;
 		if(StringUtils.isNotEmpty(orgId)) {
 			List<Organization> orgs=con.organizationList(orgId);
 			for (Organization organization : orgs) {
@@ -132,7 +132,7 @@ public class PurchaseCollectController {
 		String orgId=request.getParameter("orgId");
 		String org=request.getParameter("org");
 		String schemaName=request.getParameter("schemaName");
-		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId))orgId=org;
+		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId)||StringUtils.equals(orgId, "null"))orgId=org;
 		if(StringUtils.isNotEmpty(orgId)) {
 			List<Organization> orgs=con.organizationList(orgId);
 			for (Organization organization : orgs) {

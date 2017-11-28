@@ -10,6 +10,7 @@ public class PurchaseCollect {
 	private String orgName;
 	private String orgId;
 	private String supplier;//供应商
+	private String supplierId;
 	private String operationType;//购销方式
 	private String commodityCode;
 	private String commodityId;
@@ -181,6 +182,12 @@ public class PurchaseCollect {
 	}
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
+	}
+	public String getSupplierId() {
+		return supplierId;
+	}
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 	
 }

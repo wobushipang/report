@@ -44,8 +44,9 @@ public class ConditionServiceImpl implements ConditionService{
 		for (Organization organization : organizationList) {
 			if (orgId.equals(organization.getParentId())) {
 				// 递归遍历下一级
-				organizationListAll(organizationList, organization.getPkId());
 				child.add(organization);
+				organizationListAll(organizationList, organization.getPkId());
+				
 			}
 		}
 		return child;
@@ -53,23 +54,24 @@ public class ConditionServiceImpl implements ConditionService{
 	
 	public List<Organization> upOrganizationList(String pkId) {
 		father.clear();
-		List<Organization> organizationsAll = reportInfoMapper.findAll();
-		List<Organization> organizations = upOrganizationListAll(organizationsAll, pkId);
+		//List<Organization> organizationsAll = reportInfoMapper.findAll();
+		List<Organization> organizations = upOrganizationListAll(pkId);
 		return organizations;
 	}
 	
-	public List<Organization> upOrganizationListAll(List<Organization> organizationList, String orgId) {
-		for (Organization organization : organizationList) {
-			if (orgId.equals(organization.getPkId())) {
+	public List<Organization> upOrganizationListAll(String orgId) {
+		/*for (Organization organization : organizationList) {
+			if (orgId.equals(organization.getPkId())) {*/
 				// 递归遍历上一级
 				//organizationListAll(organizationList, organization.getParentId());
-				Organization org = reportInfoMapper.getOrganizationById(organization.getParentId());
+				Organization org = reportInfoMapper.getOrganizationById(orgId);
 				if(org!=null) {
-					upOrganizationListAll(organizationList, org.getPkId());
 					father.add(org);
+					upOrganizationListAll(org.getParentId());
+					
 				}
-			}
-		}
+		/*	}
+		}*/
 		return father;
 	}
 	

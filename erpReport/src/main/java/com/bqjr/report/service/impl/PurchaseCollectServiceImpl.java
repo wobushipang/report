@@ -35,42 +35,140 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	@Override
 	public Map<String, Object> getpurchaseCollectList(int pageNum, int pageSize, SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int purchaseCount = 0;// 采购订单数量
-		float purchaseAmount = 0;// 采购订单总价
-		int wareInCount = 0;// 入库数量
-		float wareInAmount = 0;// 入库金额
-		int refundsCount = 0;// 退货数量
-		float refundsAmount = 0;
-		int exchangeInCount = 0;
-		float exchangeInAmount = 0;
-		int exchangeOutCount = 0;
-		float exchangeOutAmount = 0;
 		String schemaName = null;
 		String orgId = null;
 		List<String> codes = new ArrayList<String>();
 		PageHelper.startPage(pageNum, pageSize);
 		List<PurchaseCollect> list = mapper.getpurchaseCollectList(condition);
 		for (PurchaseCollect p : list) {
+			List<PurchaseCollect> purchaseOrder = mapper.getPurchaseOrder(condition);
+			for (PurchaseCollect p1 : purchaseOrder) {
+				if(condition.getType()==1) {
+					if(StringUtils.equals(p.getSchemaName(), p1.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p1.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p1.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p1.getSupplierId())&&
+							StringUtils.equals(p.getCommodityId(), p1.getCommodityId())){
+							p.setPurchaseAmount(p1.getPurchaseAmount());
+							p.setPurchaseCount(p1.getPurchaseCount());
+						}
+				}else if(condition.getType()==2) {
+					if(StringUtils.equals(p.getSchemaName(), p1.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p1.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p1.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p1.getSupplierId())){
+							p.setPurchaseAmount(p1.getPurchaseAmount());
+							p.setPurchaseCount(p1.getPurchaseCount());
+						}
+				}
+				
+			}
+			List<PurchaseCollect> purchaseWarehouse = mapper.getPurchaseWarehouse(condition);
+			for (PurchaseCollect p2 : purchaseWarehouse) {
+				if(condition.getType()==1) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+							StringUtils.equals(p.getCommodityId(), p2.getCommodityId())){
+							p.setWareInAmount(p2.getWareInAmount());
+							p.setWareInCount(p2.getWareInCount());
+						}
+				}else if(condition.getType()==2) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+							p.setWareInAmount(p2.getWareInAmount());
+							p.setWareInCount(p2.getWareInCount());
+						}
+				}
+				
+			}
+			List<PurchaseCollect> purchaseRefunds = mapper.getPurchaseRefunds(condition);
+			for (PurchaseCollect p2 : purchaseRefunds) {
+				if(condition.getType()==1) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+							StringUtils.equals(p.getCommodityId(), p2.getCommodityId())){
+							p.setRefundsAmount(p2.getRefundsAmount());
+							p.setRefundsCount(p2.getRefundsCount());
+						}
+				}else if(condition.getType()==2) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+							p.setRefundsAmount(p2.getRefundsAmount());
+							p.setRefundsCount(p2.getRefundsCount());
+						}
+				}
+			}
+			List<PurchaseCollect> purchaseExchangeIn = mapper.getPurchaseExchangeIn(condition);
+			for (PurchaseCollect p2 : purchaseExchangeIn) {
+				if(condition.getType()==1) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+							StringUtils.equals(p.getCommodityId(), p2.getCommodityId())){
+							p.setExchangeInAmount(p2.getExchangeInAmount());
+							p.setExchangeInCount(p2.getExchangeInCount());
+						}
+				}else if(condition.getType()==2) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+							p.setExchangeInAmount(p2.getExchangeInAmount());
+							p.setExchangeInCount(p2.getExchangeInCount());
+						}
+				}
+			}
+			List<PurchaseCollect> purchaseExchangeOut = mapper.getPurchaseExchangeOut(condition);
+			for (PurchaseCollect p2 : purchaseExchangeOut) {
+				if(condition.getType()==1) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+							StringUtils.equals(p.getCommodityId(), p2.getCommodityId())){
+							p.setExchangeOutAmount(p2.getExchangeInAmount());
+							p.setExchangeOutCount(p2.getExchangeInCount());
+						}
+				}else if(condition.getType()==2) {
+					if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+							StringUtils.equals(p.getOperationType(), p2.getOperationType())&&
+							StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+							StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+							p.setExchangeOutAmount(p2.getExchangeInAmount());
+							p.setExchangeOutCount(p2.getExchangeInCount());
+						}
+				}
+			}
+			
 			if (StringUtils.isEmpty(p.getExchangeInAmount()))
-				p.setExchangeInAmount("0");
-			if (StringUtils.isEmpty(p.getExchangeInCount()))
-				p.setExchangeInCount("0");
-			if (StringUtils.isEmpty(p.getExchangeOutAmount()))
-				p.setExchangeOutAmount("0");
-			if (StringUtils.isEmpty(p.getExchangeOutCount()))
-				p.setExchangeOutCount("0");
-			if (StringUtils.isEmpty(p.getRefundsAmount()))
-				p.setRefundsAmount("0");
-			if (StringUtils.isEmpty(p.getRefundsCount()))
-				p.setRefundsCount("0");
-			if (StringUtils.isEmpty(p.getWareInAmount()))
-				p.setWareInAmount("0");
-			if (StringUtils.isEmpty(p.getWareInCount()))
-				p.setWareInCount("0");
-			if (StringUtils.isEmpty(p.getPurchaseCount()))
-				p.setPurchaseCount("0");
-			if (StringUtils.isEmpty(p.getPurchaseAmount()))
-				p.setPurchaseAmount("0");
+			    p.setExchangeInAmount("0");
+			   if (StringUtils.isEmpty(p.getExchangeInCount()))
+			    p.setExchangeInCount("0");
+			   if (StringUtils.isEmpty(p.getExchangeOutAmount()))
+			    p.setExchangeOutAmount("0");
+			   if (StringUtils.isEmpty(p.getExchangeOutCount()))
+			    p.setExchangeOutCount("0");
+			   if (StringUtils.isEmpty(p.getRefundsAmount()))
+			    p.setRefundsAmount("0");
+			   if (StringUtils.isEmpty(p.getRefundsCount()))
+			    p.setRefundsCount("0");
+			   if (StringUtils.isEmpty(p.getWareInAmount()))
+			    p.setWareInAmount("0");
+			   if (StringUtils.isEmpty(p.getWareInCount()))
+			    p.setWareInCount("0");
+			   if (StringUtils.isEmpty(p.getPurchaseCount()))
+			    p.setPurchaseCount("0");
+			   if (StringUtils.isEmpty(p.getPurchaseAmount()))
+			    p.setPurchaseAmount("0");
 			// 实际采购数量
 			p.setActualPurchaseCount(Integer.valueOf(p.getWareInCount()) - Integer.valueOf(p.getRefundsCount())
 					+ Integer.valueOf(p.getExchangeInCount()) - Integer.valueOf(p.getExchangeOutCount()) + "");
@@ -79,32 +177,6 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 			codes.add(p.getCommodityCode());
 			schemaName = p.getSchemaName();
 			orgId = p.getOrgId();
-			purchaseCount += Integer.valueOf(p.getPurchaseCount());
-			purchaseAmount += Float.valueOf(p.getPurchaseAmount());
-			wareInCount += Integer.valueOf(p.getWareInCount());
-			wareInAmount += Float.valueOf(p.getWareInAmount());
-			refundsCount += Integer.valueOf(p.getRefundsCount());
-			refundsAmount += Float.valueOf(p.getRefundsAmount());
-			exchangeInCount += Integer.valueOf(p.getExchangeInCount());
-			exchangeInAmount += Float.valueOf(p.getExchangeInAmount());
-			exchangeOutCount += Integer.valueOf(p.getExchangeOutCount());
-			exchangeOutAmount += Float.valueOf(p.getExchangeOutAmount());
-		}
-		PurchaseCollect p = new PurchaseCollect();
-		p.setPurchaseCount(purchaseCount + "");
-		p.setPurchaseAmount(purchaseAmount + "");
-		p.setWareInCount(wareInCount + "");
-		p.setWareInAmount(wareInAmount + "");
-		p.setRefundsCount(refundsCount + "");
-		p.setRefundsAmount(refundsAmount + "");
-		p.setExchangeInCount(exchangeInCount + "");
-		p.setExchangeInAmount(exchangeInAmount + "");
-		p.setExchangeOutCount(exchangeOutCount + "");
-		p.setExchangeOutAmount(exchangeOutAmount + "");
-		if (condition.getType() == 1) {
-			p.setCommodityName("总计");
-		} else {
-			p.setSupplier("总计");
 		}
 
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();
@@ -119,17 +191,14 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 			for (SearchCondition s : specs) {
 				if (StringUtils.equals(pc.getCommodityCode(), s.getCommodityCode())
 						&& StringUtils.equals(pc.getOrgId(), s.getOrgId())) {
-					str += s.getSpecName() + ":" + s.getSpecItem() + "/";
+					str += s.getSpecName() + "：" + s.getSpecItem() + "/";
 				}
 				
 			}
 			pc.setSpec(str);
 		}
-		List<PurchaseCollect> footer = new ArrayList<PurchaseCollect>();
 		PageInfo pageInfo = new PageInfo(list);
-		footer.add(p);
 		map.put("rows", list);
-		// map.put("footer", footer);
 		map.put("total", pageInfo.getTotal());
 		return map;
 	}

@@ -18,6 +18,16 @@ public interface ReportMapper {
 	
 	//采购汇总
 	List<PurchaseCollect> getpurchaseCollectList(SearchCondition condition);
+	//采购订单
+	List<PurchaseCollect> getPurchaseOrder(SearchCondition condition);
+	//采购入库
+	List<PurchaseCollect> getPurchaseWarehouse(SearchCondition condition);
+	//采购退货
+	List<PurchaseCollect> getPurchaseRefunds(SearchCondition condition);
+	//采购换货
+	List<PurchaseCollect> getPurchaseExchangeIn(SearchCondition condition);
+	
+	List<PurchaseCollect> getPurchaseExchangeOut(SearchCondition condition);
 	
 	//代销汇总
 	List<ProxySale> getProxySaleList(SearchCondition condition);
