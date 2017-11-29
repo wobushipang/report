@@ -53,7 +53,7 @@ public Object importData(Map<String,List<List<String>>> map) {
 				
 				mapObj.put("tableName", tableName);
 				mapObj.put("headlist", headList);
-				int subSize = 1000;
+				int subSize = 500;
 				int listSize = contList.size();
 				for (int i = 0; i < listSize;) {
 					batchContList=contList.subList(i, i+=(listSize-i>subSize)?subSize:listSize-i);

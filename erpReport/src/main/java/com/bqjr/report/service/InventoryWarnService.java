@@ -11,5 +11,5 @@ public interface InventoryWarnService {
 
 	public Map<String,Object> getInventoryWarnList(int pageNum,int pageSize,SearchCondition condition);
 	
-	public Map<String,Object> getDetail(String schemaName,String commodityId,String whId,String type,String unsalableDays);
+	public Map<String,Object> getDetail(String schemaName,String commodityId,String whId,String type,String unsalableDays,String supplierId);
 }

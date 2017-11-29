@@ -366,7 +366,7 @@
 	</div>
 	<div id="win1" class="easyui-window" title="详情" maximizable="false" minimizable="false"
 		style="width: 640px; height: 380px; padding: 1px;" closed="true">
-		<div id="layDs" class="easyui-layout" style="width: 620px; height:340px">
+		<div id="layDs" class="easyui-layout" style="width: 625px; height:340px">
 					<!-- 列表 -->
 					<div region="center" id="ds">
 						<table id="details" class="easyui-datagrid"></table>
@@ -700,15 +700,21 @@
 											
 										}  ,
 										{
+											field:'commodityName' , 
+											title:'商品名称' ,
+											width:180,
+											align : 'center',
+										},
+										{
 											field:'infoType' , 
 											title:'串号/批次' ,
-											width:100,
+											width:180,
 											align : 'center',
 											formatter: function(value,row){
 												if(value=='2'){
 													return row.infoContent
 												}else if(value=='1'){
-													return '<a href="javascript:void(0)" onclick=detailss("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'","'+ row.unsalableDays+'")>查看</a>'
+													return '<a href="javascript:void(0)" onclick=detailss("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'","'+ row.unsalableDays+'","'+ row.supplierId+'")>查看</a>'
 													//return  "<a href='javascript:void(0);' title='删除'  onclick=\"detailss('"+row.infoContent+"','"+row.supplier+"','"+row.inventoryInTime+"','"+row.unsalableDays+"')\">查看</a>";
 												}
 											}
@@ -753,7 +759,13 @@
 									},{
 										field:'supplier' ,
 										title:'供应商' ,
+										align : 'center',
 										width:120 
+									},{
+										field:'supplierId' ,
+										title:'供应商Id' ,
+										width:120 ,
+										hidden:true
 									},{
 											field:'catalogName' , 
 											title:'分类名称' , 
@@ -964,7 +976,7 @@
 			columns:[[
 				{
 					field:'infoContent' , 
-					title:'串号批次' ,   
+					title:'串号/批次' ,   
 					align : 'center',
 					width:120
 				},{
@@ -1003,15 +1015,15 @@
 		$("#win").window('open');
 	}
 	//详情
-	function detailss(schemaName,id,warehouseId,unsalableDays) {
+	function detailss(schemaName,id,warehouseId,unsalableDays,supplierId) {
 	/**
 	 *	初始化数据表格  
 	 */
 	 $('#details').datagrid({
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
-			fit:true ,
-			//height:450 ,
-			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&unsalableDays='+unsalableDays+'&whId='+warehouseId+'&type=2' ,
+			fit:true,
+			height:'auto' ,
+			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&unsalableDays='+unsalableDays+'&supplierId='+supplierId+'&whId='+warehouseId+'&type=2' ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
@@ -1019,9 +1031,9 @@
 			columns:[[
 				{
 					field:'infoContent' , 
-					title:'串号批次' ,   
+					title:'串号' ,   
 					align : 'center',
-					width:150
+					width:160
 				},
 				
 				{

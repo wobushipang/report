@@ -892,16 +892,6 @@
 		t1.schema_name=t4.schema_name and
 		t4.model_code=t1.model_code ) as
 		modelName,
-		(select t7.spec_item_name
-		from c_commodity_spec_item t7 where
-		t7.delete_flag=1 and
-		t1.schema_name=t7.schema_name and
-		t7.spec_item_code=(select
-		t6.spec_item_code from c_commodity2spec t6
-		where t6.delete_flag=1 and
-		t1.schema_name=t6.schema_name and
-		t1.org_id=t6.org_id and
-		t6.commodity_code=t1.commodity_code)) spec,
 		tt1.schema_name,tt1.warehouse_id,tt1.count1,
 		(select swi.wh_code from
 		storage_warehouse_info swi where
@@ -1025,16 +1015,6 @@
 		t1.schema_name=t4.schema_name and
 		t4.model_code=t1.model_code ) as
 		modelName,
-		(select t7.spec_item_name
-		from c_commodity_spec_item t7 where
-		t7.delete_flag=1 and
-		t1.schema_name=t7.schema_name and
-		t7.spec_item_code=(select
-		t6.spec_item_code from c_commodity2spec t6
-		where t6.delete_flag=1 and
-		t1.schema_name=t6.schema_name and
-		t1.org_id=t6.org_id and
-		t6.commodity_code=t1.commodity_code)) spec,
 		tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type
 		,tt1.infoContent ,tt1.info_type,
 		(select swi.wh_code from
@@ -1048,7 +1028,7 @@
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type
 		,decode(iii.info_type,'2',iii.info_content,null)
-		infoContent,iii.info_type,decode(iii.info_type,'2',sum(iii.quantity),sum(ii.quantity_on_hand))
+		infoContent,iii.info_type,decode(iii.info_type,'2',sum(iii.quantity),sum(iii.quantity))
 		count1,
 		min(ii.create_time)time1 from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1 and
@@ -1196,6 +1176,7 @@
 		ii.commodity_info_id=#{commodityId}
 		and
 		ii.warehouse_id =#{whId}
+		and ii.supplier_id=#{supplierId}
 
 	</select>
 
