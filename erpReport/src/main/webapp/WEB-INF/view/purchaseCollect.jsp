@@ -89,7 +89,7 @@
               <div id="u7267_div" class=""></div>
               <!-- Unnamed () -->
               <div id="u7268" class="text" style="visibility: visible;">
-                <p><label><span class="a">查询</span></label></p>
+                <p><span class="a">查询</span></p>
               </div>
             </div>
 
@@ -303,7 +303,7 @@
               <div id="u7312_div" class=""></div>
               <!-- Unnamed () -->
               <div id="u7313" class="text" style="visibility: visible;">
-                <p><label><span class="a">查询</span></label></p>
+                <p><span class="a">查询</span></p>
               </div>
             </div>
 
@@ -360,7 +360,7 @@
               <div id="u7533_div" class=""></div>
               <!-- Unnamed () -->
               <div id="u7534" class="text" style="visibility: visible;">
-                <p><label><span class="a">查询</span></label></p>
+                <p><span class="a">查询</span></p>
               </div>
             </div>
 

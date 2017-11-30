@@ -422,7 +422,7 @@
 					    valueField:'id', //值字段
 					    textField:'text', //显示的字段
 					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
+					   	editable:false,//不可编辑，只能选择
 					   	//width: 200,
 						width : '190',
 						//panelHeight:'auto',
@@ -433,7 +433,7 @@
 								    valueField:'id', //值字段
 								    textField:'text', //显示的字段
 								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
+								   	editable:false,//不可编辑，只能选择
 								   	//width: 200,
 									width : '190',
 									//panelHeight:'auto'
@@ -451,7 +451,7 @@
 				textField:'text', //显示的字段
 				url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 						+$('#u11273_input').combobox('getValue'),
-				editable:true,//不可编辑，只能选择
+				editable:false,//不可编辑，只能选择
 				width : '190',
 				//panelHeight:'auto'
 			}); 
@@ -915,7 +915,7 @@
 						    valueField:'id', //值字段
 						    textField:'text', //显示的字段
 						    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-						   	editable:true,//不可编辑，只能选择
+						   	editable:false,//不可编辑，只能选择
 						   	//width: 200,
 							width : '190',
 							//panelHeight:'auto',
@@ -926,7 +926,7 @@
 									    valueField:'id', //值字段
 									    textField:'text', //显示的字段
 									    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-									   	editable:true,//不可编辑，只能选择
+									   	editable:false,//不可编辑，只能选择
 									   	//width: 200,
 										width : '190',
 										//panelHeight:'auto'
@@ -944,7 +944,7 @@
 					textField:'text', //显示的字段
 					url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 							+$('#u11273_input').combobox('getValue'),
-					editable:true,//不可编辑，只能选择
+					editable:false,//不可编辑，只能选择
 					width : '190',
 					//panelHeight:'auto'
 				}); 

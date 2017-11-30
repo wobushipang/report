@@ -376,22 +376,22 @@
 			tot.commodity_pk_id,
 			(select t2.brand_name from
 			c_commodity_brand t2 where t2.status=2 and
-			t2.delete_flag=1 and
-			t2.from_type=t1.from_type and
+			t2.delete_flag=1 <!-- and
+			t2.from_type=t1.from_type --> and
 			t1.schema_name=t2.schema_name and
 			t2.brand_code=t1.brand_code) as
 			brandName,
 			(select t3.catalog_name from
 			c_commodity_catalog t3 where t3.status=2 and
-			t3.delete_flag=1 and
-			t3.from_type=t1.from_type and
+			t3.delete_flag=1 <!-- and
+			t3.from_type=t1.from_type --> and
 			t1.schema_name=t3.schema_name and
 			t3.catalog_code=t1.catalog_code) as
 			catalogName,
 			(select t4.model_name
 			from c_commodity_model t4 where t4.status=2 and
-			t4.delete_flag=1 and
-			t4.from_type=t1.from_type and
+			t4.delete_flag=1 <!-- and
+			t4.from_type=t1.from_type --> and
 			t1.schema_name=t4.schema_name and
 			t4.model_code=t1.model_code ) as
 			modelName,
