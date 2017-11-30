@@ -469,7 +469,7 @@
 		<if test="type==1">
 			cad.commodity_pk_id, cad.commodity_code,
 		</if>
-		sum(cad.commodity_num) saleOrderNum,sum(cd.actual_amount)
+		sum(cad.commodity_num) saleOrderNum,sum(cad.commodity_price)
 		actualAmount, sum(cad.commodity_price*cad.commodity_num)
 		saleOrderAmount
 
