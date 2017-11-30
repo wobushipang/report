@@ -624,7 +624,7 @@
 		              width : 100 ,
 		           },{
 		               field : 'discountsAmount',
-		               title : '优惠后销售金额',
+		               title : '销售金额',
 		               align : 'center',
 		               width : 120 ,
 		            },{
@@ -758,7 +758,7 @@
 						              width : 100 ,
 						           },{
 						               field : 'discountsAmount',
-						               title : '优惠后销售金额',
+						               title : '销售金额',
 						               align : 'center',
 						               width : 120 ,
 						            },{
