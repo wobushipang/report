@@ -32,6 +32,8 @@ public interface ReportMapper {
 	//代销汇总
 	List<ProxySale> getProxySaleList(SearchCondition condition);
 	
+	List<ProxySale> getMarket(SearchCondition condition);
+	
 	//低库存
 	List<InventoryWarn> getInventoryWarnList(SearchCondition condition);
 	

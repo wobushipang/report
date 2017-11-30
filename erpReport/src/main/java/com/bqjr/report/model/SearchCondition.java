@@ -32,6 +32,7 @@ public class SearchCondition {
 	private String warehouseName;
 	private String specItem;
 	private String specName;
+	private String mark;
 	private List<String> orgs;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
@@ -240,4 +241,11 @@ public class SearchCondition {
 	public void setEnd1(String end1) {
 		this.end1 = end1;
 	}
+	public String getMark() {
+		return mark;
+	}
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+	
 }

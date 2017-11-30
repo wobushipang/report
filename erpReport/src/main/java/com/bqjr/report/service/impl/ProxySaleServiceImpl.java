@@ -30,20 +30,54 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 	public Map<String, Object> getProxySaleList(int pageNum, int pageSize, SearchCondition condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		 try {
-			float stockNum=0;//进货数量
-			 float saleNum=0;//销售数量
-			 float giftNum=0;//赠品数量
-			 float inventoryNum=0;//库存数量
-			 float discountsAmount=0;//优惠后销售金额
-			 float saleAmount=0;//销售金额
-			 float chargeAmount=0;//应计收费金额
-			 float accountAmount=0;//生成结算金额
 			 String schemaName=null;
 			 String orgId=null;
 			PageHelper.startPage(pageNum, pageSize);
 			List<ProxySale> list = mapper.getProxySaleList(condition);
 			List<String> codes = new ArrayList<String>();
 			for (ProxySale p : list) {
+				condition.setMark("0");
+				List<ProxySale> proxyMarket = mapper.getMarket(condition);
+				for (ProxySale p2 : proxyMarket) {
+					if(condition.getType()==1) {
+						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+								StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+								StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+								StringUtils.equals(p.getCommodityCode(), p2.getCommodityCode())){
+									p.setSaleOrderNum(p2.getSaleOrderNum());
+									p.setActualAmount(p2.getActualAmount());
+									p.setSaleOrderAmount(p2.getSaleOrderAmount());
+							}
+					}else if(condition.getType()==2) {
+						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+								StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+								StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+									p.setSaleOrderNum(p2.getSaleOrderNum());
+									p.setActualAmount(p2.getActualAmount());
+									p.setSaleOrderAmount(p2.getSaleOrderAmount());
+							}
+					}
+				}
+				condition.setMark("1");
+				List<ProxySale> proxyGift = mapper.getMarket(condition);
+				for (ProxySale p2 : proxyGift) {
+					if(condition.getType()==1) {
+						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+								StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+								StringUtils.equals(p.getSupplierId(), p2.getSupplierId())&&
+								StringUtils.equals(p.getCommodityCode(), p2.getCommodityCode())){
+									p.setGiftNum(p2.getSaleOrderNum());
+							}
+					}else if(condition.getType()==2) {
+						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
+								StringUtils.equals(p.getOrgId(), p2.getOrgId())&&
+								StringUtils.equals(p.getSupplierId(), p2.getSupplierId())){
+									p.setGiftNum(p2.getSaleOrderNum());
+							}
+					}
+				}
+
+				
 				if(StringUtils.isEmpty(p.getAccountAmount())) p.setAccountAmount("0");
 				if(StringUtils.isEmpty(p.getActualAmount())) p.setActualAmount("0");
 				if(StringUtils.isEmpty(p.getChargeAmount())) p.setChargeAmount("0");
@@ -68,47 +102,30 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				if(StringUtils.isEmpty(p.getWareInCount())) p.setWareInCount("0");
 				if(StringUtils.isEmpty(p.getSaleOrderNum())) p.setSaleOrderNum("0");
 				if(StringUtils.isEmpty(p.getSaleGiftNum())) p.setSaleGiftNum("0");
+				if(StringUtils.isEmpty(p.getExchangeSaleOutAmount())) p.setExchangeSaleOutAmount("0");
+				if(StringUtils.isEmpty(p.getExchangeSaleInAmount())) p.setExchangeSaleInAmount("0");
+				if(StringUtils.isEmpty(p.getExchangeSaleOutCount())) p.setExchangeSaleOutCount("0");
+				if(StringUtils.isEmpty(p.getExchangeSaleInCount())) p.setExchangeSaleInCount("0");
 				//进货数量
 				p.setStockNum(Integer.valueOf(p.getWareInCount())-Integer.valueOf(p.getRefundsCount())+Integer.valueOf(p.getExchangeInCount())-Integer.valueOf(p.getExchangeOutCount())+"");
 				//销售数量
-				p.setSaleNum(Integer.valueOf(p.getSaleOrderNum())-Integer.valueOf(p.getReturnNum())+"");
+				p.setSaleNum(Integer.valueOf(p.getSaleOrderNum())-Integer.valueOf(p.getReturnNum())+Integer.valueOf(p.getExchangeOutCount())-Integer.valueOf(p.getExchangeInCount())+"");
 				//赠品数量
 				p.setGiftNum(Integer.valueOf(p.getSaleGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
 				//优惠后销售金额
-				p.setDiscountsAmount(new BigDecimal(p.getActualAmount()).subtract(new BigDecimal(p.getReturnAmount())).toString());
+				p.setDiscountsAmount(new BigDecimal(p.getActualAmount()).subtract(new BigDecimal(p.getReturnAmount())).add(new BigDecimal(p.getExchangeSaleOutAmount())).subtract(new BigDecimal(p.getExchangeSaleInAmount())).toString());
 				if(!StringUtils.isEmpty(p.getPriceMethod())) {
-					if(p.getPriceMethod()=="1") {
-						p.setChargeAmount(Double.valueOf(p.getDiscountsAmount())*(Double.valueOf(p.getPriceRatio())/100)+"");
+					if(StringUtils.equals("1", p.getPriceMethod())) {
+						p.setChargeAmount(new BigDecimal(p.getDiscountsAmount()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
 					}else {
-						p.setChargeAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).toString());
+						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
 					}
 				}
 				codes.add(p.getCommodityCode());
-				schemaName=p.getSchemaName();
-				orgId=p.getOrgId();
-				  stockNum+=Integer.valueOf(p.getStockNum());
-				  saleNum+=Integer.valueOf(p.getSaleNum());
-				  giftNum+=Integer.valueOf(p.getGiftNum());
-				  inventoryNum+=Integer.valueOf(p.getInventoryNum());
-				  discountsAmount+=Float.valueOf(p.getDiscountsAmount());
-				  saleAmount+=Float.valueOf(p.getSaleAmount());
-				  chargeAmount+=Float.valueOf(p.getChargeAmount());
-				  accountAmount+=Float.valueOf(p.getAccountAmount());
+				schemaName = p.getSchemaName();
+				orgId = p.getOrgId();
 			}
-			ProxySale ps = new ProxySale();
-			ps.setStockNum(stockNum+"");
-			ps.setSaleNum(saleNum+"");
-			ps.setGiftNum(giftNum+"");
-			ps.setInventoryNum(inventoryNum+"");
-			ps.setDiscountsAmount(discountsAmount+"");
-			ps.setSaleAmount(saleAmount+"");
-			ps.setChargeAmount(chargeAmount+"");
-			ps.setAccountAmount(accountAmount+"");
-			if(condition.getType()==1) {
-				ps.setCommodityName("总计");
-			}else {
-				ps.setSupplier("总计");
-			}
+			
 			
 			List<SearchCondition> specs = new ArrayList<SearchCondition>();
 			if(condition.getType()==1&&codes.size()>0) {

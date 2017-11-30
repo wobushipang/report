@@ -366,7 +366,7 @@
 		tot.schema_name schemaName,
 
 		tot.org_id orgId,
-		tot.supplier_id,
+		tot.supplier_id supplierId,
 		(select t.supplier_name as supplierName from purchase_supplier t where
 		t.pk_id=tot.supplier_id) as supplier,
 		<if test="type==1">
@@ -403,10 +403,10 @@
 			ps.price_ratio priceRatio,
 			ps.supplier_name supplierName ,
 		</if>
-		tot.saleOrderNum saleOrderNum,
-		tot.actualAmount actualAmount,
-		tot.saleOrderAmount saleOrderAmount,
-		tot.saleGiftNum saleGiftNum,
+		tot.exchangeSaleOutCount exchangeSaleOutCount,
+		tot.exchangeSaleInCount exchangeSaleInCount,
+		tot.exchangeSaleInAmount exchangeSaleInAmount,
+		tot.exchangeSaleOutAmount exchangeSaleOutAmount,
 		tot.returnNumGift returnNumGift,
 		tot.returnNum returnNum,
 		tot.returnAmount returnAmount,
@@ -435,10 +435,10 @@
 		</if>
 		tt1.org_id,
 		tt1.supplier_id,
-		tt1.saleOrderNum saleOrderNum,
-		tt1.actualAmount actualAmount,
-		tt1.saleOrderAmount saleOrderAmount,
-		tt2.saleGiftNum saleGiftNum,
+		tt.exchangeSaleOutCount,
+		tt2.exchangeSaleInCount,
+		tt.exchangeSaleOutAmount ,
+		tt2.exchangeSaleInAmount ,
 		tt3.returnNumGift returnNumGift,
 		tt4.returnNum returnNum,
 		tt4.returnAmount returnAmount,
@@ -457,34 +457,18 @@
 			t66.proceedsAmount
 		</if>
 		from
-		<!-- (select cd.schema_name, cd.org_id,cad.supplier_id <if test="type==1"> 
-			,cad.commodity_pk_id , cad.commodity_code </if> from market_commodity_add_details 
-			cad,market_commodity_add cd where cad.delete_flag=1 and cd.delete_flag=1 
-			and cad.details_status=1 and cd.order_status=1 or cd.order_status=3 and cad.operation_type=2 
-			and cd.schema_name=cad.schema_name and cad.order_number=cd.order_number group 
-			by cd.schema_name, cd.org_id,cad.supplier_id <if test="type==1"> ,cad.commodity_pk_id 
-			, cad.commodity_code </if> ) tt1 left join -->
-		<!-- 销售（非赠品） -->
-		(select cd.schema_name , cd.org_id,cad.supplier_id,
-		<if test="type==1">
-			cad.commodity_pk_id, cad.commodity_code,
-		</if>
-		sum(cad.commodity_num) saleOrderNum,sum(cad.commodity_price)
-		actualAmount, sum(cad.commodity_price*cad.commodity_num)
-		saleOrderAmount
-
-		from market_commodity_add_details
-		cad,market_commodity_add cd where
-		(cd.order_status=1 <!-- or cd.order_status=3 -->
-		) and cad.delete_flag=1 and cd.delete_flag=1 and
-		(cad.details_status=1
-		or cad.details_status=3)
-		and cad.operation_type=2 and
-		cad.complimentary_mark='0'
-		and cd.sales_date between #{start1,
-		jdbcType=VARCHAR} and #{end1,
-		jdbcType=VARCHAR}
-		<if test="orgId==null">
+		(select cd.schema_name, cd.org_id,cad.supplier_id
+    <if test="type==1">
+     , cad.commodity_pk_id,cad.commodity_code
+    </if>
+    from market_commodity_add_details
+    cad,market_commodity_add cd where cd.order_status=1 
+    and cad.delete_flag=1 and cd.delete_flag=1 and
+    cad.details_status=1
+    and cad.operation_type=2 
+    and cd.sales_date between #{start1} and #{end1}
+    and cd.schema_name=cad.schema_name 
+    <if test="orgId==null">
 			<if test="orgs.size()>0">
 				and cd.org_id in
 				<foreach collection="orgs" open="(" close=")" item="org"
@@ -499,41 +483,105 @@
 		<if test="supplierId!=null and supplierId!=''">
 			and cad.supplier_id=#{supplierId}
 		</if>
+    and cd.schema_name= #{schemaName}
+    and cad.order_number=cd.order_number
+    group by cd.schema_name,
+    cd.org_id,cad.supplier_id
+    <if test="type==1">
+      , cad.commodity_code,cad.commodity_pk_id
+    </if>
+    
+    union
+    
+    select mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">
+			,crd.commodity_code
+      ,(select c.pk_id from c_commodity c where c.org_id=mcr.org_id and c.commodity_code=crd.commodity_code and rownum=1) as commodity_pk_id
+		</if>
+	  from market_commodity_returns
+		mcr,rket_commodity_returns_details crd where mcr.order_status=2 
+		and mcr.delete_flag=1 and crd.delete_flag=1 and
+		crd.details_status=2
+		and crd.operation_type=2 
+		and mcr.returns_date between #{start1} and #{end1}
+		and mcr.schema_name=crd.schema_name
+		<if test="orgId==null">
+			<if test="orgs.size()>0">
+				and mcr.org_id in
+				<foreach collection="orgs" open="(" close=")" item="org"
+					separator=",">
+					#{org}
+				</foreach>
+			</if>
+		</if>
+		<if test="orgId!=null">
+			and mcr.org_id =#{orgId}
+		</if>
+		<if test="supplierId!=null and supplierId!=''">
+			and crd.supplier_id=#{supplierId}
+		</if> 
+    and mcr.schema_name=#{schemaName}
+    and mcr.order_number=crd.order_number
+		group by
+		mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">
+    ,crd.commodity_code
+    </if>) tt1 left join
+		<!-- 销售换货 -->
+		(select cd.schema_name , cd.org_id,cad.supplier_id,
+		<if test="type==1">
+			cad.commodity_pk_id, cad.commodity_code,
+		</if>
+		sum(cad.commodity_price*cad.commodity_num)
+		exchangeSaleOutAmount,
+		sum(cad.commodity_num)
+		exchangeSaleOutCount
+		from market_commodity_add_details
+		cad,market_commodity_add cd where
+		cd.order_status=3
+		and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad.details_status=3
+		and cad.operation_type=2 and
+		cad.complimentary_mark='0'
+		and cd.sales_date between #{start1,
+		jdbcType=VARCHAR} and #{end1,
+		jdbcType=VARCHAR}
+		
 		and cd.schema_name=cad.schema_name
-		and cd.schema_name= #{schemaName}
 		and cad.order_number=cd.order_number
 		group by cd.schema_name,
 		cd.org_id,cad.supplier_id
 		<if test="type==1">
 			, cad.commodity_code,cad.commodity_pk_id
 		</if>
-		) tt1
-		<!-- on tt1.schema_name =tt.schema_name and tt1.org_id =tt.org_id and tt1.supplier_id 
+		) tt
+		on tt1.schema_name =tt.schema_name and tt1.org_id =tt.org_id and tt1.supplier_id 
 			=tt.supplier_id <if test="type==1"> and tt1.commodity_code =tt.commodity_code 
-			</if> -->
+			</if> 
 
 		left join
-		<!-- 销售（赠品） -->
-		(select cd.schema_name, cd.org_id,cad.supplier_id,
+		<!-- 退货换货 -->
+		(select mcr.schema_name,mcr.org_id,crd.supplier_id
 		<if test="type==1">
-			cad.commodity_code,
+			,crd.commodity_code
 		</if>
-		sum(cad.commodity_num) saleGiftNum from market_commodity_add_details
-		cad,market_commodity_add cd where (cd.order_status=1 <!-- or cd.order_status=3 -->
-		) and cad.delete_flag=1 and cd.delete_flag=1 and
-		(cad.details_status=1
-		or cad.details_status=3)
-		and cad.operation_type=2 and
-		cad.complimentary_mark='1'
-		and cd.sales_date between #{start1} and
+		,sum(crd.commodity_num*crd.commodity_price) exchangeSaleInAmount
+		,sum(crd.commodity_num) exchangeSaleInCount
+		 from market_commodity_returns
+		mcr,rket_commodity_returns_details crd where mcr.order_status=4
+		and mcr.delete_flag=1 and crd.delete_flag=1 and
+		crd.details_status=4
+		and crd.operation_type=2 and
+		crd.complimentary_mark='1'
+		and
+		mcr.returns_date between #{start1} and
 		#{end1}
-		and cd.schema_name=cad.schema_name and
-		cad.order_number=cd.order_number
-		group by cd.schema_name,
-		cd.org_id,cad.supplier_id
-		<if test="type==1">
-			, cad.commodity_code
-		</if>
+		and
+		mcr.schema_name=crd.schema_name and
+		mcr.order_number=crd.order_number
+		group by
+		mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">,crd.commodity_code</if>
 		) tt2
 		on tt1.schema_name =tt2.schema_name
 		and tt1.org_id =tt2.org_id
@@ -550,9 +598,8 @@
 			,crd.commodity_code
 		</if>
 		,sum(crd.commodity_num) returnNumGift from market_commodity_returns
-		mcr,rket_commodity_returns_details crd where (mcr.order_status=2 <!-- or 
-			mcr.order_status=4 -->
-		) and mcr.delete_flag=1 and crd.delete_flag=1 and
+		mcr,rket_commodity_returns_details crd where mcr.order_status=2
+		and mcr.delete_flag=1 and crd.delete_flag=1 and
 		crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='1'
@@ -581,8 +628,8 @@
 		,sum(crd.commodity_num)
 		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount from
 		market_commodity_returns mcr,rket_commodity_returns_details crd where
-		(mcr.order_status=2<!-- or mcr.order_status=4 -->
-		) and mcr.delete_flag=1 and
+		mcr.order_status=2
+		and mcr.delete_flag=1 and
 		crd.delete_flag=1 and crd.details_status=2
 		and crd.operation_type=2 and
 		crd.complimentary_mark='0'
@@ -790,8 +837,7 @@
 			market_consignment_account mca
 			where mca.account_status=2 and
 			mca.delete_flag=1
-			and substr(mca.last_up_time,1,10) between #{start}
-			and #{end}
+			<!-- and substr(mca.last_up_time,1,10) between #{start} and #{end} -->
 			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
 			on
 			tt1.schema_name =t66.schema_name
@@ -1403,5 +1449,29 @@
 			peoc.commodity_info_id,
 		</if>
 		pe.operation_type
+	</select>
+	<select id="getMarket" resultType="com.bqjr.report.model.ProxySale"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select cd.schema_name schemaName, cd.org_id orgId,cad.supplier_id supplierId,
+		<if test="type==1">
+			cad.commodity_code commodityCode,
+		</if>
+		sum(cad.commodity_num) saleOrderNum,sum(cad.commodity_price)
+		actualAmount, sum(cad.commodity_price*cad.commodity_num)
+		saleOrderAmount from market_commodity_add_details
+		cad,market_commodity_add cd where cd.order_status=1
+		and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad.details_status=1
+		and cad.operation_type=2 and
+		cad.complimentary_mark= #{mark}
+		and cd.sales_date between #{start1} and #{end1}
+		and cd.schema_name=cad.schema_name and
+		cad.order_number=cd.order_number
+		and cd.schema_name=#{schemaName}
+		group by cd.schema_name,
+		cd.org_id,cad.supplier_id
+		<if test="type==1">
+			, cad.commodity_code
+		</if>
 	</select>
 </mapper>

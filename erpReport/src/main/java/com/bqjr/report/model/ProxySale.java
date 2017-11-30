@@ -19,6 +19,10 @@ public class ProxySale extends PurchaseCollect{
 	private String actualAmount;//实际金额
 	private String returnAmount;//退货数量*单价
 	private String saleOrderAmount;//销售订单数量*单价
+	private String exchangeSaleInAmount;//退货换货金额
+	private String exchangeSaleOutAmount;//销售换货金额
+	private String exchangeSaleOutCount;
+	private String exchangeSaleInCount;
 	private String saleAmount;//销售金额
 	private String chargeAmount;//应计收费金额
 	private String accountAmount;//生成结算金额
@@ -134,5 +138,30 @@ public class ProxySale extends PurchaseCollect{
 	public void setPriceRatio(String priceRatio) {
 		this.priceRatio = priceRatio;
 	}
+	public String getExchangeSaleInAmount() {
+		return exchangeSaleInAmount;
+	}
+	public void setExchangeSaleInAmount(String exchangeSaleInAmount) {
+		this.exchangeSaleInAmount = exchangeSaleInAmount;
+	}
+	public String getExchangeSaleOutAmount() {
+		return exchangeSaleOutAmount;
+	}
+	public void setExchangeSaleOutAmount(String exchangeSaleOutAmount) {
+		this.exchangeSaleOutAmount = exchangeSaleOutAmount;
+	}
+	public String getExchangeSaleOutCount() {
+		return exchangeSaleOutCount;
+	}
+	public void setExchangeSaleOutCount(String exchangeSaleOutCount) {
+		this.exchangeSaleOutCount = exchangeSaleOutCount;
+	}
+	public String getExchangeSaleInCount() {
+		return exchangeSaleInCount;
+	}
+	public void setExchangeSaleInCount(String exchangeSaleInCount) {
+		this.exchangeSaleInCount = exchangeSaleInCount;
+	}
+	
 	
 }
