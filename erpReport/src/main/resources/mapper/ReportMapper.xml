@@ -689,7 +689,7 @@
 		and prc.delete_flag =
 		1
 		and pr.operation_type=2
-		and substr(pr.last_up_time,1,10) between
+		and substr(pr.refunds_date,1,10) between
 		#{start} and
 		#{end}
 		and pr.schema_name = prc.schema_name
@@ -729,7 +729,7 @@
 		wic.delete_flag = 1
 		and pwi.operation_type=2
 		and
-		substr(pwi.last_up_time,1,10)
+		substr(pwi.warehouse_in_date,1,10)
 		between #{start} and #{end}
 		and
 		pwi.schema_name = wic.schema_name
@@ -768,7 +768,7 @@
 		pe.exchange_status = 1
 		and peic.delete_flag = 1
 		and pe.operation_type=2
-		and substr(pe.last_up_time,1,10) between #{start} and #{end}
+		and substr(pe.exchange_date,1,10) between #{start} and #{end}
 		and
 		pe.schema_name =
 		peic.schema_name
@@ -808,7 +808,7 @@
 		pe.exchange_status = 1
 		and peoc.delete_flag = 1
 		and pe.operation_type=2
-		and substr(pe.last_up_time,1,10) between #{start} and #{end}
+		and substr(pe.exchange_date,1,10) between #{start} and #{end}
 		and
 		pe.schema_name =
 		peoc.schema_name
@@ -1242,7 +1242,7 @@
 		where po.delete_flag =
 		1
 		and po.purchase_status in (1,3,4)
-		and substr(poc.create_time,1,10)
+		and substr(po.purchase_date,1,10)
 		between
 		#{start} and #{end}
 		and poc.delete_flag = 1
@@ -1297,7 +1297,7 @@
 		and pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
 		and
-		substr(wic.create_time ,1,10) between #{start} and #{end}
+		substr(pwi.warehouse_in_date ,1,10) between #{start} and #{end}
 		and
 		pwi.schema_name = wic.schema_name
 		and pwi.pk_id =
@@ -1330,7 +1330,7 @@
 		and pr.refunds_status = 1
 		and
 		prc.delete_flag = 1
-		and substr(pr.create_time,1,10) between #{start}
+		and substr(pr.refunds_date,1,10) between #{start}
 		and #{end}
 		and
 		pr.schema_name = prc.schema_name
@@ -1377,7 +1377,7 @@
 		pe.exchange_status = 1
 		and peic.delete_flag = 1
 		and
-		substr(peic.create_time,1,10)
+		substr(pe.exchange_date,1,10)
 		between #{start} and #{end}
 		and
 		pe.schema_name = peic.schema_name
@@ -1424,7 +1424,7 @@
 		pe.exchange_status = 1
 		and peoc.delete_flag = 1
 		and
-		substr(peoc.create_time,1,10)
+		substr(pe.exchange_date,1,10)
 		between #{start} and #{end}
 		and
 		pe.schema_name = peoc.schema_name
