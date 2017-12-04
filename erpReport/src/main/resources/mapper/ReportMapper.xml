@@ -837,7 +837,7 @@
 			market_consignment_account mca
 			where mca.account_status=2 and
 			mca.delete_flag=1
-			<!-- and substr(mca.last_up_time,1,10) between #{start} and #{end} -->
+			and substr(mca.last_up_time,1,10) between #{start} and #{end}
 			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
 			on
 			tt1.schema_name =t66.schema_name
