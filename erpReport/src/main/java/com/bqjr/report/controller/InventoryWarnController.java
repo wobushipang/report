@@ -80,8 +80,6 @@ public class InventoryWarnController {
 				if(StringUtils.equals("0", condition.getWarehouseId())) {
 					condition.setWarehouseId(null);
 				}
-				
-				
 		return service.getInventoryWarnList(pageNum, pageSize, condition);
 	}
 	

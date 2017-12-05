@@ -920,21 +920,21 @@
 		from
 		c_commodity_brand t2 where t2.status=2 and
 		t2.delete_flag=1 and
-		t2.from_type=t1.from_type and
+		<!-- t2.from_type=t1.from_type and -->
 		t1.schema_name=t2.schema_name and
 		t2.brand_code=t1.brand_code) as
 		brandName,
 		(select t3.catalog_name from
 		c_commodity_catalog t3 where t3.status=2 and
 		t3.delete_flag=1 and
-		t3.from_type=t1.from_type and
+		<!-- t3.from_type=t1.from_type and -->
 		t1.schema_name=t3.schema_name and
 		t3.catalog_code=t1.catalog_code) as
 		catalogName,
 		(select t4.model_name
 		from c_commodity_model t4 where t4.status=2 and
 		t4.delete_flag=1 and
-		t4.from_type=t1.from_type and
+		<!-- t4.from_type=t1.from_type and -->
 		t1.schema_name=t4.schema_name and
 		t4.model_code=t1.model_code ) as
 		modelName,
@@ -949,14 +949,14 @@
 		from
 		(select ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
-		from inventory_item ii where ii.delete_flag=1
-		and
+		from inventory_item ii where <!-- ii.delete_flag=1
+		and -->
 		ii.schema_name=#{schemaName}
 		group by ii.schema_name,
 		ii.commodity_info_id,ii.warehouse_id)tt1
 		
-		left join c_commodity t1
-		on 1=1
+		, c_commodity t1
+		where 1=1
 		<if test="commodityCode!=null and commodityCode!=''">
 			and t1.commodity_code like #{commodityCode,
 			jdbcType=VARCHAR}||'%'
@@ -978,14 +978,14 @@
 			and t1.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
 				separator=",">
-				#{org}
+				#{org,jdbcType=VARCHAR}
 			</foreach>
 		</if>
 		<if test="orgId!=null">
-			and t1.org_id = #{orgId}
+			and t1.org_id = #{orgId,jdbcType=VARCHAR}
 		</if>
 		<if test="warehouseId!=null and warehouseId!=''">
-			and tt1.warehouse_id=#{warehouseId}
+			and tt1.warehouse_id=#{warehouseId,jdbcType=VARCHAR}
 		</if>
 		and tt1.commodity_info_id=t1.pk_id) tt2 ,
 		storage_early_warning sew
@@ -993,7 +993,7 @@
 		and sew.delete_flag=1
 		and
 		sew.org_id=tt2.org_id
-		and nvl(sew.safe_stock,0)>tt2.count1
+		and sew.safe_stock>tt2.count1
 
 		and
 		sew.schema_name=tt2.schema_name
@@ -1043,21 +1043,21 @@
 		from
 		c_commodity_brand t2 where t2.status=2 and
 		t2.delete_flag=1 and
-		t2.from_type=t1.from_type and
+		<!-- t2.from_type=t1.from_type and -->
 		t1.schema_name=t2.schema_name and
 		t2.brand_code=t1.brand_code) as
 		brandName,
 		(select t3.catalog_name from
 		c_commodity_catalog t3 where t3.status=2 and
 		t3.delete_flag=1 and
-		t3.from_type=t1.from_type and
+		<!-- t3.from_type=t1.from_type and -->
 		t1.schema_name=t3.schema_name and
 		t3.catalog_code=t1.catalog_code) as
 		catalogName,
 		(select t4.model_name
 		from c_commodity_model t4 where t4.status=2 and
 		t4.delete_flag=1 and
-		t4.from_type=t1.from_type and
+		<!-- t4.from_type=t1.from_type and -->
 		t1.schema_name=t4.schema_name and
 		t4.model_code=t1.model_code ) as
 		modelName,
