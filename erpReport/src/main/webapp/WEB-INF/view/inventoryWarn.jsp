@@ -574,7 +574,9 @@
 							align : 'center',
 							width:100,
 							formatter: function(value,row){
+								if(row.inventoryNum!='0'){
 									return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'")>查看</a>'
+								}
 							}
 						},
 						{
