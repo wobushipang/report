@@ -721,31 +721,44 @@
 												}
 											}
 										},
-										{
+										/* {
 											field:'inventoryNum' , 
 											title:'库存量' ,
 											align : 'center',
 											width:100,
-										},
-										{
+										}, */
+										/* {
 											field:'safeInventory' , 
 											title:'安全库存' ,
 											align : 'center',
 											width:100,
 											
-										},
+										}, */
 										
 										{
 						              field : 'inventoryInTime',
 						              title : '首次入库日期',
 						              align : 'center',
 						              width : 150 ,
-						              formatter:formatDatebox
+						              formatter:function(value,row){
+						            	   if(row.infoType=='1'){
+						            		   return '-'
+						            	   }else{
+						            		   return value.substring(0,10)
+						            	   }
+						               }
 						           },{
 						               field : 'unsalableDays',
 						               title : '滞销天数',
 						               align : 'center',
 						               width : 100 ,
+						               formatter: function(value,row){
+						            	   if(row.infoType=='1'){
+						            		   return '-'
+						            	   }else{
+						            		   return DateDiff(row.inventoryInTime);
+						            	   }
+						               }
 						            },{
 										field:'operationType' ,
 										title:'购销方式' ,
@@ -756,13 +769,22 @@
 												return '购销'
 											}else if(value=='2'){
 												return '代销'
+											}else{
+												return '-'
 											}
 										}
 									},{
 										field:'supplier' ,
 										title:'供应商' ,
 										align : 'center',
-										width:120 
+										width:120 ,
+										formatter: function(value){
+											if(value==null){
+												return '-'
+											}else{
+												return value
+											}
+										}
 									},{
 										field:'supplierId' ,
 										title:'供应商Id' ,
@@ -980,7 +1002,14 @@
 					field:'infoContent' , 
 					title:'串号/批次' ,   
 					align : 'center',
-					width:120
+					width:120,
+					formatter: function(value){
+						if(value==null){
+							return '-';
+						}else{
+							return value;
+						}
+					}
 				},{
 					field:'quantity' ,
 					title:'数量' ,
@@ -1007,7 +1036,7 @@
 					align : 'center',
 					formatter: function(value,row){
 						if(row.infoContent==null){
-							return null;
+							return '-';
 						}else{
 							return value;
 						}
@@ -1062,14 +1091,24 @@
 					field:'unsalableDays' , 
 					title:'滞销天数' ,
 					align : 'center',
-					width:80
+					width:80,
+					formatter: function(value,row){
+		            	 var t = DateDiff(row.inventoryInTime);
+						return t
+					}
 				}
-			]] ,
+			]],
 		});
-	 //var obj = '{"total":1,"rows":[{"infoContent":"'+infoContent+'","inventoryInTime":"'+time+'","supplier":"'+supplier+'","unsalableDays":"'+unsalableDays+'"}]}';    
-	 //var data = $.parseJSON(obj);                //json字符串转成json对象  
-	 //$('#details').datagrid('loadData',data);  
 	$("#win1").window('open');
 }
+	
+	//计算天数差的函数，通用  
+	   function  DateDiff(s1){    
+		   s1 = new Date(s1.replace(/-/g, '/'));
+		   s2 = new Date();//当前日期
+		   var days = s2.getTime() - s1.getTime();
+		   var time = parseInt(days / (1000 * 60 * 60 * 24));
+	       return  time  
+	   }    
   </script>
 </html>

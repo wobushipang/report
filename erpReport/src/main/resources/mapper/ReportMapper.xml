@@ -1072,11 +1072,12 @@
 		swi.pk_id=tt1.warehouse_id) as wh_name
 		from
 		(select ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type
-		,decode(iii.info_type,'2',iii.info_content,null)
-		infoContent,iii.info_type,decode(iii.info_type,'2',sum(iii.quantity),sum(iii.quantity))
-		count1,
-		min(ii.create_time)time1 from inventory_item
+		ii.commodity_info_id,ii.warehouse_id,decode(iii.info_type,'2',ii.supplier_id,null) supplier_id,decode(iii.info_type,'2',ii.supplier_name,null) supplier_name,
+		decode(iii.info_type,'2',ii.operation_type,null) operation_type
+    	,decode(iii.info_type,'2',iii.info_content,null)
+    	infoContent,iii.info_type,sum(iii.quantity)
+    	count1,
+    	min(ii.create_time) time1 from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1 and
 		iii.delete_flag=1
 		and ii.schema_name =
@@ -1085,8 +1086,9 @@
 		ii.pk_id=iii.inventory_item_id
 		group by
 		ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,ii.supplier_id,ii.supplier_name,ii.operation_type,
-		decode(iii.info_type,'2',iii.info_content,null),iii.info_type)tt1
+		ii.commodity_info_id,ii.warehouse_id,decode(iii.info_type,'2',ii.supplier_id,null),decode(iii.info_type,'2',ii.supplier_name,null),decode(iii.info_type,'2',ii.operation_type,null)
+    	,decode(iii.info_type,'2',iii.info_content,null)
+    	,iii.info_type)tt1
 		,
 		c_commodity t1
 		where 1=1
@@ -1194,7 +1196,7 @@
 	</select>
 
 	<select id="getDetails" resultType="com.bqjr.report.model.InventoryWarn">
-		select ii.supplier_name
+		<!-- select ii.supplier_name
 		supplier,ii.create_time
 		inventoryInTime,ii.operation_type
 		operationType,iii.quantity
@@ -1208,9 +1210,31 @@
 		#{schemaName} and
 		ii.commodity_info_id=#{commodityId}
 		and
-		ii.warehouse_id =#{whId}
-		and ii.supplier_id=#{supplierId}
+		ii.warehouse_id =#{whId} -->
+		<!-- and ii.supplier_id=#{supplierId} -->
+		select ii.supplier_name  supplier,
+       ii.create_time    inventoryInTime,
+       ii.operation_type operationType,
+       iii.quantity      quantity,
+       iii.info_content  infoContent,
+       iii.info_type     infoType,
+       iii.create_time   inventoryInTime
+  from inventory_item_info   iii,
+       inventory_item        ii,
+       storage_early_warning sew
+ where ii.pk_id = iii.inventory_item_id
+   and sew.commodity_code = (select c.commodity_code from c_commodity c where c.pk_id=iii.commodity_info_id)
+   and sew.delete_flag = 1
+   and ii.delete_flag = 1
+   and iii.delete_flag = 1
+   and to_char(sysdate - sew.unsalable_days, 'yyyy/MM/dd') > iii.create_time
+   and sew.schema_name = ii.schema_name
+   and sew.wh_code = (select swi.wh_code from storage_warehouse_info swi where swi.pk_id=ii.warehouse_id)
+   and ii.schema_name = #{schemaName}
+   and ii.commodity_info_id = #{commodityId}
+   and ii.warehouse_id = #{whId}
 
+		
 	</select>
 
 	<select id="getPurchaseOrder" resultType="com.bqjr.report.model.PurchaseCollect"
