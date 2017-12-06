@@ -12,23 +12,23 @@
 			tt.commodity_info_id commodityId,
 			(select t2.brand_name
 			from
-			c_commodity_brand t2 where t2.status=2 and
+			c_commodity_brand t2 where <!-- t2.status=2 and -->
 			t2.delete_flag=1 and
-			t2.from_type=t1.from_type and
+			<!-- t2.from_type=t1.from_type and -->
 			t1.schema_name=t2.schema_name and
 			t2.brand_code=t1.brand_code) as
 			brandName,
 			(select t3.catalog_name from
-			c_commodity_catalog t3 where t3.status=2 and
+			c_commodity_catalog t3 where <!-- t3.status=2 and -->
 			t3.delete_flag=1 and
-			t3.from_type=t1.from_type and
+			<!-- t3.from_type=t1.from_type and -->
 			t1.schema_name=t3.schema_name and
 			t3.catalog_code=t1.catalog_code) as
 			catalogName,
 			(select t4.model_name
-			from c_commodity_model t4 where t4.status=2 and
+			from c_commodity_model t4 where <!-- t4.status=2 and -->
 			t4.delete_flag=1 and
-			t4.from_type=t1.from_type and
+			<!-- t4.from_type=t1.from_type and -->
 			t1.schema_name=t4.schema_name and
 			t4.model_code=t1.model_code ) as
 			modelName,
@@ -375,21 +375,21 @@
 			commodityCode,
 			tot.commodity_pk_id,
 			(select t2.brand_name from
-			c_commodity_brand t2 where t2.status=2 and
+			c_commodity_brand t2 where <!-- t2.status=2 and -->
 			t2.delete_flag=1 <!-- and
 			t2.from_type=t1.from_type --> and
 			t1.schema_name=t2.schema_name and
 			t2.brand_code=t1.brand_code) as
 			brandName,
 			(select t3.catalog_name from
-			c_commodity_catalog t3 where t3.status=2 and
+			c_commodity_catalog t3 where <!-- t3.status=2 and -->
 			t3.delete_flag=1 <!-- and
 			t3.from_type=t1.from_type --> and
 			t1.schema_name=t3.schema_name and
 			t3.catalog_code=t1.catalog_code) as
 			catalogName,
 			(select t4.model_name
-			from c_commodity_model t4 where t4.status=2 and
+			from c_commodity_model t4 where <!-- t4.status=2 and -->
 			t4.delete_flag=1 <!-- and
 			t4.from_type=t1.from_type --> and
 			t1.schema_name=t4.schema_name and
@@ -918,21 +918,21 @@
 		t1.pk_id commodity_id,
 		(select t2.brand_name
 		from
-		c_commodity_brand t2 where t2.status=2 and
+		c_commodity_brand t2 where <!-- t2.status=2 and -->
 		t2.delete_flag=1 and
 		<!-- t2.from_type=t1.from_type and -->
 		t1.schema_name=t2.schema_name and
 		t2.brand_code=t1.brand_code) as
 		brandName,
 		(select t3.catalog_name from
-		c_commodity_catalog t3 where t3.status=2 and
+		c_commodity_catalog t3 where <!-- t3.status=2 and -->
 		t3.delete_flag=1 and
 		<!-- t3.from_type=t1.from_type and -->
 		t1.schema_name=t3.schema_name and
 		t3.catalog_code=t1.catalog_code) as
 		catalogName,
 		(select t4.model_name
-		from c_commodity_model t4 where t4.status=2 and
+		from c_commodity_model t4 where <!-- t4.status=2 and -->
 		t4.delete_flag=1 and
 		<!-- t4.from_type=t1.from_type and -->
 		t1.schema_name=t4.schema_name and
@@ -1041,21 +1041,21 @@
 		t1.pk_id commodity_id,
 		(select t2.brand_name
 		from
-		c_commodity_brand t2 where t2.status=2 and
+		c_commodity_brand t2 where <!-- t2.status=2 and -->
 		t2.delete_flag=1 and
 		<!-- t2.from_type=t1.from_type and -->
 		t1.schema_name=t2.schema_name and
 		t2.brand_code=t1.brand_code) as
 		brandName,
 		(select t3.catalog_name from
-		c_commodity_catalog t3 where t3.status=2 and
+		c_commodity_catalog t3 where <!-- t3.status=2 and -->
 		t3.delete_flag=1 and
 		<!-- t3.from_type=t1.from_type and -->
 		t1.schema_name=t3.schema_name and
 		t3.catalog_code=t1.catalog_code) as
 		catalogName,
 		(select t4.model_name
-		from c_commodity_model t4 where t4.status=2 and
+		from c_commodity_model t4 where <!-- t4.status=2 and -->
 		t4.delete_flag=1 and
 		<!-- t4.from_type=t1.from_type and -->
 		t1.schema_name=t4.schema_name and
@@ -1162,7 +1162,7 @@
 			infoType from inventory_item_info iii,inventory_item ii where ii.pk_id=iii.inventory_item_id 
 			and iii.delete_flag=1 and ii.delete_flag=1 and ii.schema_name= #{schemaName} 
 			and ii.commodity_info_id=#{commodityId} and ii.warehouse_id =#{whId} -->
-		select ii.supplier_name
+		<!-- select ii.supplier_name
 		supplier,ii.create_time
 		inventoryInTime,ii.operation_type
 		operationType,decode(ii.warehouse_mgt_way,'3',ii.quantity_on_hand,iii.quantity)
@@ -1174,36 +1174,23 @@
 		and ii.commodity_info_id=iii.commodity_info_id
 		and ii.schema_name= #{schemaName} and
 		ii.commodity_info_id=#{commodityId}
-		and ii.warehouse_id =#{whId}
+		and ii.warehouse_id =#{whId} -->
 		
-		<!-- select ii.supplier_name
-		supplier,ii.create_time
-		inventoryInTime,ii.operation_type
-		operationType,decode(t.type,'3',ii.quantity_on_hand,iii.quantity)
-		quantity,t.commodity_imei_batch infoContent
-		from inventory_item ii,
-		NVENTORY_ITEM_DETAIL_COMMODITY t,
-		inventory_item_info iii,
-		inventory_item_detail iid
-		where ii.delete_flag = 1
-		and iii.delete_flag = 1
-		and iid.delete_flag = 1
-		and iid.inventory_type=1
-		and t.delete_flag = 1
-		and ii.pk_id=iii.inventory_item_id
-		and ii.pk_id = iid.inventory_item_id
-		and iid.pk_id = t.inventory_item_detail_id
-		and ii.commodity_info_id=iii.commodity_info_id
-		and ii.commodity_info_id = t.commodity_info_id
-		and ii.schema_name= #{schemaName} and
-		ii.commodity_info_id=#{commodityId}
-		and ii.warehouse_id =#{whId}
-		group by
-		ii.supplier_name
-		,ii.create_time
-		,ii.operation_type
-		,decode(t.type,'3',ii.quantity_on_hand,iii.quantity)
-		,t.commodity_imei_batch -->
+		select t1.supplier_name supplier,
+       t1.create_time inventoryInTime,
+       t1.operation_type operationType,
+       decode(t1.warehouse_mgt_way, '3', t1.quantity_on_hand, t2.quantity) quantity,
+       t2.info_content infoContent
+  from (select *
+          from inventory_item ii
+         where ii.delete_flag = 1
+           and ii.schema_name = #{schemaName}
+           and ii.commodity_info_id = #{commodityId}
+           and ii.warehouse_id = #{whId}) t1
+  left join (select * from inventory_item_info iii where iii.delete_flag = 1) t2
+    on t1.pk_id = t2.inventory_item_id
+   and t1.commodity_info_id = t2.commodity_info_id
+
 	</select>
 
 	<select id="getDetails" resultType="com.bqjr.report.model.InventoryWarn">
