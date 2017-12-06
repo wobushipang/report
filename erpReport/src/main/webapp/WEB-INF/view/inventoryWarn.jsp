@@ -1005,6 +1005,13 @@
 					title:'初次入库时间' ,  
 					width:200,
 					align : 'center',
+					formatter: function(value,row){
+						if(row.infoContent==null){
+							return null;
+						}else{
+							return value;
+						}
+					}
 				}  ,
 				{
 					field:'supplier' , 
