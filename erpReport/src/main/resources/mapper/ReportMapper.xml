@@ -1213,12 +1213,11 @@
 		ii.warehouse_id =#{whId} -->
 		<!-- and ii.supplier_id=#{supplierId} -->
 		select ii.supplier_name  supplier,
-       ii.create_time    inventoryInTime,
+       iii.create_time    inventoryInTime,
        ii.operation_type operationType,
        iii.quantity      quantity,
        iii.info_content  infoContent,
-       iii.info_type     infoType,
-       iii.create_time   inventoryInTime
+       iii.info_type     infoType
   from inventory_item_info   iii,
        inventory_item        ii,
        storage_early_warning sew
