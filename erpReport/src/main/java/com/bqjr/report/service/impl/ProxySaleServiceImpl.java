@@ -111,7 +111,7 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				//销售数量
 				p.setSaleNum(Integer.valueOf(p.getSaleOrderNum())-Integer.valueOf(p.getReturnNum())+Integer.valueOf(p.getExchangeOutCount())-Integer.valueOf(p.getExchangeInCount())+"");
 				//赠品数量
-				p.setGiftNum(Integer.valueOf(p.getSaleGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
+				p.setGiftNum(Integer.valueOf(p.getGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
 				//优惠后销售金额
 				p.setDiscountsAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).add(new BigDecimal(p.getExchangeSaleOutAmount())).subtract(new BigDecimal(p.getExchangeSaleInAmount())).toString());
 				if(!StringUtils.isEmpty(p.getPriceMethod())) {
