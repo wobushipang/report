@@ -546,6 +546,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
 					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
@@ -663,10 +664,6 @@
 							}
 						}
 					]] ,
-					onLoadSuccess:function(data){  
-				        if(data.total > 0) return;  
-				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 });
-					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
@@ -694,6 +691,7 @@
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
 					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
@@ -778,10 +776,6 @@
 									   width : 100 ,
 									   }
 									]] ,
-									onLoadSuccess:function(data){  
-								        if(data.total > 0) return;  
-								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 10 }); 
-									},
 									pagination: true , 
 									pageSize: 10 ,
 									pageList:[10] ,

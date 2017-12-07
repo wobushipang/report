@@ -564,6 +564,7 @@ p {
 					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
+					emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
 					nowrap:false,
 					 queryParams: { 
 						orgId:orgId,
@@ -688,10 +689,6 @@ p {
 							}
 						}
 					]] ,
-					onLoadSuccess:function(data){  
-				        if(data.total > 0) return;  
-				        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 }); 
-					},
 					pagination: true , 
 					pageSize: 10 ,
 					pageList:[10] ,
@@ -714,7 +711,7 @@ p {
 			 /**
 				 *	初始化数据表格  
 				 */
-				$('#suppliers').datagrid({
+				 var myview =$('#suppliers').datagrid({
 					idField:'commodityName' ,		//只要创建数据表格 就必须要加 ifField
 				//	title:'活动列表' ,
 					//width:'auto' ,
@@ -727,6 +724,7 @@ p {
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
 					nowrap:false,
+					emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
 					 queryParams: { 
 						orgId:orgId,
 						//operationType:operationType,
@@ -807,11 +805,13 @@ p {
 						              align : 'center',
 						              width : 150 ,
 						              formatter:function(value,row){
-						            	   if(row.infoType=='1'){
-						            		   return '-'
-						            	   }else{
-						            		   return value.substring(0,10)
-						            	   }
+						            	  if(value!=null){
+						            		  if(row.infoType=='1'){
+							            		   return '-'
+							            	   }else{
+							            		   return value.substring(0,10)
+							            	   }
+						            	  }
 						               }
 						           },{
 						               field : 'unsalableDays',
@@ -910,14 +910,16 @@ p {
 											}
 										}
 									]] ,
-									onLoadSuccess:function(data){  
+									/* onLoadSuccess:function(data){  
 								        if(data.total > 0) return;  
 								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 }); 
-									},
+									}, */
+									
 									pagination: true , 
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
+				
 			 	$(".datagrid-body").css("overflow-x","scroll");
 			 	/* document.getElementById('u11287').style.display='none';
 				document.getElementById('u11288').style.visibility='hidden';
@@ -1179,8 +1181,10 @@ p {
 					align : 'center',
 					width:80,
 					formatter: function(value,row){
-		            	 var t = DateDiff(row.inventoryInTime);
-						return t
+						if(value!=null){
+							var t = DateDiff(row.inventoryInTime);
+							return t
+						}
 					}
 				}
 			]],
@@ -1190,7 +1194,7 @@ p {
 	
 	//计算天数差的函数，通用  
 	   function  DateDiff(s1){    
-		   s1 = new Date(s1.replace(/-/g, '/'));
+		   s1 = new Date(s1/* .replace(/-/g, '/') */);
 		   s2 = new Date();//当前日期
 		   var days = s2.getTime() - s1.getTime();
 		   var time = parseInt(days / (1000 * 60 * 60 * 24));
