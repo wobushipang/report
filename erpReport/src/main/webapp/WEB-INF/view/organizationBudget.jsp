@@ -93,7 +93,7 @@
 						<!-- Unnamed () -->
 						<div id="u20893" class="text" style="visibility: visible;">
 							<p>
-								<span class="a">查询</span>
+								<span class="a0">查询</span>
 							</p>
 						</div>
 					</div>
@@ -221,7 +221,7 @@
 					</div>
 
 					<!-- Unnamed (矩形) -->
-					<!-- <div id="u20916" class="ax_default box_1">
+					<div id="u20916" class="ax_default box_1" style="display: none;">
 						<div id="u20916_div" class=""></div>
 						Unnamed ()
 						<div id="u20917" class="text" style="visibility: visible;">
@@ -229,7 +229,7 @@
 								<span>业务类型汇总</span>
 							</p>
 						</div>
-					</div> -->
+					</div>
 					
 					<!-- Unnamed (矩形) -->
 						<!-- <div id="u21037" class="ax_default box_1">
@@ -242,7 +242,7 @@
 							</div>
 						</div> -->
 						<!-- Unnamed (矩形) -->
-						<!-- <div id="u21039" class="ax_default box_1">
+						<div id="u21039" class="ax_default box_1" style="display: none;">
 							<div id="u21039_div" class=""></div>
 							Unnamed ()
 							<div id="u21040" class="text" style="visibility: visible;">
@@ -250,7 +250,7 @@
 									<span>组织机构汇总</span>
 								</p>
 							</div>
-						</div> -->
+						</div>
 					</form>
 				</div>
 			</div>
@@ -298,7 +298,7 @@
 						<!-- Unnamed () -->
 						<div id="u20921" class="text" style="visibility: visible;">
 							<p>
-								<span class="a">查询</span>
+								<span class="a1">查询</span>
 							</p>
 						</div>
 					</div>
@@ -371,7 +371,7 @@
 							<!-- Unnamed () -->
 							<div id="u21044" class="text" style="visibility: visible;">
 								<p>
-									<span class="a">查询</span>
+									<span class="a2">查询</span>
 								</p>
 							</div>
 						</div>
@@ -531,6 +531,10 @@
 						pageList:[10],
 					});
 				$(".datagrid-body").css("overflow-x","scroll");
+				document.getElementById('u20916').style.display='none';
+				document.getElementById('u20916').style.visibility='hidden';
+				document.getElementById('u21039').style.display='none';
+				document.getElementById('u21039').style.visibility='hidden';
 				document.getElementById('u20889_state1').style.display='block';
 				document.getElementById('u20889_state1').style.visibility='visible';
 			 }else{
@@ -591,6 +595,10 @@
 										pageList:[10] ,
 									});
 					$(".datagrid-body").css("overflow-x","scroll");
+					document.getElementById('u20916').style.display='none';
+					document.getElementById('u20916').style.visibility='hidden';
+					document.getElementById('u21039').style.display='none';
+					document.getElementById('u21039').style.visibility='hidden';
 					document.getElementById('u20889_state2').style.display='block';
 					document.getElementById('u20889_state2').style.visibility='visible';
 		}
@@ -607,9 +615,28 @@
 		});
   }
   
-  $('.a').click(function(){
-	  /* document.getElementById('u21039').style.visibility='visible';
-	  document.getElementById('u21040').style.visibility='visible';
+  $('.a1').click(function(){
+	  document.getElementById('u20916').style.display='block';
+	  document.getElementById('u20916').style.visibility='visible';
+	  document.getElementById('u21039').style.display='none';
+	  document.getElementById('u21039').style.visibility='hidden';
+	  /* document.getElementById('u21040').style.visibility='visible';
+	  document.getElementById('u21132').style.visibility='visible';
+	  document.getElementById('u21133').style.visibility='visible'; */
+	  document.getElementById('u20889_state2').style.display='none';
+	  document.getElementById('u20889_state2').style.visibility='hidden';
+	  document.getElementById('u20889_state1').style.display='none';
+	  document.getElementById('u20889_state1').style.visibility='hidden';
+	  document.getElementById('u20889_state0').style.display='block';
+	  document.getElementById('u20889_state0').style.visibility='visible';
+  });
+  
+  $('.a2').click(function(){
+	  document.getElementById('u20916').style.display='none';
+	  document.getElementById('u20916').style.visibility='hidden';
+	  document.getElementById('u21039').style.display='block';
+	  document.getElementById('u21039').style.visibility='visible';
+	  /* document.getElementById('u21040').style.visibility='visible';
 	  document.getElementById('u21132').style.visibility='visible';
 	  document.getElementById('u21133').style.visibility='visible'; */
 	  document.getElementById('u20889_state2').style.display='none';

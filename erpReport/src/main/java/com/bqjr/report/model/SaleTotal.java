@@ -40,6 +40,8 @@ public class SaleTotal implements Serializable {
 	private String specName;// 规格名
 	private String saleNum;// 销售数量
 	private String giftNum; // 赠品数量
+	private String giftSaleNum; // 销售赠品数量
+	private String giftReturnNum; // 退货赠品数量
 	private String orderSaleNum; // 销售订单数量
 	private String orderSaleSum; // 销售订单金额
 	private String returnNum; // 销售退货数量
@@ -173,5 +175,17 @@ public class SaleTotal implements Serializable {
 	}
 	public void setSaleExpendSum(String saleExpendSum) {
 		this.saleExpendSum = saleExpendSum;
+	}
+	public String getGiftReturnNum() {
+		return giftReturnNum;
+	}
+	public void setGiftReturnNum(String giftReturnNum) {
+		this.giftReturnNum = giftReturnNum;
+	}
+	public String getGiftSaleNum() {
+		return giftSaleNum;
+	}
+	public void setGiftSaleNum(String giftSaleNum) {
+		this.giftSaleNum = giftSaleNum;
 	}
 }

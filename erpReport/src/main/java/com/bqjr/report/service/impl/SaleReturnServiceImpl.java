@@ -70,9 +70,9 @@ public class SaleReturnServiceImpl implements SaleReturnService {
 			s.setSaleNum(Integer.valueOf(s.getSaleOrderNum())-Integer.valueOf(s.getReturnOrderNum())+"");
 			s.setGiftNum(Integer.valueOf(s.getGiftSaleOrderNum())-Integer.valueOf(s.getGiftReturnOrderNum())+"");
 			s.setSaleSum(Double.valueOf(s.getSaleOrderSum())-Double.valueOf(s.getReturnOrderSum())+"");
-			s.setDiscountSaleSum(Double.valueOf(s.getSaleOrderDiscountSum())-Double.valueOf(s.getReturnOrderSum())+"");
+			//s.setDiscountSaleSum(Double.valueOf(s.getSaleOrderDiscountSum())-Double.valueOf(s.getReturnOrderSum())+"");
 			s.setSaleCost(Double.valueOf(s.getAllCost())-Double.valueOf(s.getReturnCost())+"");
-			s.setSaleGross(Double.valueOf(s.getDiscountSaleSum())-Double.valueOf(s.getSaleCost())+"");
+			s.setSaleGross(Double.valueOf(s.getSaleSum())-Double.valueOf(s.getSaleCost())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

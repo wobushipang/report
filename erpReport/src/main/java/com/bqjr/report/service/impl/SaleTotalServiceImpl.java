@@ -57,7 +57,8 @@ public class SaleTotalServiceImpl implements SaleTotalService {
 		PageHelper.startPage(pageNum, pageSize);
 		list = mapper.getSaleTotalList(condition);
 		for (SaleTotal s : list) {
-			if(StringUtils.isBlank(s.getGiftNum())) s.setGiftNum("0");
+			if(StringUtils.isBlank(s.getGiftSaleNum())) s.setGiftSaleNum("0");
+			if(StringUtils.isBlank(s.getGiftReturnNum())) s.setGiftReturnNum("0");
 			if(StringUtils.isBlank(s.getOrderSaleNum())) s.setOrderSaleNum("0");
 			if(StringUtils.isBlank(s.getOrderSaleSum())) s.setOrderSaleSum("0");
 			if(StringUtils.isBlank(s.getReturnNum())) s.setReturnNum("0");
@@ -66,7 +67,8 @@ public class SaleTotalServiceImpl implements SaleTotalService {
 			if(StringUtils.isBlank(s.getSaleExpendSum())) s.setSaleExpendSum("0");
 			if(StringUtils.isBlank(s.getSaleReturnNum())) s.setSaleReturnNum("0");
 			if(StringUtils.isBlank(s.getSaleReturnSum())) s.setSaleReturnSum("0");
-			s.setSaleNum(Integer.valueOf(s.getOrderSaleNum())-Integer.valueOf(s.getReturnNum())+"");
+			s.setSaleNum(Integer.valueOf(s.getOrderSaleNum())-Integer.valueOf(s.getReturnNum())-Integer.valueOf(s.getSaleReturnNum())+Integer.valueOf(s.getSaleExpendNum())+"");
+			s.setGiftNum(Integer.valueOf(s.getGiftSaleNum())-Integer.valueOf(s.getGiftReturnNum())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

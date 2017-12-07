@@ -509,12 +509,12 @@ function search(){
 			align:'center',
 			width:100
 		},
-		{
+		/* {
 		   	field:'discountSaleSum',
 			title:'优惠后销售金额',
 			align:'center',
 			width:120
-		},
+		}, */
 		{
 			field:'saleCost',
 			title:'销售成本',
