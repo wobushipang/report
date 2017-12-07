@@ -658,9 +658,9 @@
 		<if test="type==1">,ii.commodity_info_id</if>
 		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii where
 		ii.delete_flag=1 and ii.operation_type=2
-		and
+		<!-- and
 		substr(ii.last_up_time,1,10) between
-		#{start} and #{end}
+		#{start} and #{end} -->
 		group by
 		ii.schema_name,ii.supplier_id
 		<if test="type==1">,ii.commodity_info_id</if>
@@ -1078,8 +1078,8 @@
     	infoContent,iii.info_type,sum(iii.quantity)
     	count1,
     	min(iii.create_time) time1 from inventory_item
-		ii,inventory_item_info iii where ii.delete_flag=1 and
-		iii.delete_flag=1
+		ii,inventory_item_info iii where ii.delete_flag=1
+		<!-- iii.delete_flag=1 -->
 		and ii.schema_name =
 		#{schemaName}
 		and
@@ -1225,7 +1225,7 @@
    and sew.commodity_code = (select c.commodity_code from c_commodity c where c.pk_id=iii.commodity_info_id)
    and sew.delete_flag = 1
    and ii.delete_flag = 1
-   and iii.delete_flag = 1
+   <!-- and iii.delete_flag = 1 -->
    and to_char(sysdate - sew.unsalable_days, 'yyyy/MM/dd') > iii.create_time
    and sew.schema_name = ii.schema_name
    and sew.wh_code = (select swi.wh_code from storage_warehouse_info swi where swi.pk_id=ii.warehouse_id)
