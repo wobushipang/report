@@ -1,5 +1,5 @@
-<%@ page language="java" import="java.util.*"  pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -7,280 +7,324 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <head>
-    <title>inventoryWarn</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/inventoryWarn/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/axure/axQuery.js"></script>
-    <script src="resources/scripts/axure/globals.js"></script>
-    <script src="resources/scripts/axutils.js"></script>
-    <script src="resources/scripts/axure/annotation.js"></script>
-    <script src="resources/scripts/axure/axQuery.std.js"></script>
-    <script src="resources/scripts/axure/doc.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/messagecenter.js"></script>
-    <script src="resources/scripts/axure/events.js"></script>
-    <script src="resources/scripts/axure/recording.js"></script>
-    <script src="resources/scripts/axure/action.js"></script>
-    <script src="resources/scripts/axure/expr.js"></script>
-    <script src="resources/scripts/axure/geometry.js"></script>
-    <script src="resources/scripts/axure/flyout.js"></script>
-    <script src="resources/scripts/axure/ie.js"></script>
-    <script src="resources/scripts/axure/model.js"></script>
-    <script src="resources/scripts/axure/repeater.js"></script>
-    <script src="resources/scripts/axure/sto.js"></script>
-    <script src="resources/scripts/axure/utils.temp.js"></script>
-    <script src="resources/scripts/axure/variables.js"></script>
-    <script src="resources/scripts/axure/drag.js"></script>
-    <script src="resources/scripts/axure/move.js"></script>
-    <script src="resources/scripts/axure/visibility.js"></script>
-    <script src="resources/scripts/axure/style.js"></script>
-    <script src="resources/scripts/axure/adaptive.js"></script>
-    <script src="resources/scripts/axure/tree.js"></script>
-    <script src="resources/scripts/axure/init.temp.js"></script>
-    <script src="files/inventoryWarn/data.js"></script>
-    <script src="resources/scripts/axure/legacy.js"></script>
-    <script src="resources/scripts/axure/viewer.js"></script>
-    <script src="resources/scripts/axure/math.js"></script>
-    <%@ include file="../../../page/public_base_new.jsp"%>
-    <script type="text/javascript">
+<head>
+<title>inventoryWarn</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="resources/css/jquery-ui-themes.css" type="text/css"
+	rel="stylesheet" />
+<link href="resources/css/axure_rp_page.css" type="text/css"
+	rel="stylesheet" />
+<link href="data/styles.css" type="text/css" rel="stylesheet" />
+<link href="files/inventoryWarn/styles.css" type="text/css"
+	rel="stylesheet" />
+<script src="resources/scripts/jquery-1.7.1.min.js"></script>
+<script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+<script src="resources/scripts/axure/axQuery.js"></script>
+<script src="resources/scripts/axure/globals.js"></script>
+<script src="resources/scripts/axutils.js"></script>
+<script src="resources/scripts/axure/annotation.js"></script>
+<script src="resources/scripts/axure/axQuery.std.js"></script>
+<script src="resources/scripts/axure/doc.js"></script>
+<script src="data/document.js"></script>
+<script src="resources/scripts/messagecenter.js"></script>
+<script src="resources/scripts/axure/events.js"></script>
+<script src="resources/scripts/axure/recording.js"></script>
+<script src="resources/scripts/axure/action.js"></script>
+<script src="resources/scripts/axure/expr.js"></script>
+<script src="resources/scripts/axure/geometry.js"></script>
+<script src="resources/scripts/axure/flyout.js"></script>
+<script src="resources/scripts/axure/ie.js"></script>
+<script src="resources/scripts/axure/model.js"></script>
+<script src="resources/scripts/axure/repeater.js"></script>
+<script src="resources/scripts/axure/sto.js"></script>
+<script src="resources/scripts/axure/utils.temp.js"></script>
+<script src="resources/scripts/axure/variables.js"></script>
+<script src="resources/scripts/axure/drag.js"></script>
+<script src="resources/scripts/axure/move.js"></script>
+<script src="resources/scripts/axure/visibility.js"></script>
+<script src="resources/scripts/axure/style.js"></script>
+<script src="resources/scripts/axure/adaptive.js"></script>
+<script src="resources/scripts/axure/tree.js"></script>
+<script src="resources/scripts/axure/init.temp.js"></script>
+<script src="files/inventoryWarn/data.js"></script>
+<script src="resources/scripts/axure/legacy.js"></script>
+<script src="resources/scripts/axure/viewer.js"></script>
+<script src="resources/scripts/axure/math.js"></script>
+<%@ include file="../../../page/public_base_new.jsp"%>
+<script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
       $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>
-    <style type="text/css">
-		p {background:#FFF;}
-	</style>
-  </head>
-  <body>
-  <input type="hidden" id="orgId" value="${orgId}"/>
-	<input type="hidden" id="openId" value="${openId}"/>
-	<input type="hidden" id="schemaName" value="${schemaName}"/>
-    <div id="base" class="">
+<style type="text/css">
+p {
+	background: #FFF;
+}
+</style>
+</head>
+<body>
+	<input type="hidden" id="orgId" value="${orgId}" />
+	<input type="hidden" id="openId" value="${openId}" />
+	<input type="hidden" id="schemaName" value="${schemaName}" />
+	<div id="base" class="">
 
-      <!-- 库存预警查询面板 (动态面板) -->
-      <div id="u11255" class="ax_default" data-label="库存预警查询面板">
-        <div id="u11255_state0" class="panel_state" data-label="查询条件">
-          <div id="u11255_state0_content" class="panel_state_content">
-			<form id="mysearch">
-            <!-- Unnamed (矩形) -->
-            <div id="u11256" class="ax_default box_1">
-              <div id="u11256_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11257" class="text" style="display: none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
+		<!-- 库存预警查询面板 (动态面板) -->
+		<div id="u11255" class="ax_default" data-label="库存预警查询面板">
+			<div id="u11255_state0" class="panel_state" data-label="查询条件">
+				<div id="u11255_state0_content" class="panel_state_content">
+					<form id="mysearch">
+						<!-- Unnamed (矩形) -->
+						<div id="u11256" class="ax_default box_1">
+							<div id="u11256_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11257" class="text"
+								style="display: none; visibility: hidden">
+								<p>
+									<span></span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11258" class="ax_default box_1">
-              <div id="u11258_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11259" class="text" style="visibility: visible;">
-                <p><span class="a">查询</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11258" class="ax_default box_1">
+							<div id="u11258_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11259" class="text" style="visibility: visible;">
+								<p>
+									<span>查询</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (矩形) -->
-           <!--  <div id="u11260" class="ax_default box_1">
-              <div id="u11260_div" class=""></div>
-              Unnamed ()
-              <div id="u11261" class="text" style="visibility: hidden;">
-                <p><span>低库存</span></p>
-              </div>
-            </div> -->
+						<!-- Unnamed (矩形) -->
+						<div id="u11260" class="ax_default box_1" style="display: none;">
+							<div id="u11260_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11261" class="text" style="visibility: hidden;">
+								<p>
+									<span>低库存</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (提交按钮) -->
-            <div id="u11262" class="ax_default html_button">
-              <input id="u11262_input" type="button" value="滞销" onclick="search('2')"/>
-            </div>
+						<!-- Unnamed (提交按钮) -->
+						<div id="u11262" class="ax_default html_button">
+							<input id="u11262_input" type="button" value="滞销"
+								onclick="search('2')" />
+						</div>
 
-            <!-- Unnamed (提交按钮) -->
-            <div id="u11263" class="ax_default html_button">
-              <input id="u11263_input" type="button" value="重置"/>
-            </div>
+						<!-- Unnamed (提交按钮) -->
+						<div id="u11263" class="ax_default html_button">
+							<input id="u11263_input" type="button" value="重置" />
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11264" class="ax_default label">
-              <div id="u11264_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11265" class="text" style="visibility: visible;">
-                <p><span>商品编号</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11264" class="ax_default label">
+							<div id="u11264_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11265" class="text" style="visibility: visible;">
+								<p>
+									<span>商品编号</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (文本框) -->
-            <div id="u11266" class="ax_default text_field">
-              <input id="u11266_input" type="text"  placeholder="请输入商品编号"/>
-            </div>
+						<!-- Unnamed (文本框) -->
+						<div id="u11266" class="ax_default text_field">
+							<input id="u11266_input" type="text" placeholder="请输入商品编号" />
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11267" class="ax_default label">
-              <div id="u11267_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11268" class="text" style="visibility: visible;">
-                <p><span>品牌名称</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11267" class="ax_default label">
+							<div id="u11267_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11268" class="text" style="visibility: visible;">
+								<p>
+									<span>品牌名称</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11269" class="ax_default label">
-              <div id="u11269_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11270" class="text" style="visibility: visible;">
-                <p><span>型号名称</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11269" class="ax_default label">
+							<div id="u11269_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11270" class="text" style="visibility: visible;">
+								<p>
+									<span>型号名称</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11271" class="ax_default label">
-              <div id="u11271_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11272" class="text" style="visibility: visible;">
-                <p><span>商品分类</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11271" class="ax_default label">
+							<div id="u11271_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11272" class="text" style="visibility: visible;">
+								<p>
+									<span>商品分类</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (下拉列表框) -->
-            <div id="u11273" class="ax_default droplist">
-              <input type="text" id="u11273_input">
-            </div>
+						<!-- Unnamed (下拉列表框) -->
+						<div id="u11273" class="ax_default droplist">
+							<input type="text" id="u11273_input">
+						</div>
 
-            <!-- Unnamed (下拉列表框) -->
-            <div id="u11274" class="ax_default droplist">
-              <input type="text" id="u11274_input">
-            </div>
+						<!-- Unnamed (下拉列表框) -->
+						<div id="u11274" class="ax_default droplist">
+							<input type="text" id="u11274_input">
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11275" class="ax_default label">
-              <div id="u11275_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11276" class="text" style="visibility: visible;">
-                <p><span>组织机构</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11275" class="ax_default label">
+							<div id="u11275_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11276" class="text" style="visibility: visible;">
+								<p>
+									<span>组织机构</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (下拉列表框) -->
-            <div id="u11277" class="ax_default droplist">
-              <input type="text" id="u11277_input">
-            </div>
+						<!-- Unnamed (下拉列表框) -->
+						<div id="u11277" class="ax_default droplist">
+							<input type="text" id="u11277_input">
+						</div>
 
-            <!-- Unnamed (下拉列表框) -->
-            <div id="u11278" class="ax_default droplist">
-              <input type="text" id="u11278_input">
-            </div>
+						<!-- Unnamed (下拉列表框) -->
+						<div id="u11278" class="ax_default droplist">
+							<input type="text" id="u11278_input">
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11279" class="ax_default label">
-              <div id="u11279_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11280" class="text" style="visibility: visible;">
-                <p><span>仓库</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11279" class="ax_default label">
+							<div id="u11279_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11280" class="text" style="visibility: visible;">
+								<p>
+									<span>仓库</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (下拉列表框) -->
-            <div id="u11281" class="ax_default droplist">
-              <input type="text" id="u11281_input">
-            </div>
+						<!-- Unnamed (下拉列表框) -->
+						<div id="u11281" class="ax_default droplist">
+							<input type="text" id="u11281_input">
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11282" class="ax_default label">
-              <div id="u11282_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11283" class="text" style="visibility: visible;">
-                <p><span>&nbsp;</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11282" class="ax_default label">
+							<div id="u11282_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11283" class="text" style="visibility: visible;">
+								<p>
+									<span>&nbsp;</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11284" class="ax_default label">
-              <div id="u11284_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11285" class="text" style="visibility: visible;">
-                <p><span>商品名称</span></p>
-              </div>
-            </div>
+						<!-- Unnamed (矩形) -->
+						<div id="u11284" class="ax_default label">
+							<div id="u11284_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11285" class="text" style="visibility: visible;">
+								<p>
+									<span>商品名称</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (文本框) -->
-            <div id="u11286" class="ax_default text_field">
-              <input id="u11286_input" type="text"  placeholder="请输入商品名称"/>
-            </div>
+						<!-- Unnamed (文本框) -->
+						<div id="u11286" class="ax_default text_field">
+							<input id="u11286_input" type="text" placeholder="请输入商品名称" />
+						</div>
 
-            <!-- Unnamed (矩形) -->
-            <!-- <div id="u11287" class="ax_default box_1">
-              <div id="u11287_div" class=""></div>
-              Unnamed ()
-              <div id="u11288" class="text" style="visibility: hidden;">
-                <p><span>滞销查询</span></p>
-              </div>
-            </div> -->
+						<!-- Unnamed (矩形) -->
+						<div id="u11287" class="ax_default box_1" style="display: none;">
+							<div id="u11287_div" class=""></div>
+							<!-- Unnamed () -->
+							<div id="u11288" class="text" style="visibility: hidden;">
+								<p>
+									<span>滞销查询</span>
+								</p>
+							</div>
+						</div>
 
-            <!-- Unnamed (提交按钮) -->
-            <div id="u11289" class="ax_default html_button">
-              <input id="u11289_input" type="button" value="低库存"  onclick="search('1')"/>
-            </div>
-            </form>
-          </div>
-        </div>
-        <div id="u11255_state1" class="panel_state" data-label="库存预警-低于安全库存" style="display: none; visibility: hidden;">
-          <div id="u11255_state1_content" class="panel_state_content">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u11290" class="ax_default box_1">
-              <div id="u11290_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11291" class="text" style="display: none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u11292" class="ax_default box_1">
-              <div id="u11292_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11293" class="text" style="visibility: visible;">
-                <p><span class="a">查询</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u11294" class="ax_default box_1">
-              <div id="u11294_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11295" class="text" style="display: none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (表格) -->
-            <div id="u11296" class="ax_default">
-				<div id="layL" class="easyui-layout" style="width: 1090px; height:520px">
-					<!-- 列表 -->
-					<div region="center" id="c">
-						<table id="commodity"></table>
-					</div>
+						<!-- Unnamed (提交按钮) -->
+						<div id="u11289" class="ax_default html_button">
+							<input id="u11289_input" type="button" value="低库存"
+								onclick="search('1')" />
+						</div>
+					</form>
 				</div>
-            </div>
+			</div>
+			<div id="u11255_state1" class="panel_state" data-label="库存预警-低于安全库存"
+				style="display: none; visibility: hidden;">
+				<div id="u11255_state1_content" class="panel_state_content">
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11363" class="ax_default box_1">
-              <div id="u11363_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11364" class="text" style="visibility: visible;">
-                <p><span>低库存</span></p>
-              </div>
-            </div>
+					<!-- Unnamed (矩形) -->
+					<div id="u11290" class="ax_default box_1">
+						<div id="u11290_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11291" class="text"
+							style="display: none; visibility: hidden">
+							<p>
+								<span></span>
+							</p>
+						</div>
+					</div>
 
-            <!-- Unnamed (矩形) -->
-            <!-- <div id="u11365" class="ax_default box_1">
+					<!-- Unnamed (矩形) -->
+					<div id="u11292" class="ax_default box_1">
+						<div id="u11292_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11293" class="text" style="visibility: visible;">
+							<p>
+								<span id="a">查询</span>
+							</p>
+						</div>
+					</div>
+
+					<!-- Unnamed (矩形) -->
+					<div id="u11294" class="ax_default box_1">
+						<div id="u11294_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11295" class="text"
+							style="display: none; visibility: hidden">
+							<p>
+								<span></span>
+							</p>
+						</div>
+					</div>
+
+					<!-- Unnamed (表格) -->
+					<div id="u11296" class="ax_default">
+						<div id="layL" class="easyui-layout"
+							style="width: 1090px; height: 520px">
+							<!-- 列表 -->
+							<div region="center" id="c">
+								<table id="commodity"></table>
+							</div>
+						</div>
+					</div>
+
+					<!-- Unnamed (矩形) -->
+					<div id="u11363" class="ax_default box_1">
+						<div id="u11363_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11364" class="text" style="visibility: visible;">
+							<p>
+								<span>低库存</span>
+							</p>
+						</div>
+					</div>
+
+					<!-- Unnamed (矩形) -->
+					<!-- <div id="u11365" class="ax_default box_1">
               <div id="u11365_div" class=""></div>
               Unnamed ()
               <div id="u11366" class="text" style="visibility: visible;">
@@ -288,53 +332,63 @@
               </div>
             </div> -->
 
-            
-          </div>
-        </div>
-        <div id="u11255_state2" class="panel_state" data-label="库存预警-滞销商品" style="display: none; visibility: hidden;">
-          <div id="u11255_state2_content" class="panel_state_content">
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11369" class="ax_default box_1">
-              <div id="u11369_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11370" class="text" style="display: none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u11371" class="ax_default box_1">
-              <div id="u11371_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11372" class="text" style="visibility: visible;">
-                <p><span class="a">查询</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u11373" class="ax_default box_1">
-              <div id="u11373_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11374" class="text" style="display: none; visibility: hidden">
-                <p><span></span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (表格) -->
-            <div id="u11375" class="ax_default">
-				<div id="layS" class="easyui-layout" style="width: 1090px; height:520px">
-					<!-- 列表 -->
-					<div region="center" id="s">
-						<table id="suppliers"></table>
-					</div>
 				</div>
-            </div>
+			</div>
+			<div id="u11255_state2" class="panel_state" data-label="库存预警-滞销商品"
+				style="display: none; visibility: hidden;">
+				<div id="u11255_state2_content" class="panel_state_content">
 
-            
+					<!-- Unnamed (矩形) -->
+					<div id="u11369" class="ax_default box_1">
+						<div id="u11369_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11370" class="text"
+							style="display: none; visibility: hidden">
+							<p>
+								<span></span>
+							</p>
+						</div>
+					</div>
 
-            <!-- Unnamed (矩形) -->
-            <!-- <div id="u11468" class="ax_default box_1">
+					<!-- Unnamed (矩形) -->
+					<div id="u11371" class="ax_default box_1">
+						<div id="u11371_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11372" class="text" style="visibility: visible;">
+							<p>
+								<span id="b">查询</span>
+							</p>
+						</div>
+					</div>
+
+					<!-- Unnamed (矩形) -->
+					<div id="u11373" class="ax_default box_1">
+						<div id="u11373_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11374" class="text"
+							style="display: none; visibility: hidden">
+							<p>
+								<span></span>
+							</p>
+						</div>
+					</div>
+
+					<!-- Unnamed (表格) -->
+					<div id="u11375" class="ax_default">
+						<div id="layS" class="easyui-layout"
+							style="width: 1090px; height: 520px">
+							<!-- 列表 -->
+							<div region="center" id="s">
+								<table id="suppliers"></table>
+							</div>
+						</div>
+					</div>
+
+
+
+					<!-- Unnamed (矩形) -->
+					<!-- <div id="u11468" class="ax_default box_1">
               <div id="u11468_div" class=""></div>
               Unnamed ()
               <div id="u11469" class="text" style="visibility: visible;">
@@ -342,39 +396,45 @@
               </div>
             </div> -->
 
-            <!-- Unnamed (矩形) -->
-            <div id="u11470" class="ax_default box_1">
-              <div id="u11470_div" class=""></div>
-              <!-- Unnamed () -->
-              <div id="u11471" class="text" style="visibility: visible;">
-                <p><span>滞销查询</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div id="win" class="easyui-window" title="详情" maximizable="false" minimizable="false"
-		style="width: 660px; height: 410px; padding: 1px;" closed="true">
-		<div id="layD" class="easyui-layout" style="width: 640px; height:390px">
-					<!-- 列表 -->
-					<div region="center" id="d">
-						<table id="detail" class="easyui-datagrid"></table>
+					<!-- Unnamed (矩形) -->
+					<div id="u11470" class="ax_default box_1">
+						<div id="u11470_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u11471" class="text" style="visibility: visible;">
+							<p>
+								<span>滞销查询</span>
+							</p>
+						</div>
 					</div>
 				</div>
+			</div>
+		</div>
 	</div>
-	<div id="win1" class="easyui-window" title="详情" maximizable="false" minimizable="false"
-		style="width: 640px; height: 380px; padding: 1px;" closed="true">
-		<div id="layDs" class="easyui-layout" style="width: 625px; height:340px">
-					<!-- 列表 -->
-					<div region="center" id="ds">
-						<table id="details" class="easyui-datagrid"></table>
-					</div>
-				</div>
+
+	<div id="win" class="easyui-window" title="详情" maximizable="false"
+		minimizable="false" style="width: 662px; height: 430px; padding: 1px;"
+		closed="true">
+		<div id="layD" class="easyui-layout"
+			style="width: 645px; height: 390px">
+			<!-- 列表 -->
+			<div region="center" id="d">
+				<table id="detail" class="easyui-datagrid"></table>
+			</div>
+		</div>
 	</div>
-  </body>
-  <script type="text/javascript">
+	<div id="win1" class="easyui-window" title="详情" maximizable="false"
+		minimizable="false" style="width: 640px; height: 380px; padding: 1px;"
+		closed="true">
+		<div id="layDs" class="easyui-layout"
+			style="width: 625px; height: 340px">
+			<!-- 列表 -->
+			<div region="center" id="ds">
+				<table id="details" class="easyui-datagrid"></table>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
   
   $(function(){ 
 	    var orgId=$('#orgId').val();
@@ -576,6 +636,8 @@
 							formatter: function(value,row){
 								if(row.inventoryNum!='0'){
 									return '<a href="javascript:void(0)" onclick=details("'+ schemaName +'","'+ row.commodityId+'","'+ row.whId+'")>查看</a>'
+								}else{
+									return '-'
 								}
 							}
 						},
@@ -638,6 +700,10 @@
 				//document.getElementById('u11287').style.visibility='hidden';
 		   		//document.getElementById('u11288').style.visibility='hidden';
 			 	$(".datagrid-body").css("overflow-x","scroll");
+			 	document.getElementById('u11287').style.display='none';
+				document.getElementById('u11288').style.visibility='hidden';
+				document.getElementById('u11260').style.display='none';
+			 	document.getElementById('u11261').style.visibility='hidden';
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state2').style.display='none';
@@ -852,10 +918,11 @@
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
-				//document.getElementById('u11288').style.visibility='visible';
-				//document.getElementById('u11260').style.visibility='hidden';
-		   		//document.getElementById('u11261').style.visibility='hidden';
 			 	$(".datagrid-body").css("overflow-x","scroll");
+			 	/* document.getElementById('u11287').style.display='none';
+				document.getElementById('u11288').style.visibility='hidden';
+				document.getElementById('u11260').style.display='none';
+			 	document.getElementById('u11261').style.visibility='hidden'; */
 			 	document.getElementById('u11255_state0').style.display='none';
 				document.getElementById('u11255_state0').style.visibility='hidden';
 				document.getElementById('u11255_state1').style.display='none';
@@ -866,20 +933,34 @@
 		 
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
-  $('.a').click(function(){
-	  //document.getElementById('u11287').style.visibility='visible';
-	  //document.getElementById('u11288').style.visibility='visible';
-		//document.getElementById('u11260').style.visibility='visible';
- 		//document.getElementById('u11261').style.visibility='visible';
+  $('#a').click(function(){
+	  
 	  document.getElementById('u11255_state2').style.display='none';
-		document.getElementById('u11255_state2').style.visibility='hidden';
-		document.getElementById('u11255_state1').style.display='none';
-		document.getElementById('u11255_state1').style.visibility='hidden';
-		  	document.getElementById('u11255_state0').style.display='block';
-			document.getElementById('u11255_state0').style.visibility='visible';
-			$('#win').window('close');
-			$('#win1').window('close');
-	  });
+	  document.getElementById('u11255_state2').style.visibility='hidden';
+	  document.getElementById('u11255_state1').style.display='none';
+	  document.getElementById('u11255_state1').style.visibility='hidden';
+	  document.getElementById('u11255_state0').style.display='block';
+	  document.getElementById('u11255_state0').style.visibility='visible';
+	  document.getElementById('u11287').style.display='none';
+	  document.getElementById('u11288').style.visibility='hidden';
+	  document.getElementById('u11260').style.display='block';
+ 	  document.getElementById('u11261').style.visibility='visible';
+	  $('#win').window('close');
+	});
+  $('#b').click(function(){
+	  
+	  document.getElementById('u11255_state2').style.display='none';
+	  document.getElementById('u11255_state2').style.visibility='hidden';
+	  document.getElementById('u11255_state1').style.display='none';
+	  document.getElementById('u11255_state1').style.visibility='hidden';
+	  document.getElementById('u11255_state0').style.display='block';
+	  document.getElementById('u11255_state0').style.visibility='visible';
+	  document.getElementById('u11287').style.display='block';
+ 	  document.getElementById('u11288').style.visibility='visible';
+ 	  document.getElementById('u11260').style.display='none';
+	  document.getElementById('u11261').style.visibility='hidden';
+	$('#win1').window('close');
+	});
 //js方法：序列化表单 			
 	function serializeForm(form){
 		var obj = {};
@@ -991,9 +1072,10 @@
 		$('#detail').datagrid({
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true ,
-			height:450 ,
+			//height:450 ,
 			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&whId='+warehouseId+'&type=1',
 			loadMsg: '数据正在加载,请耐心的等待...' ,
+			//nowrap:false,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
 		   					},
@@ -1007,7 +1089,7 @@
 						if(value==null){
 							return '-';
 						}else{
-							return value;
+							return value.replace(/(.{13})/g,'$1\n');
 						}
 					}
 				},{
@@ -1038,7 +1120,7 @@
 						if(row.infoContent==null){
 							return '-';
 						}else{
-							return value;
+							return value.substring(0,10);
 						}
 					}
 				}  ,
@@ -1060,9 +1142,10 @@
 	 $('#details').datagrid({
 			idField:'infoContent' ,		//只要创建数据表格 就必须要加 ifField
 			fit:true,
-			height:'auto' ,
+			//height:'auto' ,
 			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&unsalableDays='+unsalableDays+'&supplierId='+supplierId+'&whId='+warehouseId+'&type=2' ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
+			//nowrap:false,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
 		   					},
@@ -1071,7 +1154,10 @@
 					field:'infoContent' , 
 					title:'串号' ,   
 					align : 'center',
-					width:160
+					width:160,
+					formatter: function(value){
+						return value.replace(/(.{13})/g,'$1\n');
+					}
 				},
 				
 				{
