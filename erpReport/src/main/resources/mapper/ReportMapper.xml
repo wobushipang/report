@@ -1215,12 +1215,14 @@
 		select ii.supplier_name  supplier,
        iii.create_time    inventoryInTime,
        ii.operation_type operationType,
-       iii.quantity      quantity,
+       <!-- iii.quantity      quantity, -->
        iii.info_content  infoContent,
        iii.info_type     infoType
-  from inventory_item_info   iii,
+  from 
        inventory_item        ii,
-       storage_early_warning sew
+       storage_early_warning sew,
+       (select min(i.create_time) create_time,i.info_content,i.info_type,i.inventory_item_id ,i.COMMODITY_INFO_ID from inventory_item_info i
+       group by i.info_content,i.info_type,i.inventory_item_id,i.COMMODITY_INFO_ID) iii
  where ii.pk_id = iii.inventory_item_id
    and sew.commodity_code = (select c.commodity_code from c_commodity c where c.pk_id=iii.commodity_info_id)
    and sew.delete_flag = 1
