@@ -106,12 +106,14 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				if(StringUtils.isEmpty(p.getExchangeSaleInAmount())) p.setExchangeSaleInAmount("0");
 				if(StringUtils.isEmpty(p.getExchangeSaleOutCount())) p.setExchangeSaleOutCount("0");
 				if(StringUtils.isEmpty(p.getExchangeSaleInCount())) p.setExchangeSaleInCount("0");
+				if(StringUtils.isEmpty(p.getExchangeGiftInCount())) p.setExchangeGiftInCount("0");
+				if(StringUtils.isEmpty(p.getExchangeGiftOutCount())) p.setExchangeGiftOutCount("0");
 				//进货数量
 				p.setStockNum(Integer.valueOf(p.getWareInCount())-Integer.valueOf(p.getRefundsCount())+Integer.valueOf(p.getExchangeInCount())-Integer.valueOf(p.getExchangeOutCount())+"");
 				//销售数量
-				p.setSaleNum(Integer.valueOf(p.getSaleOrderNum())-Integer.valueOf(p.getReturnNum())+Integer.valueOf(p.getExchangeOutCount())-Integer.valueOf(p.getExchangeInCount())+"");
+				p.setSaleNum(Integer.valueOf(p.getSaleOrderNum())-Integer.valueOf(p.getReturnNum())+Integer.valueOf(p.getExchangeSaleOutCount())-Integer.valueOf(p.getExchangeSaleInCount())+"");
 				//赠品数量
-				p.setGiftNum(Integer.valueOf(p.getGiftNum())-Integer.valueOf(p.getReturnNumGift())+"");
+				p.setGiftNum(Integer.valueOf(p.getGiftNum())-Integer.valueOf(p.getReturnNumGift())+Integer.valueOf(p.getExchangeGiftOutCount())-Integer.valueOf(p.getExchangeGiftInCount())+"");
 				//优惠后销售金额
 				p.setDiscountsAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).add(new BigDecimal(p.getExchangeSaleOutAmount())).subtract(new BigDecimal(p.getExchangeSaleInAmount())).toString());
 				if(!StringUtils.isEmpty(p.getPriceMethod())) {

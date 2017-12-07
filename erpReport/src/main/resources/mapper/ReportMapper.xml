@@ -419,6 +419,8 @@
 		tot.exchangeInCount exchangeInCount,
 		tot.exchangeInAmount
 		exchangeInAmount,
+		tot.exchangeGiftInCount exchangeGiftInCount,
+		tot.exchangeGiftOutCount exchangeGiftOutCount,
 		tot.exchangeOutCount exchangeOutCount,
 		tot.exchangeOutAmount exchangeOutAmount
 		<if test="type==2">
@@ -439,6 +441,8 @@
 		tt2.exchangeSaleInCount,
 		tt.exchangeSaleOutAmount ,
 		tt2.exchangeSaleInAmount ,
+		tt22.exchangeGiftInCount,
+		tt11.exchangeGiftOutCount ,
 		tt3.returnNumGift returnNumGift,
 		tt4.returnNum returnNum,
 		tt4.returnAmount returnAmount,
@@ -560,7 +564,7 @@
 			</if> 
 
 		left join
-		<!-- 退货换货 -->
+		<!-- 换货退货 -->
 		(select mcr.schema_name,mcr.org_id,crd.supplier_id
 		<if test="type==1">
 			,crd.commodity_code
@@ -570,9 +574,9 @@
 		 from market_commodity_returns
 		mcr,rket_commodity_returns_details crd where mcr.order_status=4
 		and mcr.delete_flag=1 and crd.delete_flag=1 and
-		crd.details_status=4
+		crd.details_status=2
 		and crd.operation_type=2 and
-		crd.complimentary_mark='1'
+		crd.complimentary_mark='0'
 		and
 		mcr.returns_date between #{start1} and
 		#{end1}
@@ -590,7 +594,68 @@
 		<if test="type==1">
 			and tt1.commodity_code =tt2.commodity_code
 		</if>
+		left join
+		<!-- 销售换货 (赠品)-->
+		(select cd.schema_name , cd.org_id,cad.supplier_id,
+		<if test="type==1">
+			cad.commodity_pk_id, cad.commodity_code,
+		</if>
+		sum(cad.commodity_num)
+		exchangeGiftOutCount
+		from market_commodity_add_details
+		cad,market_commodity_add cd where
+		cd.order_status=3
+		and cad.delete_flag=1 and cd.delete_flag=1 and
+		cad.details_status=3
+		and cad.operation_type=2 and
+		cad.complimentary_mark='1'
+		and cd.sales_date between #{start1,
+		jdbcType=VARCHAR} and #{end1,
+		jdbcType=VARCHAR}
+		
+		and cd.schema_name=cad.schema_name
+		and cad.order_number=cd.order_number
+		group by cd.schema_name,
+		cd.org_id,cad.supplier_id
+		<if test="type==1">
+			, cad.commodity_code,cad.commodity_pk_id
+		</if>
+		) tt11
+		on tt1.schema_name =tt11.schema_name and tt1.org_id =tt11.org_id and tt1.supplier_id 
+			=tt11.supplier_id <if test="type==1"> and tt1.commodity_code =tt11.commodity_code 
+			</if> 
 
+		left join
+		<!-- 换货退货 （赠品）-->
+		(select mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">
+			,crd.commodity_code
+		</if>
+		,sum(crd.commodity_num) exchangeGiftInCount
+		 from market_commodity_returns
+		mcr,rket_commodity_returns_details crd where mcr.order_status=4
+		and mcr.delete_flag=1 and crd.delete_flag=1 and
+		crd.details_status=2
+		and crd.operation_type=2 and
+		crd.complimentary_mark='1'
+		and
+		mcr.returns_date between #{start1} and
+		#{end1}
+		and
+		mcr.schema_name=crd.schema_name and
+		mcr.order_number=crd.order_number
+		group by
+		mcr.schema_name,mcr.org_id,crd.supplier_id
+		<if test="type==1">,crd.commodity_code</if>
+		) tt22
+		on tt1.schema_name =tt22.schema_name
+		and tt1.org_id =tt22.org_id
+		and
+		tt1.supplier_id =tt22.supplier_id
+		<if test="type==1">
+			and tt1.commodity_code =tt22.commodity_code
+		</if>
+		
 		left join
 		<!-- 退货（赠品） -->
 		(select mcr.schema_name,mcr.org_id,crd.supplier_id
