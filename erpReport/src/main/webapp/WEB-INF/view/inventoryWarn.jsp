@@ -422,7 +422,7 @@ p {
 			</div>
 		</div>
 	</div>
-	<div id="win1" class="easyui-window" title="详情" maximizable="false"
+	<div id="win1" class="easyui-window" title="串号详情" maximizable="false"
 		minimizable="false" style="width: 640px; height: 380px; padding: 1px;"
 		closed="true">
 		<div id="layDs" class="easyui-layout"
