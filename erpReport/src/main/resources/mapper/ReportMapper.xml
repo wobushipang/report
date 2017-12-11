@@ -1277,31 +1277,29 @@
 		and
 		ii.warehouse_id =#{whId} -->
 		<!-- and ii.supplier_id=#{supplierId} -->
+		select supplier,inventoryInTime,operationType,infoContent,infoType,unsalable_days from(
 		select ii.supplier_name  supplier,
        (select min(i.create_time) create_time from inventory_item_info i where ii.pk_id = i.inventory_item_id and rownum=1
        group by i.info_content)  inventoryInTime,
        ii.operation_type operationType,
-       <!-- iii.quantity      quantity, -->
+       sew.unsalable_days,
        iii.info_content  infoContent,
        iii.info_type     infoType
   from 
        inventory_item        ii,
        storage_early_warning sew,
-       <!-- (select min(i.create_time) create_time,i.info_content,i.info_type,i.inventory_item_id ,i.COMMODITY_INFO_ID from inventory_item_info i
-       group by i.info_content,i.info_type,i.inventory_item_id,i.COMMODITY_INFO_ID) --> 
        inventory_item_info iii
  where ii.pk_id = iii.inventory_item_id
    and sew.commodity_code = (select c.commodity_code from c_commodity c where c.pk_id=iii.commodity_info_id)
    and sew.delete_flag = 1
    and ii.delete_flag = 1
    and iii.delete_flag = 1
-   and to_char(sysdate - sew.unsalable_days, 'yyyy/MM/dd') > iii.create_time
    and sew.schema_name = ii.schema_name
    and sew.wh_code = (select swi.wh_code from storage_warehouse_info swi where swi.pk_id=ii.warehouse_id)
    and ii.schema_name = #{schemaName}
    and ii.commodity_info_id = #{commodityId}
-   and ii.warehouse_id = #{whId}
-
+   and ii.warehouse_id = #{whId}) tt1
+   where  to_char(sysdate - tt1.unsalable_days, 'yyyy/MM/dd') > inventoryInTime
 		
 	</select>
 
