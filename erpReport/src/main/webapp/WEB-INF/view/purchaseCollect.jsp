@@ -978,42 +978,15 @@
 			editable:true ,
 			width : '190',
 			//panelHeight:'auto',
-			onChange:function(value){
-		    	if(value!='0'){
-		    		//品牌
-					 $('#u7289_input').combobox({
-					    valueField:'id', //值字段
-					    textField:'text', //显示的字段
-					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:false,//不可编辑，只能选择
-					   	//width: 200,
-						width : '190',
-						//panelHeight:'auto',
-						onChange:function(value){
-					    	if(value!=''&&value!=null){
-					    		//型号
-								 $('#u7293_input').combobox({
-								    valueField:'id', //值字段
-								    textField:'text', //显示的字段
-								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:false,//不可编辑，只能选择
-								   	//width: 200,
-									width : '190',
-									//panelHeight:'auto'
-								 }); 
-						    }
-					    	}
-					 }); 
-			    }
-		    	}
+			
 				
 		});
 		//品牌
 		 $('#u7289_input').combobox({
 		    valueField:'id', //值字段
 		    textField:'text', //显示的字段
-		    url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
-		    		+ $('#u7288_input').combobox('getValue'),
+		    url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode=null',
+		    		//+ $('#u7288_input').combobox('getValue'),
 		   	editable:false,//不可编辑，只能选择
 		   	//width: 200,
 			width : '190',
@@ -1022,8 +995,8 @@
 		 $('#u7293_input').combobox({
 			    valueField:'id', //值字段
 			    textField:'text', //显示的字段
-			    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
-			    		+ $('#u7289_input').combobox('getValue'),
+			    url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode=null',
+			    		//+ $('#u7289_input').combobox('getValue'),
 			   	editable:false,//不可编辑，只能选择
 			   	//width: 200,
 				width : '190',
