@@ -94,22 +94,22 @@
             </div>
 
             <!-- Unnamed (矩形) -->
-            <!-- <div id="u7269" class="ax_default box_1">
+            <div id="u7269" class="ax_default box_1" style="display: none;">
               <div id="u7269_div" class=""></div>
-              Unnamed ()
-              <div id="u7270" class="text" style="visibility: visible;">
+              <!-- Unnamed () -->
+              <div id="u7270" class="text" style="visibility: hidden;">
                 <p><span>商品汇总</span></p>
               </div>
-            </div> -->
+            </div>
 
             <!-- Unnamed (矩形) -->
-            <!-- <div id="u7271" class="ax_default box_1">
+            <div id="u7271" class="ax_default box_1" style="display: none;">
               <div id="u7271_div" class=""></div>
-              Unnamed ()
-              <div id="u7272" class="text" style="visibility: visible;">
+              <!-- Unnamed () -->
+              <div id="u7272" class="text" style="visibility: hidden;">
                 <p><span>供应商汇总表</span></p>
               </div>
-            </div> -->
+            </div> 
 
             <!-- Unnamed (提交按钮) -->
             <div id="u7273" class="ax_default html_button">
@@ -754,6 +754,8 @@
 				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u7264_state1').style.display='block';
 				document.getElementById('u7264_state1').style.visibility='visible';
+				document.getElementById('u7271').style.display='none';
+				document.getElementById('u7272').style.visibility='hidden';
 		 }else{
 			 /**
 				 *	初始化数据表格  
@@ -905,18 +907,35 @@
 				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u7264_state2').style.display='block';
 				document.getElementById('u7264_state2').style.visibility='visible';
+				document.getElementById('u7269').style.display='none';
+				document.getElementById('u7270').style.visibility='hidden';
 		 }
 		 
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
-  $('.a').click(function(){
+  $('#u7312').click(function(){
 	  document.getElementById('u7264_state2').style.display='none';
-		document.getElementById('u7264_state2').style.visibility='hidden';
-		document.getElementById('u7264_state1').style.display='none';
-		document.getElementById('u7264_state1').style.visibility='hidden';
-		  	document.getElementById('u7264_state0').style.display='block';
-			document.getElementById('u7264_state0').style.visibility='visible';
-			
+	  document.getElementById('u7264_state2').style.visibility='hidden';
+	  document.getElementById('u7264_state1').style.display='none';
+	  document.getElementById('u7264_state1').style.visibility='hidden';
+	  document.getElementById('u7264_state0').style.display='block';
+	  document.getElementById('u7264_state0').style.visibility='visible';
+	  document.getElementById('u7269').style.display='block';
+	  document.getElementById('u7270').style.visibility='visible';	
+	  document.getElementById('u7271').style.display='none';
+	  document.getElementById('u7272').style.visibility='hidden';
+	  });
+  $('#u7533').click(function(){
+	  document.getElementById('u7264_state2').style.display='none';
+	  document.getElementById('u7264_state2').style.visibility='hidden';
+	  document.getElementById('u7264_state1').style.display='none';
+	  document.getElementById('u7264_state1').style.visibility='hidden';
+	  document.getElementById('u7264_state0').style.display='block';
+	  document.getElementById('u7264_state0').style.visibility='visible';
+	  document.getElementById('u7271').style.display='block';
+	  document.getElementById('u7272').style.visibility='visible';
+	  document.getElementById('u7269').style.display='none';
+	  document.getElementById('u7270').style.visibility='hidden';
 	  });
 //js方法：序列化表单 			
 	function serializeForm(form){
