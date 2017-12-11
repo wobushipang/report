@@ -251,7 +251,7 @@
             <div id="u20215" class="ax_default box_1" style="display: none;">
               <div id="u20215_div" class=""></div>
               <!-- Unnamed () -->
-              <div id="u20216" class="text" style="visibility: visible;">
+              <div id="u20216" class="text" style="visibility: hidden;">
                 <p><span>商品汇总</span></p>
               </div>
             </div>
@@ -260,7 +260,7 @@
             <div id="u20217" class="ax_default box_1" style="display: none;">
               <div id="u20217_div" class=""></div>
               <!-- Unnamed () -->
-              <div id="u20218" class="text" style="visibility: visible;">
+              <div id="u20218" class="text" style="visibility: hidden;">
                 <p><span>供应商汇总</span></p>
               </div>
             </div> 
@@ -675,6 +675,14 @@
 				document.getElementById('u20176_state2').style.visibility='hidden'
 				document.getElementById('u20176_state1').style.display='block';
 				document.getElementById('u20176_state1').style.visibility='visible';
+				document.getElementById('u20215').style.display='none';
+				document.getElementById('u20216').style.visibility='hidden';
+				document.getElementById('u20217').style.display='none';
+			 	document.getElementById('u20218').style.visibility='hidden';
+			 	document.getElementById('u20179').style.display='none';
+			 	document.getElementById('u20180').style.visibility='hidden';
+			 	document.getElementById('u20221').style.display='block';
+			 	document.getElementById('u20222').style.visibility='visible';
 		 }else{
 			 /**
 				 *	初始化数据表格  
@@ -780,9 +788,12 @@
 									pageSize: 10 ,
 									pageList:[10] ,
 								});
-				//document.getElementById('u20218').style.visibility='visible';
-				//document.getElementById('u20215').style.visibility='hidden';
-		   		//document.getElementById('u20216').style.visibility='hidden';
+				document.getElementById('u20215').style.display='none';
+				document.getElementById('u20216').style.visibility='hidden';
+				document.getElementById('u20217').style.display='none';
+			 	document.getElementById('u20218').style.visibility='hidden';
+			 	document.getElementById('u20179').style.display='none';
+			 	document.getElementById('u20180').style.visibility='hidden';
 			 	$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u20176_state0').style.display='none';
 				document.getElementById('u20176_state0').style.visibility='hidden'
@@ -794,31 +805,29 @@
 		 
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
-  $('.a1').click(function(){
-	  document.getElementById('u20215').style.display='block';
-	  document.getElementById('u20216').style.visibility='visible';
-		document.getElementById('u20217').style.display='none';
- 		document.getElementById('u20218').style.visibility='hidden';
-	  document.getElementById('u20176_state2').style.display='none';
-		document.getElementById('u20176_state2').style.visibility='hidden';
-		document.getElementById('u20176_state1').style.display='none';
-		document.getElementById('u20176_state1').style.visibility='hidden';
-		  	document.getElementById('u20176_state0').style.display='block';
-			document.getElementById('u20176_state0').style.visibility='visible';
-			
+  $('#u20221').click(function(){
+	document.getElementById('u20176_state2').style.display='none';
+	document.getElementById('u20176_state2').style.visibility='hidden';
+	document.getElementById('u20176_state1').style.display='none';
+	document.getElementById('u20176_state1').style.visibility='hidden';
+	document.getElementById('u20176_state0').style.display='block';
+	document.getElementById('u20176_state0').style.visibility='visible';
+	document.getElementById('u20215').style.display='block';
+	document.getElementById('u20216').style.visibility='visible';
+	document.getElementById('u20179').style.display='block';
+ 	document.getElementById('u20180').style.visibility='visible';		
 	  });
-  $('.a2').click(function(){
-	  document.getElementById('u20215').style.display='none';
-	  document.getElementById('u20216').style.visibility='hidden';
-		document.getElementById('u20217').style.display='block';
- 		document.getElementById('u20218').style.visibility='visible';
-	  document.getElementById('u20176_state2').style.display='none';
-		document.getElementById('u20176_state2').style.visibility='hidden';
-		document.getElementById('u20176_state1').style.display='none';
-		document.getElementById('u20176_state1').style.visibility='hidden';
-		  	document.getElementById('u20176_state0').style.display='block';
-			document.getElementById('u20176_state0').style.visibility='visible';
-			
+  $('#u20598').click(function(){
+	document.getElementById('u20176_state2').style.display='none';
+	document.getElementById('u20176_state2').style.visibility='hidden';
+	document.getElementById('u20176_state1').style.display='none';
+	document.getElementById('u20176_state1').style.visibility='hidden';
+	document.getElementById('u20176_state0').style.display='block';
+	document.getElementById('u20176_state0').style.visibility='visible';
+	document.getElementById('u20179').style.display='block';
+ 	document.getElementById('u20180').style.visibility='visible';	
+	document.getElementById('u20217').style.display='block';
+ 	document.getElementById('u20218').style.visibility='visible';	
 	  });
 	$('#u20182_input').click(function(){
 		var orgId=$('#orgId').val();
@@ -848,36 +857,6 @@
 			textField:'text',
 			editable:true ,
 			width : '190',
-			//panelHeight:'auto',
-			onChange:function(value){
-		    	if(value!='0'){
-		    		//品牌
-					 $('#u20197_input').combobox({
-					    valueField:'id', //值字段
-					    textField:'text', //显示的字段
-					    url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					   	editable:true,//不可编辑，只能选择
-					   	//width: 200,
-						width : '190',
-						//panelHeight:'auto',
-						onChange:function(value){
-					    	if(value!=''&&value!=null){
-					    		//型号
-								 $('#u20201_input').combobox({
-								    valueField:'id', //值字段
-								    textField:'text', //显示的字段
-								    url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								   	editable:true,//不可编辑，只能选择
-								   	//width: 200,
-									width : '190',
-									//panelHeight:'auto'
-								 }); 
-						    }
-					    	}
-					 }); 
-			    }
-		    	}
-				
 		});
 		//品牌
 		 $('#u20197_input').combobox({

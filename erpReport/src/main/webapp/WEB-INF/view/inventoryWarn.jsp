@@ -930,7 +930,7 @@ p {
 		 
 		//$('#commodity').datagrid('load' ,serializeForm($('#mysearch')));
   }
-  $('#a').click(function(){
+  $('#u11292').click(function(){
 	  
 	  document.getElementById('u11255_state2').style.display='none';
 	  document.getElementById('u11255_state2').style.visibility='hidden';
@@ -944,7 +944,7 @@ p {
  	  document.getElementById('u11261').style.visibility='visible';
 	  $('#win').window('close');
 	});
-  $('#b').click(function(){
+  $('#u11371').click(function(){
 	  
 	  document.getElementById('u11255_state2').style.display='none';
 	  document.getElementById('u11255_state2').style.visibility='hidden';
