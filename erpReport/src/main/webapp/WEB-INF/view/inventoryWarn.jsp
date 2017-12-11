@@ -910,11 +910,6 @@ p {
 											}
 										}
 									]] ,
-									/* onLoadSuccess:function(data){  
-								        if(data.total > 0) return;  
-								        $(this).datagrid('appendRow', { orgName: '<div style="text-align:center;color:red">没有相关记录！</div>' ,spec:'/'}).datagrid('mergeCells', { index: 0, field: 'orgName', colspan: 9 }); 
-									}, */
-									
 									pagination: true , 
 									pageSize: 10 ,
 									pageList:[10] ,
@@ -1091,7 +1086,8 @@ p {
 						if(value==null){
 							return '-';
 						}else{
-							return value.replace(/(.{13})/g,'$1\n');
+							var str = value.replace(/(.{13})/g,'$1<br/>');
+							return str;
 						}
 					}
 				},{
@@ -1158,7 +1154,8 @@ p {
 					align : 'center',
 					width:160,
 					formatter: function(value){
-						return value.replace(/(.{13})/g,'$1\n');
+						var str = value.replace(/(.{13})/g,'$1<br/>');
+						return str;
 					}
 				},
 				

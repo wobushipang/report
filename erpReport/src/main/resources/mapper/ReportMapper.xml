@@ -273,7 +273,7 @@
 			tt.schema_name
 			and t1.pk_id = tt.commodity_info_id
 			<if test="commodityCode!=null and commodityCode!=''">
-				and t1.commodity_code = #{commodityCode,
+				and t1.commodity_code = '%'||#{commodityCode,
 				jdbcType=VARCHAR}
 			</if>
 			<if test="commodityName!=null and commodityName!=''">
@@ -926,7 +926,7 @@
 		<if test="type==1">
 			and t1.pk_id=tot.commodity_pk_id
 			<if test="commodityCode!=null and commodityCode!=''">
-				and t1.commodity_code like #{commodityCode,
+				and t1.commodity_code like '%'||#{commodityCode,
 				jdbcType=VARCHAR}||'%'
 			</if>
 			<if test="commodityName!=null and commodityName!=''">
@@ -1023,7 +1023,7 @@
 		, c_commodity t1
 		where 1=1
 		<if test="commodityCode!=null and commodityCode!=''">
-			and t1.commodity_code like #{commodityCode,
+			and t1.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'
 		</if>
 		<if test="commodityName!=null and commodityName!=''">
@@ -1158,7 +1158,7 @@
 		c_commodity t1
 		where 1=1
 		<if test="commodityCode!=null and commodityCode!=''">
-			and t1.commodity_code like #{commodityCode,
+			and t1.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'
 		</if>
 		<if test="commodityName!=null and commodityName!=''">
