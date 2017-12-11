@@ -47,7 +47,7 @@ public class ReadFileAndSaveJob implements Job, Serializable {
 		logger.info("[execute BEGIN],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
 		try {
 			// 读取指定路径下所有文件，返回集合
-			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile(null);
 			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
 			receiveCsvData.importData(files);
 		} catch (Exception e) {
