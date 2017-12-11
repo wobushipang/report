@@ -66,7 +66,6 @@ public interface ReportMapper {
 	//商品规格
 	List<SearchCondition> getSpecList(@Param("codes")List<String> codes,@Param("schemaName")String schemaName,@Param("orgId")String orgId);
 
-	//
-	List<SearchCondition> getBusinessList(@Param("schemaName")String schemaName, @Param("businessType")String businessType);
-
+	//业务名称
+	List<SearchCondition> getBusinessList(@Param("orgId")String orgId, @Param("schemaName")String schemaName, @Param("businessType")String businessType);
 }

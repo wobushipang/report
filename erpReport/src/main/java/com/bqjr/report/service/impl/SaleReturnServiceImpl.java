@@ -15,6 +15,7 @@
  *****************************************************************************/
 package com.bqjr.report.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,17 +63,17 @@ public class SaleReturnServiceImpl implements SaleReturnService {
 			if(StringUtils.isBlank(s.getGiftReturnOrderNum())) s.setGiftReturnOrderNum("0");
 			if(StringUtils.isBlank(s.getGiftSaleOrderNum())) s.setGiftSaleOrderNum("0");
 			if(StringUtils.isBlank(s.getSaleOrderSum())) s.setSaleOrderSum("0");
-			if(StringUtils.isBlank(s.getSaleOrderDiscountSum())) s.setSaleOrderDiscountSum("0");
+			//if(StringUtils.isBlank(s.getSaleOrderDiscountSum())) s.setSaleOrderDiscountSum("0");
 			if(StringUtils.isBlank(s.getReturnOrderNum())) s.setReturnOrderNum("0");
 			if(StringUtils.isBlank(s.getReturnOrderSum())) s.setReturnOrderSum("0");
 			if(StringUtils.isBlank(s.getAllCost())) s.setAllCost("0");
 			if(StringUtils.isBlank(s.getReturnCost())) s.setReturnCost("0");
 			s.setSaleNum(Integer.valueOf(s.getSaleOrderNum())-Integer.valueOf(s.getReturnOrderNum())+"");
 			s.setGiftNum(Integer.valueOf(s.getGiftSaleOrderNum())-Integer.valueOf(s.getGiftReturnOrderNum())+"");
-			s.setSaleSum(Double.valueOf(s.getSaleOrderSum())-Double.valueOf(s.getReturnOrderSum())+"");
+			s.setSaleSum(new BigDecimal(s.getSaleOrderSum()).subtract(new BigDecimal(s.getReturnOrderSum())).toString());
 			//s.setDiscountSaleSum(Double.valueOf(s.getSaleOrderDiscountSum())-Double.valueOf(s.getReturnOrderSum())+"");
-			s.setSaleCost(Double.valueOf(s.getAllCost())-Double.valueOf(s.getReturnCost())+"");
-			s.setSaleGross(Double.valueOf(s.getSaleSum())-Double.valueOf(s.getSaleCost())+"");
+			s.setSaleCost(new BigDecimal(s.getAllCost()).subtract(new BigDecimal(s.getReturnCost())).toString());
+			s.setSaleGross(new BigDecimal(s.getSaleSum()).subtract(new BigDecimal(s.getSaleCost())).toString());
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

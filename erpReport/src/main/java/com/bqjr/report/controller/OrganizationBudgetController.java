@@ -100,6 +100,7 @@ public class OrganizationBudgetController {
 		if (condition.getEndDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getEndDate());
+			str = str + " 23:59:59";
 			condition.setEnd(str);
 		}
 		return service.getOrganizationBudgetList(pageNum, pageSize, condition);

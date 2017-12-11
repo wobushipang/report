@@ -318,7 +318,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u16066" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1087px; height: 520px;">
+							style="width: 1090px; height: 540px;">
 							<!-- 列表 -->
 							<div region="center" id="g">
 								<table id="gross"></table>
@@ -446,7 +446,7 @@ function search(){
 	$('#gross').datagrid({
 		idField:'saleReturn',	//只要创建数据表格 就必须要加 ifField
 		fit:true,
-		height:520,
+		height:540,
 		url:'/getSaleReturn',
 		//fitColumns:true ,  
 		//striped: true ,	//隔行变色特性 

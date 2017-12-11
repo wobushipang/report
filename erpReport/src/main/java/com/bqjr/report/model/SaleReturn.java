@@ -43,15 +43,15 @@ public class SaleReturn implements Serializable {
 	private String discountSaleSum; // 优惠后销售金额
 	private String saleCost; // 销售成本
 	private String saleGross; // 销售毛利
-	private String saleOrderNum;
-	private String saleOrderSum;
-	private String saleOrderDiscountSum;
-	private String giftSaleOrderNum;
-	private String returnOrderNum;
-	private String returnOrderSum;
-	private String giftReturnOrderNum;
-	private String allCost;
-	private String returnCost;
+	private String saleOrderNum; // 销售订单数量
+	private String saleOrderSum; // 销售订单金额
+	//private String saleOrderDiscountSum; // 优惠后销售金额
+	private String giftSaleOrderNum; // 销售赠品数量
+	private String returnOrderNum; // 销售退货数量
+	private String returnOrderSum; // 销售退货金额
+	private String giftReturnOrderNum; // 销售退回赠品数量
+	private String allCost; // 销售总成本
+	private String returnCost; // 销售退货成本
 	public String getSchemaName() {
 		return schemaName;
 	}
@@ -159,12 +159,6 @@ public class SaleReturn implements Serializable {
 	}
 	public void setSaleOrderSum(String saleOrderSum) {
 		this.saleOrderSum = saleOrderSum;
-	}
-	public String getSaleOrderDiscountSum() {
-		return saleOrderDiscountSum;
-	}
-	public void setSaleOrderDiscountSum(String saleOrderDiscountSum) {
-		this.saleOrderDiscountSum = saleOrderDiscountSum;
 	}
 	public String getGiftSaleOrderNum() {
 		return giftSaleOrderNum;

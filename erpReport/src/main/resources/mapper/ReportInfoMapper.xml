@@ -25,12 +25,12 @@
 		(select sum(fooi.total) from finance_org_other_income fooi
 		where fooi.org_id = cso.pk_id and fooi.schema_name=cso.schema_name
 		and fooi.status = '2' and fooi.delete_flag = '1'
-		and fooi.last_up_time between #{start} and #{end}
+		and fooi.confirm_time between #{start} and #{end}
 		group by schema_name,org_id,org_name) income,
 		(select sum(fooe.total) from finance_org_other_expend fooe
 		where fooe.org_id=cso.pk_id and fooe.schema_name=cso.schema_name
 		and fooe.status = '2' and fooe.delete_flag = '1'
-		and fooe.last_up_time between #{start} and #{end}
+		and fooe.confirm_time between #{start} and #{end}
 		group by schema_name,org_id,org_name) expend
 		from c_sys_organization cso
 		where cso.delete_flag='1' and cso.org_enable='1'
@@ -52,10 +52,10 @@
 
 	<select id="getIncomeByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
 		resultType="com.bqjr.report.model.OrganizationBudget">
-		select t.schema_name,t.org_name orgName,'收入' businessType,no.business_name businessName,sum(t.total) money
+		select t.schema_name,t.org_name orgName,'收入' businessType,no.business_name businessName,sum(no.total) money
 		   from (select schema_name,pk_id,org_id,org_name,business_id,total from finance_org_other_income where status='2' and delete_flag='1'
 		   and schema_name=#{schemaName}
-			 and last_up_time between #{start} and #{end}
+			 and confirm_time between #{start} and #{end}
 				<if test="orgId==null and orgs.size()>0">
 					and org_id in
 					<foreach collection="orgs" open="(" close=")" item="org"
@@ -72,15 +72,15 @@
 		   ) t
 		   left join nance_org_other_balance_detail no
 		   on t.pk_id=no.other_income_id and no.delete_flag='1'
-		   group by t.schema_name,t.org_id,t.org_name,t.business_id,no.business_name
+		   group by t.schema_name,t.org_id,t.org_name,no.business_id,no.business_name
 	</select>
 
 	<select id="getExpendByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
 		resultType="com.bqjr.report.model.OrganizationBudget">
-		select t.schema_name,t.org_name orgName,'支出' businessType,no.business_name businessName,sum(t.total) money
+		select t.schema_name,t.org_name orgName,'支出' businessType,no.business_name businessName,sum(no.total) money
 		   from (select schema_name,pk_id,org_id,org_name,business_id,total from finance_org_other_expend where status='2' and delete_flag='1'
 		   and schema_name=#{schemaName}
-		   and last_up_time between #{start} and #{end}
+		   and confirm_time between #{start} and #{end}
 		   <if test="orgId==null and orgs.size()>0">
 					and org_id in
 					<foreach collection="orgs" open="(" close=")" item="org"
@@ -97,7 +97,7 @@
 		   ) t
 		   left join nance_org_other_balance_detail no
 		    on t.pk_id=no.other_income_id and no.delete_flag='1'
-		    group by t.schema_name,t.org_id,t.org_name,t.business_id,no.business_name
+		    group by t.schema_name,t.org_id,t.org_name,no.business_id,no.business_name
 	</select>
 
 	<select id="getInfoByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
@@ -126,31 +126,16 @@
 	<select id="getStockDayList" parameterType="com.bqjr.report.model.SearchCondition"
 		resultType="com.bqjr.report.model.StockDay">
 		select t.schemaName,t.orgId,
-		(select t1.org_name from
-		c_sys_organization t1 where t1.schema_name=t.schemaName and
-		t1.pk_id=t.orgId) as orgName,
+		(select t1.org_name from c_sys_organization t1 where t1.schema_name=t.schemaName and t1.pk_id=t.orgId) as orgName,
 		t.warehouseId,
-		(select t5.wh_name from
-		storage_warehouse_info t5 where t5.schema_name=t.schemaName and
-		t5.pk_id=t.warehouseId) as whName,
+		(select t5.wh_name from storage_warehouse_info t5 where t5.schema_name=t.schemaName and t5.pk_id=t.warehouseId) as whName,
 		c.commodity_code
 		commodityCode,c.commodity_name
 		commodityName,beginQuantity,purchaseIn,purchaseReturn,purchaseExpendIn,purchaseExpendOut,
 		allotOut,allotIn,profitQuantity,lossQuantity,trimQuantity,saleOut,saleReturn,saleExpendOut,saleExpendIn,
-		(select t2.catalog_name from c_commodity_catalog t2 where
-		t2.delete_flag='1' and t2.status='2' and
-		t2.schema_name=c.schema_name
-		and t2.catalog_code=c.catalog_code)
-		catalogName,
-		(select t3.brand_name
-		from c_commodity_brand t3 where
-		t3.schema_name=c.schema_name and
-		t3.brand_code=c.brand_code)
-		brandName,
-		(select t4.model_name from
-		c_commodity_model t4 where
-		t4.schema_name=c.schema_name and
-		t4.model_code=c.model_code) modelName
+		(select t2.catalog_name from c_commodity_catalog t2 where t2.schema_name=c.schema_name and t2.catalog_code=c.catalog_code) catalogName,
+		(select t3.brand_name from c_commodity_brand t3 where t3.schema_name=c.schema_name and t3.brand_code=c.brand_code) brandName,
+		(select t4.model_name from c_commodity_model t4 where t4.schema_name=c.schema_name and t4.model_code=c.model_code) modelName
 		from (
 		select
 		tt2.schema_name
@@ -430,9 +415,8 @@
 		tt2.commodity_info_id=tt3.commodity_info_id
 		left join
 		(
-		select
-		mca.schema_name,mca.org_id,mca.warehouse_id,mcad.commodity_pk_id,mcad.commodity_code,sum(mcad.commodity_num)
-		saleOut
+		select mca.schema_name,mca.org_id,mca.warehouse_id,mcad.commodity_pk_id,mcad.commodity_code,
+			sum(mcad.commodity_num) saleOut
 		from market_commodity_add mca,market_commodity_add_details mcad
 		where mca.order_status='1' and mca.delete_flag='1' and
 		mcad.delete_flag='1'
@@ -572,12 +556,9 @@
 			and t.schemaName = t1.schema_name and c.org_id = t1.pk_id) orgName,
 		c.commodity_code commodityCode,c.commodity_name commodityName,t.operation_type operationType,
 		giftSaleNum,orderSaleNum,orderSaleSum,giftReturnNum,returnNum,returnSum,saleReturnNum,saleReturnSum,saleExpendNum,saleExpendSum,
-		(select t2.catalog_name from c_commodity_catalog t2 where t2.schema_name = c.schema_name
-			and t2.catalog_code = c.catalog_code) catalogName,
-		(select t3.brand_name from c_commodity_brand t3 where t3.status = '2' and t3.delete_flag = '1'
-			and t3.schema_name = c.schema_name and t3.brand_code = c.brand_code) brandName,
-		(select t4.model_name from c_commodity_model t4 where t4.status = '2' and t4.delete_flag = '1'
-			and t4.schema_name = c.schema_name and t4.model_code = c.model_code) modelName
+		(select t2.catalog_name from c_commodity_catalog t2 where t2.schema_name = c.schema_name and t2.catalog_code = c.catalog_code) catalogName,
+		(select t3.brand_name from c_commodity_brand t3 where  t3.schema_name = c.schema_name and t3.brand_code = c.brand_code) brandName,
+		(select t4.model_name from c_commodity_model t4 where t4.schema_name = c.schema_name and t4.model_code = c.model_code) modelName
 		from (
 			select tt1.schema_name schemaName,tt1.org_id,tt1.commodity_code,tt1.operation_type,
 			giftSaleNum,orderSaleNum,orderSaleSum,giftReturnNum,returnNum,returnSum,saleReturnNum,saleReturnSum,saleExpendNum,saleExpendSum
@@ -617,7 +598,7 @@
 				sum(mcad.commodity_num) orderSaleNum,
 				sum(mcad.commodity_num * mcad.commodity_price) orderSaleSum
 				from market_commodity_add mca,market_commodity_add_details mcad
-				where mca.order_status in ('1', '3') and mca.delete_flag = '1' and mcad.delete_flag = '1'
+				where mca.order_status = '1' and mca.delete_flag = '1' and mcad.delete_flag = '1'
 				and mca.schema_name = mcad.schema_name and mca.order_number = mcad.order_number
 				and mcad.complimentary_mark = '0' and mca.schema_name = #{schemaName}
 				<if test="memberMobilePhone!=null and memberMobilePhone!=''">
@@ -676,7 +657,7 @@
 				sum(crd.commodity_num) giftReturnNum
 				from market_commodity_returns cr,rket_commodity_returns_details crd
 				where cr.schema_name = crd.schema_name and cr.order_number = crd.order_number
-				and cr.order_status = '2' and cr.delete_flag = '1' and crd.delete_flag = '1'
+				and cr.order_status in ('2','4') and cr.delete_flag = '1' and crd.delete_flag = '1'
 				and crd.complimentary_mark = '1' and cr.schema_name = #{schemaName}
 				<if test="memberMobilePhone!=null and memberMobilePhone!=''">
 					and member_mobile_phone like '%'||#{memberMobilePhone,
@@ -731,7 +712,7 @@
 			) tt6
 			on tt1.schema_name = tt6.schema_name and tt1.org_id = tt6.org_id and tt1.commodity_code = tt6.commodity_code and tt1.operation_type = tt6.operation_type
 		) t,c_commodity c
-		where c.schema_name = t.schemaName and c.org_id = t.org_id and c.commodity_code = t.commodity_code and c.delete_flag = '1'
+		where c.schema_name = t.schemaName and c.org_id = t.org_id and c.commodity_code = t.commodity_code and c.delete_flag = '1' and c.schema_name=#{schemaName}
 		<if test="orgId==null and orgs.size()>0">
 			and t.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
@@ -763,184 +744,117 @@
 
 	<select id="getSaleReturnList" parameterType="com.bqjr.report.model.SearchCondition"
 		resultType="com.bqjr.report.model.SaleReturn">
-		select * from (
-		select t.schemaName,
-		t.org_id orgId,
-		(select t1.org_name from c_sys_organization t1 where c.schema_name =
-		t1.schema_name and c.org_id = t1.pk_id) as orgName,
-		c.commodity_code commodityCode,
-		c.commodity_name commodityName,
-		saleOrderNum,
-		saleOrderSum,
-		saleOrderDiscountSum,
-		giftSaleOrderNum,
-		returnOrderNum,
-		returnOrderSum,
-		giftReturnOrderNum,
-		allCost,
-		returnCost,
-		(select t2.catalog_name from c_commodity_catalog t2 where t2.schema_name =
-		c.schema_name and t2.catalog_code = c.catalog_code) catalogName,
-		(select t3.brand_name from c_commodity_brand t3 where t3.schema_name =
-		c.schema_name and t3.brand_code = c.brand_code) brandName,
-		(select t4.model_name from c_commodity_model t4 where t4.schema_name =
-		c.schema_name and t4.model_code = c.model_code) modelName
-		from (select tt1.schema_name schemaName,
-		tt1.org_id,
-		tt1.commodity_code,
-		saleOrderNum,
-		saleOrderSum,
-		saleOrderDiscountSum,
-		giftSaleOrderNum,
-		returnOrderNum,
-		returnOrderSum,
-		giftReturnOrderNum,
-		allCost,
-		returnCost
-		from (
-		select mca.schema_name, mca.org_id, mcad.commodity_code
-		from market_commodity_add mca, market_commodity_add_details mcad
-		where mca.order_status in ('1', '3')
-		and mca.delete_flag = '1'
-		and mcad.delete_flag = '1'
-		and mcad.operation_type = '1'
-		and mcad.warehouse_mgt_way in ('1', '2')
-		and mca.schema_name = mcad.schema_name
-		and mca.order_number = mcad.order_number
-		and sales_date between #{start} and #{end}
-		group by mca.schema_name, mca.org_id, mcad.commodity_code
-		union
-		select cr.schema_name, cr.org_id, crd.commodity_code
-		from market_commodity_returns cr, rket_commodity_returns_details crd
-		where cr.schema_name = crd.schema_name
-		and cr.order_number = crd.order_number
-		and cr.order_status in ('2', '4')
-		and cr.delete_flag = '1'
-		and crd.delete_flag = '1'
-		and crd.operation_type = '1'
-		and crd.warehouse_mgt_way in ('1', '2')
-		and returns_date between #{start} and #{end}
-		group by cr.schema_name, cr.org_id, crd.commodity_code
-		) tt1
-		left join
-		(select mca.schema_name,mca.org_id,mcad.commodity_code,
-		sum(mcad.commodity_num) saleOrderNum,
-		sum(mcad.commodity_num * mcad.commodity_price) saleOrderSum,
-		sum(mca.actual_amount) saleOrderDiscountSum,
-		sum(mcad.commodity_num * iii.in_price) allCost
-		from market_commodity_add mca,
-		market_commodity_add_details mcad,
-		inventory_item_info iii
-		where mca.order_status in ('1', '3')
-		and mca.delete_flag = '1'
-		and mcad.delete_flag = '1'
-		and iii.delete_flag = '1'
-		and mcad.operation_type = '1'
-		and mcad.warehouse_mgt_way in ('1', '2')
-		and mcad.complimentary_mark = '0'
-		and mca.schema_name = mcad.schema_name
-		and mca.order_number = mcad.order_number
-		and mca.schema_name = #{schemaName}
-		and (iii.info_content = mcad.commodity_imei or iii.info_content =
-		mcad.info_content)
-		and sales_date between #{start} and #{end}
-		group by mca.schema_name, mca.org_id, mcad.commodity_code) tt0
-		on tt1.schema_name = tt0.schema_name and tt1.org_id = tt0.org_id and
-		tt1.commodity_code = tt0.commodity_code
-		left join (select mca.schema_name,mca.org_id,mcad.commodity_code,
-		sum(mcad.commodity_num) giftSaleOrderNum
-		from market_commodity_add mca,
-		market_commodity_add_details mcad
-		where mca.order_status in ('1', '3')
-		and mca.delete_flag = '1'
-		and mcad.delete_flag = '1'
-		and mcad.operation_type = '1'
-		and mcad.warehouse_mgt_way in ('1', '2')
-		and mcad.complimentary_mark = '1'
-		and mca.schema_name = mcad.schema_name
-		and mca.order_number = mcad.order_number
-		and sales_date between #{start} and #{end}
-		group by mca.schema_name,mca.org_id,mcad.commodity_code) tt2
-		on tt1.schema_name = tt2.schema_name and tt1.org_id = tt2.org_id and
-		tt1.commodity_code = tt2.commodity_code
-		left join (select cr.schema_name,cr.org_id,crd.commodity_code,
-		sum(crd.commodity_num) returnOrderNum,
-		sum(crd.commodity_num * crd.commodity_price) returnOrderSum,
-		sum(crd.commodity_num * crd.commodity_price) returnCost
-		from market_commodity_returns cr,
-		rket_commodity_returns_details crd,
-		inventory_item_info iii
-		where cr.schema_name = crd.schema_name
-		and cr.order_number = crd.order_number
-		and (iii.info_content = crd.commodity_imei or iii.info_content =
-		crd.info_content)
-		and cr.order_status in ('2', '4')
-		and cr.delete_flag = '1'
-		and crd.delete_flag = '1'
-		and crd.operation_type = '1'
-		and iii.delete_flag = '1'
-		and crd.warehouse_mgt_way in ('1', '2')
-		and crd.complimentary_mark = '0'
-		and returns_date between #{start} and #{end}
-		group by cr.schema_name, cr.org_id, crd.commodity_code) tt3
-		on tt1.schema_name = tt3.schema_name and tt1.org_id = tt3.org_id and
-		tt1.commodity_code = tt3.commodity_code
-		left join (select cr.schema_name,cr.org_id,crd.commodity_code,
-		sum(crd.commodity_num) giftReturnOrderNum
-		from market_commodity_returns cr,
-		rket_commodity_returns_details crd
-		where cr.schema_name = crd.schema_name
-		and cr.order_number = crd.order_number
-		and cr.order_status in ('2', '4')
-		and cr.delete_flag = '1'
-		and crd.delete_flag = '1'
-		and crd.operation_type = '1'
-		and crd.warehouse_mgt_way in ('1', '2')
-		and crd.complimentary_mark = '1'
-		and returns_date between #{start} and #{end}
-		group by cr.schema_name, cr.org_id, crd.commodity_code) tt4
-		on tt1.schema_name = tt4.schema_name and tt1.org_id = tt4.org_id and
-		tt1.commodity_code = tt4.commodity_code) t,
-		c_commodity c
-		where c.schema_name = t.schemaName
-		and c.org_id = t.org_id
-		and c.commodity_code = t.commodity_code
-		and c.delete_flag = '1'
-		<if test="orgId==null and orgs.size()>0">
-			and t.org_id in
-			<foreach collection="orgs" open="(" close=")" item="org"
-				separator=",">
-				#{org}
-			</foreach>
-		</if>
-		<if test="orgId!=null and orgId!=''">
-			and t.org_id=#{orgId, jdbcType=VARCHAR}
-		</if>
-		<if test="commodityCode!=null and commodityCode!=''">
-			and c.commodity_code like '%'||#{commodityCode,
-			jdbcType=VARCHAR}||'%'
-		</if>
-		<if test="commodityName!=null and commodityName!=''">
-			and c.commodity_name like '%'||#{commodityName,
-			jdbcType=VARCHAR}||'%'
-		</if>
-		<if test="brandName!=null and brandName!=''">
-			and c.brand_code=#{brandName, jdbcType=VARCHAR}
-		</if>
-		<if test="catalogName!=null and catalogName!=''">
-			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
-		</if>
-		<if test="modelName!=null and modelName!=''">
-			and c.model_code=#{modelName, jdbcType=VARCHAR}
-		</if>
-		) tl where tl.saleOrderNum is not null or
-		tl.saleOrderSum is not null or
-		tl.saleOrderDiscountSum is not null or
-		tl.giftSaleOrderNum is not null or
-		tl.returnOrderNum is not null or
-		tl.returnOrderSum is not null or
-		tl.giftReturnOrderNum is not null or
-		tl.allCost is not null or
-		tl.returnCost is not null
+		select * from
+			(select
+				t.schemaName,t.org_id orgId,
+				(select t1.org_name from c_sys_organization t1 where c.schema_name = t1.schema_name and c.org_id = t1.pk_id) as orgName,
+				c.commodity_code commodityCode,
+				c.commodity_name commodityName,
+				saleOrderNum,saleOrderSum,giftSaleOrderNum,returnOrderNum,returnOrderSum,giftReturnOrderNum,allCost,returnCost,
+				(select t2.catalog_name from c_commodity_catalog t2 where t2.schema_name = c.schema_name and t2.catalog_code = c.catalog_code) catalogName,
+				(select t3.brand_name from c_commodity_brand t3 where t3.schema_name = c.schema_name and t3.brand_code = c.brand_code) brandName,
+				(select t4.model_name from c_commodity_model t4 where t4.schema_name = c.schema_name and t4.model_code = c.model_code) modelName
+			from
+				(select
+					tt1.schema_name schemaName,tt1.org_id,tt1.commodity_code,
+					saleOrderNum,saleOrderSum,giftSaleOrderNum,returnOrderNum,returnOrderSum,giftReturnOrderNum,allCost,returnCost
+				from
+					(select mca.schema_name, mca.org_id, mcad.commodity_code
+					from market_commodity_add mca, market_commodity_add_details mcad
+					where mca.order_status in ('1', '3') and mca.delete_flag = '1' and mcad.delete_flag = '1' and mcad.operation_type = '1'
+						and mcad.warehouse_mgt_way in ('1', '2') and mca.schema_name = mcad.schema_name and mca.order_number = mcad.order_number
+						and sales_date between #{start} and #{end} and mca.schema_name = #{schemaName}
+					group by mca.schema_name, mca.org_id, mcad.commodity_code
+					union
+					select cr.schema_name, cr.org_id, crd.commodity_code
+					from market_commodity_returns cr, rket_commodity_returns_details crd
+					where cr.schema_name = crd.schema_name and cr.order_number = crd.order_number and cr.order_status in ('2', '4')
+						and cr.delete_flag = '1' and crd.delete_flag = '1' and crd.operation_type = '1' and crd.warehouse_mgt_way in ('1', '2')
+						and returns_date between #{start} and #{end} and cr.schema_name = #{schemaName}
+					group by cr.schema_name, cr.org_id, crd.commodity_code
+					) tt1
+					left join
+					(select mca.schema_name,mca.org_id,mcad.commodity_code,
+				        sum(mcad.commodity_num) saleOrderNum,
+				        sum(mcad.commodity_num * mcad.commodity_price) saleOrderSum,
+				        sum(mcad.commodity_num * ii.price) allCost
+				      from market_commodity_add mca,market_commodity_add_details mcad,(
+				           select schema_name,commodity_info_id,cast(avg(inventory_cost) as decimal(18, 2)) price from inventory_item
+				           where delete_flag='1' and operation_type='1' and schema_name= #{schemaName}
+				           group by schema_name,commodity_info_id
+				      ) ii,c_commodity cc
+				      where mca.order_status in ('1', '3') and mca.delete_flag = '1' and mcad.delete_flag = '1'
+				        and mcad.operation_type = '1' and mcad.warehouse_mgt_way in ('1', '2') and mcad.complimentary_mark = '0' and mca.schema_name = mcad.schema_name
+				        and (cc.org_id=mca.org_id and cc.commodity_code = mcad.commodity_code) and ii.commodity_info_id = cc.pk_id and mca.schema_name=cc.schema_name and mca.schema_name=ii.schema_name
+				        and mca.order_number = mcad.order_number and mca.schema_name = #{schemaName}
+				        and sales_date between #{start} and #{end}
+				      group by mca.schema_name, mca.org_id, mcad.commodity_code) tt0
+					on tt1.schema_name = tt0.schema_name and tt1.org_id = tt0.org_id and tt1.commodity_code = tt0.commodity_code
+					left join
+					(select mca.schema_name,mca.org_id,mcad.commodity_code,
+						sum(mcad.commodity_num) giftSaleOrderNum
+					from market_commodity_add mca,market_commodity_add_details mcad
+					where mca.order_status in ('1', '3') and mca.delete_flag = '1' and mcad.delete_flag = '1' and mcad.operation_type = '1'
+						and mcad.warehouse_mgt_way in ('1', '2') and mcad.complimentary_mark = '1' and mca.schema_name = mcad.schema_name
+						and mca.order_number = mcad.order_number
+						and sales_date between #{start} and #{end} and mca.schema_name = #{schemaName}
+					group by mca.schema_name,mca.org_id,mcad.commodity_code) tt2
+					on tt1.schema_name = tt2.schema_name and tt1.org_id = tt2.org_id and tt1.commodity_code = tt2.commodity_code
+					left join (select cr.schema_name,cr.org_id,crd.commodity_code,
+						sum(crd.commodity_num) returnOrderNum,
+						sum(crd.commodity_num * crd.commodity_price) returnOrderSum,
+						sum(crd.commodity_num * ii.price) returnCost
+					from market_commodity_returns cr,rket_commodity_returns_details crd,(
+           select schema_name,commodity_info_id,cast(avg(inventory_cost) as decimal(18, 2)) price from inventory_item
+           where delete_flag='1' and operation_type='1' and schema_name= #{schemaName}
+           group by schema_name,commodity_info_id
+      ) ii,c_commodity cc
+					where cr.schema_name = crd.schema_name and cr.order_number = crd.order_number and crd.delete_flag = '1' and crd.complimentary_mark = '0'
+            and (cc.org_id=cr.org_id and cc.commodity_code = crd.commodity_code) and ii.commodity_info_id = cc.pk_id and cr.schema_name=cc.schema_name and cr.schema_name=ii.schema_name
+						and cr.order_status in ('2', '4') and cr.delete_flag = '1' and crd.operation_type = '1' and crd.warehouse_mgt_way in ('1', '2')
+						and returns_date between #{start} and #{end} and cr.schema_name = #{schemaName}
+					group by cr.schema_name, cr.org_id, crd.commodity_code) tt3
+					on tt1.schema_name = tt3.schema_name and tt1.org_id = tt3.org_id and tt1.commodity_code = tt3.commodity_code
+					left join (select cr.schema_name,cr.org_id,crd.commodity_code,
+						sum(crd.commodity_num) giftReturnOrderNum
+					from market_commodity_returns cr,rket_commodity_returns_details crd
+					where cr.schema_name = crd.schema_name and cr.order_number = crd.order_number and cr.delete_flag = '1' and crd.delete_flag = '1'
+						and cr.order_status in ('2', '4') and crd.operation_type = '1' and crd.warehouse_mgt_way in ('1', '2') and crd.complimentary_mark = '1'
+						and returns_date between #{start} and #{end} and cr.schema_name = #{schemaName}
+					group by cr.schema_name, cr.org_id, crd.commodity_code) tt4
+					on tt1.schema_name = tt4.schema_name and tt1.org_id = tt4.org_id and tt1.commodity_code = tt4.commodity_code
+				) t,c_commodity c
+				where c.schema_name = t.schemaName and c.org_id = t.org_id and c.commodity_code = t.commodity_code and c.delete_flag = '1'
+				<if test="orgId==null and orgs.size()>0">
+					and t.org_id in
+					<foreach collection="orgs" open="(" close=")" item="org"
+						separator=",">
+						#{org}
+					</foreach>
+				</if>
+				<if test="orgId!=null and orgId!=''">
+					and t.org_id=#{orgId, jdbcType=VARCHAR}
+				</if>
+				<if test="commodityCode!=null and commodityCode!=''">
+					and c.commodity_code like '%'||#{commodityCode,
+					jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="commodityName!=null and commodityName!=''">
+					and c.commodity_name like '%'||#{commodityName,
+					jdbcType=VARCHAR}||'%'
+				</if>
+				<if test="brandName!=null and brandName!=''">
+					and c.brand_code=#{brandName, jdbcType=VARCHAR}
+				</if>
+				<if test="catalogName!=null and catalogName!=''">
+					and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+				</if>
+				<if test="modelName!=null and modelName!=''">
+					and c.model_code=#{modelName, jdbcType=VARCHAR}
+				</if>
+				) tl where tl.saleOrderNum is not null or tl.saleOrderSum is not null or
+				  tl.returnOrderNum is not null or tl.returnOrderSum is not null or
+				  tl.allCost is not null or tl.returnCost is not null or
+				  tl.giftSaleOrderNum != tl.giftReturnOrderNum
 	</select>
 </mapper>

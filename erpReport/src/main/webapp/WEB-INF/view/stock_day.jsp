@@ -317,7 +317,7 @@
 					<!-- Unnamed (表格) -->
 					<div id="u11114" class="ax_default">
 						<div id="lays" class="easyui-layout"
-							style="width: 1090px; height: 520px">
+							style="width: 1090px; height: 540px">
 							<!-- 列表 -->
 							<div region="center" id="s">
 								<table id="stock"></table>
@@ -466,7 +466,7 @@ function search(){
 	$('#stock').datagrid({
 		idField:'stockDay',	//只要创建数据表格 就必须要加 ifField
 		fit:true,
-		height:450,
+		height:540,
 		url:'/getStockDay',
 		//fitColumns:true ,  
 		//striped: true ,	//隔行变色特性 

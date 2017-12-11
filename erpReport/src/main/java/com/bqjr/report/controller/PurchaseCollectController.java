@@ -182,8 +182,9 @@ public class PurchaseCollectController {
 	@RequestMapping("/getBusinessList")
 	@ResponseBody
 	public String getBusinessList(HttpServletRequest request){
+		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
 		String businessType=request.getParameter("businessType");
-		return service.getBusinessList(schemaName,businessType);
+		return service.getBusinessList(orgId,schemaName,businessType);
 	}
 }

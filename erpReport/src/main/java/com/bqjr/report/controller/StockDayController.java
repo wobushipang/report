@@ -56,11 +56,11 @@ public class StockDayController {
 	public ModelAndView redirect(String orgId, String openId, String schemaName) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (orgId == null)
-			orgId = "BQJR999_G000000002";
+			orgId = "BQJR999_G000000006";
 		if (openId == null)
 			openId = "";
 		if (schemaName == null)
-			schemaName = "bqjr_erp_0000000002";
+			schemaName = "bqjr_erp_0000000006";
 		map.put("orgId", orgId);
 		map.put("openId", openId);
 		map.put("schemaName", schemaName);

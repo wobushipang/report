@@ -355,6 +355,9 @@
 		select t.business_id as businessId,t.business_name as businessName
 		from finance_org_business_type t where t.delete_flag=1 and t.status=1
 		and t.schema_name=#{schemaName}
+		<if test="orgId!=null and orgId!='' and orgId!=0">
+			and t.org_id=#{orgId}
+		</if>
 		<if test="businessType!=null and businessType!='' and businessType!=0">
 			and t.business_type=#{businessType}
 		</if>
