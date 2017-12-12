@@ -90,37 +90,14 @@
 				</if>
 				<if test="orgId!=null and orgId!=''">
 					and org_id=#{orgId, jdbcType=VARCHAR}
-				</if>
-				<if test="businessId != null">
-					and business_id=#{businessId}
-				</if>
+				</if>	
 		   ) t
 		   left join nance_org_other_balance_detail no
 		    on t.pk_id=no.other_income_id and no.delete_flag='1'
-		    group by t.schema_name,t.org_id,t.org_name,no.business_id,no.business_name
-	</select>
-
-	<select id="getInfoByBusinessType" parameterType="com.bqjr.report.model.SearchCondition"
-		resultType="com.bqjr.report.model.OrganizationBudget">
-		select schema_name,org_id,org_name orgName,decode(other_income_id,null,'支出','收入') businessType,business_id,business_name businessName,sum(total) money
-	    from nance_org_other_balance_detail
-	    where delete_flag='1'
-	    and schema_name=#{schemaName}
-	    <if test="orgId==null and orgs.size()>0">
-	      and org_id in
-	      <foreach collection="orgs" open="(" close=")" item="org"
-	        separator=",">
-	        #{org}
-	      </foreach>
-	    </if>
-	    <if test="orgId!=null and orgId!=''">
-	      and org_id=#{orgId, jdbcType=VARCHAR}
-	    </if>
-	    <if test="businessId != null">
-	      and business_id=#{businessId}
+		    <if test="businessId != null">
+				and no.business_id=#{businessId}
 			</if>
-			and last_up_time between #{start} and #{end}
-	    group by schema_name,org_id,org_name,business_id,business_name,decode(other_income_id,null,'支出','收入')
+		    group by t.schema_name,t.org_id,t.org_name,no.business_id,no.business_name
 	</select>
 
 	<select id="getStockDayList" parameterType="com.bqjr.report.model.SearchCondition"

@@ -28,5 +28,5 @@ public interface PurchaseCollectService {
 	
 	public String getModelList(String id,String schemaName,String modelCode);
 	
-	public String getBusinessList(String id,String schemaName, String businessType);
+	public String getBusinessList(String orgId,String schemaName, String businessType);
 }

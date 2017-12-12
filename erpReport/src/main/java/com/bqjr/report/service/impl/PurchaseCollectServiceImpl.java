@@ -297,8 +297,9 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 	}
 
 	@Override
-	public String getBusinessList(String id,String schemaName, String businessType) {
-		List<SearchCondition> list = mapper.getBusinessList(id,schemaName, businessType);
+	public String getBusinessList(String orgId,String schemaName, String businessType) {
+		if(StringUtils.equals(orgId, "") || StringUtils.equals(orgId, "0")) orgId=null;
+		List<SearchCondition> list = mapper.getBusinessList(orgId,schemaName, businessType);
 		List<Option> listStages = new ArrayList<Option>();
 		Option d = new Option();
 		d.setId("0");

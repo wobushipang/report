@@ -353,10 +353,13 @@
 
 	<select id="getBusinessList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.business_id as businessId,t.business_name as businessName
-		from finance_org_business_type t where t.delete_flag=1 and t.status=1
+		from finance_org_business_type t where t.delete_flag='1' and t.status='1'
 		and t.schema_name=#{schemaName}
+		<if test="orgId!=null and orgId!=''">
+			and t.org_id=#{orgId,jdbcType=VARCHAR}
+		</if>
 		<if test="businessType!=null and businessType!='' and businessType!=0">
-			and t.business_type=#{businessType}
+			and t.business_type=#{businessType,jdbcType=VARCHAR}
 		</if>
 	</select>
 

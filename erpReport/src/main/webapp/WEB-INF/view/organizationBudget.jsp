@@ -410,12 +410,21 @@
 	    var orgId=$('#orgId').val();
 	  	var openId=$('#openId').val();
 	  	var schemaName=$('#schemaName').val();
-		$('#u20905_input').combobox({
+	  	$('#u20905_input').combobox({
 			url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,
-			width : '190'
+			width : '190',
+			onChange:function(value){
+				$('#u20902_input').combobox({
+					url:'<%=path%>/getBusinessList?businessType='+ $('#u20912_input').combobox('getValue')+'&schemaName='+schemaName+'&orgId='+value,
+					valueField:'id',
+					textField:'text',
+					editable:false ,
+					width : '190',
+				});
+			}
 		});
 		$('#u20912_input').combobox({
 			valueField:'id',
@@ -426,7 +435,7 @@
 			data : [{"id":"0","text":"请选择","selected":true},{"id":"1","text":"收入"},{"id":"2","text":"支出"}],
 			onChange:function(value){
 				$('#u20902_input').combobox({
-					url:'<%=path%>/getBusinessList?businessType='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+					url:'<%=path%>/getBusinessList?businessType='+ value+'&schemaName='+schemaName+'&orgId='+$('#u20905_input').combobox('getValue'),
 					valueField:'id',
 					textField:'text',
 					editable:false ,
@@ -435,8 +444,7 @@
 			}
 		});
 		$('#u20902_input').combobox({
-			url:'<%=path%>/getBusinessList?orgId='+orgId+'&schemaName='+schemaName+'&businessType='
-					+ $('#u20912_input').combobox('getValue'),
+			url:'<%=path%>/getBusinessList?orgId='+$('#u20905_input').combobox('getValue')+'&schemaName='+schemaName+'&businessType='+ $('#u20912_input').combobox('getValue'),
 			valueField:'id',
 			textField:'text',
 			editable:false ,
