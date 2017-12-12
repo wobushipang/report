@@ -75,7 +75,7 @@
 		and pwi.warehouse_in_status = 1
 		and pwi.schema_name = #{schemaName}
 		and wic.delete_flag = 1
-		and substr(wic.create_time ,1,10) between #{start} and #{end}
+		and substr(pwi.warehouse_in_date ,1,10) between #{start} and #{end}
 
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
@@ -115,7 +115,7 @@
 		and pr.refunds_status = 1
 		and prc.delete_flag = 1
 		and prc.schema_name = #{schemaName}
-		and substr(pr.create_time,1,10)
+		and substr(pr.refunds_status,1,10)
 		between #{start} and #{end}
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
@@ -153,7 +153,7 @@
 		po.delete_flag = 1
 		and po.purchase_status = 4
 		and
-		substr(poc.create_time,1,10) between #{start} and #{end}
+		substr(po.purchase_date,1,10) between #{start} and #{end}
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
 				and po.purchase_org_id in
@@ -196,7 +196,7 @@
 		and peic.delete_flag = 1
 		and pe.schema_name = #{schemaName}
 		and
-		substr(peic.create_time,1,10)between #{start} and #{end}
+		substr(pe.exchange_date,1,10)between #{start} and #{end}
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
 				and pe.org_id in
@@ -235,7 +235,7 @@
 		and peoc.delete_flag = 1
 		and pe.schema_name = #{schemaName}
 		and
-		substr(peoc.create_time,1,10)between #{start} and #{end}
+		substr(pe.exchange_date,1,10)between #{start} and #{end}
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
 				and pe.org_id in
