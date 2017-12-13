@@ -1282,7 +1282,7 @@
 		<!-- and ii.supplier_id=#{supplierId} -->
 		select supplier,inventoryInTime,operationType,infoContent,infoType,unsalable_days from(
 		select ii.supplier_name  supplier,
-       (select min(i.create_time) create_time from inventory_item_info i where iii.info_content = i.info_content and rownum=1
+       (select min(i.create_time) create_time from inventory_item_info i where iii.info_content = i.info_content
        group by i.info_content)  inventoryInTime,
        ii.operation_type operationType,
        sew.unsalable_days,
