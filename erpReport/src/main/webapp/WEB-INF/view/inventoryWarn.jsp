@@ -1190,12 +1190,14 @@ p {
 }
 	
 	//计算天数差的函数，通用  
-	   function  DateDiff(s1){    
-		   s1 = new Date(s1/* .replace(/-/g, '/') */);
+	   function  DateDiff(s1){  
+		   s1=s1.substring(0,10);
+		   s1 = new Date(s1);
 		   s2 = new Date();//当前日期
 		   var days = s2.getTime() - s1.getTime();
 		   var time = parseInt(days / (1000 * 60 * 60 * 24));
 	       return  time  
-	   }    
+	   }  
+	   
   </script>
 </html>
