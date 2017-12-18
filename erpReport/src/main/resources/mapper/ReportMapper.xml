@@ -1208,7 +1208,7 @@
 
 	<select id="getSpecList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.commodity_code commodityCode,t.org_id orgId, (select
-		cs.spec_name from c_commodity_spec cs where <!-- cs.delete_flag=1 --><!--  and -->
+		cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and 
 		cs.schema_name=t.schema_name <!-- and cs.status=2 --> and
 		cs.spec_code=t.spec_code) as specName,
 		(select csi.spec_item_name from
@@ -1217,7 +1217,7 @@
 		csi.schema_name=t.schema_name and
 		csi.spec_item_code=t.spec_item_code)
 		as specItem
-		from c_commodity2spec t where <!-- t.delete_flag=1 and -->
+		from c_commodity2spec t where t.delete_flag=1 and
 		t.commodity_code in
 		<foreach collection="codes" open="(" close=")" separator=","
 			item="item">
