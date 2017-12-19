@@ -958,7 +958,7 @@
 
 	<select id="getInventoryWarnList" resultType="com.bqjr.report.model.InventoryWarn"
 		parameterType="com.bqjr.report.model.SearchCondition">
-		select
+		<!-- select
 		tt2.commodityName commodityName,
 		tt2.commodityCode commodityCode,
 		tt2.org_id orgId,
@@ -986,23 +986,23 @@
 		t1.pk_id commodity_id,
 		(select t2.brand_name
 		from
-		c_commodity_brand t2 where <!-- t2.status=2 and -->
+		c_commodity_brand t2 where t2.status=2 and
 		t2.delete_flag=1 and
-		<!-- t2.from_type=t1.from_type and -->
+		t2.from_type=t1.from_type and
 		t1.schema_name=t2.schema_name and
 		t2.brand_code=t1.brand_code) as
 		brandName,
 		(select t3.catalog_name from
-		c_commodity_catalog t3 where <!-- t3.status=2 and -->
+		c_commodity_catalog t3 where t3.status=2 and
 		t3.delete_flag=1 and
-		<!-- t3.from_type=t1.from_type and -->
+		t3.from_type=t1.from_type and
 		t1.schema_name=t3.schema_name and
 		t3.catalog_code=t1.catalog_code) as
 		catalogName,
 		(select t4.model_name
-		from c_commodity_model t4 where <!-- t4.status=2 and -->
+		from c_commodity_model t4 where t4.status=2 and
 		t4.delete_flag=1 and
-		<!-- t4.from_type=t1.from_type and -->
+		t4.from_type=t1.from_type and
 		t1.schema_name=t4.schema_name and
 		t4.model_code=t1.model_code ) as
 		modelName,
@@ -1014,14 +1014,9 @@
 		(select swi.wh_name from storage_warehouse_info swi where
 		swi.pk_id=tt1.warehouse_id) as wh_name
 
-		from
-		(select ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
-		from inventory_item ii where <!-- ii.delete_flag=1
-		and -->
-		ii.schema_name=#{schemaName}
-		group by ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id)tt1
+		from(
+		select * from
+		storage_early_warning sew
 		
 		, c_commodity t1
 		where 1=1
@@ -1053,20 +1048,132 @@
 			and t1.org_id = #{orgId,jdbcType=VARCHAR}
 		</if>
 		<if test="warehouseId!=null and warehouseId!=''">
-			and tt1.warehouse_id=#{warehouseId,jdbcType=VARCHAR}
+			and sew.wh_code=#{warehouseId,jdbcType=VARCHAR}
 		</if>
-		and tt1.commodity_info_id=t1.pk_id) tt2 ,
-		storage_early_warning sew
-		where sew.commodity_code=tt2.commodityCode
-		and sew.delete_flag=1
-		and
-		sew.org_id=tt2.org_id
-		and sew.safe_stock>tt2.count1
-
-		and
-		sew.schema_name=tt2.schema_name
-		and sew.wh_code=tt2.wh_code
-
+		and sew.commodity_code=t1.commodity_code and sew.org_id=t1.org_id) tt2 left join
+		(select ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
+		from inventory_item ii where ii.delete_flag=1
+		and1=1
+		ii.schema_name=#{schemaName}
+		group by ii.schema_name,
+		ii.commodity_info_id,ii.warehouse_id)tt1
+		on tt1.commodity_code=tt2.commodityCode
+		and sew.delete_flag=1		
+		and tt1.org_id=tt2.org_id
+		and tt1.safe_stock>tt2.count1
+		and tt1.schema_name=tt2.schema_name
+		and tt1.wh_code=tt2.wh_code -->
+		
+		select
+    tt2.commodityName commodityName,
+    tt2.commodityCode commodityCode,
+    tt2.org_id orgId,
+    (select o.org_name from c_sys_organization o where
+    o.pk_id=tt2.org_id)as
+    orgName,
+    tt2.commodity_id commodityId,
+    tt2.catalogName catalogName,
+    tt2.brandName brandName,
+    tt2.modelName
+    modelName,
+    tt2.schema_name schemaName,
+    tt2.warehouse_id whId,
+    nvl(tt1.count1,0)
+    inventoryNum,
+    tt2.safeInventory
+    safeInventory,tt2.unsalableDays unsalableDays ,
+    tt2.warehouse_id,
+    
+    (select swi.wh_name from storage_warehouse_info swi where
+    swi.pk_id=tt2.warehouse_id) as whName
+    from
+    
+    (select
+    sew.schema_name,
+    t1.commodity_name commodityName,
+    t1.commodity_code
+    commodityCode,
+    t1.org_id,
+    t1.pk_id commodity_id,
+    (select t2.brand_name
+    from
+    c_commodity_brand t2 where 
+    t2.delete_flag=1 and
+    
+    t1.schema_name=t2.schema_name and
+    t2.brand_code=t1.brand_code) as
+    brandName,
+    (select t3.catalog_name from
+    c_commodity_catalog t3 where 
+    t3.delete_flag=1 and
+    
+    t1.schema_name=t3.schema_name and
+    t3.catalog_code=t1.catalog_code) as
+    catalogName,
+    (select t4.model_name
+    from c_commodity_model t4 where 
+    t4.delete_flag=1 and
+    
+    t1.schema_name=t4.schema_name and
+    t4.model_code=t1.model_code ) as
+    modelName,
+    sew.safe_stock
+    safeInventory,sew.unsalable_days unsalableDays ,
+    (select swi.pk_id from
+    storage_warehouse_info swi where
+    swi.wh_code=sew.wh_code and swi.org_id=sew.org_id) as
+    warehouse_id
+    from
+    storage_early_warning sew  
+    , c_commodity t1
+    where 1=1
+    and sew.delete_flag='1'
+    and t1.delete_flag='1'
+    <if test="commodityCode!=null and commodityCode!=''">
+			and t1.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and t1.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and t1.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and t1.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and t1.model_code=#{modelName, jdbcType=VARCHAR}
+		</if>
+		<if test="orgId==null and orgs.size()>0">
+			and t1.org_id in
+			<foreach collection="orgs" open="(" close=")" item="org"
+				separator=",">
+				#{org,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+		<if test="orgId!=null">
+			and t1.org_id = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="warehouseId!=null and warehouseId!=''">
+			and sew.wh_code=(select swi.wh_code from
+		storage_warehouse_info swi where
+		swi.pk_id=#{warehouseId,jdbcType=VARCHAR})
+		</if>
+    and sew.commodity_code=t1.commodity_code and sew.org_id=t1.org_id and sew.schema_name=#{schemaName,jdbcType=VARCHAR}) tt2 left join
+    
+    (select ii.schema_name,
+    ii.commodity_info_id,ii.warehouse_id,sum(ii.quantity_on_hand) count1
+    from inventory_item ii     
+    group by ii.schema_name,
+    ii.commodity_info_id,ii.warehouse_id)tt1
+    on tt1.commodity_info_id=tt2.commodity_id
+    and tt2.safeInventory>tt1.count1
+    and tt1.schema_name=tt2.schema_name
+    and tt1.warehouse_id=tt2.warehouse_id
+		
 
 
 	</select>
