@@ -1065,6 +1065,20 @@
 		and tt1.schema_name=tt2.schema_name
 		and tt1.wh_code=tt2.wh_code -->
 		
+		select 
+		 commodityName,
+     commodityCode,
+     orgId,
+    orgName,
+     commodityId,
+     catalogName,
+     brandName,
+    modelName,
+     schemaName,
+    whId,
+    inventoryNum,    
+    safeInventory, unsalableDays,whName
+		from(
 		select
     tt2.commodityName commodityName,
     tt2.commodityCode commodityCode,
@@ -1079,7 +1093,7 @@
     modelName,
     tt2.schema_name schemaName,
     tt2.warehouse_id whId,
-    nvl(tt1.count1,0)
+    nvl(tt1.count1,'0')
     inventoryNum,
     tt2.safeInventory
     safeInventory,tt2.unsalableDays unsalableDays ,
@@ -1170,9 +1184,9 @@
     group by ii.schema_name,
     ii.commodity_info_id,ii.warehouse_id)tt1
     on tt1.commodity_info_id=tt2.commodity_id
-    and tt2.safeInventory>tt1.count1
+    <!-- and tt2.safeInventory>tt1.count1 -->
     and tt1.schema_name=tt2.schema_name
-    and tt1.warehouse_id=tt2.warehouse_id
+    and tt1.warehouse_id=tt2.warehouse_id) where safeInventory > inventoryNum
 		
 
 
