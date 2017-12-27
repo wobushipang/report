@@ -732,7 +732,7 @@
 							field:'spec' , 
 							title:'规格' , 
 							align : 'center',
-							width:150,
+							width:200,
 							formatter: function(value){
 								if(value==null)return;
 								var strs= new Array(); //定义一数组 
