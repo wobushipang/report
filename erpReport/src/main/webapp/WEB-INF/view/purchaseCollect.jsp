@@ -726,7 +726,7 @@
 							field:'modelName' , 
 							title:'型号名称' , 
 							align : 'center',
-							width:150,
+							width:200,
 							
 						},{
 							field:'spec' , 

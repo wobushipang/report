@@ -417,9 +417,7 @@ p {
 		<div id="layD" class="easyui-layout"
 			style="width: 645px; height: 390px">
 			<!-- 列表 -->
-			<div region="center" id="d">
 				<table id="detail" class="easyui-datagrid"></table>
-			</div>
 		</div>
 	</div>
 	<div id="win1" class="easyui-window" title="串号详情" maximizable="false"
@@ -675,7 +673,7 @@ p {
 							field:'spec' , 
 							title:'规格' , 
 							align : 'center',
-							width:150,
+							width:200,
 							formatter: function(value){
 								if(value==null)return;
 								var strs= new Array(); //定义一数组 
@@ -897,7 +895,7 @@ p {
 											field:'spec' , 
 											title:'规格' , 
 											align : 'center',
-											width:150,
+											width:200,
 											formatter: function(value){
 												var strs= new Array(); //定义一数组 
 												var a=' <br/>'
