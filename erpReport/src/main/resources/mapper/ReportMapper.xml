@@ -1344,7 +1344,7 @@
 			item="item">
 			#{item}
 		</foreach>
-		and t.schema_name=#{schemaName}
+		and t.schema_name=#{schemaName} order by t.spec_code
 	</select>
 
 	<select id="getDetail" resultType="com.bqjr.report.model.InventoryWarn">
