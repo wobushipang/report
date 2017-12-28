@@ -133,7 +133,7 @@ p {
 
 						<!-- Unnamed (文本框) -->
 						<div id="u11266" class="ax_default text_field">
-							<input id="u11266_input" type="text" placeholder="请输入商品编号" />
+							<input id="u11266_input" type="text"  class="easyui-textbox"  data-options="prompt:'请输入商品编号'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -240,7 +240,7 @@ p {
 
 						<!-- Unnamed (文本框) -->
 						<div id="u11286" class="ax_default text_field">
-							<input id="u11286_input" type="text" placeholder="请输入商品名称" />
+							<input id="u11286_input" type="text" class="easyui-textbox"  data-options="prompt:'请输入商品名称'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->

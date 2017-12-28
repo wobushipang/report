@@ -151,7 +151,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7281" class="ax_default text_field">
-              <input id="u7281_input" name="commodityCode" type="text" placeholder="请输入商品编号"/>
+              <input id="u7281_input" name="commodityCode" type="text" class="easyui-textbox"  data-options="prompt:'请输入商品编号'" />
             </div>
 
             <!-- Unnamed (矩形) -->
@@ -267,7 +267,7 @@
 
             <!-- Unnamed (文本框) -->
             <div id="u7306" class="ax_default text_field">
-              <input id="u7306_input" type="text" value="" placeholder="请输入商品名称"/>
+              <input id="u7306_input" type="text" value="" class="easyui-textbox"  data-options="prompt:'请输入商品名称'" />
             </div>
 
             <!-- Unnamed (矩形) -->
