@@ -120,7 +120,7 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 					if(StringUtils.equals("1", p.getPriceMethod())) {
 						p.setChargeAmount(new BigDecimal(p.getDiscountsAmount()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
 					}else {
-						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
+						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("1"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
 					}
 				}
 				codes.add(p.getCommodityCode());
