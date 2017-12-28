@@ -134,11 +134,11 @@ public class PurchaseCollectController {
 		String schemaName=request.getParameter("schemaName");
 		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId)||StringUtils.equals(orgId, "null"))orgId=org;
 		if(StringUtils.isNotEmpty(orgId)) {
-			List<Organization> orgs=con.organizationList(orgId);
+			/*List<Organization> orgs=con.organizationList(orgId);
 			for (Organization organization : orgs) {
 				String o=organization.getPkId();
 				strs.add(o);
-			}
+			}*/
 			List<Organization> orgss=con.upOrganizationList(orgId);
 			if(orgss.size()>0) {
 				for (Organization organization : orgss) {
