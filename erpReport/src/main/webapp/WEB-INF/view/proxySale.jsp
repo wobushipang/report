@@ -495,6 +495,8 @@
 				panelHeight:'auto',
 				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
 		 });
+		 $('#u20183_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+		 $('#u20186_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	  }); 
   
   function search(){
@@ -833,24 +835,29 @@
 		var orgId=$('#orgId').val();
 	  	var openId=$('#openId').val();
 	  	var schemaName=$('#schemaName').val();
-	  	$('#mysearch').form('clear');
+	  	//$('#mysearch').form('clear');
+	  	$('#u20183_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+		$('#u20186_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+		$('#u20189_input').textbox('setValue','');
+		$('#u20208_input').textbox('setValue','');
 		$('#u20200_input').combobox({
 			url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,
+			//async:false,
 			width : '190',
 			//panelHeight:'auto'
 
-		});
-		$('#u20211_input').combobox({
+		}); 
+		<%-- $('#u20211_input').combobox({
 			url:'<%=path%>/getSupplierList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
 			textField:'text',
 			editable:false ,
 			width : '190',
 			panelHeight:'auto'
-		});
+		}); --%>
 		$('#u20196_input').combobox({
 			url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
@@ -888,5 +895,12 @@
 				data : [{"id":"1","text":"商品汇总","selected":true},{"id":"2","text":"供应商汇总"}],
 		 });
 	})
+	//得到当前日期
+	formatterDate = function(date) {
+		var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+		var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+			+ (date.getMonth() + 1);
+		return date.getFullYear() + '-' + month + '-' + day;
+		};
   </script>
 </html>
