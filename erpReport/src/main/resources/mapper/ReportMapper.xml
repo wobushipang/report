@@ -301,7 +301,7 @@
 	</select>
 	<select id="getSupplierList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.pk_id as supplierId ,t.supplier_name as
-		supplierName,t.supplier_code from
+		supplierName,t.supplier_code, t.operation_type operationType from
 		purchase_supplier t ,
 		purchase_supplier_org_relation r
 		where t.delete_flag=1
@@ -318,7 +318,7 @@
 		</if>
 		and t.schema_name=#{schemaName}
 		group by t.pk_id ,t.supplier_name
-		,t.supplier_code
+		,t.supplier_code,t.operation_type
 	</select>
 	<select id="getCatalogList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.catalog_code as

@@ -409,7 +409,7 @@
 			//panelHeight:'auto'
 			onChange:function(value){
 				$('#u20211_input').combobox({
-					url:'<%=path%>/getAllSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
+					url:'<%=path%>/getSupplierList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 					valueField:'id',
 					textField:'text',
 					editable:false ,

@@ -22,6 +22,8 @@ public interface PurchaseCollectService {
 	
 	public String getSupplierList(List<String> strs,String schemaName);
 	
+	public String getProxySupplierList(List<String> strs, String schemaName);
+	
 	public String getCatalogList(String id,String schemaName);
 	
 	public String getBrandList(String id,String schemaName,String catalogCode);

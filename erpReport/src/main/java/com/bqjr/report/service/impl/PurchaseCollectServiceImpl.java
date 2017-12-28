@@ -316,4 +316,25 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 		}
 		return JSON.toJSONString(listStages);
 	}
+
+	@Override
+	public String getProxySupplierList(List<String> strs, String schemaName) {
+		if(strs.size()==0)strs=null;
+		List<SearchCondition> list = mapper.getSupplierList(strs, schemaName);
+		List<Option> listStages = new ArrayList<Option>();
+		Option d = new Option();
+		d.setId("0");
+		d.setText("请选择");
+		d.setSelected(true);
+		listStages.add(d);
+		for (SearchCondition dic : list) {
+			if(StringUtils.equals("2", dic.getOperationType())) {
+				Option opt = new Option();
+				opt.setId(dic.getSupplierId());
+				opt.setText(dic.getSupplierName());
+				listStages.add(opt);
+			}
+		}
+		return JSON.toJSONString(listStages);
+	}
 }
