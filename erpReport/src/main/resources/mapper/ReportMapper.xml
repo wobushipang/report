@@ -722,18 +722,17 @@
 
 		left join
 		<!-- 库存数量 -->
-		(select ii.schema_name,ii.supplier_id
+		(select ii.schema_name,ii.supplier_id,swi.org_id
 		<if test="type==1">,ii.commodity_info_id</if>
-		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii where
+		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii,storage_warehouse_info swi where
 		ii.delete_flag='1' and ii.operation_type='2'
-		<!-- and
-		substr(ii.last_up_time,1,10) between
-		#{start} and #{end} -->
+		and ii.warehouse_id=swi.pk_id
 		group by
-		ii.schema_name,ii.supplier_id
+		ii.schema_name,ii.supplier_id,swi.org_id
 		<if test="type==1">,ii.commodity_info_id</if>
 		) tt5
 		on tt1.schema_name = tt5.schema_name
+		and tt1.org_id=tt5.org_id
 		and
 		tt1.supplier_id=tt5.supplier_id
 		<if test="type==1">
