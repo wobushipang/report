@@ -454,7 +454,6 @@
 			width : '190',
 			//panelHeight:'auto',
 			onChange:function(value){
-		    	if(value!='0'){
 		    		//品牌
 					 $('#u7289_input').combobox({
 					    valueField:'id', //值字段
@@ -479,7 +478,6 @@
 						    }
 					    	}
 					 }); 
-			    }
 		    	}
 				
 		});

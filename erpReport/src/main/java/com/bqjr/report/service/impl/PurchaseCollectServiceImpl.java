@@ -260,6 +260,7 @@ public class PurchaseCollectServiceImpl implements PurchaseCollectService {
 
 	@Override
 	public String getBrandList(String id, String schemaName, String catalogCode) {
+		if(StringUtils.equals("0", catalogCode))catalogCode=null;
 		List<SearchCondition> list = mapper.getBrandList(id, schemaName, catalogCode);
 		List<Option> listStages = new ArrayList<Option>();
 		Option d = new Option();
