@@ -34,6 +34,9 @@ public class OrganizationBudget implements Serializable {
 	private String money;
 	private String income;
 	private String expend;
+	private String sumIncome;
+	private String sumExpend;
+	private String sumMoney;
 	
 	public String getSchemaName() {
 		return schemaName;
@@ -82,5 +85,23 @@ public class OrganizationBudget implements Serializable {
 	}
 	public void setExpend(String expend) {
 		this.expend = expend;
+	}
+	public String getSumIncome() {
+		return sumIncome;
+	}
+	public void setSumIncome(String sumIncome) {
+		this.sumIncome = sumIncome;
+	}
+	public String getSumExpend() {
+		return sumExpend;
+	}
+	public void setSumExpend(String sumExpend) {
+		this.sumExpend = sumExpend;
+	}
+	public String getSumMoney() {
+		return sumMoney;
+	}
+	public void setSumMoney(String sumMoney) {
+		this.sumMoney = sumMoney;
 	}
 }

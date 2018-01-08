@@ -26,6 +26,7 @@ public class Organization {
 	private String pkId;
 	private String parentId;
 	private String orgName;
+	private String virtualNode;
 	public String getPkId() {
 		return pkId;
 	}
@@ -43,5 +44,11 @@ public class Organization {
 	}
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+	public String getVirtualNode() {
+		return virtualNode;
+	}
+	public void setVirtualNode(String virtualNode) {
+		this.virtualNode = virtualNode;
 	}
 }

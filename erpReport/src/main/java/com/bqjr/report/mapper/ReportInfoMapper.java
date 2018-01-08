@@ -65,6 +65,8 @@ public interface ReportInfoMapper {
 	 * @return
 	 */
 	public List<OrganizationBudget> getExpendByBusinessType(SearchCondition condition);
+	
+	public List<OrganizationBudget> getIncomeAndExpend(SearchCondition condition);	
 
 	public List<StockDay> getStockDayList(SearchCondition condition);
 

@@ -158,8 +158,7 @@
 
 						<!-- 商品编号 (文本框) -->
 						<div id="u15736" class="ax_default text_field">
-							<input id="u15736_input" name="commodityCode" type="text"
-								placeholder="请输入商品编号" />
+							<input id="u15736_input" name="commodityCode" type="text" class="easyui-textbox" data-options="prompt:'请输入商品编号'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -272,14 +271,12 @@
 
 						<!-- 商品名称 (文本框) -->
 						<div id="u15757" class="ax_default text_field">
-							<input id="u15757_input" name="commodityName" type="text"
-								placeholder="请输入商品名称" />
+							<input id="u15757_input" name="commodityName" type="text" class="easyui-textbox" data-options="prompt:'请输入商品名称'" />
 						</div>
 
 						<!-- 会员手机 (文本框) -->
 						<div id="u15758" class="ax_default text_field">
-							<input id="u15758_input" name="memberMobilePhone" type="text"
-								placeholder="请输入会员手机号" />
+							<input id="u15758_input" name="memberMobilePhone" type="text" class="easyui-textbox" data-options="prompt:'请输入会员手机号'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -295,8 +292,7 @@
 
 						<!-- 会员姓名 (文本框) -->
 						<div id="u15761" class="ax_default text_field">
-							<input id="u15761_input" name="memberName" type="text"
-								placeholder="请输入会员姓名" />
+							<input id="u15761_input" name="memberName" type="text" class="easyui-textbox" data-options="prompt:'请输入会员姓名'" />
 						</div>
 					</form>
 				</div>
@@ -375,6 +371,8 @@ $(function(){
 	var orgId=$('#orgId').val();
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
+	$('#u15730_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u15733_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	//组织机构
 	$('#u15747_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
@@ -393,7 +391,7 @@ $(function(){
 		width:'190',
 		//panelHeight:'auto',
 		onChange:function(value){
-		    if(value!='0'){
+		    //if(value!='0'){
 		    	//品牌
 				$('#u15744_input').combobox({
 					valueField:'id', //值字段
@@ -416,7 +414,7 @@ $(function(){
 						}
 					 }
 				}); 
-			}
+			//}
 		}
 	});
 	//品牌
@@ -484,7 +482,9 @@ function search(){
 		//nowrap: false ,	//折行显示 为true 显示在一会 
 		loadMsg: '数据正在加载,请耐心等待...',
 		rownumbers:true,
-		showFooter:true,
+		emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
+		//showFooter:true,
+		nowrap:false,
 		queryParams: {
 			schemaName:schemaName,
 			orgId:orgId,
@@ -607,19 +607,19 @@ function search(){
 			field:'brandName', 
 			title:'品牌名称', 
 			align:'center',
-			width:150	
+			width:200	
 		},
 		{
 			field:'modelName', 
 			title:'型号名称', 
 			align:'center',
-			width:150
+			width:200
 		},
 		{
 			field:'spec' , 
 			title:'规格' , 
 			align : 'center',
-			width:150,
+			width:200,
 			formatter: function(value){
 				var strs= new Array(); //定义一数组 
 				var a=' <br/>'
@@ -670,6 +670,8 @@ $('#u15729_input').click(function(){
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
 	$('#mysearch').form('clear');
+	$('#u15730_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u15733_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	$('#u15747_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName,
 		valueField:'id',
@@ -736,5 +738,12 @@ $('#u15729_input').click(function(){
 		//panelHeight:'auto'
 	});
 });
+//得到当前日期
+formatterDate = function(date) {
+	var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+	var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+		+ (date.getMonth() + 1);
+	return date.getFullYear() + '-' + month + '-' + day;
+	};
 </script>
 </html>

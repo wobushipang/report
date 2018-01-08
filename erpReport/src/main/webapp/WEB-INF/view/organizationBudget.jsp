@@ -410,6 +410,8 @@
 	    var orgId=$('#orgId').val();
 	  	var openId=$('#openId').val();
 	  	var schemaName=$('#schemaName').val();
+	  	$('#u20896_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+		$('#u20899_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	  	$('#u20905_input').combobox({
 			url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 			valueField:'id',
@@ -537,6 +539,30 @@
 						pagination: true, 
 						pageSize: 10,
 						pageList:[10],
+						/* onLoadSuccess:function(data){
+							$.ajax({
+								dataType : 'text',
+								url: '/getOrganizationBudgetList',
+								data:{
+									schemaName:schemaName,
+									orgId:orgId,
+									businessType:businessType,
+									businessId:businessName,
+						            type:type,
+						            startDate:start,
+						            endDate:end,
+						            orgName:org
+								},
+								type : 'get',
+								success : function(data) {
+									var o = eval('('+data+')')
+									$('#business').datagrid('appendRow',{
+										businessName: "总计",
+										money : o.sumMoney,
+									})
+								}
+							});
+						} */
 					});
 				$(".datagrid-body").css("overflow-x","scroll");
 				document.getElementById('u20916').style.display='none';
@@ -671,6 +697,8 @@
 	  	var openId=$('#openId').val();
 	  	var schemaName=$('#schemaName').val();
 	  	$('#mysearch').form('clear');
+	  	$('#u20896_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+		$('#u20899_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 		$('#u20905_input').combobox({
 			url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName,
 			valueField:'id',
@@ -687,7 +715,7 @@
 			data : [{"id":"0","text":"请选择","selected":true},{"id":"1","text":"收入"},{"id":"2","text":"支出"}],
 			onChange:function(value){
 				$('#u20902_input').combobox({
-					url:'<%=path%>/getBusinessList?businessType='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+					url:'<%=path%>/getBusinessList?businessType='+ value+'&schemaName='+schemaName+'&orgId='+$('#u20905_input').combobox('getValue'),
 					valueField:'id',
 					textField:'text',
 					editable:false ,
@@ -696,7 +724,13 @@
 			}
 		});
 		$('#u20915_input').val('1')
-	})
-	
+	});
+	//得到当前日期
+formatterDate = function(date) {
+	var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+	var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+		+ (date.getMonth() + 1);
+	return date.getFullYear() + '-' + month + '-' + day;
+	};
   </script>
 </html>

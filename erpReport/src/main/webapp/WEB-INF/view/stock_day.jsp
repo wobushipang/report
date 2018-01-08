@@ -127,8 +127,7 @@
 
 						<!-- 商品编号 (文本框) -->
 						<div id="u11081" class="ax_default text_field">
-							<input id="u11081_input" name="commodityCode" type="text"
-								placeholder="请输入商品编号" />
+							<input id="u11081_input" name="commodityCode" type="text" class="easyui-textbox" data-options="prompt:'请输入商品编号'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -235,8 +234,7 @@
 
 						<!-- 商品名称 (文本框) -->
 						<div id="u11101" class="ax_default text_field">
-							<input id="u11101_input" name="commodityName" type="text"
-								placeholder="请输入商品名称" />
+							<input id="u11101_input" name="commodityName" type="text" class="easyui-textbox" data-options="prompt:'请输入商品名称'" />
 						</div>
 
 						<!-- 起始日期 (文本框) -->
@@ -345,6 +343,8 @@ $(function(){
 	var orgId=$('#orgId').val();
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
+	$('#u11102_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u11105_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	//组织机构
 	$('#u11092_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
@@ -383,7 +383,7 @@ $(function(){
 		width:'190',
 		//panelHeight:'auto',
 		onChange:function(value){
-		    if(value!='0'){
+		    //if(value!='0'){
 		    	//品牌
 				$('#u11089_input').combobox({
 					valueField:'id', //值字段
@@ -406,7 +406,7 @@ $(function(){
 						}
 					 }
 				}); 
-			}
+			//}
 		}
 	});
 	//品牌
@@ -473,7 +473,9 @@ function search(){
 		//nowrap: false ,	//折行显示 为true 显示在一会 
 		loadMsg: '数据正在加载,请耐心等待...',
 		rownumbers:true,
-		showFooter:true,
+		emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
+		//showFooter:true,
+		nowrap:false,
 		queryParams: {
 			schemaName:schemaName,
 			orgId:orgId,
@@ -618,19 +620,19 @@ function search(){
 			field:'brandName', 
 			title:'品牌名称', 
 			align:'center',
-			width:150	
+			width:200	
 		},
 		{
 			field:'modelName', 
 			title:'型号名称', 
 			align:'center',
-			width:150
+			width:200
 		},
 		{
 			field:'spec', 
 			title:'规格', 
 			align:'center',
-			width:150,
+			width:200,
 			formatter:function(value){
 				var strs= new Array(); //定义一数组 
 				var a='<br/>'
@@ -681,6 +683,8 @@ $('#u11078_input').click(function(){
 	var openId=$('#openId').val();
 	var schemaName=$('#schemaName').val();
 	$('#mysearch').form('clear');
+	$('#u11102_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u11105_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	$('#u11092_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName,
 		valueField:'id',
@@ -755,5 +759,12 @@ $('#u11078_input').click(function(){
 		//panelHeight:'auto'
 	});
 });
+//得到当前日期
+formatterDate = function(date) {
+	var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+	var month = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0"
+		+ (date.getMonth() + 1);
+	return date.getFullYear() + '-' + month + '-' + day;
+	};
 </script>
 </html>

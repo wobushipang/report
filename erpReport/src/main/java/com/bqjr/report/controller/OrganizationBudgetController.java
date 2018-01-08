@@ -95,6 +95,7 @@ public class OrganizationBudgetController {
 		if (condition.getStartDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getStartDate());
+			str = str + " 00:00:00";
 			condition.setStart(str);
 		}
 		if (condition.getEndDate() != null) {

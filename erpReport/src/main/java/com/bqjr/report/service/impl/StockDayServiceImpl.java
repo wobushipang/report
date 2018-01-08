@@ -74,7 +74,8 @@ public class StockDayServiceImpl implements StockDayService {
 			s.setFinalQuantity(Integer.valueOf(s.getBeginQuantity())+Integer.valueOf(s.getPurchaseIn())
 			- Integer.valueOf(s.getPurchaseReturn())+Integer.valueOf(s.getPurchaseExpendIn())-Integer.valueOf(s.getPurchaseExpendOut())
 			-Integer.valueOf(s.getAllotOut())+Integer.valueOf(s.getAllotIn())+Integer.valueOf(s.getTrimQuantity())-Integer.valueOf(s.getSaleOut())
-			+Integer.valueOf(s.getSaleReturn())-Integer.valueOf(s.getSaleExpendOut())+Integer.valueOf(s.getSaleExpendIn())+"");
+			+Integer.valueOf(s.getSaleReturn())-Integer.valueOf(s.getSaleExpendOut())+Integer.valueOf(s.getSaleExpendIn())
+			+Integer.valueOf(s.getProfitQuantity())-Integer.valueOf(s.getLossQuantity())+"");
 			codes.add(s.getCommodityCode());
 		}
 		List<SearchCondition> specs = new ArrayList<SearchCondition>();

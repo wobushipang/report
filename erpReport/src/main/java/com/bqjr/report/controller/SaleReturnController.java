@@ -57,11 +57,11 @@ public class SaleReturnController {
 	public ModelAndView redirect(String orgId, String openId, String schemaName) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (orgId == null)
-			orgId = "BQJR999_G000000002";
+			orgId = "BQJR999_G000000003";
 		if (openId == null)
 			openId = "";
 		if (schemaName == null)
-			schemaName = "bqjr_erp_0000000002";
+			schemaName = "bqjr_erp_0000000003";
 		map.put("orgId", orgId);
 		map.put("openId", openId);
 		map.put("schemaName", schemaName);
@@ -99,13 +99,15 @@ public class SaleReturnController {
 			condition.setModelName(null);
 		}
 		if (condition.getStartDate() != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getStartDate());
+			str = str + " 00:00:00";
 			condition.setStart(str);
 		}
 		if (condition.getEndDate() != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getEndDate());
+			str = str + " 23:59:59";
 			condition.setEnd(str);
 		}
 		return service.getSaleReturnList(pageNum, pageSize, condition);

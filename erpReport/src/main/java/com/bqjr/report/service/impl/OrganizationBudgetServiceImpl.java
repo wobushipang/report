@@ -29,6 +29,7 @@ import com.bqjr.report.model.OrganizationBudget;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.OrganizationBudgetService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @ClassName OrganizationBudgetServiceImpl.java
@@ -53,8 +54,7 @@ public class OrganizationBudgetServiceImpl implements OrganizationBudgetService 
 			} else if (StringUtils.equals("2", condition.getBusinessType())) {
 				list = mapper.getExpendByBusinessType(condition);
 			} else if (StringUtils.equals("0", condition.getBusinessType())) {
-				list = mapper.getIncomeByBusinessType(condition);
-				list.addAll(mapper.getExpendByBusinessType(condition));
+				list = mapper.getIncomeAndExpend(condition);
 			}
 		} else {
 			list = mapper.getInfoByOrganizationId(condition);
@@ -66,10 +66,29 @@ public class OrganizationBudgetServiceImpl implements OrganizationBudgetService 
 				o.setIncome("0");
 			if (StringUtils.isBlank(o.getExpend()))
 				o.setExpend("0");
+			/*if (StringUtils.isBlank(o.getSumIncome()))
+				o.setSumIncome("0");
+			if (StringUtils.isBlank(o.getSumExpend()))
+				o.setSumExpend("0");
+			if (StringUtils.isBlank(o.getSumMoney()))
+				o.setSumMoney("0");
+			if (condition.getType() == 1) {
+				if (StringUtils.equals("收入", o.getBusinessType())) {
+					o.setSumMoney(new BigDecimal(o.getSumMoney()).add(new BigDecimal(o.getMoney())).toString());
+				} else if (StringUtils.equals("支出", o.getBusinessType())) {
+					o.setSumMoney(new BigDecimal(o.getSumMoney()).subtract(new BigDecimal(o.getMoney())).toString());
+				}
+			} else {
+				if (StringUtils.equals("收入", o.getBusinessType())) {
+					o.setSumIncome(new BigDecimal(o.getSumIncome()).add(new BigDecimal(o.getIncome())).toString());
+				} else if (StringUtils.equals("支出", o.getBusinessType())) {
+					o.setSumExpend(new BigDecimal(o.getSumExpend()).add(new BigDecimal(o.getExpend())).toString());
+				}
+			}*/
 		}
-		//PageInfo<OrganizationBudget> pageInfo = new PageInfo<OrganizationBudget>(list);
+		PageInfo<OrganizationBudget> pageInfo = new PageInfo<OrganizationBudget>(list);
 		map.put("rows", list);
-		map.put("total", list.size());
+		map.put("total", pageInfo.getTotal());
 		return map;
 	}
 }

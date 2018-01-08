@@ -103,12 +103,18 @@ public class StockDayController {
 		if (condition.getStartDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getStartDate());
+			str = str + " 00:00:00";
 			condition.setStart(str);
+			/*SimpleDateFormat sdf1 = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			condition.setStart1(sdf1.format(condition.getStartDate()));*/
 		}
 		if (condition.getEndDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getEndDate());
+			str = str + " 23:59:59";
 			condition.setEnd(str);
+			/*SimpleDateFormat sdf1 = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			condition.setEnd1(sdf1.format(condition.getEndDate()));*/
 		}
 		return service.getStockDayList(pageNum, pageSize, condition);
 	}

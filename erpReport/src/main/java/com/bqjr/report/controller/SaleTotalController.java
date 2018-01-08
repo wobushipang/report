@@ -99,13 +99,15 @@ public class SaleTotalController {
 			condition.setModelName(null);
 		}
 		if(condition.getStartDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);  
-			String str=sdf.format(condition.getStartDate()); 
+			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
+			String str=sdf.format(condition.getStartDate());
+			str = str + " 00:00:00";
 			condition.setStart(str);
 		}
 		if(condition.getEndDate()!=null) {
-			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);  
-			String str=sdf.format(condition.getEndDate()); 
+			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
+			String str=sdf.format(condition.getEndDate());
+			str = str + " 23:59:59";
 			condition.setEnd(str);
 		}
 		return service.getSaleTotalList(pageNum, pageSize, condition);
