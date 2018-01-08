@@ -87,10 +87,12 @@ public class ConditionServiceImpl implements ConditionService{
 		if(list.size()>0) {
 		for(Organization dic : list){
 			if(dic!=null) {
-				Option opt=new Option();
-				opt.setId(dic.getPkId());
-				opt.setText(dic.getOrgName());
-				listStages.add(opt);
+				if(StringUtils.equals("0", dic.getVirtualNode())) {
+					Option opt=new Option();
+					opt.setId(dic.getPkId());
+					opt.setText(dic.getOrgName());
+					listStages.add(opt);
+				}
 			}
 		}
 		}

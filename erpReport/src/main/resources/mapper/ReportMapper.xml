@@ -544,7 +544,30 @@
 		sum(cad.commodity_num)
 		exchangeSaleOutCount
 		from market_commodity_add_details
-		cad,market_commodity_add cd where
+		cad,market_commodity_add cd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and cad.commodity_pk_id=c.pk_id
+		</if>
+		and
 		cd.order_status='3'
 		and cad.delete_flag='1' and cd.delete_flag='1' and
 		cad.details_status='3'
@@ -575,7 +598,31 @@
 		,sum(crd.commodity_num*crd.commodity_price) exchangeSaleInAmount
 		,sum(crd.commodity_num) exchangeSaleInCount
 		 from market_commodity_returns
-		mcr,rket_commodity_returns_details crd where mcr.order_status='4'
+		mcr,rket_commodity_returns_details crd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and mcr.org_id=c.org_id
+		and crd.commodity_code=c.commodity_code
+		</if>
+		and mcr.order_status='4'
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
 		crd.details_status='2'
 		and crd.operation_type='2' and
@@ -606,7 +653,30 @@
 		sum(cad.commodity_num)
 		exchangeGiftOutCount
 		from market_commodity_add_details
-		cad,market_commodity_add cd where
+		cad,market_commodity_add cd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and cad.commodity_pk_id=c.pk_id
+		</if>
+		and
 		cd.order_status='3'
 		and cad.delete_flag='1' and cd.delete_flag='1' and
 		cad.details_status='3'
@@ -636,7 +706,31 @@
 		</if>
 		,sum(crd.commodity_num) exchangeGiftInCount
 		 from market_commodity_returns
-		mcr,rket_commodity_returns_details crd where mcr.order_status=4
+		mcr,rket_commodity_returns_details crd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and mcr.org_id=c.org_id
+		and crd.commodity_code=c.commodity_code
+		</if>
+		and mcr.order_status=4
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
 		crd.details_status='2'
 		and crd.operation_type='2' and
@@ -666,7 +760,31 @@
 			,crd.commodity_code
 		</if>
 		,sum(crd.commodity_num) returnNumGift from market_commodity_returns
-		mcr,rket_commodity_returns_details crd where mcr.order_status='2'
+		mcr,rket_commodity_returns_details crd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and mcr.org_id=c.org_id
+		and crd.commodity_code=c.commodity_code
+		</if>
+		and mcr.order_status='2'
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
 		crd.details_status='2'
 		and crd.operation_type='2' and
@@ -695,8 +813,31 @@
 		<if test="type==1">,crd.commodity_code</if>
 		,sum(crd.commodity_num)
 		returnNum,sum(crd.commodity_num*crd.commodity_price) returnAmount from
-		market_commodity_returns mcr,rket_commodity_returns_details crd where
-		mcr.order_status='2'
+		market_commodity_returns mcr,rket_commodity_returns_details crd 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and mcr.org_id=c.org_id
+		and crd.commodity_code=c.commodity_code
+		</if>
+		and mcr.order_status='2'
 		and mcr.delete_flag='1' and
 		crd.delete_flag='1' and crd.details_status='2'
 		and crd.operation_type='2' and
@@ -724,7 +865,30 @@
 		<!-- 库存数量 -->
 		(select ii.schema_name,ii.supplier_id,swi.org_id
 		<if test="type==1">,ii.commodity_info_id</if>
-		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii,storage_warehouse_info swi where
+		,sum(ii.quantity_on_hand) inventoryNum from inventory_item ii,storage_warehouse_info swi 
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and ii.commodity_info_id=c.pk_id
+		</if>
+		and
 		ii.delete_flag='1' and ii.operation_type='2'
 		and ii.warehouse_id=swi.pk_id
 		group by
@@ -751,7 +915,29 @@
 		sum(prc.total_amount) as
 		refundsAmount
 		from purchase_refunds pr, purchase_refunds_commodity prc
-		where pr.delete_flag = '1'
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and prc.commodity_info_id=c.pk_id
+		</if>
+		and pr.delete_flag = '1'
 		and pr.refunds_status = '1'
 		and prc.delete_flag =
 		'1'
@@ -790,7 +976,29 @@
 		sum(wic.quantity) as wareInCount,
 		sum(wic.total_amount) as wareInAmount
 		from purchase_warehouse_in pwi, urchase_warehouse_in_commodity wic
-		where pwi.delete_flag = '1'
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and wic.commodity_info_id=c.pk_id
+		</if>
+		and pwi.delete_flag = '1'
 		and pwi.warehouse_in_status = '1'
 		and
 		wic.delete_flag = '1'
@@ -830,7 +1038,29 @@
 		exchangeInAmount
 		from purchase_exchange pe,
 		purchase_exchange_in_commodity peic
-		where pe.delete_flag = '1'
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and peic.commodity_info_id=c.pk_id
+		</if>
+		and pe.delete_flag = '1'
 		and
 		pe.exchange_status = '1'
 		and peic.delete_flag = '1'
@@ -870,7 +1100,29 @@
 		exchangeOutAmount
 		from purchase_exchange pe,
 		urchase_exchange_out_commodity peoc
-		where pe.delete_flag = '1'
+		<if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and peoc.commodity_info_id=c.pk_id
+		</if>
+		and pe.delete_flag = '1'
 		and
 		pe.exchange_status = '1'
 		and peoc.delete_flag = '1'
@@ -901,8 +1153,27 @@
 			( select
 			mca.schema_name,mca.org_id,mca.supplier_id,sum(mca.consignment_amount)
 			accountAmount,sum(mca.actual_receive_amount) proceedsAmount from
-			market_consignment_account mca
-			where mca.account_status='2' and
+			market_consignment_account mca,commodity_consignment_details ccd
+			where 1=1
+			<if test="commodityCode!=null and commodityCode!=''">
+			and ccd.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and ccd.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and ccd.commodity_brand_id=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and ccd.commodity_type_id=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and ccd.commodity_model=#{modelName, jdbcType=VARCHAR}
+		</if> 
+			and ccd.account_code=mca.account_code
+			and mca.account_status='2' and
 			mca.delete_flag='1'
 			and substr(mca.last_up_time,1,10) between #{start} and #{end}
 			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
@@ -1659,7 +1930,29 @@
 		sum(cad.commodity_num) saleOrderNum,sum(cad.commodity_price)
 		actualAmount, sum(cad.commodity_price*cad.commodity_num)
 		saleOrderAmount from market_commodity_add_details
-		cad,market_commodity_add cd where cd.order_status=1
+		cad,market_commodity_add cd <if test="type==2">,c_commodity c</if>
+		where 1=1
+		<if test="type==2">
+		<if test="commodityCode!=null and commodityCode!=''">
+			and c.commodity_code like '%'||#{commodityCode,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="commodityName!=null and commodityName!=''">
+			and c.commodity_name like '%'||#{commodityName,
+			jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
+		</if>
+		<if test="catalogName!=null and catalogName!=''">
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
+		</if>
+		<if test="modelName!=null and modelName!=''">
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
+		</if> 
+		and cad.commodity_pk_id=c.pk_id
+		</if>
+		and cd.order_status=1
 		and cad.delete_flag=1 and cd.delete_flag=1 and
 		cad.details_status=1
 		and cad.operation_type=2 and

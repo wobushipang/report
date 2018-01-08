@@ -550,15 +550,8 @@ p {
 				 */
 				$('#commodity').datagrid({
 					idField:'commodityCode' ,		//只要创建数据表格 就必须要加 ifField
-				//	title:'活动列表' ,
-					//width:1300 ,
 					fit:true ,
-					//width:'auto',              
-					//height:'auto',   
 					url:'/getInventoryWarnList' ,
-					//fitColumns:true ,  
-					//striped: true ,					//隔行变色特性 
-					//nowrap: false ,				//折行显示 为true 显示在一会 
 					loadMsg: '数据正在加载,请耐心的等待...' ,
 					rownumbers:true ,
 					emptyMsg: '<div style="text-align:center;color:red">没有相关记录！</div>',
