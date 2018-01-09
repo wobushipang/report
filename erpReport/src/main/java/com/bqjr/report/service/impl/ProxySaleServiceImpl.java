@@ -115,12 +115,12 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 				//赠品数量
 				p.setGiftNum(Integer.valueOf(p.getGiftNum())-Integer.valueOf(p.getReturnNumGift())+Integer.valueOf(p.getExchangeGiftOutCount())-Integer.valueOf(p.getExchangeGiftInCount())+"");
 				//优惠后销售金额
-				p.setDiscountsAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).add(new BigDecimal(p.getExchangeSaleOutAmount())).subtract(new BigDecimal(p.getExchangeSaleInAmount())).toString());
+				p.setDiscountsAmount(new BigDecimal(p.getSaleOrderAmount()).subtract(new BigDecimal(p.getReturnAmount())).add(new BigDecimal(p.getExchangeSaleOutAmount())).subtract(new BigDecimal(p.getExchangeSaleInAmount())).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 				if(!StringUtils.isEmpty(p.getPriceMethod())) {
 					if(StringUtils.equals("1", p.getPriceMethod())) {
-						p.setChargeAmount(new BigDecimal(p.getDiscountsAmount()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
+						p.setChargeAmount(new BigDecimal(p.getDiscountsAmount()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("100")).toString())).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 					}else {
-						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(new BigDecimal(p.getPriceRatio()).divide(new BigDecimal("1"),2,BigDecimal.ROUND_HALF_UP).toString())).toString());
+						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(p.getPriceRatio())).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 					}
 				}
 				codes.add(p.getCommodityCode());
