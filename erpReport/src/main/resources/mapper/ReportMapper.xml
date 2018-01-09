@@ -473,7 +473,7 @@
     and cad.delete_flag='1' and cd.delete_flag='1' and
     cad.details_status='1'
     and cad.operation_type='2' 
-    and cd.sales_date between #{start1} and #{end1}
+    and substr(cd.last_up_time,1,10) between #{start} and #{end}
     and cd.schema_name=cad.schema_name 
     <if test="orgId==null">
 			<if test="orgs.size()>0">
@@ -510,7 +510,7 @@
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
 		crd.details_status='2'
 		and crd.operation_type='2'
-		and mcr.returns_date between #{start1} and #{end1}
+		and substr(mcr.last_up_time,1,10) between #{start} and #{end}
 		and mcr.schema_name=crd.schema_name
 		<if test="orgId==null">
 			<if test="orgs.size()>0">
@@ -573,8 +573,8 @@
 		cad.details_status='3'
 		and cad.operation_type='2' and
 		cad.complimentary_mark='0'
-		and cd.sales_date between #{start1,
-		jdbcType=VARCHAR} and #{end1,
+		and substr(cd.last_up_time,1,10) between #{start,
+		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
 		
 		and cd.schema_name=cad.schema_name
@@ -624,12 +624,12 @@
 		</if>
 		and mcr.order_status='4'
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
-		crd.details_status='2'
+		crd.details_status='4'
 		and crd.operation_type='2' and
 		crd.complimentary_mark='0'
 		and
-		mcr.returns_date between #{start1} and
-		#{end1}
+		substr(mcr.last_up_time,1,10) between #{start} and
+		#{end}
 		and
 		mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -682,8 +682,8 @@
 		cad.details_status='3'
 		and cad.operation_type='2' and
 		cad.complimentary_mark='1'
-		and cd.sales_date between #{start1,
-		jdbcType=VARCHAR} and #{end1,
+		and substr(cd.last_up_time,1,10) between #{start,
+		jdbcType=VARCHAR} and #{end,
 		jdbcType=VARCHAR}
 		
 		and cd.schema_name=cad.schema_name
@@ -736,8 +736,8 @@
 		and crd.operation_type='2' and
 		crd.complimentary_mark='1'
 		and
-		mcr.returns_date between #{start1} and
-		#{end1}
+		substr(mcr.last_up_time,1,10) between #{start} and
+		#{end}
 		and
 		mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -790,8 +790,8 @@
 		and crd.operation_type='2' and
 		crd.complimentary_mark='1'
 		and
-		mcr.returns_date between #{start1} and
-		#{end1}
+		substr(mcr.last_up_time,1,10) between #{start} and
+		#{end}
 		and
 		mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -843,8 +843,8 @@
 		and crd.operation_type='2' and
 		crd.complimentary_mark='0'
 		and
-		mcr.returns_date between #{start1} and
-		#{end1}
+		substr(mcr.last_up_time,1,10) between #{start} and
+		#{end}
 		and
 		mcr.schema_name=crd.schema_name and
 		mcr.order_number=crd.order_number
@@ -1957,7 +1957,7 @@
 		cad.details_status=1
 		and cad.operation_type=2 and
 		cad.complimentary_mark= #{mark}
-		and cd.sales_date between #{start1} and #{end1}
+		and substr(cd.last_up_time,1,10) between #{start} and #{end}
 		and cd.schema_name=cad.schema_name and
 		cad.order_number=cd.order_number
 		and cd.schema_name=#{schemaName}
