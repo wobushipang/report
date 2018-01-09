@@ -732,7 +732,7 @@
 		</if>
 		and mcr.order_status=4
 		and mcr.delete_flag='1' and crd.delete_flag='1' and
-		crd.details_status='2'
+		crd.details_status='4'
 		and crd.operation_type='2' and
 		crd.complimentary_mark='1'
 		and
