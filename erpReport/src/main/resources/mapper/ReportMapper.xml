@@ -1173,6 +1173,7 @@
 			and ccd.org_id=c.org_id
 			<!-- and mca.account_status='2' --> 
 			and ccd.delete_flag='1'
+			and ccd.flag_account='1'
 			and substr(ccd.last_up_time,1,10) between #{start} and #{end}
 			group by ccd.schema_name,ccd.org_id,ccd.supplier_id) t66
 			on
