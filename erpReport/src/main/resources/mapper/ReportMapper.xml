@@ -939,7 +939,7 @@
 		and prc.delete_flag =
 		'1'
 		and pr.operation_type=2
-		and substr(pr.refunds_date,1,10) between
+		and substr(pr.last_up_time,1,10) between
 		#{start} and
 		#{end}
 		and pr.schema_name = prc.schema_name
@@ -1001,7 +1001,7 @@
 		wic.delete_flag = '1'
 		and pwi.operation_type='2'
 		and
-		substr(pwi.warehouse_in_date,1,10)
+		substr(pwi.last_up_time,1,10)
 		between #{start} and #{end}
 		and
 		pwi.schema_name = wic.schema_name
@@ -1062,7 +1062,7 @@
 		pe.exchange_status = '1'
 		and peic.delete_flag = '1'
 		and pe.operation_type='2'
-		and substr(pe.exchange_date,1,10) between #{start} and #{end}
+		and substr(pe.last_up_time,1,10) between #{start} and #{end}
 		and
 		pe.schema_name =
 		peic.schema_name
@@ -1124,7 +1124,7 @@
 		pe.exchange_status = '1'
 		and peoc.delete_flag = '1'
 		and pe.operation_type='2'
-		and substr(pe.exchange_date,1,10) between #{start} and #{end}
+		and substr(pe.last_up_time,1,10) between #{start} and #{end}
 		and
 		pe.schema_name =
 		peoc.schema_name
