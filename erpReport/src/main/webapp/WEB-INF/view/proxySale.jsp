@@ -782,6 +782,13 @@
 									   title : '已收款金额',
 									   align : 'center',
 									   width : 100 ,
+									   formatter: function(value){
+										   if(value==null){
+											   return '-'
+										   }else{
+											   return value
+										   }
+									   }
 									   }
 									]] ,
 									pagination: true , 

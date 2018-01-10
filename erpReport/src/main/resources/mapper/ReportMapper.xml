@@ -428,9 +428,7 @@
 		tot.exchangeOutAmount exchangeOutAmount
 		<if test="type==2">
 			,
-			tot.accountAmount accountAmount,
-			tot.proceedsAmount
-			proceedsAmount
+			tot.accountAmount accountAmount
 		</if>
 		from(
 		select
@@ -460,8 +458,7 @@
 		t55.exchangeOutAmount
 		<if test="type==2">
 			,
-			t66.accountAmount,
-			t66.proceedsAmount
+			t66.accountAmount
 		</if>
 		from
 		(select cd.schema_name, cd.org_id,cad.supplier_id
@@ -1151,32 +1148,33 @@
 		<if test="type==2">
 			left join
 			( select
-			mca.schema_name,mca.org_id,mca.supplier_id,sum(mca.consignment_amount)
-			accountAmount,sum(mca.actual_receive_amount) proceedsAmount from
-			market_consignment_account mca,commodity_consignment_details ccd
+			ccd.schema_name,ccd.org_id,ccd.supplier_id,sum(ccd.valuation_amount)
+			accountAmount from
+			commodity_consignment_details ccd,c_commodity c
 			where 1=1
 			<if test="commodityCode!=null and commodityCode!=''">
-			and ccd.commodity_code like '%'||#{commodityCode,
+			and c.commodity_code like '%'||#{commodityCode,
 			jdbcType=VARCHAR}||'%'
 		</if>
 		<if test="commodityName!=null and commodityName!=''">
-			and ccd.commodity_name like '%'||#{commodityName,
+			and c.commodity_name like '%'||#{commodityName,
 			jdbcType=VARCHAR}||'%'
 		</if>
 		<if test="brandName!=null and brandName!=''">
-			and ccd.commodity_brand_id=#{brandName, jdbcType=VARCHAR}
+			and c.brand_code=#{brandName, jdbcType=VARCHAR}
 		</if>
 		<if test="catalogName!=null and catalogName!=''">
-			and ccd.commodity_type_id=#{catalogName, jdbcType=VARCHAR}
+			and c.catalog_code=#{catalogName, jdbcType=VARCHAR}
 		</if>
 		<if test="modelName!=null and modelName!=''">
-			and ccd.commodity_model=#{modelName, jdbcType=VARCHAR}
+			and c.model_code=#{modelName, jdbcType=VARCHAR}
 		</if> 
-			and ccd.account_code=mca.account_code
-			and mca.account_status='2' and
-			mca.delete_flag='1'
-			and substr(mca.last_up_time,1,10) between #{start} and #{end}
-			group by mca.schema_name,mca.org_id,mca.supplier_id) t66
+			and ccd.commodity_code=c.commodity_code
+			and ccd.org_id=c.org_id
+			<!-- and mca.account_status='2' --> 
+			and ccd.delete_flag='1'
+			and substr(ccd.last_up_time,1,10) between #{start} and #{end}
+			group by ccd.schema_name,ccd.org_id,ccd.supplier_id) t66
 			on
 			tt1.schema_name =t66.schema_name
 			and tt1.org_id =t66.org_id
@@ -1966,5 +1964,18 @@
 		<if test="type==1">
 			, cad.commodity_code
 		</if>
+	</select>
+	
+	<select id="getProceedsAmount" resultType="com.bqjr.report.model.ProxySale"
+		parameterType="com.bqjr.report.model.SearchCondition">
+		select
+			mca.schema_name schemaName,mca.org_id orgId,mca.supplier_id supplierId
+			,sum(mca.actual_receive_amount) proceedsAmount from
+			market_consignment_account mca
+			where 1=1
+			and mca.account_status='2' and
+			mca.delete_flag='1'
+			and substr(mca.last_up_time,1,10) between #{start} and #{end}
+			group by mca.schema_name,mca.org_id,mca.supplier_id
 	</select>
 </mapper>

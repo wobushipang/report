@@ -35,9 +35,16 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 			PageHelper.startPage(pageNum, pageSize);
 			List<ProxySale> list = mapper.getProxySaleList(condition);
 			List<String> codes = new ArrayList<String>();
+			condition.setMark("0");
+			List<ProxySale> proxyMarket = mapper.getMarket(condition);
+			condition.setMark("1");
+			List<ProxySale> proxyGift = mapper.getMarket(condition);
+			List<ProxySale> proceedsAmount = new ArrayList<ProxySale>();
+			if(condition.getType()==2) {
+				proceedsAmount = mapper.getProceedsAmount(condition);
+			}
 			for (ProxySale p : list) {
-				condition.setMark("0");
-				List<ProxySale> proxyMarket = mapper.getMarket(condition);
+				
 				for (ProxySale p2 : proxyMarket) {
 					if(condition.getType()==1) {
 						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
@@ -58,8 +65,7 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 							}
 					}
 				}
-				condition.setMark("1");
-				List<ProxySale> proxyGift = mapper.getMarket(condition);
+				
 				for (ProxySale p2 : proxyGift) {
 					if(condition.getType()==1) {
 						if(StringUtils.equals(p.getSchemaName(), p2.getSchemaName())&&
@@ -76,6 +82,7 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 							}
 					}
 				}
+				
 
 				
 				if(StringUtils.isEmpty(p.getAccountAmount())) p.setAccountAmount("0");
@@ -123,6 +130,24 @@ public class ProxySaleServiceImpl implements ProxySaleService {
 						p.setChargeAmount(new BigDecimal(p.getSaleNum()).multiply(new BigDecimal(p.getPriceRatio())).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 					}
 				}
+				if(condition.getType()==2) {
+					if(StringUtils.isEmpty(condition.getCommodityCode())
+							&&StringUtils.isEmpty(condition.getBrandName())
+							&&StringUtils.isEmpty(condition.getCatalogName())
+							&&StringUtils.isEmpty(condition.getModelName())
+							&&StringUtils.isEmpty(condition.getCommodityName())) {
+						for (ProxySale p3 : proceedsAmount) {
+							if(StringUtils.equals(p.getSchemaName(), p3.getSchemaName())&&
+									StringUtils.equals(p.getOrgId(), p3.getOrgId())&&
+									StringUtils.equals(p.getSupplierId(), p3.getSupplierId())){
+										p.setProceedsAmount(p3.getProceedsAmount());
+								}
+						}
+
+					}else {
+						p.setProceedsAmount(null);
+					}
+									}
 				codes.add(p.getCommodityCode());
 				schemaName = p.getSchemaName();
 				orgId = p.getOrgId();
