@@ -62,9 +62,6 @@ public interface ReportMapper {
 	//商品型号
 	List<SearchCondition> getModelList(@Param("orgId")String id,@Param("schemaName")String schemaName,@Param("brandCode")String brandCode);
 
-	//仓库
-	List<SearchCondition> getWarehouseList(@Param("orgId")String id,@Param("schemaName")String schemaName);
-	
 	//商品规格
 	List<SearchCondition> getSpecList(@Param("codes")List<String> codes,@Param("schemaName")String schemaName,@Param("orgId")String orgId);
 

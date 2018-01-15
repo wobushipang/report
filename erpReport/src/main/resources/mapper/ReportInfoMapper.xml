@@ -947,4 +947,17 @@
 	    ) tl where tl.saleOrderNum!=tl.returnOrderNum or
 	    tl.giftSaleOrderNum != tl.giftReturnOrderNum
 	</select>
+	
+	<select id="getWarehouseList" resultType="com.bqjr.report.model.SearchCondition">
+		select t.pk_id warehouseId,t.wh_name warehouseName from
+		storage_warehouse_info t where t.delete_flag=1 and t.wh_status=1
+		<if test="orgIds!=null and orgIds.size()>0">
+			and t.org_id in
+			<foreach collection="orgIds" open="(" close=")" item="org"
+				separator=",">
+				#{org}
+			</foreach>
+		</if>
+		and t.schema_name=#{schemaName}
+	</select>
 </mapper>

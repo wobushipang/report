@@ -96,14 +96,14 @@ public class InventoryWarnController {
 		return service.getDetail(schemaName, commodityId,whId,type,unsalableDays,supplierId);
 	}
 	
-	@RequestMapping("/getWarehouseList")
-	@ResponseBody
-	public String getWarehouseList(HttpServletRequest request) {
-		String orgId=request.getParameter("orgId");
-		if(StringUtils.equals("0", orgId)) {
-			orgId=null;
-		}
-		String schemaName=request.getParameter("schemaName");
-		return con.getWarehouseList(orgId, schemaName);
-	}
+//	@RequestMapping("/getWarehouseList")
+//	@ResponseBody
+//	public String getWarehouseList(HttpServletRequest request) {
+//		String orgId=request.getParameter("orgId");
+//		if(StringUtils.equals("0", orgId)) {
+//			orgId=null;
+//		}
+//		String schemaName=request.getParameter("schemaName");
+//		return con.getWarehouseList(orgId, schemaName);
+//	}
 }

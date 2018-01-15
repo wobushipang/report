@@ -118,4 +118,22 @@ public class StockDayController {
 		}
 		return service.getStockDayList(pageNum, pageSize, condition);
 	}
+	
+	@RequestMapping("/getWarehouseList")
+	@ResponseBody
+	public String getWarehouseList(HttpServletRequest request) {
+		List<String> orgIds = new ArrayList<String>();
+		String orgId=request.getParameter("orgId");
+		String org=request.getParameter("org");
+		String schemaName=request.getParameter("schemaName");
+		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId)||StringUtils.equals(orgId, "null")) orgId=org;
+		if(StringUtils.isNotEmpty(orgId)) {
+			List<Organization> orgs=con.organizationList(orgId);
+			for (Organization organization : orgs) {
+				String o=organization.getPkId();
+				orgIds.add(o);
+			}
+		}
+		return con.getWarehouseList(orgIds, schemaName);
+	}
 }

@@ -9,7 +9,7 @@ import com.bqjr.report.model.Organization;
 @Service
 public interface ConditionService {
 
-	public String getWarehouseList(String orgId,String schemaName);
+	public String getWarehouseList(List<String> orgIds,String schemaName);
 	
 	public String getOrgList(String id,String schemaName);
 	

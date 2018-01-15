@@ -17,6 +17,8 @@ package com.bqjr.report.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.OrganizationBudget;
 import com.bqjr.report.model.SaleReturn;
@@ -73,4 +75,8 @@ public interface ReportInfoMapper {
 	public List<SaleTotal> getSaleTotalList(SearchCondition condition);
 
 	public List<SaleReturn> getSaleReturnList(SearchCondition condition);
+	
+	//仓库
+	public List<SearchCondition> getWarehouseList(@Param("orgIds")List<String> orgIds,@Param("schemaName")String schemaName);
+		
 }

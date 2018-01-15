@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.bqjr.report.mapper.ReportInfoMapper;
-import com.bqjr.report.mapper.ReportMapper;
 import com.bqjr.report.model.Option;
 import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
@@ -20,9 +19,6 @@ public class ConditionServiceImpl implements ConditionService{
 
 	@Autowired
 	private ReportInfoMapper reportInfoMapper;
-	
-	@Autowired
-	private ReportMapper mapper;
 
 	// 子机构
 	List<Organization> child = new ArrayList<Organization>();
@@ -101,8 +97,8 @@ public class ConditionServiceImpl implements ConditionService{
 	}
 	
 	@Override
-	public String getWarehouseList(String orgId, String schemaName) {
-		List<SearchCondition> list = mapper.getWarehouseList(orgId, schemaName);
+	public String getWarehouseList(List<String> orgIds, String schemaName) {
+		List<SearchCondition> list = reportInfoMapper.getWarehouseList(orgIds, schemaName);
 		List<Option> listStages=new ArrayList<Option>();
 		Option o=new Option();
 		o.setId("0");
