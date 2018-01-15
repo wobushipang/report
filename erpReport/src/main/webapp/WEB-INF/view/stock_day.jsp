@@ -355,7 +355,7 @@ $(function(){
 		//panelHeight:'auto'
 		onChange:function(value){
 			$('#u11096_input').combobox({
-				url:'<%=path%>/getWarehouseList?orgId='+value+'&schemaName='+schemaName ,
+				url:'<%=path%>/getWarehouseList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
 				valueField:'id',
 				textField:'text',
 				editable:false,
@@ -366,7 +366,7 @@ $(function(){
 	});
 	//仓库名称
 	$('#u11096_input').combobox({
-		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&orgId=' 
+		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
 			+$('#u11092_input').combobox('getValue'),
 		valueField:'id',
 		textField:'text',
