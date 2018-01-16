@@ -54,7 +54,7 @@ public Object importData(Map<String,List<List<String>>> map) {
 				contList.remove(0);
 				for (int i=headList.size()-1;i>=0;i--) {
 					String str = headList.get(i);
-					if(!columnList.contains(str)) {
+					if(!columnList.contains(str.toUpperCase())) {
 						headList.remove(i);
 						for (List<String> cont : contList) {
 							cont.remove(i);
