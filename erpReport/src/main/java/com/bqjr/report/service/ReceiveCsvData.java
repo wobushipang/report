@@ -46,11 +46,21 @@ public Object importData(Map<String,List<List<String>>> map) {
 			}
 			int count = mapper.tableExist(tableName.toUpperCase());
 			if(count>0) {
+				log.info("开始保存"+tableName+"文件数据......");
+				List <String> columnList = mapper.getColumnName(tableName.toUpperCase());
 				contList = vo.getValue();
 				headList = contList.get(0);
 				int idIndex = headList.indexOf("pk_id");
 				contList.remove(0);
-				
+				for (int i=headList.size()-1;i>=0;i--) {
+					String str = headList.get(i);
+					if(!columnList.contains(str)) {
+						headList.remove(i);
+						for (List<String> cont : contList) {
+							cont.remove(i);
+						}
+					}
+				}
 				mapObj.put("tableName", tableName);
 				mapObj.put("headlist", headList);
 				int subSize = 500;
@@ -74,7 +84,7 @@ public Object importData(Map<String,List<List<String>>> map) {
 			
 		}
 	} catch (Exception e) {
-		log.info("保存文件数据失败......");
+		log.info("保存"+tableName+"文件数据失败......");
 		e.printStackTrace();
 		return "保存"+tableName+"失败";
 	}

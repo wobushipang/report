@@ -27,4 +27,8 @@
 	<select id="tableExist" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM User_Tables WHERE table_name =#{name}
 	</select>
+	
+	<select id="getColumnName" parameterType="java.lang.String" resultType="java.lang.String">
+		 select  COLUMN_NAME  from user_col_comments  where Table_Name=#{name}
+	</select>
 </mapper>
