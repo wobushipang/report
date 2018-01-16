@@ -327,9 +327,9 @@
 		select wi.schema_name,wi.org_id,wi.warehouse_id,wic.commodity_info_id,sum(wic.quantity) purchaseIn
 		from purchase_warehouse_in wi,urchase_warehouse_in_commodity wic
 		where wi.warehouse_in_status='1' and wi.delete_flag='1' and wic.delete_flag='1'
+		and wi.schema_name=#{schemaName}
 		and wi.last_up_time between #{start} and #{end}
-		and wic.schema_name=wi.schema_name and
-		wi.pk_id=wic.warehouse_in_id
+		and wic.schema_name=wi.schema_name and wi.pk_id=wic.warehouse_in_id
 		group by wi.schema_name,wi.org_id,wi.warehouse_id,wic.commodity_info_id
 		) tt15
 		on tt2.schema_name=tt15.schema_name and tt2.org_id=tt15.org_id and tt2.warehouse_id=tt15.warehouse_id and tt2.commodity_info_id=tt15.commodity_info_id

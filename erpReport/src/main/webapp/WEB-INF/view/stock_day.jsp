@@ -365,7 +365,7 @@ $(function(){
 		}
 	});
 	//仓库名称
-	$('#u11096_input').combobox({
+	<%-- $('#u11096_input').combobox({
 		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
 			+$('#u11092_input').combobox('getValue'),
 		valueField:'id',
@@ -373,7 +373,7 @@ $(function(){
 		editable:false,
 		width:'190',
 		//panelHeight:'auto'
-	});
+	}); --%>
 	//商品分类
 	$('#u11088_input').combobox({
 		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName,
