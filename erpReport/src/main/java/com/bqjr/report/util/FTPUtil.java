@@ -53,6 +53,7 @@ public class FTPUtil {
 
 	/**
 	 * 读取文件
+	 * 
 	 * @author wei.huang02
 	 */
 	public static class ReadFile {
@@ -65,13 +66,13 @@ public class FTPUtil {
 		 * @param port
 		 * @return
 		 */
-		public static Map<String, List<List<String>>> readFile() {
+		public static Map<String, List<List<String>>> readFile(String date) {
 			Map<String, List<List<String>>> fileMap = new HashMap<String, List<List<String>>>();
 			try {
 				// 连接到服务器
 				connectServer(userName, password, ftpHostName, port);
 				// 读取指定目录下的文件名
-				String folderName = getFolderName();
+				String folderName = getFolderName(date);
 				List<String> fileNames = getFileList("/" + folderName);
 				logger.info("开始读取【" + folderName + "】文件夹下的CSV文件......");
 				if (fileNames != null && fileNames.size() > 0) {
@@ -97,12 +98,15 @@ public class FTPUtil {
 	 * 
 	 * @return
 	 */
-	public static String getFolderName() {
+	public static String getFolderName(String date) {
 		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String folderName = "";
 		try {
-			
-			folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
+			if (StringUtils.isBlank(date)) {
+				folderName = sdFormat.format(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
+			} else {
+				folderName = date;
+			}
 		} catch (Exception e) {
 			logger.error("日期转换错误", e);
 			return "";

@@ -17,15 +17,19 @@
 package com.bqjr.report.job.task;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 
+import com.bqjr.report.service.GetDataService;
 import com.bqjr.report.service.ReceiveCsvData;
 import com.bqjr.report.util.FTPUtil;
 import com.bqjr.report.util.SpringBeanUtils;
@@ -42,18 +46,29 @@ public class ReadFileAndSaveJob implements Job, Serializable {
 	private static final long serialVersionUID = -3522993675072203332L;
 	private static final Logger logger = LoggerFactory.getLogger(ReadFileAndSaveJob.class);
 
+	/** 配置文件 */
+	// @Autowired
+	// private Environment env;
+
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("[execute BEGIN],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+		logger.info("[execute BEGIN],执行定时任务，读取文件并保存数据到数据库.");
+		Map<String, List<List<String>>> files = new HashMap<String, List<List<String>>>();
+		Environment env = (Environment) SpringBeanUtils.getBean(Environment.class);
 		try {
-			// 读取指定路径下所有文件，返回集合
-			Map<String, List<List<String>>> files = FTPUtil.ReadFile.readFile();
+			// 读取文件，返回集合
+			if (StringUtils.equals("ftp", env.getProperty("data.from"))) {
+				files = FTPUtil.ReadFile.readFile("");
+			} else if (StringUtils.equals("oos", env.getProperty("data.from"))) {
+				GetDataService dataService = (GetDataService) SpringBeanUtils.getBean(GetDataService.class);
+				files = dataService.getDataFromALiYunOss("");
+			}
 			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
 			receiveCsvData.importData(files);
 		} catch (Exception e) {
-			logger.error("执行定时任务，读取ftp文件并保存数据到数据库发生异常，异常信息为：" + e.getMessage());
+			logger.error("执行定时任务，读取文件并保存数据到数据库发生异常，异常信息为：" + e.getMessage());
 		} finally {
-			logger.info("[execute END],执行定时任务，读取ftp服务器上的文件并保存数据到数据库.");
+			logger.info("[execute END],执行定时任务，读取文件并保存数据到数据库.");
 		}
 	}
 }
