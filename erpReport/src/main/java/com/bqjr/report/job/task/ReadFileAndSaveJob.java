@@ -59,9 +59,11 @@ public class ReadFileAndSaveJob implements Job, Serializable {
 			// 读取文件，返回集合
 			if (StringUtils.equals("ftp", env.getProperty("data.from"))) {
 				files = FTPUtil.ReadFile.readFile("");
-			} else if (StringUtils.equals("oos", env.getProperty("data.from"))) {
+			} else if (StringUtils.equals("oss", env.getProperty("data.from"))) {
 				GetDataService dataService = (GetDataService) SpringBeanUtils.getBean(GetDataService.class);
 				files = dataService.getDataFromALiYunOss("");
+			} else {
+				files = FTPUtil.ReadFile.readFile("");
 			}
 			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
 			receiveCsvData.importData(files);
