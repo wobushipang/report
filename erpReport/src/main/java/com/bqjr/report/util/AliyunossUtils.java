@@ -48,7 +48,7 @@ public class AliyunossUtils {
 
     // 从bucketName存储空间获取指定keyPrefix开头的文件
     ObjectListing objectListing = client
-        .listObjects(new ListObjectsRequest(bucketName).withPrefix(keyPrefix));
+        .listObjects(new ListObjectsRequest(bucketName).withPrefix(keyPrefix).withMaxKeys(1000));
     List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
     for (OSSObjectSummary s : sums) {
       results.add(s.getKey());

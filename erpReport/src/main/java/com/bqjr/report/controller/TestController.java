@@ -68,11 +68,11 @@ public class TestController {
 		Map<String, List<List<String>>> files = new HashMap<String, List<List<String>>>();
 		try {
 			// 读取文件，返回集合
-			if (StringUtils.equals("ftp", type)) {
-				files = FTPUtil.ReadFile.readFile(date);
-			} else if (StringUtils.equals("oos", type)) {
+			if (StringUtils.equals("oss", type)) {
 				GetDataService dataService = (GetDataService) SpringBeanUtils.getBean(GetDataService.class);
 				files = dataService.getDataFromALiYunOss(date);
+			} else {
+				files = FTPUtil.ReadFile.readFile(date);
 			}
 			ReceiveCsvData receiveCsvData = (ReceiveCsvData) SpringBeanUtils.getBean(ReceiveCsvData.class);
 			receiveCsvData.importData(files);
