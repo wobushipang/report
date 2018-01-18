@@ -53,9 +53,10 @@ public class ReadFileAndSaveJob implements Job, Serializable {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		logger.info("[execute BEGIN],执行定时任务，读取文件并保存数据到数据库.");
-		Map<String, List<List<String>>> files = new HashMap<String, List<List<String>>>();
-		Environment env = (Environment) SpringBeanUtils.getBean(Environment.class);
 		try {
+			Map<String, List<List<String>>> files = new HashMap<String, List<List<String>>>();
+			//Thread.sleep(10000);
+			Environment env = (Environment) SpringBeanUtils.getBean(Environment.class);
 			// 读取文件，返回集合
 			if (StringUtils.equals("ftp", env.getProperty("data.from"))) {
 				files = FTPUtil.ReadFile.readFile("");

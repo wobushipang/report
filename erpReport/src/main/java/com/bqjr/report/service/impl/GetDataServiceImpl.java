@@ -96,7 +96,8 @@ public class GetDataServiceImpl implements GetDataService {
 		BufferedReader reader = null;
 		try {
 			ins = util.getInputStream(key);
-			reader = new BufferedReader(new InputStreamReader(ins));
+			InputStreamReader stream = new InputStreamReader(ins,"UTF-8");
+			reader = new BufferedReader(stream);
 			String inLine = reader.readLine();
 			while (inLine != null) {
 				List<String> column = new ArrayList<String>();

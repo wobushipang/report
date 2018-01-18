@@ -140,7 +140,7 @@ public class FTPUtil {
 			ftpClient.login(username, password);
 			// ftpClient.setBufferSize(256);
 			// ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-			ftpClient.setControlEncoding("utf8");
+			ftpClient.setControlEncoding("UTF-8");
 			logger.debug("登录成功！");
 		} catch (SocketException e) {
 			logger.error("Socket异常", e);
@@ -187,7 +187,8 @@ public class FTPUtil {
 		BufferedReader reader = null;
 		try {
 			ins = ftpClient.retrieveFileStream(fileName);
-			reader = new BufferedReader(new InputStreamReader(ins));
+			InputStreamReader stream = new InputStreamReader(ins,"UTF-8");
+			reader = new BufferedReader(stream);
 			String inLine = reader.readLine();
 			while (inLine != null) {
 				List<String> column = new ArrayList<String>();

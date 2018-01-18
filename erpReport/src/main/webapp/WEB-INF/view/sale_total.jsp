@@ -639,6 +639,8 @@ function search(){
 		pageList:[10],	
 	});
 	$(".datagrid-body").css("overflow-x","scroll");
+	document.getElementById('u15721_state0').style.display='none';
+	document.getElementById('u15721_state0').style.visibility='hidden';
 	document.getElementById('u15721_state1').style.display='block';
 	document.getElementById('u15721_state1').style.visibility='visible';
 }

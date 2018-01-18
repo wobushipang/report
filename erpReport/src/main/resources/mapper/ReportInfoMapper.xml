@@ -21,10 +21,8 @@
 		select * from (
 		select cso.schema_name,cso.pk_id,cso.org_name orgName,
 		(select sum(fooi.total) from finance_org_other_income fooi
-		where
-		fooi.org_id = cso.pk_id and fooi.schema_name=cso.schema_name
-		and
-		fooi.status = '2' and fooi.delete_flag = '1'
+		where fooi.org_id = cso.pk_id and fooi.schema_name=cso.schema_name
+		and fooi.status = '2' and fooi.delete_flag = '1'
 		and fooi.last_up_time between #{start} and #{end}
 		group by schema_name,org_id,org_name)
 		income,
@@ -430,8 +428,7 @@
 		left join
 		(
 		select cr.schema_name,cr.org_id,cr.warehouse_id,crd.commodity_code,sum(crd.commodity_num) saleReturn
-		from market_commodity_returns
-		cr,rket_commodity_returns_details crd
+		from market_commodity_returns cr,rket_commodity_returns_details crd
 		where cr.order_status ='2' and
 		cr.delete_flag='1' and crd.delete_flag='1'
 		and cr.schema_name=crd.schema_name and cr.order_number=crd.order_number
