@@ -1062,7 +1062,7 @@ p {
 			//height:450 ,
 			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&whId='+warehouseId+'&type=1',
 			loadMsg: '数据正在加载,请耐心的等待...' ,
-			//nowrap:false,
+			nowrap:false,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
 		   					},
@@ -1133,7 +1133,7 @@ p {
 			//height:'auto' ,
 			url:'/getDetail?schemaName='+schemaName+'&commodityId='+id+'&unsalableDays='+unsalableDays+'&supplierId='+supplierId+'&whId='+warehouseId+'&type=2' ,
 			loadMsg: '数据正在加载,请耐心的等待...' ,
-			//nowrap:false,
+			nowrap:false,
 			onClickRow: function (rowIndex, rowData) {
 		                    $(this).datagrid('unselectRow', rowIndex);
 		   					},
