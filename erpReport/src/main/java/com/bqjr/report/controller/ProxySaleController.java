@@ -86,12 +86,12 @@ public class ProxySaleController {
 		if(condition.getStartDate()!=null) {
 			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 			String str=sdf.format(condition.getStartDate()); 
-			condition.setStart(str);
+			condition.setStart(str+" 00:00:00");
 		}
 		if(condition.getEndDate()!=null) {
 			SimpleDateFormat sdf=new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);  
 			String str=sdf.format(condition.getEndDate()); 
-			condition.setEnd(str);
+			condition.setEnd(str+" 23:59:59");
 		}
 		if(condition.getStartDate()!=null) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
