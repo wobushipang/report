@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bqjr.report.job.task.ReadFileAndSaveJob;
 import com.bqjr.report.service.GetDataService;
@@ -63,7 +64,7 @@ public class TestController {
 	// }
 
 	@RequestMapping("/insertData")
-	public String index(String date, String type) {
+	public String index(@RequestParam("date")String date, @RequestParam("type")String type) {
 		logger.info("[execute BEGIN],执行定时任务，读取文件并保存数据到数据库.");
 		Map<String, List<List<String>>> files = new HashMap<String, List<List<String>>>();
 		try {

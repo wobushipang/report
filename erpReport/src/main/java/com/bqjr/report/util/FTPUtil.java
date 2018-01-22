@@ -35,6 +35,8 @@ import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 
 /**
  * @ClassName FTPUtil.java
@@ -46,10 +48,14 @@ import org.apache.log4j.Logger;
 public class FTPUtil {
 	private static Logger logger = Logger.getLogger(FTPUtil.class);
 	private static FTPClient ftpClient;
-	private final static String userName = "reader";
-	private final static String password = "123456";
-	private final static String ftpHostName = "10.89.1.79";
-	private final static int port = 21;
+	//@Value("${ftp.userName}")
+	private static String userName;
+	//@Value("${ftp.password}")
+	private static String password;
+	//@Value("${ftp.ftpHostName}")
+	private static String ftpHostName;
+	//@Value("${ftp.port}")
+	private static int port;
 
 	/**
 	 * 读取文件
@@ -69,6 +75,11 @@ public class FTPUtil {
 		public static Map<String, List<List<String>>> readFile(String date) {
 			Map<String, List<List<String>>> fileMap = new HashMap<String, List<List<String>>>();
 			try {
+				Environment env = (Environment) SpringBeanUtils.getBean(Environment.class);
+				userName = env.getProperty("ftp.userName");
+				password = env.getProperty("ftp.password");
+				ftpHostName = env.getProperty("ftp.ftpHostName");
+				port = Integer.parseInt(env.getProperty("ftp.port"));
 				// 连接到服务器
 				connectServer(userName, password, ftpHostName, port);
 				// 读取指定目录下的文件名
@@ -187,7 +198,7 @@ public class FTPUtil {
 		BufferedReader reader = null;
 		try {
 			ins = ftpClient.retrieveFileStream(fileName);
-			InputStreamReader stream = new InputStreamReader(ins,"UTF-8");
+			InputStreamReader stream = new InputStreamReader(ins, "UTF-8");
 			reader = new BufferedReader(stream);
 			String inLine = reader.readLine();
 			while (inLine != null) {
