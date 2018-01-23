@@ -22,3 +22,14 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### erp ###
+.logs
+/logs/
+*.log
+/lib/
+application-*.properties
+bootstrap-*.properties
+bootstrap.properties
+/data/
+/bytetcc/
