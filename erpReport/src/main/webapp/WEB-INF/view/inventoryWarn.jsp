@@ -412,17 +412,17 @@ p {
 	</div>
 
 	<div id="win" class="easyui-window" title="详情" maximizable="false"
-		minimizable="false" style="width: 662px; height: 430px; padding: 1px;"
-		closed="true">
+		minimizable="false" style="width: 662px; height: 430px; padding: 1px;" closed="true">
 		<div id="layD" class="easyui-layout"
 			style="width: 645px; height: 390px">
 			<!-- 列表 -->
+			<div region="center" id="d">
 				<table id="detail" class="easyui-datagrid"></table>
+			</div>
 		</div>
 	</div>
 	<div id="win1" class="easyui-window" title="串号详情" maximizable="false"
-		minimizable="false" style="width: 640px; height: 380px; padding: 1px;"
-		closed="true">
+		minimizable="false" style="width: 640px; height: 380px; padding: 1px;" closed="true">
 		<div id="layDs" class="easyui-layout"
 			style="width: 625px; height: 340px">
 			<!-- 列表 -->
@@ -575,9 +575,6 @@ p {
 					//sortOrder: 'desc' ,
 					onClickRow: function (rowIndex, rowData) {
 				                    $(this).datagrid('unselectRow', rowIndex);
-				   					},
-				   rowStyler: function() {
-				   					　　return 'height: 50px';
 				   					},
 					
 					columns:[[
