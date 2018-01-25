@@ -1533,7 +1533,8 @@
     	,decode(iii.info_type,'2',iii.info_content,null)
     	infoContent,iii.info_type,sum(iii.quantity)
     	count1,
-    	min(iii.create_time) time1 from inventory_item
+    	(select min(i.create_time) create_time from inventory_item i where  ii.commodity_info_id=i.commodity_info_id and i.warehouse_id=ii.warehouse_id) time1
+    	from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1
 		<!-- iii.delete_flag=1 -->
 		and ii.schema_name =
