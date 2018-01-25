@@ -1533,7 +1533,7 @@
     	,decode(iii.info_type,'2',iii.info_content,null)
     	infoContent,iii.info_type,sum(iii.quantity)
     	count1,
-    	decode(iii.info_type,'2',min((select min(ii.create_time) create_time from inventory_item_info ii where ii.info_content=iii.info_content and ii.commodity_info_id=iii.commodity_info_id)),min((select min(i.create_time) create_time from inventory_item i where  ii.commodity_info_id=i.commodity_info_id and i.warehouse_id=ii.warehouse_id))) time1
+    	decode(iii.info_type,'2',min((select min(t.create_time) from INVENTORY_ITEM_INFO t,INVENTORY_ITEM tt where tt.pk_id=t.inventory_item_id and t.info_content=iii.info_content and t.commodity_info_id=ii.commodity_info_id and tt.warehouse_id=ii.warehouse_id)),min((select min(i.create_time) create_time from inventory_item i where  ii.commodity_info_id=i.commodity_info_id and i.warehouse_id=ii.warehouse_id))) time1
     	from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1
 		<!-- iii.delete_flag=1 -->
@@ -1671,8 +1671,12 @@
 		<!-- and ii.supplier_id=#{supplierId} -->
 		select supplier,inventoryInTime,operationType,infoContent,infoType,unsalable_days from(
 		select ii.supplier_name  supplier,
-       (select min(i.create_time) create_time from inventory_item_info i,inventory_item i1 where iii.info_content = i.info_content and iii.commodity_info_id=i.commodity_info_id and i1.warehouse_id=ii.warehouse_id and i.pk_id = i1.inventory_item_id
-       group by i.info_content)  inventoryInTime,
+        (select min(t.create_time)
+                  from INVENTORY_ITEM_INFO t, INVENTORY_ITEM tt
+                 where tt.pk_id = t.inventory_item_id
+                   and t.info_content = iii.info_content
+                   and t.commodity_info_id = iii.commodity_info_id
+                   and tt.warehouse_id = ii.warehouse_id) inventoryInTime,
        ii.operation_type operationType,
        sew.unsalable_days,
        iii.info_content  infoContent,
