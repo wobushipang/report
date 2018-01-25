@@ -105,33 +105,39 @@ public class StockDayController {
 			String str = sdf.format(condition.getStartDate());
 			str = str + " 00:00:00";
 			condition.setStart(str);
-			/*SimpleDateFormat sdf1 = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
-			condition.setStart1(sdf1.format(condition.getStartDate()));*/
+			/*
+			 * SimpleDateFormat sdf1 = new
+			 * SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			 * condition.setStart1(sdf1.format(condition.getStartDate()));
+			 */
 		}
 		if (condition.getEndDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT);
 			String str = sdf.format(condition.getEndDate());
 			str = str + " 23:59:59";
 			condition.setEnd(str);
-			/*SimpleDateFormat sdf1 = new SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
-			condition.setEnd1(sdf1.format(condition.getEndDate()));*/
+			/*
+			 * SimpleDateFormat sdf1 = new
+			 * SimpleDateFormat(Constants.DateFormat.DATE_FORMAT1);
+			 * condition.setEnd1(sdf1.format(condition.getEndDate()));
+			 */
 		}
 		return service.getStockDayList(pageNum, pageSize, condition);
 	}
-	
+
 	@RequestMapping("/getWarehouseList")
 	@ResponseBody
 	public String getWarehouseList(HttpServletRequest request) {
 		List<String> orgIds = new ArrayList<String>();
-		String orgId= request.getParameter("orgId");
-		String org=request.getParameter("org");
-		String schemaName=request.getParameter("schemaName");
-		if(StringUtils.equals(orgId, "0")||StringUtils.isBlank(orgId)||StringUtils.equals(orgId, "null")) {
-			orgId=org;
-			if(StringUtils.isNotEmpty(orgId)) {
-				List<Organization> orgs=con.organizationList(orgId);
+		String orgId = request.getParameter("orgId");
+		String org = request.getParameter("org");
+		String schemaName = request.getParameter("schemaName");
+		if (StringUtils.equals(orgId, "0") || StringUtils.isBlank(orgId) || StringUtils.equals(orgId, "null")) {
+			orgId = org;
+			if (StringUtils.isNotEmpty(orgId)) {
+				List<Organization> orgs = con.organizationList(orgId);
 				for (Organization organization : orgs) {
-					String o=organization.getPkId();
+					String o = organization.getPkId();
 					orgIds.add(o);
 				}
 			}

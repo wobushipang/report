@@ -677,13 +677,6 @@ $('#u11078_input').click(function(){
 	$('#u11101_input').textbox('setValue','');
 	//组织机构
 	$('#u11092_input').combobox({
-		url:null,
-		valueField:'id',
-		textField:'text',
-		editable:false ,
-		width : '190',
-	});
-	$('#u11092_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 		valueField:'id',
 		textField:'text',
@@ -699,7 +692,7 @@ $('#u11078_input').click(function(){
 			});
 		}
 	});
-	//仓库
+	<%-- //仓库
 	$('#u11096_input').combobox({
 		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
 			+$('#u11092_input').combobox('getValue'),
@@ -708,7 +701,7 @@ $('#u11078_input').click(function(){
 		editable:false,
 		width:'190',
 		//panelHeight:'auto'
-	});
+	}); --%>
 	//商品分类
 	$('#u11088_input').combobox({
 		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
