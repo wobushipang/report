@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.bqjr.report.controller.PurchaseCollectController;
 import com.bqjr.report.mapper.ReportInfoMapper;
 import com.bqjr.report.model.Option;
 import com.bqjr.report.model.Organization;
@@ -16,7 +19,7 @@ import com.bqjr.report.service.ConditionService;
 
 @Service
 public class ConditionServiceImpl implements ConditionService{
-
+	private static final Logger logger = LoggerFactory.getLogger(ConditionServiceImpl.class);
 	@Autowired
 	private ReportInfoMapper reportInfoMapper;
 
@@ -29,9 +32,16 @@ public class ConditionServiceImpl implements ConditionService{
 		child.clear();
 		List<Organization> organizationsAll = reportInfoMapper.findAll();
 		List<Organization> organizations = organizationListAll(organizationsAll, pkId);
+
+		for (Organization o : organizations) {
+			logger.info(o.getPkId()+"<<<<<<<<<<<< "+o.getOrgName());
+		}
 		Organization org = reportInfoMapper.getOrganizationById(pkId);
 		if (org != null) {
 			organizations.add(org);
+		}
+		for (Organization o : organizations) {
+			logger.info(o.getPkId()+">>>>>>>>>>>>"+o.getOrgName());
 		}
 		return organizations;
 	}

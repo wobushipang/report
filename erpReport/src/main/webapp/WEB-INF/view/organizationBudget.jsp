@@ -214,10 +214,11 @@
 
 					<!-- 汇总方式 (下拉列表框) -->
 					<div id="u20915" class="ax_default droplist" data-label="汇总方式">
-						<select id="u20915_input">
+						<input type="text" id="u20915_input">
+						<!-- <select id="u20915_input">
 							<option value="1">按业务类型汇总</option>
 							<option value="2">按组织机构汇总</option>
-						</select>
+						</select> -->
 					</div>
 
 					<!-- Unnamed (矩形) -->
@@ -452,7 +453,23 @@
 			editable:false ,
 			width : '190'
 		});
-		
+		$('#u20915_input').combobox({
+			valueField:'id',
+			textField:'text',
+			editable:false ,
+			width : '190',
+			panelHeight:'auto',
+			data : [{"id":"1","text":"按业务类型汇总","selected":true},{"id":"2","text":"按组织机构汇总"}],
+			onChange:function(value){
+				if(value=='1') {
+					$('#u20902_input').combobox({ disabled: false });
+					$('#u20912_input').combobox({ disabled: false });
+				} else if(value=='2') {
+					$('#u20902_input').combobox({ disabled: true });
+					$('#u20912_input').combobox({ disabled: true });
+				}
+			}
+		});
 		$('#u20894_input').click(function(event){
 			var type=$('#u20915_input').val();
 			var orgId=$('#u20905_input').combobox('getValue');
@@ -723,7 +740,23 @@
 				});
 			}
 		});
-		$('#u20915_input').val('1')
+		$('#u20915_input').combobox({
+			valueField:'id',
+			textField:'text',
+			editable:false ,
+			width : '190',
+			panelHeight:'auto',
+			data : [{"id":"1","text":"按业务类型汇总","selected":true},{"id":"2","text":"按组织机构汇总"}],
+			onChange:function(value){
+				if(value=='1') {
+					$('#u20902_input').combobox({ disabled: false });
+					$('#u20912_input').combobox({ disabled: false });
+				} else if(value=='2') {
+					$('#u20902_input').combobox({ disabled: true });
+					$('#u20912_input').combobox({ disabled: true });
+				}
+			}
+		});
 	});
 	//得到当前日期
 formatterDate = function(date) {

@@ -679,7 +679,7 @@ $('#u15729_input').click(function(){
 		valueField:'id',
 		textField:'text',
 		editable:false,
-		width : '190',
+		width : '190'
 		//panelHeight:'auto'
 	});
 	//商品分类
@@ -709,7 +709,7 @@ $('#u15729_input').click(function(){
 								textField:'text', //显示的字段
 								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
 								editable:true,//不可编辑，只能选择
-								width : '190',
+								width : '190'
 								//panelHeight:'auto'
 							}); 
 						}
@@ -726,7 +726,7 @@ $('#u15729_input').click(function(){
 			+ $('#u15743_input').combobox('getValue'),
 		editable:true,//不可编辑，只能选择
 		//width: 200,
-		width : '190',
+		width : '190'
 		//panelHeight:'auto',
 	});
 	//型号
@@ -736,7 +736,7 @@ $('#u15729_input').click(function(){
 		url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
 			+ $('#u15744_input').combobox('getValue'),
 		editable : true,//不可编辑，只能选择
-		width : '190',
+		width : '190'
 		//panelHeight:'auto'
 	});
 });

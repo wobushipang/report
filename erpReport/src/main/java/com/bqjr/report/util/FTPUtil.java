@@ -35,7 +35,6 @@ import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
 /**

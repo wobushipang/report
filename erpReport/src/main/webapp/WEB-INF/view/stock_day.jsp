@@ -1,5 +1,5 @@
-﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+﻿<%@ page language="java" import="java.util.*"  pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -53,28 +53,30 @@
 <script src="resources/scripts/axure/math.js"></script>
 <%@ include file="../../../page/public_base_new.jsp"%>
 <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
-    </script>
+	$axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+	$axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+	$axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+</script>
+<style type="text/css">
+	p {background:#FFF;}
+</style>
 </head>
 <body>
-	<input type="hidden" id="orgId" value="${orgId}" />
-	<input type="hidden" id="openId" value="${openId}" />
-	<input type="hidden" id="schemaName" value="${schemaName}" />
+	<input type="hidden" id="orgId" value="${orgId}"/>
+	<input type="hidden" id="openId" value="${openId}"/>
+	<input type="hidden" id="schemaName" value="${schemaName}"/>
 
 	<div id="base" class="">
 		<!-- 库存日报表查询面板 (动态面板) -->
 		<div id="u11070" class="ax_default" data-label="库存日报表查询面板">
 			<div id="u11070_state0" class="panel_state" data-label="查询条件">
 				<div id="u11070_state0_content" class="panel_state_content">
-					<form id="mysearch" method="post">
+					<form id="mysearch">
 						<!-- Unnamed (矩形) -->
 						<div id="u11071" class="ax_default box_1">
 							<div id="u11071_div" class=""></div>
 							<!-- Unnamed () -->
-							<div id="u11072" class="text"
-								style="display: none; visibility: hidden">
+							<div id="u11072" class="text" style="display: none; visibility: hidden">
 								<p>
 									<span></span>
 								</p>
@@ -104,13 +106,12 @@
 						</div>
 
 						<!-- 查询按钮 (提交按钮) -->
-						<div id="u11077" class="ax_default html_button">
-							<input id="u11077_input" type="button" value="查询"
-								onclick='search()' />
+						<div id="u11077" class="ax_default html_button"  data-label="查询按钮">
+							<input id="u11077_input" type="button" value="查询" onclick='search()'/>
 						</div>
 
 						<!-- 重置按钮 (提交按钮) -->
-						<div id="u11078" class="ax_default html_button">
+						<div id="u11078" class="ax_default html_button" data-label="重置按钮">
 							<input id="u11078_input" type="button" value="重置" />
 						</div>
 
@@ -127,7 +128,8 @@
 
 						<!-- 商品编号 (文本框) -->
 						<div id="u11081" class="ax_default text_field">
-							<input id="u11081_input" name="commodityCode" type="text" class="easyui-textbox" data-options="prompt:'请输入商品编号'" />
+							<input id="u11081_input" name="commodityCode" type="text"
+								class="easyui-textbox" data-options="prompt:'请输入商品编号'" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -234,13 +236,14 @@
 
 						<!-- 商品名称 (文本框) -->
 						<div id="u11101" class="ax_default text_field">
-							<input id="u11101_input" name="commodityName" type="text" class="easyui-textbox" data-options="prompt:'请输入商品名称'" />
+							<input id="u11101_input" name="commodityName" type="text"
+								class="easyui-textbox" data-options="prompt:'请输入商品名称'" />
 						</div>
 
 						<!-- 起始日期 (文本框) -->
 						<div id="u11102" class="ax_default text_field">
-							<input id="u11102_input" name="startDate" type="text" editable="false"
-								class="easyui-datebox" style="width: 190px" />
+							<input id="u11102_input" name="startDate" type="text"
+								editable="false" class="easyui-datebox" style="width: 190px" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -256,8 +259,8 @@
 
 						<!-- 终止日期 (文本框) -->
 						<div id="u11105" class="ax_default text_field">
-							<input id="u11105_input" name="endDate" type="text" editable="false"
-								class="easyui-datebox" style="width: 190px" />
+							<input id="u11105_input" name="endDate" type="text"
+								editable="false" class="easyui-datebox" style="width: 190px" />
 						</div>
 
 						<!-- Unnamed (矩形) -->
@@ -339,20 +342,18 @@
 	</div>
 </body>
 <script type="text/javascript">
-$(function(){
+$(function(){ 
 	var orgId=$('#orgId').val();
-	var openId=$('#openId').val();
-	var schemaName=$('#schemaName').val();
-	$('#u11102_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
-	$('#u11105_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+  	var openId=$('#openId').val();
+  	var schemaName=$('#schemaName').val();
 	//组织机构
 	$('#u11092_input').combobox({
 		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
 		valueField:'id',
 		textField:'text',
 		editable:false ,
+		async: false,
 		width : '190',
-		//panelHeight:'auto'
 		onChange:function(value){
 			$('#u11096_input').combobox({
 				url:'<%=path%>/getWarehouseList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
@@ -360,53 +361,37 @@ $(function(){
 				textField:'text',
 				editable:false,
 				width:'190',
-				//panelHeight:'auto'
 			});
 		}
 	});
-	//仓库名称
-	<%-- $('#u11096_input').combobox({
-		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
-			+$('#u11092_input').combobox('getValue'),
-		valueField:'id',
-		textField:'text',
-		editable:false,
-		width:'190',
-		//panelHeight:'auto'
-	}); --%>
 	//商品分类
 	$('#u11088_input').combobox({
-		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName,
+		url:'<%=path%>/getCatalogList?orgId='+orgId+'&schemaName='+schemaName ,
 		valueField:'id',
 		textField:'text',
-		editable:true,
-		width:'190',
-		//panelHeight:'auto',
+		editable:true ,
+		width : '190',
 		onChange:function(value){
-		    //if(value!='0'){
-		    	//品牌
-				$('#u11089_input').combobox({
-					valueField:'id', //值字段
-					textField:'text', //显示的字段
-					url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					editable:false,//不可编辑，只能选择
-					width:'190',
-					//panelHeight:'auto',
-					onChange:function(value){
-						if(value!=''&&value!=null){
-						    //型号
-							$('#u11093_input').combobox({
-								valueField:'id', //值字段
-								textField:'text', //显示的字段
-								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								editable:false,//不可编辑，只能选择
-								width:'190',
-								//panelHeight:'auto'
-							}); 
-						}
-					 }
-				}); 
-			//}
+		    //品牌
+			$('#u11089_input').combobox({
+				valueField:'id',
+				textField:'text',
+				url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+				editable:false,
+				width:'190',
+				onChange:function(value){
+					if(value!=''&&value!=null){
+						//型号
+						$('#u11093_input').combobox({
+							valueField:'id', //值字段
+							textField:'text', //显示的字段
+							url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
+							editable:false,//不可编辑，只能选择
+							width:'190',
+						}); 
+					}
+				}
+			});
 		}
 	});
 	//品牌
@@ -429,6 +414,8 @@ $(function(){
 		width:'190',
 		//panelHeight:'auto'
 	});
+	$('#u11102_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u11105_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 });
 
 function search(){
@@ -682,24 +669,43 @@ function serializeForm(form){
 //重置按钮
 $('#u11078_input').click(function(){
 	var orgId=$('#orgId').val();
-	var openId=$('#openId').val();
-	var schemaName=$('#schemaName').val();
-	$('#mysearch').form('clear');
+  	var openId=$('#openId').val();
+  	var schemaName=$('#schemaName').val();
 	$('#u11102_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
 	$('#u11105_input').datebox('setValue', formatterDate(new Date(new Date().getTime()-24*60*60*1000)));
+	$('#u11081_input').textbox('setValue','');
+	$('#u11101_input').textbox('setValue','');
+	//组织机构
 	$('#u11092_input').combobox({
-		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName,
-		valueField:'id',
-		textField:'text',
-		editable:false,
-		width : '190',
-		//panelHeight:'auto'
-	});
-	$('#u11096_input').combobox({
-		url:'<%=path%>/getWarehouseList?orgId='+orgId+'&schemaName='+schemaName,
+		url:null,
 		valueField:'id',
 		textField:'text',
 		editable:false ,
+		width : '190',
+	});
+	$('#u11092_input').combobox({
+		url:'<%=path%>/getOrgList?orgId='+orgId+'&schemaName='+schemaName ,
+		valueField:'id',
+		textField:'text',
+		editable:false ,
+		width : '190',
+		onChange:function(value){
+			$('#u11096_input').combobox({
+				url:'<%=path%>/getWarehouseList?orgId='+value+'&org='+orgId+'&schemaName='+schemaName ,
+				valueField:'id',
+				textField:'text',
+				editable:false,
+				width:'190',
+			});
+		}
+	});
+	//仓库
+	$('#u11096_input').combobox({
+		url:'<%=path%>/getWarehouseList?schemaName='+schemaName+'&org='+orgId+'&orgId=' 
+			+$('#u11092_input').combobox('getValue'),
+		valueField:'id',
+		textField:'text',
+		editable:false,
 		width:'190',
 		//panelHeight:'auto'
 	});
@@ -709,35 +715,7 @@ $('#u11078_input').click(function(){
 		valueField:'id',
 		textField:'text',
 		editable:true ,
-		width:'190',
-		//panelHeight:'auto',
-		onChange:function(value){
-			if(value!='0'){
-				//商品品牌
-				$('#u11089_input').combobox({
-					valueField:'id', //值字段
-					textField:'text', //显示的字段
-					url:'<%=path%>/getBrandList?&catalogCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-					editable:true,//不可编辑，只能选择
-					//width: 200,
-					width : '190',
-					//panelHeight:'auto',
-					onChange:function(value){
-						if(value!=''&&value!=null){
-							//商品型号
-							$('#u11093_input').combobox({
-								valueField:'id', //值字段
-								textField:'text', //显示的字段
-								url:'<%=path%>/getModelList?&brandCode='+ value+'&schemaName='+schemaName+'&orgId='+orgId,
-								editable:true,//不可编辑，只能选择
-								width : '190',
-								//panelHeight:'auto'
-							}); 
-						}
-					}
-				}); 
-			}
-		}
+		width:'190'
 	});
 	//品牌
 	$('#u11089_input').combobox({
@@ -745,9 +723,9 @@ $('#u11078_input').click(function(){
 		textField:'text', //显示的字段
 		url:'<%=path%>/getBrandList?schemaName='+schemaName+'&orgId='+orgId+'&catalogCode='
 			+ $('#u11088_input').combobox('getValue'),
-		editable:true,//不可编辑，只能选择
+		editable:false,//不可编辑，只能选择
 		//width: 200,
-		width : '190',
+		width : '190'
 		//panelHeight:'auto',
 	});
 	//型号
@@ -756,8 +734,8 @@ $('#u11078_input').click(function(){
 		textField:'text', //显示的字段
 		url:'<%=path%>/getModelList?schemaName='+schemaName+'&orgId='+orgId+'&brandCode='
 			+ $('#u11089_input').combobox('getValue'),
-		editable : true,//不可编辑，只能选择
-		width : '190',
+		editable:false,//不可编辑，只能选择
+		width : '190'
 		//panelHeight:'auto'
 	});
 });
