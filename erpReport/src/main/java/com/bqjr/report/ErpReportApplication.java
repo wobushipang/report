@@ -1,6 +1,5 @@
 package com.bqjr.report;
 
-
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -16,14 +15,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.github.pagehelper.PageHelper;
-
 
 @EnableAutoConfiguration
 @SpringBootApplication
@@ -32,40 +28,40 @@ import com.github.pagehelper.PageHelper;
 public class ErpReportApplication {
 
 	@Bean
-    @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource dataSource() {
-        //return new org.apache.tomcat.jdbc.pool.DataSource();
+	@ConfigurationProperties(prefix = "spring.datasource")
+	public DataSource dataSource() {
+		// return new org.apache.tomcat.jdbc.pool.DataSource();
 		return DataSourceBuilder.create().build();
-    }
+	}
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
+	@Bean
+	public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
 
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
-        // 分页插件
-        PageHelper pageHelper = new PageHelper();
-        Properties props = new Properties();
-        props.setProperty("reasonable", "true");
-        props.setProperty("supportMethodsArguments", "true");
-        props.setProperty("returnPageInfo", "check");
-        props.setProperty("params", "count=countSql");
-        pageHelper.setProperties(props);
-        // 添加插件
-        sqlSessionFactoryBean.setPlugins(new Interceptor[] { pageHelper });
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSource());
+		// 分页插件
+		PageHelper pageHelper = new PageHelper();
+		Properties props = new Properties();
+		props.setProperty("reasonable", "true");
+		props.setProperty("supportMethodsArguments", "true");
+		props.setProperty("returnPageInfo", "check");
+		props.setProperty("params", "count=countSql");
+		pageHelper.setProperties(props);
+		// 添加插件
+		sqlSessionFactoryBean.setPlugins(new Interceptor[] { pageHelper });
 
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
+		sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
 
-        return sqlSessionFactoryBean.getObject();
-    }
+		return sqlSessionFactoryBean.getObject();
+	}
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
-	
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ErpReportApplication.class, args);
 	}

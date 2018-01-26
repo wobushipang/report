@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bqjr.report.job.task.ReadFileAndSaveJob;
 import com.bqjr.report.model.Organization;
 import com.bqjr.report.model.SearchCondition;
 import com.bqjr.report.service.ConditionService;
@@ -27,8 +24,6 @@ import com.bqjr.report.util.Constants;
 
 @Controller
 public class PurchaseCollectController {
-
-	private static final Logger logger = LoggerFactory.getLogger(PurchaseCollectController.class);
 	@Autowired
 	private PurchaseCollectService service;
 	@Autowired
@@ -104,9 +99,7 @@ public class PurchaseCollectController {
 	public String getOrgList(HttpServletRequest request){
 		String orgId=request.getParameter("orgId");
 		String schemaName=request.getParameter("schemaName");
-		logger.info("==============["+orgId+"],["+schemaName+"]");
 		String list = con.getOrgList(orgId, schemaName);
-		//System.out.println("++++++"+list);
 		return list;
 	}
 	
