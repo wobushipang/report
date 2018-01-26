@@ -1536,7 +1536,7 @@
     	decode(iii.info_type,'2',min((select min(t.create_time) from INVENTORY_ITEM_INFO t,INVENTORY_ITEM tt where tt.pk_id=t.inventory_item_id and t.info_content=iii.info_content and t.commodity_info_id=ii.commodity_info_id and tt.warehouse_id=ii.warehouse_id)),min((select min(i.create_time) create_time from inventory_item i where  ii.commodity_info_id=i.commodity_info_id and i.warehouse_id=ii.warehouse_id))) time1
     	from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1
-		<!-- iii.delete_flag=1 -->
+		and iii.delete_flag=1
 		and ii.schema_name =
 		#{schemaName}
 		and
