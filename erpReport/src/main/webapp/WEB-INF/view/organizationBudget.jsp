@@ -697,7 +697,7 @@
 	  document.getElementById('u20889_state0').style.display='block';
 	  document.getElementById('u20889_state0').style.visibility='visible';
   });
-//js方法：序列化表单 			
+/* //js方法：序列化表单 			
 	function serializeForm(form){
 		var obj = {};
 		$.each(form.serializeArray(),function(index){
@@ -708,7 +708,7 @@
 			}
 		});
 		return obj;
-	}
+	} */
 	$('#u20895_input').click(function(){ //重置按钮
 		var orgId=$('#orgId').val();
 	  	var openId=$('#openId').val();

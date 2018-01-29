@@ -653,7 +653,7 @@ $('.a').click(function(){
 	document.getElementById('u11070_state0').style.visibility='visible';
 });
 
-//js方法：序列化表单 			
+/* //js方法：序列化表单 			
 function serializeForm(form){
 	var obj = {};
 	$.each(form.serializeArray(),function(index){
@@ -664,7 +664,7 @@ function serializeForm(form){
 		}
 	});
 	return obj;
-}
+} */
 
 //重置按钮
 $('#u11078_input').click(function(){
@@ -688,6 +688,7 @@ $('#u11078_input').click(function(){
 				valueField:'id',
 				textField:'text',
 				editable:false,
+				async: false,
 				width:'190',
 			});
 		}
