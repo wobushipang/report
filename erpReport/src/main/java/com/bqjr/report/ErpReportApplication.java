@@ -42,6 +42,7 @@ public class ErpReportApplication {
 		// 分页插件
 		PageHelper pageHelper = new PageHelper();
 		Properties props = new Properties();
+		props.setProperty("dialect","mysql");    //配置mysql数据库的方言
 		props.setProperty("reasonable", "true");
 		props.setProperty("supportMethodsArguments", "true");
 		props.setProperty("returnPageInfo", "check");
