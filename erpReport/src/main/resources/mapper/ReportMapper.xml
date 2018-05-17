@@ -1222,7 +1222,7 @@
 		<if test="orgId!=null and orgId!=''">and t.org_id=#{orgId}</if>
 		and t.schema_name=#{schemaName}
 	</select>
-
+	<!--改造完成 表名加aa 改nvl-->
 	<select id="getInventoryWarnList" resultType="com.bqjr.report.model.InventoryWarn"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		<!-- select
@@ -1360,7 +1360,7 @@
     modelName,
     tt2.schema_name schemaName,
     tt2.warehouse_id whId,
-    nvl(tt1.count1,'0')
+    ifnull(tt1.count1,'0')
     inventoryNum,
     tt2.safeInventory
     safeInventory,tt2.unsalableDays unsalableDays ,
@@ -1453,11 +1453,12 @@
     on tt1.commodity_info_id=tt2.commodity_id
     <!-- and tt2.safeInventory>tt1.count1 -->
     and tt1.schema_name=tt2.schema_name
-    and tt1.warehouse_id=tt2.warehouse_id) where safeInventory > inventoryNum
+    and tt1.warehouse_id=tt2.warehouse_id) aa where safeInventory > inventoryNum
 		
 
 
 	</select>
+	<!-- 改造太大 时间和decode函数-->
 	<select id="getInventoryWarnList1" resultType="com.bqjr.report.model.InventoryWarn"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select
@@ -1528,13 +1529,57 @@
 		swi.pk_id=tt1.warehouse_id) as wh_name
 		from
 		(select ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,decode(iii.info_type,'2',ii.supplier_id,null) supplier_id,decode(iii.info_type,'2',ii.supplier_name,null) supplier_name,
-		decode(iii.info_type,'2',ii.operation_type,null) operation_type
-    	,decode(iii.info_type,'2',iii.info_content,null)
-    	infoContent,iii.info_type,sum(iii.quantity)
-    	count1,
-    	decode(iii.info_type,'2',min((select min(t.create_time) from INVENTORY_ITEM_INFO t,INVENTORY_ITEM tt where tt.pk_id=t.inventory_item_id and t.info_content=iii.info_content and t.commodity_info_id=ii.commodity_info_id and tt.warehouse_id=ii.warehouse_id)),min((select min(i.create_time) create_time from inventory_item i where  ii.commodity_info_id=i.commodity_info_id and i.warehouse_id=ii.warehouse_id))) time1
-    	from inventory_item
+		ii.commodity_info_id,ii.warehouse_id,IF (
+		iii.info_type = '2',
+		ii.supplier_id,
+		NULL
+		) supplier_id,
+		IF (
+		iii.info_type = '2',
+		ii.supplier_name,
+		NULL
+		) supplier_name,
+		IF (
+		iii.info_type = '2',
+		ii.operation_type,
+		NULL
+		) operation_type,
+		IF (
+		iii.info_type = '2',
+		iii.info_content,
+		NULL
+		) infoContent,
+		iii.info_type,sum(iii.quantity)
+		count1,
+		IF (
+		iii.info_type = '2',
+		min(
+		(
+		SELECT
+		min(t.create_time)
+		FROM
+		INVENTORY_ITEM_INFO t,
+		INVENTORY_ITEM tt
+		WHERE
+		tt.pk_id = t.inventory_item_id
+		AND t.info_content = iii.info_content
+		AND t.commodity_info_id = ii.commodity_info_id
+		AND tt.warehouse_id = ii.warehouse_id
+		)
+		),
+		min(
+		(
+		SELECT
+		min(i.create_time) create_time
+		FROM
+		inventory_item i
+		WHERE
+		ii.commodity_info_id = i.commodity_info_id
+		AND i.warehouse_id = ii.warehouse_id
+		)
+		)
+		) time1
+		from inventory_item
 		ii,inventory_item_info iii where ii.delete_flag=1
 		and iii.delete_flag=1
 		and ii.schema_name =
@@ -1543,9 +1588,29 @@
 		ii.pk_id=iii.inventory_item_id
 		group by
 		ii.schema_name,
-		ii.commodity_info_id,ii.warehouse_id,decode(iii.info_type,'2',ii.supplier_id,null),decode(iii.info_type,'2',ii.supplier_name,null),decode(iii.info_type,'2',ii.operation_type,null)
-    	,decode(iii.info_type,'2',iii.info_content,null)
-    	,iii.info_type)tt1
+		ii.commodity_info_id,ii.warehouse_id,IF (
+		iii.info_type = '2',
+		ii.supplier_id,
+		NULL
+		),
+
+		IF (
+		iii.info_type = '2',
+		ii.supplier_name,
+		NULL
+		),
+		if(
+		iii.info_type=
+		'2',
+		ii.operation_type,
+		NULL
+		)
+		,IF (
+		iii.info_type = '2',
+		iii.info_content,
+		NULL
+		)
+		,iii.info_type)tt1
 		,
 		c_commodity t1
 		where 1=1
@@ -1569,7 +1634,7 @@
 		<if test="orgId==null and orgs.size()>0">
 			and t1.org_id in
 			<foreach collection="orgs" open="(" close=")" item="org"
-				separator=",">
+					 separator=",">
 				#{org}
 			</foreach>
 		</if>
@@ -1584,20 +1649,19 @@
 		where sew.commodity_code=tt2.commodityCode
 		and
 		sew.delete_flag=1 and
-		to_char(sysdate-sew.unsalable_days,'yyyy/MM/dd')> tt2.time1
+		date_format(
+		sysdate() - sew.unsalable_days,
+		'%Y/%m/%d'
+		)> tt2.time1
 		and
 		sew.org_id=tt2.org_id and sew.schema_name=tt2.schema_name
 		and
 		sew.wh_code=tt2.wh_code
-
-
-
-
 	</select>
-
+	<!-- 改造完成-->
 	<select id="getSpecList" resultType="com.bqjr.report.model.SearchCondition">
 		select t.commodity_code commodityCode,t.org_id orgId, (select
-		cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and 
+		cs.spec_name from c_commodity_spec cs where cs.delete_flag=1 and
 		cs.schema_name=t.schema_name <!-- and cs.status=2 --> and
 		cs.spec_code=t.spec_code) as specName,
 		(select csi.spec_item_name from
@@ -1614,7 +1678,11 @@
 		</foreach>
 		and t.schema_name=#{schemaName} order by t.spec_code
 	</select>
-
+	<!-- 改造完成  decode(t1.warehouse_mgt_way, '3', t1.quantity_on_hand, t2.quantity) quantity, 改为 if(
+		t1.warehouse_mgt_way ='3',
+		t1.quantity_on_hand,
+		t2.quantity
+	)-->
 	<select id="getDetail" resultType="com.bqjr.report.model.InventoryWarn">
 		<!-- select ii.supplier_name supplier,ii.create_time inventoryInTime,ii.operation_type 
 			operationType,iii.quantity quantity,iii.info_content infoContent,iii.info_type 
@@ -1651,7 +1719,7 @@
    and t1.commodity_info_id = t2.commodity_info_id
 
 	</select>
-
+	<!-- 改造完成 to_char(sysdate - tt1.unsalable_days, 'yyyy/MM/dd') 改为 date_format(sysdate() - tt1.unsalable_days, '%Y/%m/%d')-->
 	<select id="getDetails" resultType="com.bqjr.report.model.InventoryWarn">
 		<!-- select ii.supplier_name
 		supplier,ii.create_time
@@ -1695,10 +1763,10 @@
    and ii.schema_name = #{schemaName}
    and ii.commodity_info_id = #{commodityId}
    and ii.warehouse_id = #{whId}) tt1
-   where  to_char(sysdate - tt1.unsalable_days, 'yyyy/MM/dd') > inventoryInTime
+   where  date_format(sysdate() - tt1.unsalable_days, '%Y/%m/%d') > inventoryInTime
 		
 	</select>
-
+	<!-- 改造完成 nvl 改为 IFNULL-->
 	<select id="getPurchaseOrder" resultType="com.bqjr.report.model.PurchaseCollect"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select po.schema_name schemaName,
@@ -1708,8 +1776,8 @@
 		<if test="type==1">
 			poc.commodity_info_id commodityId,
 		</if>
-		nvl((sum(poc.order_quantity)),'0') as purchaseCount,
-		nvl(sum(poc.order_total_amount),'0') as purchaseAmount
+		IFNULL((sum(poc.order_quantity)),'0') as purchaseCount,
+		IFNULL(sum(poc.order_total_amount),'0') as purchaseAmount
 		from
 		purchase_order po, purchase_order_commodity poc
 		<if test="type==2">,c_commodity c</if>
@@ -1763,7 +1831,7 @@
 		</if>
 		po.operation_type
 	</select>
-
+	<!-- 改造完成-->
 	<select id="getPurchaseWarehouse" resultType="com.bqjr.report.model.PurchaseCollect"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select pwi.schema_name schemaName,
@@ -1827,7 +1895,7 @@
 		</if>
 		pwi.operation_type
 	</select>
-
+	<!-- 改造完成-->
 	<select id="getPurchaseRefunds" resultType="com.bqjr.report.model.PurchaseCollect"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select pr.schema_name schemaName,
@@ -1895,7 +1963,7 @@
 		</if>
 		pr.operation_type
 	</select>
-
+	<!-- 改造完成-->
 	<select id="getPurchaseExchangeIn" resultType="com.bqjr.report.model.PurchaseCollect"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select pe.schema_name schemaName,
@@ -1964,7 +2032,7 @@
 		</if>
 		pe.operation_type
 	</select>
-
+	<!-- 改造完成-->
 	<select id="getPurchaseExchangeOut" resultType="com.bqjr.report.model.PurchaseCollect"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select pe.schema_name schemaName,
@@ -2033,6 +2101,7 @@
 		</if>
 		pe.operation_type
 	</select>
+	<!-- 改造完成-->
 	<select id="getMarket" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select cd.schema_name schemaName, cd.org_id orgId,cad.supplier_id supplierId,
@@ -2079,7 +2148,9 @@
 			, cad.commodity_code
 		</if>
 	</select>
-	
+
+
+	<!-- 改造完成-->
 	<select id="getProceedsAmount" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">
 		select
