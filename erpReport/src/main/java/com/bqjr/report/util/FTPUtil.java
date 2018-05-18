@@ -15,10 +15,7 @@
  *****************************************************************************/
 package com.bqjr.report.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,11 +77,12 @@ public class FTPUtil {
 				connectServer(userName, password, ftpHostName, port);
 				// 读取指定目录下的文件名
 				String folderName = getFolderName(date);
-				List<String> fileNames = getFileList("pub/"+folderName);
+				List<String> fileNames = getFileList(folderName);
 				logger.info("开始读取【" + folderName + "】文件夹下的CSV文件......");
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
-						fileMap.put(fileName, readFileContent("/pub/" + folderName + "/" + fileName));
+						//fileMap.put(fileName, readFileContent("111111/" + folderName + "/" + fileName));
+						fileMap.put(fileName, readFileContent(fileName));
 						Thread.sleep(1);
 					}
 				} else {
@@ -169,6 +167,7 @@ public class FTPUtil {
 			ftpClient.changeWorkingDirectory(path);
 			ftpClient.enterLocalPassiveMode();
 			ftpClient.configure(new FTPClientConfig());
+			ftpClient.enterLocalPassiveMode();
 			ftpFiles = ftpClient.listFiles();
 		} catch (IOException e) {
 			e.printStackTrace();

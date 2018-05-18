@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bqjr.report.mapper.BaseUtilMapper">
-	
-	<insert id="batchInsertClient" parameterType="java.util.Map">
-		BEGIN
+
+	<delete id="batchDeleteClient" parameterType="java.util.Map">
 		delete from ${tableName} where pk_id in
 		<foreach item="pkId" collection="idList" open="(" separator="," close=")">
-            #{pkId}
-        </foreach>
-        ;
+			#{pkId}
+		</foreach>
+	</delete>
+
+	<insert id="batchInsertClient" parameterType="java.util.Map">
 		insert into ${tableName} 
 		<foreach collection="headlist" item="head" index="index1" open="(" close=")" separator=",">
 			${head}
@@ -21,14 +22,13 @@
 				</foreach>
 				)
 		</foreach>
-		;END ;
 	</insert>
 	
-	<select id="tableExist" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM User_Tables WHERE table_name =#{name}
+	<select id="tableExist" parameterType="java.lang.String" resultType="java.lang.String">
+		select TABLE_NAME from information_schema.tables where table_name=#{name}
 	</select>
 	
 	<select id="getColumnName" parameterType="java.lang.String" resultType="java.lang.String">
-		 select  COLUMN_NAME  from user_col_comments  where Table_Name=#{name}
+		 select COLUMN_NAME from information_schema.COLUMNS where table_name = #{name};
 	</select>
 </mapper>
