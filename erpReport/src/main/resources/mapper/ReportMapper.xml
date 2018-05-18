@@ -256,7 +256,7 @@
 		<if test="type==1">
 			peoc.commodity_info_id,
 		</if>
-		pe.operation_type)
+		pe.operation_type) AS ta
 		where 1=1
 		<if test="supplierId!=null and supplierId!=''">
 			and supplier_id=#{supplierId}
@@ -331,8 +331,7 @@
 		c_commodity_brand b where b.delete_flag='1' and
 		b.status='2' and
 		b.schema_name=t.schema_name and
-		b.brand_code=t.brand_code and
-		rownum=1)as brandName
+		b.brand_code=t.brand_code)as brandName
 		from c_commodity_catalog2brand t where
 		t.delete_flag='1'
 		and t.schema_name=#{schemaName}
@@ -498,7 +497,7 @@
     select mcr.schema_name,mcr.org_id,crd.supplier_id
 		<if test="type==1">
 			,crd.commodity_code
-      ,(select c.pk_id from c_commodity c where c.org_id=mcr.org_id and c.commodity_code=crd.commodity_code and rownum=1) as commodity_pk_id
+      ,(select c.pk_id from c_commodity c where c.org_id=mcr.org_id and c.commodity_code=crd.commodity_code) as commodity_pk_id
 		</if>
 	  from market_commodity_returns
 		mcr,rket_commodity_returns_details crd where mcr.order_status=2 
