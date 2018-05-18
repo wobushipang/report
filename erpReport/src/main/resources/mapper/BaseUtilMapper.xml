@@ -13,14 +13,14 @@
 		<foreach collection="headlist" item="head" index="index1" open="(" close=")" separator=",">
 			${head}
 		</foreach>
-			SELECT tt.* FROM ( 
-			<foreach collection="contentall" item="contentlist" index="index2" separator="UNION ALL">
-				SELECT
+			VALUES
+			<foreach collection="contentall" item="contentlist" index="index2" separator=",">
+				(
 				<foreach collection="contentlist" item="content" index="index3" separator=",">
 					#{content}
 				</foreach>
-				FROM DUAL
-		</foreach>  ) tt
+				)
+		</foreach>
 		;END ;
 	</insert>
 	

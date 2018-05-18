@@ -65,10 +65,7 @@ public class FTPUtil {
 		/**
 		 * 从FTP读取文件
 		 * 
-		 * @param username
-		 * @param password
-		 * @param ftpHostName
-		 * @param port
+
 		 * @return
 		 */
 		public static Map<String, List<List<String>>> readFile(String date) {
@@ -83,11 +80,11 @@ public class FTPUtil {
 				connectServer(userName, password, ftpHostName, port);
 				// 读取指定目录下的文件名
 				String folderName = getFolderName(date);
-				List<String> fileNames = getFileList("/" + folderName);
+				List<String> fileNames = getFileList("pub/"+folderName);
 				logger.info("开始读取【" + folderName + "】文件夹下的CSV文件......");
 				if (fileNames != null && fileNames.size() > 0) {
 					for (String fileName : fileNames) {
-						fileMap.put(fileName, readFileContent("/" + folderName + "/" + fileName));
+						fileMap.put(fileName, readFileContent("/pub/" + folderName + "/" + fileName));
 						Thread.sleep(1);
 					}
 				} else {
@@ -196,6 +193,7 @@ public class FTPUtil {
 		InputStream ins = null;
 		BufferedReader reader = null;
 		try {
+			ftpClient.enterLocalPassiveMode();
 			ins = ftpClient.retrieveFileStream(fileName);
 			InputStreamReader stream = new InputStreamReader(ins, "UTF-8");
 			reader = new BufferedReader(stream);
@@ -220,6 +218,7 @@ public class FTPUtil {
 				// 主动调用一次getReply()把接下来的226消费掉. 这样做是可以解决返回null问题
 				ftpClient.getReply();
 			} catch (IOException e) {
+				e.printStackTrace();
 				logger.error("文件流处理失败", e);
 			}
 		}
