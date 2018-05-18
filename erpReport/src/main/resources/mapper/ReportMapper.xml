@@ -2150,6 +2150,7 @@
 	</select>
 
 
+
 	<!-- 改造完成-->
 	<select id="getProceedsAmount" resultType="com.bqjr.report.model.ProxySale"
 		parameterType="com.bqjr.report.model.SearchCondition">
