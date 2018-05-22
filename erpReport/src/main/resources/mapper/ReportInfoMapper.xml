@@ -347,7 +347,7 @@
 		(
 		select
 		ia.schema_name,ia.adjust_org_id,ia.adjust_warehouse_id,iac.commodity_info_id,
-		sum(case when iac.adjust_quantity_type='0' then - cast (iac.adjust_quantity as unsigned int) else cast(iac.adjust_quantity as unsigned int) end) trimQuantity
+		sum(case when iac.adjust_quantity_type='0' then - cast(iac.adjust_quantity as unsigned int) else cast(iac.adjust_quantity as unsigned int) end) trimQuantity
 		from inventory_adjust ia,inventory_adjust_commodity iac
 		where ia.adjust_status = '1' and ia.delete_flag='1' and iac.delete_flag='1' and iac.schema_name=ia.schema_name and
 		iac.inventory_adjust_id=ia.pk_id
