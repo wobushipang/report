@@ -1909,8 +1909,8 @@
 		<if test="type==1">
 			prc.commodity_info_id commodityId,
 		</if>
-		nvl(sum(prc.quantity),0) as refundsCount,
-		nvl(sum(prc.total_amount),0)
+		IFNULL(sum(prc.quantity),0) as refundsCount,
+		IFNULL(sum(prc.total_amount),0)
 		as refundsAmount
 		from purchase_refunds pr, purchase_refunds_commodity
 		prc
