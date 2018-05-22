@@ -44,8 +44,8 @@ public Object importData(Map<String,List<List<String>>> map) {
 					tableName=tableName.substring(1, tableName.length());
 				}
 			}
-			int count = mapper.tableExist(tableName.toUpperCase());
-			if(count>0) {
+			String count = mapper.tableExist(tableName.toLowerCase());
+			if(!StringUtils.isEmpty(count)) {
 				log.info("开始保存"+tableName+"文件数据......");
 				List <String> columnList = mapper.getColumnName(tableName.toUpperCase());
 				contList = vo.getValue();
@@ -76,6 +76,7 @@ public Object importData(Map<String,List<List<String>>> map) {
 					mapObj.put("contentall", batchContList);
 					log.info("id:"+idList.size());
 					log.info("content:"+batchContList.size());
+					mapper.batchDeleteClient(mapObj);
 					mapper.batchInsertClient(mapObj);
 				}
 				

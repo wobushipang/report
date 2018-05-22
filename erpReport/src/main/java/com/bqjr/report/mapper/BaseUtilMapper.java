@@ -6,10 +6,12 @@ import java.util.Map;
 
 
 public interface BaseUtilMapper {
-    
+
+    void batchDeleteClient(Map<String,Object> map);
+
     void batchInsertClient(Map<String,Object> map);
     
-    int tableExist(String name);
+    String tableExist(String name);
     
     List<String> getColumnName(String name);
 }
