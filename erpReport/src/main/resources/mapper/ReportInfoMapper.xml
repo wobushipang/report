@@ -580,7 +580,7 @@
 		t3.schema_name = c.schema_name and t3.brand_code = c.brand_code)
 		brandName,
 		(select t4.model_name from c_commodity_model t4 where
-		t4.schema_name = c.schema_name and t4.model_code = c.model_code)
+		t4.schema_name = c.schema_name and t4.model_code = c.model_code limit 1)
 		modelName
 		from (
 		select tt1.schema_name
