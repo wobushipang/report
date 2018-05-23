@@ -1515,7 +1515,7 @@
 		t4.delete_flag=1 and
 		<!-- t4.from_type=t1.from_type and -->
 		t1.schema_name=t4.schema_name and
-		t4.model_code=t1.model_code ) as
+		t4.model_code=t1.model_code LIMIT 1) as
 		modelName,
 		tt1.schema_name,tt1.warehouse_id,tt1.count1,tt1.time1,tt1.supplier_id,tt1.supplier_name,tt1.operation_type
 		,tt1.infoContent ,tt1.info_type,
