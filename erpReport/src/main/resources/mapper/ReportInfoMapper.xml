@@ -182,7 +182,7 @@
 		t3.schema_name=c.schema_name and t3.brand_code=c.brand_code)
 		brandName,
 		(select t4.model_name from c_commodity_model t4 where
-		t4.schema_name=c.schema_name and t4.model_code=c.model_code) modelName
+		t4.schema_name=c.schema_name and t4.model_code=c.model_code LIMIT 1) modelName
 		from (
 		select
 		tt2.schema_name
@@ -803,7 +803,7 @@
 		(select t3.brand_name from c_commodity_brand t3 where t3.schema_name =
 		c.schema_name and t3.brand_code = c.brand_code) brandName,
 		(select t4.model_name from c_commodity_model t4 where t4.schema_name =
-		c.schema_name and t4.model_code = c.model_code) modelName
+		c.schema_name and t4.model_code = c.model_code LIMIT 1) modelName
 		from
 		(select
 		tt1.schema_name schemaName,tt1.org_id,tt1.commodity_code,
