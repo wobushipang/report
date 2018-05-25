@@ -8,7 +8,7 @@ import java.util.Map;
 public interface BaseUtilMapper {
 
     void batchDeleteClient(Map<String,Object> map);
-    
+
     void batchInsertClient(Map<String,Object> map);
     
     String tableExist(String name);
