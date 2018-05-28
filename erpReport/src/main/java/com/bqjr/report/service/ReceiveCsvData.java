@@ -69,6 +69,9 @@ public Object importData(Map<String,List<List<String>>> map) {
 					batchContList=contList.subList(i, i+=(listSize-i>subSize)?subSize:listSize-i);
 					idList.clear();
 					for (List<String> list : batchContList) {
+						if(list.size() <= 0){
+							continue;
+						}
 						String pkId = list.get(idIndex);
 						idList.add(pkId);
 					}
